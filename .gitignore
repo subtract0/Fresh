@@ -77,7 +77,15 @@ node_modules/
 
 # dotenv environment variables file
 .env
-.env.*
+.env.local
+.env.production
+.env.development
+.env.staging
+
+# Allow template and example env files
+!.env.example
+!.env.template
+!.env.test
 
 # SECURITY: Deployment directory with processed files containing API keys
 deploy/
