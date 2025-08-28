@@ -1,0 +1,15 @@
+name: ADR Check
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  adr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require ADR reference in PR body
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          echo "$PR_BODY" | grep -E 'ADR-[0-9]+' >/dev/null || { echo "PR must reference an ADR (e.g., ADR-001)."; exit 1; }
+

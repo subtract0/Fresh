@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "fresh"
+version = "0.1.0"
+description = "Agent-ready repo with TDD + ADR discipline using Agency Swarm"
+authors = ["Fresh Repo Setup <setup@local.dev>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+agency-swarm = "^0.7.2"
+requests = "^2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+

@@ -1,0 +1,26 @@
+name: CI
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Poetry
+        run: |
+          pipx install poetry
+      - name: Cache Poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
+      - name: Ensure tests changed when src changed
+        run: bash scripts/check-tests-changed.sh
+      - name: Run tests
+        run: bash scripts/run-tests.sh
+

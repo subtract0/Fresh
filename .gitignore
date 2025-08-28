@@ -129,6 +129,10 @@ deploy.sh
 # dataconnect generated files
 .dataconnect
 
+# Agency Swarm state files
+**/settings.json
+.agency/
+
 # Data files
 data/
 
