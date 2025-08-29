@@ -89,6 +89,8 @@ Local rules to obey (from .cursor/rules)
   - Deliverables must be copy-pasteable (commands and code).
 - Environment & data safety
   - Never connect agents to production databases during development/testing; use staging database endpoints and credentials.
+- No Broken Windows (hard rule)
+  - Fix issues before adding features; never ship unfinished code; keep code/tests/docs clean, simple, tidy, and persistently documented for easy handoff.
 
 What’s not configured (as of now)
 - No linter/type checker config detected (e.g., Ruff/Black/Mypy). No lint command provided.

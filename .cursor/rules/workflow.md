@@ -23,3 +23,9 @@
 3. **Plan**: list the smallest experiment to validate the hypothesis.
 4. **Implement** only after I say "Go"; include commands and expected outputs.
 5. **Verify**: show how to confirm success and note any side effects.
+
+## No Broken Windows Discipline (Hard Rule)
+
+- If something is not okay or needs to be fixed, that is the highest priority before adding new features.
+- We never ship unfinished code.
+- We never start a new feature unless everything else is clean, simple, tidy, well‑tested, and persistently documented so a new agent instance can easily understand the project status and continue from there.
