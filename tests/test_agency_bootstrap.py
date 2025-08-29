@@ -5,6 +5,10 @@ import sys
 import pytest
 
 
+@pytest.mark.skipif(
+    os.getenv("OPENAI_API_KEY") in (None, "", "dummy"),
+    reason="No OpenAI key available for agency_swarm; skipping networked assistant init",
+)
 def test_agency_bootstrap_constructs():
     try:
         import agency_swarm  # noqa: F401

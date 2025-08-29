@@ -15,6 +15,8 @@
 - Never make irreversible changes without explicit approval.
 - If you're unsure or missing access, stop and ask for exactly what you need.
 - When rate limits or external API errors occur, propose a local mock/test plan.
+- Never connect agents to production databases. During development and testing, always use a staging database; any production data access requires explicit approval and should be executed through controlled, auditable workflows (prefer read‑only and anonymized data).
+- "No Broken Windows" discipline: fix issues immediately before building new features; never ship unfinished code; keep code/tests/docs clean, simple, tidy, and persistently documented for fast onboarding.
 
 ## Decision Record Template
 
