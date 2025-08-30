@@ -64,6 +64,7 @@ Common commands (copy-pasteable)
 
 High-level architecture
 - Agents (ai/agents/*.py)
+  - Father: strategic planner and delegator; writes/reads memory and routes work
   - Architect: enforces TDD-first and ADR discipline before implementation
   - Developer: minimal code to make tests green, then refactor
   - QA: expands tests and hardens edges

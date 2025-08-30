@@ -6,6 +6,7 @@ from ai.agents.Architect import Architect
 from ai.agents.Developer import Developer
 from ai.agents.QA import QA
 from ai.agents.Reviewer import Reviewer
+from ai.agents.Father import Father
 
 # Initialize default memory store (in-memory by default) so tools can operate
 from ai.memory.store import set_memory_store, InMemoryMemoryStore  # noqa: E402
@@ -27,11 +28,12 @@ def build_agency() -> Agency:
     manifesto = repo_root / "agency_manifesto.md"
 
     agency_chart = [
-        Architect,
+        Father,
+        [Father, Architect],
         [Architect, Developer],
         [Developer, QA],
         [QA, Reviewer],
-        [Reviewer, Architect],
+        [Reviewer, Father],
     ]
 
     kwargs = {"temperature": 0.2}
