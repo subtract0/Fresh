@@ -1,4 +1,5 @@
 from agency_swarm import Agent
+from ai.tools.memory_tools import WriteMemory, ReadMemoryContext
 
 Architect = Agent(
     name="Architect",
@@ -7,6 +8,7 @@ Architect = Agent(
         "Protocol: 1) Require failing test first. 2) Require ADR draft/reference. "
         "3) After both exist, allow minimal implementation."
     ),
+    tools=[WriteMemory, ReadMemoryContext],
     temperature=0.2,
 )
 
