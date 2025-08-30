@@ -1,6 +1,7 @@
 from agency_swarm import Agent
 from ai.tools.memory_tools import WriteMemory, ReadMemoryContext
 from ai.tools.release_notes import GenerateReleaseNotes
+from ai.tools.next_steps import GenerateNextSteps
 
 Father = Agent(
     name="Father",
@@ -13,6 +14,6 @@ Father = Agent(
         "delegate to Architect for TDD/ADR gate, then to Developer/QA/Reviewer. "
         "Ask one crisp question only if essential; otherwise proceed with best practices."
     ),
-    tools=[WriteMemory, ReadMemoryContext, GenerateReleaseNotes],
+    tools=[WriteMemory, ReadMemoryContext, GenerateReleaseNotes, GenerateNextSteps],
     temperature=0.2,
 )
