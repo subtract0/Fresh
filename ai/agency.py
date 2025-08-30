@@ -1,3 +1,6 @@
+from __future__ import annotations
+from pathlib import Path
+
 from agency_swarm import Agency
 from ai.agents.Architect import Architect
 from ai.agents.Developer import Developer
@@ -13,17 +16,23 @@ def build_agency() -> Agency:
     - Developer -> QA
     - QA -> Reviewer
     - Reviewer -> Architect (close loop)
+
+    If a local agency_manifesto.md exists, it will be used as shared instructions.
     """
-    agency = Agency(
-        [
-            Architect,
-            [Architect, Developer],
-            [Developer, QA],
-            [QA, Reviewer],
-            [Reviewer, Architect],
-        ],
-        shared_instructions="ai/agency_manifesto.md",
-        temperature=0.2,
-    )
-    return agency
+    repo_root = Path(__file__).resolve().parents[1]
+    manifesto = repo_root / "agency_manifesto.md"
+
+    agency_chart = [
+        Architect,
+        [Architect, Developer],
+        [Developer, QA],
+        [QA, Reviewer],
+        [Reviewer, Architect],
+    ]
+
+    kwargs = {"temperature": 0.2}
+    if manifesto.exists():
+        kwargs["shared_instructions"] = str(manifesto)
+
+    return Agency(agency_chart, **kwargs)
 
