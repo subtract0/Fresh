@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, timezone
 
 try:
     from agency_swarm.tools import BaseTool
@@ -32,7 +32,7 @@ class GenerateReleaseNotes(BaseTool):
 
     def run(self) -> str:  # type: ignore[override]
         items = get_store().query(limit=self.limit, tags=self.tags)
-        today = datetime.utcnow().date().isoformat()
+        today = datetime.now(timezone.utc).date().isoformat()
         lines = [f"# {self.title} ({today})"]
         for it in items:
             lines.append(f"- {it.content}")

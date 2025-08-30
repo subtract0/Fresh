@@ -1,0 +1,38 @@
+name: Release Notes
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Poetry
+        run: pipx install poetry
+      - name: Generate release notes
+        run: |
+          poetry install --no-interaction --no-root
+          poetry run python ai/tools/release_notes_cli.py > release_notes.md
+      - name: Comment on PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          gh pr comment "$PR_NUMBER" --body-file release_notes.md || {
+            echo "gh comment failed, falling back to REST API";
+            BODY=$(python - <<'PY'
+import json,sys
+print(json.dumps(open('release_notes.md').read()))
+PY
+)
+            curl -s -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+              -X POST \
+              "https://api.github.com/repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+              -d "{\"body\": ${BODY}}";
+          }
