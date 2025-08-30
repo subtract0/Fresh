@@ -72,6 +72,10 @@ High-level architecture
   - Implement a user-defined ai/agency.py exposing build_agency() that wires your agents and flow (e.g., Architect → Developer → QA → Reviewer → Architect)
   - Optionally reference shared_instructions via a local agency_manifesto.md as per Agency Swarm docs
   - Note: tests/test_agency_bootstrap.py expects ai.agency.build_agency; this test is skipped unless agency_swarm is installed and OPENAI_API_KEY is set to a real value
+- Persistent memory (ADR-003 → ADR-004)
+  - MemoryStore abstraction with in-memory default and optional Firestore backend (staging-only)
+  - Tools: WriteMemory, ReadMemoryContext; default store initialized in ai/agency.py
+  - Env (see .env.example): FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
 - Tools
   - ai/tools/adr_logger.py (CreateADR): numbered ADR generator; defaults to .cursor/rules; honors ADR_DIR
   - ai/tools/test_runner.py (run_pytest): thin wrapper to invoke pytest in a given path and capture output
@@ -105,9 +109,8 @@ What’s not configured (as of now)
 - No linter/type checker config detected (e.g., Ruff/Black/Mypy). No lint command provided.
 
 Known gaps/pitfalls
-- ai/agency.py is not present; add it to enable the agency bootstrap test
 - In CI, OPENAI_API_KEY=dummy (see .github/workflows/ci.yml), which intentionally skips the agency bootstrap test
-- .env.example may be absent; scripts/bootstrap.sh tolerates this and will create an empty .env
+- If FIREBASE_* envs are not set, memory falls back to in-memory (intended for dev); Firestore path requires google-cloud-firestore and staging credentials
 
 References (source files)
 - README.md (Quick start, common tasks)

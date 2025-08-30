@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 agency-swarm = "^0.7.2"
 requests = "^2.32.3"
+google-cloud-firestore = "^2.16.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"

@@ -7,6 +7,10 @@ from ai.agents.Developer import Developer
 from ai.agents.QA import QA
 from ai.agents.Reviewer import Reviewer
 
+# Initialize default memory store (in-memory by default) so tools can operate
+from ai.memory.store import set_memory_store, InMemoryMemoryStore  # noqa: E402
+set_memory_store(InMemoryMemoryStore())
+
 
 def build_agency() -> Agency:
     """Construct the basic agency with directional flows.
