@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 from typing import List, Optional
 import itertools
 
+from ai.utils.clock import now as time_now
+
 # Global store pointer for tools/integration
 _current_store: "MemoryStore | None" = None
 
@@ -32,7 +34,7 @@ class MemoryItem:
     id: str
     content: str
     tags: List[str] = field(default_factory=list)
-    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    created_at: datetime = field(default_factory=lambda: datetime.fromtimestamp(time_now(), timezone.utc))
 
 
 class MemoryStore:

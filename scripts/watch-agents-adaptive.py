@@ -46,7 +46,7 @@ class AdaptiveWatcher:
         
         try:
             with self._setup_signal_handler():
-                with Live(console=console, auto_refresh=False, screen=True) as live:
+                with Live(console=console, auto_refresh=False, screen=False) as live:
                     self.ui.live = live
                     
                     while self.running:

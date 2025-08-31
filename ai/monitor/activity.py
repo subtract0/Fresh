@@ -1,9 +1,10 @@
 from __future__ import annotations
-import time
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Optional
+
+from ai.utils.clock import now as time_now
 
 
 class ActivityLevel(Enum):
@@ -44,7 +45,7 @@ class ActivityDetection:
     def record_event(self, event_type: str, agent_name: Optional[str] = None, details: Optional[str] = None) -> None:
         """Record an activity event."""
         event = ActivityEvent(
-            timestamp=time.time(),
+            timestamp=time_now(),
             event_type=event_type,
             agent_name=agent_name,
             details=details
@@ -54,7 +55,7 @@ class ActivityDetection:
         
     def _cleanup_old_events(self) -> None:
         """Remove events older than the window."""
-        cutoff = time.time() - self.window_seconds
+        cutoff = time_now() - self.window_seconds
         while self.events and self.events[0].timestamp < cutoff:
             self.events.popleft()
             

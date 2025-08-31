@@ -8,13 +8,13 @@ import pytest
 from ai.memory.store import InMemoryMemoryStore, MemoryItem
 
 
-def test_inmemory_store_write_and_query_ordering():
+def test_inmemory_store_write_and_query_ordering(mock_clock, fast_forward):
     store = InMemoryMemoryStore()
     ids: List[str] = []
     ids.append(store.write(content="first", tags=["init"]).id)
-    time.sleep(0.01)
+    fast_forward(0.01)
     ids.append(store.write(content="second", tags=["work"]).id)
-    time.sleep(0.01)
+    fast_forward(0.01)
     ids.append(store.write(content="third", tags=["work", "init"]).id)
 
     # Default query: newest first

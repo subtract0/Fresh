@@ -1,7 +1,8 @@
 from __future__ import annotations
 import psutil
-import time
 from typing import Dict, List, Optional, Any
+
+from ai.utils.clock import now as time_now
 
 from rich.console import Console
 from rich.live import Live
@@ -73,7 +74,7 @@ class AdaptiveMonitorUI:
             
         # Simple representation: more events = higher bars
         event_counts = {}
-        now = time.time()
+        now = time_now()
         
         # Group events into 5 time buckets for sparkline
         for event in events:

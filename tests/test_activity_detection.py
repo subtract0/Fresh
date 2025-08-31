@@ -78,7 +78,7 @@ class TestActivityDetection:
         assert detector.compute_activity_level() == ActivityLevel.HIGH
         assert detector.get_refresh_interval() == 1.0
         
-    def test_event_window_cleanup(self):
+    def test_event_window_cleanup(self, mock_clock, fast_forward):
         """Should clean up old events outside the window."""
         detector = ActivityDetection(window_seconds=5)  # Short window for testing
         
@@ -86,8 +86,8 @@ class TestActivityDetection:
         detector.record_event("memory_read", "Father")
         assert len(detector.events) == 1
         
-        # Wait and add another event (old one should be cleaned up)
-        time.sleep(6)  # Wait longer than window
+        # Fast-forward time and add another event (old one should be cleaned up)
+        fast_forward(6)  # Advance longer than window
         detector.record_event("memory_read", "Architect")
         
         # Should only have recent event after cleanup
