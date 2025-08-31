@@ -27,6 +27,14 @@ Quick start
   ```
   poetry run python -c "from ai.tools.adr_logger import CreateADR; print(CreateADR(title='Decision title', status='Proposed').run())"
   ```
+- MVP planning pass (offline/safe):
+  ```
+  bash scripts/mvp.sh
+  ```
+- Monitor status (one-shot, non-interactive):
+  ```
+  bash scripts/monitor.sh
+  ```
 - TDD sandbox demo (shows RED→GREEN loop and prints a summary dict):
   ```
   poetry run python - <<'PY'
