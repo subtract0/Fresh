@@ -27,13 +27,21 @@ def get_status(limit: int = 10) -> Dict[str, Any]:
 
     agency = build_agency()
     agents = [a.name for a in agency.agents]
-    # Extract flows by inspecting agency.agents and agency._flows if available; fallback to empty
+    # Extract active flows from recent activity events
     flows: List[List[str]] = []
-    chart = getattr(agency, "_Agency__agency_chart", None) or getattr(agency, "agency_chart", None)
-    if isinstance(chart, list):
-        for pair in chart[1:]:
-            if isinstance(pair, list) and len(pair) == 2 and hasattr(pair[0], "name") and hasattr(pair[1], "name"):
-                flows.append([pair[0].name, pair[1].name])
+    from ai.monitor.activity import get_activity_detector
+    detector = get_activity_detector()
+    recent_events = detector.get_recent_events(20)
+    
+    # Find recent flow events and extract flow pairs
+    flow_events = [e for e in recent_events if "flow" in e.event_type and e.details]
+    for event in flow_events[-5:]:  # Show last 5 active flows
+        if "->" in str(event.details):
+            try:
+                from_agent, to_agent = event.details.split("->", 1)
+                flows.append([from_agent.strip(), to_agent.strip()])
+            except ValueError:
+                pass  # Skip malformed flow details
 
     context = render_context(limit=limit)
 

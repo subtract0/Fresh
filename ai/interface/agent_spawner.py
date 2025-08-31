@@ -1,32 +1,45 @@
-"""Dynamic Agent Spawning and Deployment System.
+"""Dynamic Agent Spawning and Execution System.
 
 This module implements the intelligent agent spawning system that Father uses
-to dynamically create and configure specialized agents based on task analysis.
-It supports real-time agent creation, configuration, and deployment.
+to dynamically create, configure, and execute specialized agents based on task analysis.
+It supports real-time agent creation, execution monitoring, and coordination.
 
 Cross-references:
     - Father Agent: ai/agents/Father.py for delegation decisions
-    - Agent Development: docs/AGENT_DEVELOPMENT.md for agent patterns
-    - Deployment Interface: ai/interface/deploy_agents.py for configuration
+    - Execution Monitor: ai/execution/monitor.py for real-time execution
+    - Status Coordinator: ai/coordination/status.py for real-time updates
+    - GitHub Integration: ai/integration/github.py for PR creation
     - Memory System: ai/memory/README.md for context sharing
 
 Related:
-    - ai.agency: Core agency swarm framework
+    - ai.agency: Core agency swarm framework integration
     - ai.tools: Available tools for agent configuration
-    - ai.interface.telegram_bot: User interface integration
+    - ai.interface.telegram_bot: User interface and notifications
 """
 from __future__ import annotations
 import asyncio
 import json
 import logging
+import uuid
 from datetime import datetime
-from typing import Dict, List, Any, Optional, Callable
+from typing import Dict, List, Any, Optional, Callable, Union, Set
 from dataclasses import dataclass, field
 from pathlib import Path
 
 from ai.memory.store import get_store
 from ai.tools.memory_tools import WriteMemory, ReadMemoryContext
 from ai.interface.deploy_agents import AgentDeploymentInterface, AgentConfig, SwarmConfig
+
+# Import execution and coordination systems
+try:
+    from ai.execution.monitor import get_execution_monitor, ExecutionStatus
+    from ai.coordination.status import get_status_coordinator, UpdateType, StatusLevel
+    from ai.integration.github import get_github_integration
+    HAS_EXECUTION_SYSTEM = True
+except ImportError:
+    HAS_EXECUTION_SYSTEM = False
+    logger = logging.getLogger(__name__)
+    logger.warning("Execution system modules not available, running in compatibility mode")
 
 logger = logging.getLogger(__name__)
 
@@ -58,35 +71,56 @@ class SpawnRequest:
 
 
 class AgentSpawner:
-    """Manages dynamic agent spawning and lifecycle."""
+    """Manages dynamic agent spawning, execution, and lifecycle."""
     
     def __init__(self):
         self.deployment_interface = AgentDeploymentInterface()
         self.spawned_agents: Dict[str, SpawnedAgent] = {}
         self.active_spawn_requests: Dict[str, SpawnRequest] = {}
         self.spawn_history: List[Dict[str, Any]] = []
+        self.execution_history: Dict[str, Dict[str, Any]] = {}
         
-    async def process_spawn_request(self, spawn_request: SpawnRequest) -> Dict[str, Any]:
+        # Initialize execution and coordination systems if available
+        self.execution_monitor = None
+        self.status_coordinator = None
+        
+        if HAS_EXECUTION_SYSTEM:
+            self.execution_monitor = get_execution_monitor()
+            self.status_coordinator = get_status_coordinator()
+            
+            # Start execution monitoring in a background task
+            asyncio.create_task(self._start_execution_systems())
+    
+    async def _start_execution_systems(self):
+        """Start the execution and coordination systems."""
+        if self.execution_monitor:
+            await self.execution_monitor.start_monitoring()
+        if self.status_coordinator:
+            await self.status_coordinator.start_coordination()
+        
+    async def process_spawn_request(self, spawn_request: SpawnRequest, user_id: Optional[str] = None) -> Dict[str, Any]:
         """Process a spawn request and create the appropriate agents.
         
         Cross-references:
             - Agent Configuration: docs/AGENT_DEVELOPMENT.md#creating-new-agents
             - Memory Integration: ai/memory/README.md#agent-coordination
             - Tool Assignment: docs/TOOLS.md for available capabilities
+            - Execution Monitor: ai/execution/monitor.py for real-time execution
         """
         logger.info(f"Processing spawn request: {spawn_request.request_id}")
         
         # Store spawn request in memory for context
         WriteMemory(
             content=f"Spawn request: {spawn_request.user_request} - Proposed {len(spawn_request.proposed_agents)} agents",
-            tags=["spawn", "request", "father-decision"]
+            tags=["spawn", "request", spawn_request.request_id, "father-decision"]
         ).run()
         
         results = {
             "request_id": spawn_request.request_id,
             "spawned_agents": [],
             "deployment_status": "in_progress",
-            "errors": []
+            "errors": [],
+            "execution_id": None
         }
         
         try:
@@ -94,10 +128,12 @@ class AgentSpawner:
             agent_configs = await self._create_agent_configurations(spawn_request)
             
             # Spawn individual agents
+            spawned_agents = []
             for config in agent_configs:
                 try:
                     spawned_agent = await self._spawn_single_agent(config, spawn_request)
                     self.spawned_agents[spawned_agent.agent_id] = spawned_agent
+                    spawned_agents.append(spawned_agent)
                     results["spawned_agents"].append({
                         "agent_id": spawned_agent.agent_id,
                         "type": spawned_agent.agent_type,
@@ -109,30 +145,77 @@ class AgentSpawner:
                     error_msg = f"Failed to spawn {config.name}: {str(e)}"
                     logger.error(error_msg)
                     results["errors"].append(error_msg)
-                    
-            # Create swarm configuration for the spawned agents
-            if results["spawned_agents"]:
-                swarm_config = await self._create_dynamic_swarm(spawn_request, agent_configs)
-                deployment_result = self.deployment_interface.deploy_swarm(
-                    swarm_config.name,
-                    f"Dynamic spawn for: {spawn_request.user_request}"
-                )
-                results["swarm_deployed"] = deployment_result
-                results["deployment_status"] = "completed"
-                
+            
             # Record successful spawn in history
-            self.spawn_history.append({
+            spawn_record = {
                 "request_id": spawn_request.request_id,
                 "timestamp": datetime.now(),
                 "user_request": spawn_request.user_request,
                 "agents_spawned": len(results["spawned_agents"]),
                 "success": len(results["errors"]) == 0
-            })
+            }
+            self.spawn_history.append(spawn_record)
+            
+            # If execution system is available, execute agents in real-time
+            if HAS_EXECUTION_SYSTEM and self.execution_monitor and spawned_agents:
+                # Execute agents with real-time monitoring
+                results["execution_status"] = "starting"
+                
+                # Start agent execution batch
+                batch_id = await self.execution_monitor.execute_agent_batch(
+                    spawn_request_id=spawn_request.request_id,
+                    user_request=spawn_request.user_request,
+                    agents=spawned_agents,
+                    user_id=user_id,
+                    auto_create_pr=spawn_request.task_analysis.get("task_type") == "development"
+                )
+                
+                results["execution_id"] = batch_id
+                results["execution_status"] = "started"
+                
+                # Register coordination context
+                if self.status_coordinator:
+                    context_id = f"ctx_{spawn_request.request_id}"
+                    agent_ids = [agent.agent_id for agent in spawned_agents]
+                    
+                    # Create dependency graph based on agent types
+                    dependency_graph = await self._create_dependency_graph(spawned_agents)
+                    
+                    # Register coordination context
+                    self.status_coordinator.register_context(
+                        context_id=context_id,
+                        spawn_request_id=spawn_request.request_id,
+                        agent_ids=agent_ids,
+                        user_id=user_id,
+                        dependency_graph=dependency_graph
+                    )
+                    
+                    # Add initial status update
+                    await self.status_coordinator.update_status(
+                        context_id=context_id,
+                        source_id="spawner",
+                        update_type=UpdateType.MILESTONE,
+                        message=f"Started execution of {len(spawned_agents)} agents for: {spawn_request.user_request[:100]}",
+                        user_visible=True
+                    )
+                    
+                    results["coordination_id"] = context_id
+            else:
+                # Legacy mode: Create swarm configuration for the spawned agents
+                if results["spawned_agents"]:
+                    swarm_config = await self._create_dynamic_swarm(spawn_request, agent_configs)
+                    deployment_result = self.deployment_interface.deploy_swarm(
+                        swarm_config.name,
+                        f"Dynamic spawn for: {spawn_request.user_request}"
+                    )
+                    results["swarm_deployed"] = deployment_result
+            
+            results["deployment_status"] = "completed"
             
             # Store completion in memory
             WriteMemory(
-                content=f"Spawn completed: {len(results['spawned_agents'])} agents deployed for '{spawn_request.user_request}'",
-                tags=["spawn", "completed", "deployment"]
+                content=f"Spawn completed: {len(results['spawned_agents'])} agents ready for '{spawn_request.user_request}'",
+                tags=["spawn", "completed", spawn_request.request_id, "deployment"]
             ).run()
             
         except Exception as e:
@@ -354,19 +437,50 @@ Remember: You are part of a dynamically spawned team working on: {spawn_request.
                 
         return flows
     
-    def get_spawn_status(self, request_id: str) -> Optional[Dict[str, Any]]:
-        """Get status of a spawn request."""
-        if request_id not in self.active_spawn_requests:
-            return None
+    async def _create_dependency_graph(self, agents: List[SpawnedAgent]) -> Dict[str, List[str]]:
+        """Create a dependency graph based on agent types and execution order."""
+        dependency_graph = {}
+        
+        # Extract agent types
+        architect_agents = [a for a in agents if "architect" in a.agent_type.lower()]
+        developer_agents = [a for a in agents if "developer" in a.agent_type.lower()]
+        qa_agents = [a for a in agents if "qa" in a.agent_type.lower() or "test" in a.agent_type.lower()]
+        doc_agents = [a for a in agents if "doc" in a.agent_type.lower()]
+        
+        # Set up dependencies
+        for agent in agents:
+            dependencies = []
             
+            # Developers depend on architects
+            if "developer" in agent.agent_type.lower() and architect_agents:
+                dependencies.extend([a.agent_id for a in architect_agents])
+                
+            # QA depends on developers
+            if ("qa" in agent.agent_type.lower() or "test" in agent.agent_type.lower()) and developer_agents:
+                dependencies.extend([a.agent_id for a in developer_agents])
+                
+            # Documentation depends on developers and QA
+            if "doc" in agent.agent_type.lower():
+                if developer_agents:
+                    dependencies.extend([a.agent_id for a in developer_agents])
+                if qa_agents:
+                    dependencies.extend([a.agent_id for a in qa_agents])
+                    
+            if dependencies:
+                dependency_graph[agent.agent_id] = dependencies
+                
+        return dependency_graph
+    
+    async def get_spawn_status(self, request_id: str) -> Dict[str, Any]:
+        """Get status of a spawn request with execution status if available."""
+        # Get spawned agents for this request
         spawned_agents_for_request = [
             agent for agent in self.spawned_agents.values()
             if agent.parent_task == request_id
         ]
         
-        return {
+        status = {
             "request_id": request_id,
-            "status": "active" if spawned_agents_for_request else "completed",
             "spawned_agents": len(spawned_agents_for_request),
             "agents": [
                 {
@@ -378,25 +492,237 @@ Remember: You are part of a dynamically spawned team working on: {spawn_request.
                 for agent in spawned_agents_for_request
             ]
         }
+        
+        # Check if this request has an execution batch
+        if HAS_EXECUTION_SYSTEM and self.execution_monitor:
+            batches = self.execution_monitor.list_active_batches()
+            
+            # Find matching batch
+            matching_batch = None
+            for batch_id, batch in batches.items():
+                if batch.spawn_request_id == request_id:
+                    matching_batch = batch
+                    break
+            
+            if matching_batch:
+                # Add execution status information
+                status["execution_status"] = matching_batch.status.value
+                status["execution_id"] = matching_batch.batch_id
+                status["start_time"] = matching_batch.start_time.isoformat()
+                status["end_time"] = matching_batch.end_time.isoformat() if matching_batch.end_time else None
+                
+                # Add agent execution details
+                agent_details = []
+                for execution in matching_batch.agent_executions:
+                    agent_details.append({
+                        "agent_id": execution.agent.agent_id,
+                        "type": execution.agent.agent_type,
+                        "status": execution.status.value,
+                        "progress": execution.progress_percentage,
+                        "current_step": execution.current_step,
+                        "result": execution.result[:100] + "..." if execution.result and len(execution.result) > 100 else execution.result
+                    })
+                status["agent_executions"] = agent_details
+                
+                # Get coordination status if available
+                if self.status_coordinator:
+                    coordination_id = f"ctx_{request_id}"
+                    summary = await self.status_coordinator.get_status_summary(coordination_id)
+                    
+                    if summary:
+                        status["coordination"] = {
+                            "overall_progress": summary.overall_progress,
+                            "phase_status": summary.phase_status,
+                            "estimated_completion": summary.estimated_completion.isoformat() if summary.estimated_completion else None,
+                            "blocking_dependencies": summary.blocking_dependencies
+                        }
+            else:
+                # No active execution, check history
+                if request_id in self.execution_history:
+                    status.update(self.execution_history[request_id])
+                else:
+                    status["execution_status"] = "unknown"
+        else:
+            # Legacy status
+            status["status"] = "active" if spawned_agents_for_request else "completed"
+        
+        return status
     
-    def list_active_agents(self) -> List[Dict[str, Any]]:
-        """List all currently active spawned agents."""
-        return [
+    async def list_active_agents(self) -> List[Dict[str, Any]]:
+        """List all currently active spawned agents with execution status."""
+        result = [
             {
                 "agent_id": agent.agent_id,
                 "type": agent.agent_type,
                 "role": agent.role,
                 "status": agent.status,
                 "spawn_time": agent.spawn_time.isoformat(),
-                "parent_task": agent.parent_task
+                "parent_task": agent.parent_task,
+                "execution_status": None
             }
             for agent in self.spawned_agents.values()
             if agent.status in ["spawned", "active", "working"]
         ]
+        
+        # Add execution status if available
+        if HAS_EXECUTION_SYSTEM and self.execution_monitor:
+            executions = self.execution_monitor.list_active_executions()
+            
+            # Update agents with execution information
+            for agent_info in result:
+                for exec_id, execution in executions.items():
+                    if execution.agent.agent_id == agent_info["agent_id"]:
+                        agent_info["execution_status"] = execution.status.value
+                        agent_info["execution_id"] = execution.execution_id
+                        agent_info["progress"] = execution.progress_percentage
+                        agent_info["current_step"] = execution.current_step
+                        break
+                        
+        return result
     
     def get_spawn_history(self, limit: int = 10) -> List[Dict[str, Any]]:
         """Get recent spawn history."""
         return self.spawn_history[-limit:] if self.spawn_history else []
+        
+    async def execute_spawned_agents(self, request_id: str, user_id: Optional[str] = None) -> Dict[str, Any]:
+        """Execute previously spawned agents with real-time monitoring."""
+        if not HAS_EXECUTION_SYSTEM or not self.execution_monitor:
+            return {"error": "Execution system not available"}
+            
+        # Get spawned agents for this request
+        spawned_agents = [
+            agent for agent in self.spawned_agents.values()
+            if agent.parent_task == request_id
+        ]
+        
+        if not spawned_agents:
+            return {"error": f"No spawned agents found for request {request_id}"}
+            
+        # Get the original request details
+        user_request = "Unknown request"
+        task_type = "general"
+        
+        if request_id in self.active_spawn_requests:
+            spawn_request = self.active_spawn_requests[request_id]
+            user_request = spawn_request.user_request
+            task_type = spawn_request.task_analysis.get("task_type", "general")
+        else:
+            # Try to reconstruct from spawn history
+            for record in self.spawn_history:
+                if record["request_id"] == request_id:
+                    user_request = record["user_request"]
+                    break
+        
+        # Execute the spawned agents
+        batch_id = await self.execution_monitor.execute_agent_batch(
+            spawn_request_id=request_id,
+            user_request=user_request,
+            agents=spawned_agents,
+            user_id=user_id,
+            auto_create_pr=task_type == "development"
+        )
+        
+        # Register coordination context if not already registered
+        if self.status_coordinator:
+            context_id = f"ctx_{request_id}"
+            agent_ids = [agent.agent_id for agent in spawned_agents]
+            
+            # Check if context already exists
+            if context_id not in self.status_coordinator.contexts:
+                # Create dependency graph
+                dependency_graph = await self._create_dependency_graph(spawned_agents)
+                
+                # Register new coordination context
+                self.status_coordinator.register_context(
+                    context_id=context_id,
+                    spawn_request_id=request_id,
+                    agent_ids=agent_ids,
+                    user_id=user_id,
+                    dependency_graph=dependency_graph
+                )
+                
+            # Add execution start status update
+            await self.status_coordinator.update_status(
+                context_id=context_id,
+                source_id="spawner",
+                update_type=UpdateType.MILESTONE,
+                message=f"Started execution of {len(spawned_agents)} agents for: {user_request[:100]}",
+                user_visible=True
+            )
+        
+        return {
+            "execution_id": batch_id,
+            "request_id": request_id,
+            "agents": len(spawned_agents),
+            "status": "started"
+        }
+        
+    async def get_execution_status(self, execution_id: str) -> Dict[str, Any]:
+        """Get detailed status of an execution batch."""
+        if not HAS_EXECUTION_SYSTEM or not self.execution_monitor:
+            return {"error": "Execution system not available"}
+            
+        # Get the batch status
+        batch = self.execution_monitor.get_batch_status(execution_id)
+        if not batch:
+            return {"error": f"Execution batch {execution_id} not found"}
+            
+        # Format results
+        status = {
+            "execution_id": batch.batch_id,
+            "request_id": batch.spawn_request_id,
+            "status": batch.status.value,
+            "start_time": batch.start_time.isoformat(),
+            "end_time": batch.end_time.isoformat() if batch.end_time else None,
+            "agents": len(batch.agent_executions),
+            "coordination_log": batch.coordination_log[-10:],  # Last 10 entries
+            "agent_executions": []
+        }
+        
+        # Add detailed agent execution information
+        for execution in batch.agent_executions:
+            agent_info = {
+                "agent_id": execution.agent.agent_id,
+                "type": execution.agent.agent_type,
+                "status": execution.status.value,
+                "progress": execution.progress_percentage,
+                "current_step": execution.current_step,
+                "steps": len(execution.steps),
+                "completed_steps": len([s for s in execution.steps if s.status.value == "completed"]),
+                "result": execution.result[:100] + "..." if execution.result and len(execution.result) > 100 else execution.result
+            }
+            status["agent_executions"].append(agent_info)
+            
+        # Get coordination status if available
+        if self.status_coordinator:
+            context_id = f"ctx_{batch.spawn_request_id}"
+            summary = await self.status_coordinator.get_status_summary(context_id)
+            
+            if summary:
+                status["coordination"] = {
+                    "overall_progress": summary.overall_progress,
+                    "phase_status": summary.phase_status,
+                    "active_agents": summary.active_agents,
+                    "completed_agents": summary.completed_agents,
+                    "failed_agents": summary.failed_agents,
+                    "next_milestones": summary.next_milestones,
+                    "estimated_completion": summary.estimated_completion.isoformat() if summary.estimated_completion else None,
+                    "blocking_dependencies": summary.blocking_dependencies
+                }
+                
+                # Add recent updates
+                status["recent_updates"] = [
+                    {
+                        "message": update.message,
+                        "timestamp": update.timestamp.isoformat(),
+                        "source": update.source_id,
+                        "type": update.update_type.value,
+                        "level": update.level.value
+                    }
+                    for update in summary.recent_updates[-5:]  # Last 5 updates
+                ]
+                
+        return status
 
 
 # Global spawner instance

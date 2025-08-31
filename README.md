@@ -46,9 +46,19 @@ Quick start
   ```
 - **🎛️ Adaptive Agent Monitoring (ADR-005)**:
   ```
-  poetry run python scripts/watch-agents-adaptive.py
+  PYTHONPATH=/Users/am/Code/Fresh poetry run python scripts/watch-agents-adaptive.py
   ```
   Features: Rich UI, activity-based refresh rates (1s-10s), agent timelines, memory metrics
+- **🤖 Agent Activity Demo (ADR-007)**:
+  ```
+  PYTHONPATH=/Users/am/Code/Fresh poetry run python scripts/demo-agent-activity.py
+  ```
+  Simulates complete development cycle: Father→Architect→Developer→QA→Reviewer→Father
+- **🧪 Monitoring Validation Suite**:
+  ```
+  PYTHONPATH=/Users/am/Code/Fresh poetry run python scripts/validate-monitoring.py
+  ```
+  Comprehensive validation of all activity levels and UI components
 - TDD sandbox demo (shows RED→GREEN loop and prints a summary dict):
   ```
   poetry run python - <<'PY'
