@@ -17,22 +17,37 @@ class DiscoverMCPServers(BaseTool):
     """Discover available MCP servers in the environment."""
 
     def run(self) -> List[Dict[str, Any]]:  # type: ignore[override]
-        # Based on the rules, we know these MCP servers are available
+        # Based on actual MCP servers available in Warp environment
         servers = [
             {
                 "name": "browser",
-                "description": "Browser automation and web interaction",
-                "tools": ["browser_navigate", "browser_snapshot", "browser_click", "browser_type"]
+                "description": "Browser automation and web interaction", 
+                "tools": ["browser_click", "browser_close", "browser_console_messages", "browser_drag", "browser_evaluate", "browser_file_upload", "browser_fill_form", "browser_handle_dialog", "browser_hover", "browser_install", "browser_navigate", "browser_navigate_back", "browser_network_requests", "browser_press_key", "browser_resize", "browser_select_option", "browser_snapshot", "browser_tabs", "browser_take_screenshot", "browser_type", "browser_wait_for"]
+            },
+            {
+                "name": "puppeteer",
+                "description": "Alternative browser automation",
+                "tools": ["puppeteer_click", "puppeteer_evaluate", "puppeteer_fill", "puppeteer_hover", "puppeteer_navigate", "puppeteer_screenshot", "puppeteer_select"]
             },
             {
                 "name": "research", 
                 "description": "Web search and company research",
-                "tools": ["web_search_exa", "company_research_exa", "deep_researcher_start"]
+                "tools": ["web_search_exa", "company_research_exa", "deep_researcher_start", "deep_researcher_check", "crawling_exa", "linkedin_search_exa"]
             },
             {
                 "name": "documentation",
                 "description": "Documentation search and reading", 
                 "tools": ["ref_search_documentation", "ref_read_url"]
+            },
+            {
+                "name": "shell",
+                "description": "Shell command execution",
+                "tools": ["shell_exec"]
+            },
+            {
+                "name": "hello",
+                "description": "Simple greeting service",
+                "tools": ["hello"]
             }
         ]
         return servers
