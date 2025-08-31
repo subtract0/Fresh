@@ -12,6 +12,6 @@ poetry install --no-interaction --no-root >/dev/null
 poetry run python - <<'PY'
 from ai.runner.mvp import run_mvp
 import json
-out = run_mvp()
+out = run_mvp(include_dod=False)
 print(json.dumps(out, indent=2))
 PY
