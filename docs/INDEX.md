@@ -31,6 +31,7 @@
 - **[🛠️ Tool Reference](TOOLS.md)** - Complete tool catalog with usage examples
 - **[🔌 MCP Integration](MCP.md)** - Model Context Protocol client and server setup
 - **[📝 Interface Documentation](INTERFACES.md)** - CLI scripts and Python interfaces
+- **[🤖 Telegram Bot Interface](TELEGRAM_BOT.md)** - Foolproof user interface with intelligent agent spawning
 
 ### ⚙️ Configuration & Setup
 - **[🚀 Deployment Guide](DEPLOYMENT.md)** - Agent deployment and configuration management
