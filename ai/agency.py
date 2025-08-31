@@ -8,9 +8,28 @@ from ai.agents.QA import QA
 from ai.agents.Reviewer import Reviewer
 from ai.agents.Father import Father
 
-# Initialize default memory store (in-memory by default) so tools can operate
+# Initialize memory store: prefer Firestore if staging creds are present, else in-memory
+import os  # noqa: E402
 from ai.memory.store import set_memory_store, InMemoryMemoryStore  # noqa: E402
-set_memory_store(InMemoryMemoryStore())
+try:
+    from ai.memory.firestore import FirestoreMemoryStore  # type: ignore
+except Exception:  # pragma: no cover
+    FirestoreMemoryStore = None  # type: ignore
+
+use_firestore = (
+    os.getenv("FIREBASE_PROJECT_ID")
+    and os.getenv("FIREBASE_CLIENT_EMAIL")
+    and os.getenv("FIREBASE_PRIVATE_KEY")
+)
+
+if use_firestore and FirestoreMemoryStore is not None:
+    try:
+        set_memory_store(FirestoreMemoryStore())  # type: ignore
+    except Exception:
+        # Fallback to in-memory if Firestore init fails
+        set_memory_store(InMemoryMemoryStore())
+else:
+    set_memory_store(InMemoryMemoryStore())
 
 
 def build_agency() -> Agency:
