@@ -1,9 +1,18 @@
 # Fresh
 
-Agent-ready Python repo with Poetry, pytest, ADRs, Agency Swarm wiring, and CI gates.
+> **Agent-ready Python ecosystem** with memory persistence, TDD discipline, and autonomous swarm orchestration.
 
-Mission
-- To create a persistent-memory and learning mother-agent that spawns agents; she expects arguments: name, instructions, model, output_type.
+## 🎯 Mission
+
+Create a persistent-memory and learning mother-agent that spawns specialized agents with configurable roles, instructions, models, and output types.
+
+## 🚀 Quick Navigation
+
+- **📚 [Complete Documentation Hub](docs/INDEX.md)** - Central navigation to all docs
+- **🤖 [Agent Development Guide](docs/AGENT_DEVELOPMENT.md)** - Create and configure agents
+- **🚀 [Deployment Interface](docs/DEPLOYMENT.md)** - Deploy and manage agent swarms
+- **⚡ [WARP Terminal Guide](WARP.md)** - Complete command reference
+- **📐 [Architecture Decisions](docs/ADR_INDEX.md)** - All ADRs with cross-references
 
 Quick start
 - Prereqs: Python 3.12, Poetry (https://python-poetry.org/docs/#installation)
@@ -35,6 +44,11 @@ Quick start
   ```
   bash scripts/monitor.sh
   ```
+- **🎛️ Adaptive Agent Monitoring (ADR-005)**:
+  ```
+  poetry run python scripts/watch-agents-adaptive.py
+  ```
+  Features: Rich UI, activity-based refresh rates (1s-10s), agent timelines, memory metrics
 - TDD sandbox demo (shows RED→GREEN loop and prints a summary dict):
   ```
   poetry run python - <<'PY'

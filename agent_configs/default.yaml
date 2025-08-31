@@ -1,0 +1,67 @@
+agents:
+- active: true
+  instructions: Strategic planning, memory management, and work delegation. Coordinates
+    overall project direction.
+  model: claude-3-5-sonnet-20241022
+  name: Father
+  role: Strategic Planner & Delegator
+  tools:
+  - WriteMemory
+  - ReadMemoryContext
+  - GenerateNextSteps
+  - IntentNormalizer
+  - DoDCheck
+- active: true
+  instructions: Enforce TDD-first development and ADR discipline. Ensure tests exist
+    before implementation.
+  model: claude-3-5-sonnet-20241022
+  name: Architect
+  role: TDD & ADR Enforcer
+  tools:
+  - CreateADR
+  - WriteMemory
+  - ReadMemoryContext
+- active: true
+  instructions: Write minimal code to make tests green, then refactor. Focus on clean,
+    simple implementations.
+  model: claude-3-5-sonnet-20241022
+  name: Developer
+  role: Implementation Specialist
+  tools:
+  - DiscoverMCPServers
+  - CallMCPTool
+  - WriteMemory
+- active: true
+  instructions: Expand test coverage and harden edge cases. Ensure code quality and
+    reliability.
+  model: claude-3-5-sonnet-20241022
+  name: QA
+  role: Test & Quality Assurance
+  tools:
+  - DiscoverMCPServers
+  - CallMCPTool
+  - WriteMemory
+- active: true
+  instructions: Review for simplicity, security, and ADR linkage. Final quality gate
+    before completion.
+  model: claude-3-5-sonnet-20241022
+  name: Reviewer
+  role: Code Review & Security
+  tools:
+  - WriteMemory
+  - ReadMemoryContext
+description: Standard TDD-focused development swarm with memory persistence
+flows:
+- - Father
+  - Architect
+- - Architect
+  - Developer
+- - Developer
+  - QA
+- - QA
+  - Reviewer
+- - Reviewer
+  - Father
+name: default
+shared_instructions: Follow TDD principles, maintain ADR discipline, and use memory
+  tools for coordination.

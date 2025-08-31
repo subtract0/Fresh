@@ -1,6 +1,43 @@
-# WARP.md
+# ⚡ WARP Terminal Guide
 
-This file provides guidance to WARP (warp.dev) when working with code in this repository.
+> **For WARP (warp.dev)**: Complete command reference and workflow guide for Fresh agent development ecosystem.
+
+**📚 Cross-References**: [Documentation Index](docs/INDEX.md) | [Agent Development Guide](docs/AGENT_DEVELOPMENT.md) | [Deployment Guide](docs/DEPLOYMENT.md)
+
+---
+
+## 🎯 Quick Command Reference
+
+### Agent Operations
+```bash
+# Deploy agent swarms
+./scripts/deploy.sh create research-team     # Create agent config
+./scripts/deploy.sh deploy default          # Deploy default swarm  
+./scripts/deploy.sh list                    # List configurations
+
+# Request autonomous features
+./scripts/ask.sh "add MCP browser integration"  # Feature request
+
+# Monitor agent status
+./scripts/monitor.sh                        # One-shot status check
+```
+
+### Development Workflow  
+```bash
+# Bootstrap environment
+bash scripts/bootstrap.sh                   # Full setup
+
+# Testing (matches CI)
+bash scripts/run-tests.sh                   # All tests
+poetry run pytest -q tests/test_name.py     # Single test
+
+# Planning and release
+bash scripts/mvp.sh                         # MVP planning pass
+```
+
+**Complete Interface Guide**: [Interface Documentation](docs/INTERFACES.md)
+
+This guide provides comprehensive guidance for working with the Fresh agent development ecosystem.
 
 Repository basics
 - Stack: Python 3.12 with Poetry; tests use pytest
