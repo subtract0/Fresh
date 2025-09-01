@@ -1,0 +1,13 @@
+{
+  "goal": "Improve agent MCP access safely",
+  "tags": [
+    "feature"
+  ],
+  "next_steps": [
+    "Write failing tests that capture the desired behavior",
+    "Implement minimal change to pass the tests",
+    "Request/perform review and tag ADR reference if architecture changes"
+  ],
+  "release_notes": "# Release Notes (2025-09-01)\n- goal: Improve agent MCP access safely\n",
+  "dod_summary": "# Definition of Done\n- [PASS] Tests-changed gate - \n- [FAIL] Pytest - !!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!\n- [FAIL] ADR reference in recent commits - none\n"
+}
