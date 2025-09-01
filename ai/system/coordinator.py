@@ -189,6 +189,19 @@ class FreshAgentSystem:
         except ImportError:
             logger.warning("GitHub integration module not available")
             
+        # MCP discovery system
+        try:
+            from ai.integration.mcp_discovery import get_mcp_discovery
+            self.components["mcp_discovery"] = SystemComponent(
+                name="mcp_discovery",
+                instance=get_mcp_discovery(),
+                start_method="start_discovery",
+                stop_method="stop_discovery",
+                dependencies=["memory_store"]
+            )
+        except ImportError:
+            logger.warning("MCP discovery system module not available")
+            
         # Agent spawner
         try:
             from ai.interface.agent_spawner import get_agent_spawner

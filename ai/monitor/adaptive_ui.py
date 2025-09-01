@@ -67,6 +67,28 @@ class AdaptiveMonitorUI:
         else:
             return f"{seconds:.2f}s"
             
+    def _get_agent_health(self, agent_name: str, agent_events: List[ActivityEvent]) -> str:
+        """Determine agent health status based on activity and system metrics."""
+        try:
+            process = psutil.Process()
+            cpu_percent = process.cpu_percent()
+            
+            # Check for recent errors in events
+            error_events = [e for e in agent_events if 'error' in e.event_type]
+            
+            # Health logic
+            if error_events:
+                return "[red]❌ Error[/red]"
+            elif cpu_percent > 80:
+                return "[yellow]⚠️ High CPU[/yellow]"
+            elif len(agent_events) > 0:
+                return "[green]✅ Healthy[/green]"
+            else:
+                return "[dim]💤 Idle[/dim]"
+                
+        except Exception:
+            return "[dim]❓ Unknown[/dim]"
+            
     def _generate_timeline_sparkline(self, events: List[ActivityEvent]) -> str:
         """Generate a simple timeline sparkline from events."""
         if not events:
@@ -105,8 +127,8 @@ class AdaptiveMonitorUI:
         table.add_column("Agent", style="cyan", no_wrap=True)
         table.add_column("Status", style="green")
         table.add_column("Activity", justify="center")
+        table.add_column("Health", justify="center")
         table.add_column("Memory", justify="right")
-        table.add_column("Last Response", justify="right")
         table.add_column("Timeline", justify="center")
         
         detector = get_activity_detector()
@@ -125,12 +147,12 @@ class AdaptiveMonitorUI:
             activity_text = f"{current_level.value.upper()}"
             activity_color = self._get_activity_color(current_level)
             
+            # Health check
+            health_status = self._get_agent_health(agent_name, agent_events)
+            
             # Memory usage (approximate)
             memory_rss = process.memory_info().rss
             memory_text = self._format_memory(memory_rss)
-            
-            # Response time (placeholder)
-            response_time = self._format_response_time(None)
             
             # Timeline sparkline
             timeline = self._generate_timeline_sparkline(agent_events)
@@ -139,8 +161,8 @@ class AdaptiveMonitorUI:
                 agent_name,
                 agent_status,
                 f"[{activity_color}]{activity_text}[/{activity_color}]",
+                health_status,
                 memory_text,
-                response_time,
                 timeline
             )
             
