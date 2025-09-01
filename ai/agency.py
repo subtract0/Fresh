@@ -8,9 +8,10 @@ from ai.agents.QA import QA
 from ai.agents.Reviewer import Reviewer
 from ai.agents.Father import Father
 
-# Initialize memory store: prefer Firestore if staging creds are present, else in-memory
+# Initialize memory store: prefer Intelligent > Firestore > InMemory
 import os  # noqa: E402
 from ai.memory.store import set_memory_store, InMemoryMemoryStore  # noqa: E402
+from ai.memory.intelligent_store import IntelligentMemoryStore  # noqa: E402
 try:
     from ai.memory.firestore import FirestoreMemoryStore  # type: ignore
 except Exception:  # pragma: no cover
@@ -22,14 +23,23 @@ use_firestore = (
     and os.getenv("FIREBASE_PRIVATE_KEY")
 )
 
-if use_firestore and FirestoreMemoryStore is not None:
-    try:
-        set_memory_store(FirestoreMemoryStore())  # type: ignore
-    except Exception:
-        # Fallback to in-memory if Firestore init fails
+# Priority order: Intelligent Memory (local) > Firestore (staging) > InMemory (fallback)
+try:
+    # Use intelligent memory store as the primary choice
+    set_memory_store(IntelligentMemoryStore())
+    print("🧠 Using Intelligent Memory Store with semantic search and auto-classification")
+except Exception:
+    if use_firestore and FirestoreMemoryStore is not None:
+        try:
+            set_memory_store(FirestoreMemoryStore())  # type: ignore
+            print("☁️  Using Firestore Memory Store for staging persistence")
+        except Exception:
+            # Fallback to in-memory if Firestore init fails
+            set_memory_store(InMemoryMemoryStore())
+            print("💾 Using InMemory Store (fallback)")
+    else:
         set_memory_store(InMemoryMemoryStore())
-else:
-    set_memory_store(InMemoryMemoryStore())
+        print("💾 Using InMemory Store (no credentials found)")
 
 
 def build_agency() -> Agency:
