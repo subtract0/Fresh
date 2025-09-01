@@ -23,6 +23,7 @@ from ai.agents.EnhancedDeveloper import EnhancedDeveloper
 from ai.agents.EnhancedFather import EnhancedFather
 from ai.agents.QA import QA
 from ai.agents.Reviewer import Reviewer
+from ai.agents.DocumentationAgent import DocumentationAgent
 
 # Initialize intelligent memory store
 from ai.memory.store import set_memory_store, InMemoryMemoryStore
@@ -79,7 +80,8 @@ def build_enhanced_agency(
     enable_qa: bool = True,
     enable_reviewer: bool = True,
     shared_instructions_path: Optional[str] = None,
-    use_enhanced_firestore: bool = True
+    use_enhanced_firestore: bool = True,
+    include_docs_agent: bool = True
 ) -> Agency:
     """
     Construct the enhanced agency with intelligent memory-powered agents.
@@ -105,6 +107,10 @@ def build_enhanced_agency(
         [EnhancedFather, EnhancedArchitect],
         [EnhancedArchitect, EnhancedDeveloper],
     ]
+
+    # Optionally add Documentation agent as a parallel branch from Father
+    if include_docs_agent:
+        agency_chart.append([EnhancedFather, DocumentationAgent])
     
     # Add QA and Reviewer if enabled
     if enable_qa:

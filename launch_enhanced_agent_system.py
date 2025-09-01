@@ -45,6 +45,9 @@ Examples:
 import argparse
 import sys
 import logging
+import os
+import threading
+import time
 from pathlib import Path
 from typing import Dict, Any
 
@@ -267,6 +270,53 @@ def main():
         if not agents:
             print("❌ Failed to initialize agents")
             sys.exit(1)
+
+        # Optionally start background documentation alignment loop (parallel)
+        def _docs_alignment_loop(interval_sec: int):
+            try:
+                from ai.tools.docs_tools import DocsAlignmentCheck
+                from ai.tools.enhanced_memory_tools import SmartWriteMemory
+            except Exception as e:
+                print(f"⚠️ Docs alignment tools unavailable: {e}")
+                return
+            last_status = None
+            while True:
+                try:
+                    result = DocsAlignmentCheck(strict=False).run()
+                    status = "FAILED" if "FAILED" in result.upper() else "PASSED"
+                    if status == "FAILED":
+                        # Store only failures to avoid noise
+                        SmartWriteMemory(
+                            content=f"Docs Alignment: {status}. Summary: {result[:500]}",
+                            tags=["documentation", "alignment", "issue"]
+                        ).run()
+                    elif last_status == "FAILED":
+                        # Store first recovery after failure
+                        SmartWriteMemory(
+                            content="Docs Alignment: PASSED after previous failure.",
+                            tags=["documentation", "alignment", "recovered"]
+                        ).run()
+                    last_status = status
+                except Exception as e:
+                    try:
+                        from ai.tools.enhanced_memory_tools import SmartWriteMemory
+                        SmartWriteMemory(
+                            content=f"Docs Alignment loop error: {e}",
+                            tags=["documentation", "alignment", "error"]
+                        ).run()
+                    except Exception:
+                        pass
+                time.sleep(interval_sec)
+
+        docs_enabled = os.getenv("DOCS_CHECK_ENABLED", "true").lower() not in ("0", "false", "no")
+        if docs_enabled:
+            try:
+                interval = int(os.getenv("DOCS_CHECK_INTERVAL_SEC", "600"))
+            except ValueError:
+                interval = 600
+            t = threading.Thread(target=_docs_alignment_loop, args=(interval,), daemon=True)
+            t.start()
+            print(f"📝 Documentation alignment loop started (every {interval}s)")
         
         # System ready
         print("\n🎉 SYSTEM READY")
