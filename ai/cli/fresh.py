@@ -28,6 +28,7 @@ from ai.loop.repo_scanner import scan_repository, Task, TaskType
 from ai.agents.mother import MotherAgent
 from ai.loop.dev_loop import DevLoop, run_development_cycle
 import asyncio
+from pathlib import Path
 
 
 def cmd_scan(args):
@@ -114,11 +115,22 @@ def cmd_run(args):
         print("   Press Ctrl+C to stop\n")
         
         async def watch():
-            from ai.loop.dev_loop import run_continuous_loop
-            await run_continuous_loop(
-                interval=args.interval,
-                max_tasks=args.max_tasks
+            from ai.loop.dev_loop import DevLoop
+            loop = DevLoop(
+                max_tasks=args.max_tasks,
+                use_dashboard=args.dashboard,
+                state_file=Path(".fresh/dev_loop_state.json")
             )
+            
+            while True:
+                try:
+                    results = await loop.run_cycle()
+                    print(f"\n✅ Cycle completed: {len(results)} tasks processed")
+                except Exception as e:
+                    print(f"\n❌ Cycle failed: {e}")
+                
+                print(f"Waiting {args.interval} seconds...")
+                await asyncio.sleep(args.interval)
         
         try:
             asyncio.run(watch())
@@ -130,7 +142,8 @@ def cmd_run(args):
         
         loop = DevLoop(
             max_tasks=args.max_tasks,
-            dry_run=args.dry_run
+            dry_run=args.dry_run,
+            use_dashboard=args.dashboard
         )
         
         async def run_once():
@@ -180,7 +193,22 @@ def main():
     run_parser.add_argument('--max-tasks', type=int, default=5, help='Max tasks per cycle')
     run_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles (watch mode)')
     run_parser.add_argument('--dry-run', action='store_true', help='Scan but don\'t execute agents')
+    run_parser.add_argument('--dashboard', action='store_true', help='Show real-time dashboard')
     run_parser.set_defaults(func=cmd_run)
+    
+    # Monitor command (alias for run --watch --dashboard)
+    monitor_parser = subparsers.add_parser('monitor', help='Monitor with live dashboard')
+    monitor_parser.add_argument('--max-tasks', type=int, default=5, help='Max tasks per cycle')
+    monitor_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles')
+    monitor_parser.set_defaults(
+        func=lambda args: cmd_run(argparse.Namespace(
+            watch=True,
+            dashboard=True,
+            max_tasks=args.max_tasks,
+            interval=args.interval,
+            dry_run=False
+        ))
+    )
     
     # Parse arguments
     args = parser.parse_args()

@@ -41,7 +41,8 @@ class DevLoop:
         max_tasks: int = 10,
         task_types: Optional[List[TaskType]] = None,
         state_file: Optional[Path] = None,
-        dry_run: bool = False
+        dry_run: bool = False,
+        use_dashboard: bool = False
     ):
         """Initialize development loop.
         
@@ -57,6 +58,7 @@ class DevLoop:
         self.task_types = task_types
         self.state_file = state_file
         self.dry_run = dry_run
+        self.use_dashboard = use_dashboard
         
         # Initialize components
         self.scanner = RepoScanner(repo_path)
@@ -75,9 +77,25 @@ class DevLoop:
         """
         logger.info(f"Starting development cycle for {self.repo_path}")
         
+        # Update dashboard if enabled
+        if self.use_dashboard:
+            try:
+                from ai.interface.console_dashboard import update_scan_status
+                update_scan_status(True)
+            except ImportError:
+                pass
+        
         # Scan repository
         tasks = self.scanner.scan()
         logger.info(f"Found {len(tasks)} tasks in repository")
+        
+        # Update dashboard with results
+        if self.use_dashboard:
+            try:
+                from ai.interface.console_dashboard import update_scan_status
+                update_scan_status(False, len(tasks))
+            except ImportError:
+                pass
         
         # Filter tasks
         tasks = self.filter_tasks(tasks)
@@ -94,9 +112,26 @@ class DevLoop:
         for task in tasks_to_process:
             logger.info(f"Processing task: {task.description[:50]}...")
             
+            # Update dashboard
+            if self.use_dashboard:
+                try:
+                    from ai.interface.console_dashboard import update_task_progress
+                    update_task_progress(task)
+                except ImportError:
+                    pass
+            
             result = self.process_task(task)
             if result:
                 results.append(result)
+                
+                # Update dashboard with result
+                if self.use_dashboard:
+                    try:
+                        from ai.interface.console_dashboard import add_result, update_task_progress
+                        add_result(result)
+                        update_task_progress(None)  # Clear current task
+                    except ImportError:
+                        pass
             
                 if result.success:
                     self.processed_tasks.append(task)
@@ -128,6 +163,15 @@ class DevLoop:
             
         # Determine output type based on task
         output_type = self._determine_output_type(task)
+        
+        # Update dashboard with agent type
+        if self.use_dashboard:
+            agent_type = self._determine_agent_type_for_task(task)
+            try:
+                from ai.interface.console_dashboard import update_task_progress
+                update_task_progress(task, agent_type)
+            except ImportError:
+                pass
         
         # Spawn agent via Mother
         result = self.mother_agent.run(
@@ -227,6 +271,28 @@ class DevLoop:
             content=f"Development cycle completed: {tasks_processed}/{tasks_found} tasks processed",
             tags=["dev_loop", "cycle", "autonomous"]
         ).run()
+    
+    def _determine_agent_type_for_task(self, task: Task) -> str:
+        """Determine which agent will handle the task.
+        
+        Args:
+            task: Task to process
+            
+        Returns:
+            Agent type name
+        """
+        output_type = self._determine_output_type(task)
+        
+        if output_type == "tests" or task.type == TaskType.FAILING_TEST:
+            return "QA"
+        elif output_type == "docs":
+            return "Developer"
+        elif task.type == TaskType.FIXME or task.type == TaskType.SYNTAX_ERROR:
+            return "Developer"
+        elif task.type == TaskType.TYPE_ERROR:
+            return "Developer"
+        else:
+            return "Father"
 
 
 # Module-level convenience functions
