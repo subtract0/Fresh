@@ -66,11 +66,13 @@ class SmartWriteMemory(BaseTool):
         content: str = Field(..., description="Content to remember with automatic intelligence")
         tags: List[str] = Field(default_factory=list, description="Optional tags (auto-enhanced)")
     
-    def __init__(self, content: str, tags: List[str] = None, **kwargs):
+    def __init__(self, content: str = None, tags: List[str] = None, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['content'] = content or kwargs.get('content', '')
+            kwargs['tags'] = tags if tags is not None else kwargs.get('tags', [])
             super().__init__(**kwargs)
         else:
-            super().__init__(content=content, tags=tags or [], **kwargs)
+            super().__init__(content=content or '', tags=tags or [], **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -119,11 +121,13 @@ class SemanticSearchMemory(BaseTool):
         keywords: List[str] = Field(..., description="Keywords to search for")
         limit: int = Field(default=5, description="Maximum results to return")
     
-    def __init__(self, keywords: List[str], limit: int = 5, **kwargs):
+    def __init__(self, keywords: List[str] = None, limit: int = 5, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['keywords'] = keywords or kwargs.get('keywords', [])
+            kwargs['limit'] = limit if limit != 5 else kwargs.get('limit', 5)
             super().__init__(**kwargs)
         else:
-            super().__init__(keywords=keywords, limit=limit, **kwargs)
+            super().__init__(keywords=keywords or [], limit=limit, **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -176,11 +180,13 @@ class GetMemoryByType(BaseTool):
         memory_type: str = Field(..., description="Type: goal, task, context, decision, progress, error, knowledge")
         limit: int = Field(default=5, description="Maximum results to return")
     
-    def __init__(self, memory_type: str, limit: int = 5, **kwargs):
+    def __init__(self, memory_type: str = None, limit: int = 5, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['memory_type'] = memory_type or kwargs.get('memory_type', '')
+            kwargs['limit'] = limit if limit != 5 else kwargs.get('limit', 5)
             super().__init__(**kwargs)
         else:
-            super().__init__(memory_type=memory_type, limit=limit, **kwargs)
+            super().__init__(memory_type=memory_type or '', limit=limit, **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -342,6 +348,7 @@ class OptimizeMemoryStore(BaseTool):
     
     def __init__(self, max_items: int = 1000, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['max_items'] = max_items if max_items != 1000 else kwargs.get('max_items', 1000)
             super().__init__(**kwargs)
         else:
             super().__init__(max_items=max_items, **kwargs)

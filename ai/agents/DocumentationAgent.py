@@ -17,24 +17,20 @@ from ai.tools.docs_tools import DocsAlignmentCheck
 from ai.tools.enhanced_memory_tools import SmartWriteMemory
 
 
-class DocumentationAgent(Agent):
-    """Agent focused on keeping documentation accurate and aligned with code."""
-    name = "Documentation"
-    
-    def __init__(self):
-        super().__init__(
-            name="Documentation",
-            description=(
-                "Maintains documentation accuracy, runs alignment checks, and stores findings in memory."
-            ),
-            instructions=(
-                "Run documentation alignment checks regularly. For any issues, store a concise report "
-                "with SmartWriteMemory using tags: ['documentation','quality','issue'] and reference the files."
-            ),
-            tools=[
-                DocsAlignmentCheck,
-                SmartWriteMemory,
-            ],
-            temperature=0.1,
-        )
+# Define DocumentationAgent as an instantiated agent to match other agent patterns
+DocumentationAgent = Agent(
+    name="Documentation",
+    description=(
+        "Maintains documentation accuracy, runs alignment checks, and stores findings in memory."
+    ),
+    instructions=(
+        "Run documentation alignment checks regularly. For any issues, store a concise report "
+        "with SmartWriteMemory using tags: ['documentation','quality','issue'] and reference the files."
+    ),
+    tools=[
+        DocsAlignmentCheck,
+        SmartWriteMemory,
+    ],
+    temperature=0.1,
+)
 

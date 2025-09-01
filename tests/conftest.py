@@ -13,6 +13,14 @@ from ai.utils.clock import MockClock, set_clock, reset_to_system_clock
 @pytest.fixture(autouse=True)
 def reset_global_state():
     """Reset all global state between tests."""
+    import os
+    
+    # Disable event persistence during tests to avoid cross-test contamination
+    original_persist_write = os.environ.get("MONITOR_PERSIST_EVENTS")
+    original_persist_read = os.environ.get("MONITOR_READ_PERSIST")
+    os.environ["MONITOR_PERSIST_EVENTS"] = "0"
+    os.environ["MONITOR_READ_PERSIST"] = "0"
+    
     # Reset clock to system default
     reset_to_system_clock()
     
@@ -25,6 +33,17 @@ def reset_global_state():
     # Cleanup after test
     reset_to_system_clock()
     ai.monitor.activity._activity_detector = None
+    
+    # Restore original environment variables
+    if original_persist_write is not None:
+        os.environ["MONITOR_PERSIST_EVENTS"] = original_persist_write
+    else:
+        os.environ.pop("MONITOR_PERSIST_EVENTS", None)
+        
+    if original_persist_read is not None:
+        os.environ["MONITOR_READ_PERSIST"] = original_persist_read
+    else:
+        os.environ.pop("MONITOR_READ_PERSIST", None)
 
 
 @pytest.fixture

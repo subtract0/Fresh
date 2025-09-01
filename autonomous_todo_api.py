@@ -12,7 +12,10 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-sys.path.append('ai')
+# Ensure we can import from the ai directory regardless of current working directory
+script_dir = Path(__file__).resolve().parent
+sys.path.append(str(script_dir / 'ai'))
+sys.path.append(str(script_dir))
 
 def setup_project_environment():
     """Set up the project environment for autonomous development."""
@@ -200,7 +203,7 @@ def generate_success_report(duration, validation_success):
         "project_name": "Todo Management API",
         "completion_status": "SUCCESS" if validation_success else "PARTIAL",
         "development_time": str(duration) if duration else "N/A",
-        "files_generated": len([f for f in Path(".").glob("*.py")]) + len([f for f in Path(".").glob("*.md")]) + len([f for f in Path(".").glob("*.txt")),
+        "files_generated": len(list(Path(".").glob("*.py"))) + len(list(Path(".").glob("*.md"))) + len(list(Path(".").glob("*.txt"))),
         "estimated_manual_time": "4-6 hours",
         "time_savings": "Estimated 80-90% time reduction",
         "quality_assessment": "High" if validation_success else "Needs Review"
