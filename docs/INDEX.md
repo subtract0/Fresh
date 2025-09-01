@@ -55,6 +55,7 @@
 - **[📊 Quality Gates](QUALITY_GATES.md)** - DoD checks and validation requirements
 
 ### 📚 Advanced Topics
+- **[🗺️ Autonomy Artifacts](AUTONOMY/README.md)** - Daily and on-demand planner outputs (next steps, release notes, run summaries)
 - **[🔬 Development Patterns](PATTERNS.md)** - Code patterns, best practices, and examples
 - **[🐛 Troubleshooting Guide](TROUBLESHOOTING.md)** - Common issues and solutions
 - **[🔍 Monitoring & Observability](MONITORING.md)** - Status monitoring and debugging
