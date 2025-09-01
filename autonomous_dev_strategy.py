@@ -24,7 +24,7 @@ def analyze_aawos_system_capabilities():
         from workflows.language import create_workflow
         from workflows import WorkflowOrchestrator
         
-        agency = build_enhanced_agency(enable_qa=True, enable_reviewer=True, use_enhanced_firestore=False)
+        agency = build_enhanced_agency(enable_qa=True, enable_reviewer=True, use_enhanced_firestore=False, include_docs_agent=False)
         
         print("✅ System Analysis Complete!")
         print()

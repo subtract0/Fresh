@@ -9,6 +9,7 @@ import asyncio
 import logging
 from dataclasses import dataclass
 from typing import Optional
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +35,7 @@ class DocsAlignmentService:
         self._task: Optional[asyncio.Task] = None
         self._stopping = False
         self._last_status: Optional[str] = None
+        self._last_run_ts: Optional[float] = None
 
     async def start(self) -> None:
         if not self.config.enabled:
@@ -87,6 +89,7 @@ class DocsAlignmentService:
                 tags=["documentation", "alignment", "recovered"],
             ).run()
         self._last_status = status
+        self._last_run_ts = time.time()
 
 
 _service_singleton: Optional[DocsAlignmentService] = None
@@ -100,4 +103,25 @@ def get_docs_alignment_service(config: Optional[DocsAlignmentConfig] = None) -> 
         if config is not None:
             _service_singleton.config = config
     return _service_singleton
+
+    
+    # Health check for coordinator integration
+    def health_check(self) -> bool:  # type: ignore[override]
+        """Return True if the service appears healthy.
+        Healthy if:
+        - Task is running AND
+        - Last run executed within 2x interval (or no run yet shortly after start)
+        """
+        # If disabled, treat as healthy (not managed)
+        if not self.config.enabled:
+            return True
+        # Task must be present and not done
+        if not self._task or self._task.done():
+            return False
+        # If we have a last run timestamp, ensure it's not stale
+        if self._last_run_ts is not None:
+            age = time.time() - self._last_run_ts
+            return age < max(self.config.interval_sec * 2, 1200)
+        # If no run yet, assume healthy just after start
+        return True
 

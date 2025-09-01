@@ -150,6 +150,7 @@ class FreshAgentSystem:
                     instance=service,
                     start_method="start",
                     stop_method="stop",
+                    health_check_method="health_check",
                     dependencies=["memory_store"]
                 )
             else:
@@ -429,6 +430,23 @@ class FreshAgentSystem:
             "component_count": len(self.components),
             "error_count": sum(comp.error_count for comp in self.components.values())
         }
+
+        # Include docs alignment details if available
+        if "docs_alignment" in self.components:
+            try:
+                svc = self.components["docs_alignment"].instance
+                last_status = getattr(svc, "_last_status", None)
+                last_run_ts = getattr(svc, "_last_run_ts", None)
+                interval = getattr(svc, "config", None).interval_sec if getattr(svc, "config", None) else None
+                now_ts = datetime.now().timestamp()
+                age = (now_ts - last_run_ts) if last_run_ts else None
+                performance_metrics.update({
+                    "docs_alignment_last_status": last_status or "unknown",
+                    "docs_alignment_last_run_age_sec": age if age is not None else None,
+                    "docs_alignment_interval_sec": interval,
+                })
+            except Exception:
+                pass
         
         return SystemStatus(
             overall_health=overall_health,
