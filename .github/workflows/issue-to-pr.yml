@@ -1,0 +1,55 @@
+name: Issue to PR (Autonomous Intake)
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to plan
+        required: true
+        type: number
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  intake:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'issues' && contains(github.event.label.name, 'autonomous'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Determine issue number
+        id: issue
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "num=${{ inputs.issue_number }}" >> $GITHUB_OUTPUT
+          else
+            echo "num=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create plan and PR (docs-only)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.num }}
+          BASE_BRANCH: main
+        run: |
+          python scripts/issue_to_pr.py --issue ${ISSUE_NUMBER} --base ${BASE_BRANCH}

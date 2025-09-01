@@ -432,6 +432,7 @@ PY
 - **[Firestore Memory Tests](tests/test_firestore_memory.py)** - 16 persistent memory tests
 - **[Persistent Memory Demo](scripts/demo-persistent-memory.py)** - Complete system demonstration
 - **[Agent Activity Demo](scripts/demo-agent-activity.py)** - Enhanced agent simulation
+- **Issue → PR (safe intake)**: Run the GitHub Action “Issue to PR (Autonomous Intake)” via workflow_dispatch or label an issue with “autonomous”. It creates a docs-only plan PR safely.
 
 ### 💾 Implementation Files
 - **[Memory Store Factory](ai/memory/store.py)** - Store selection and interfaces
