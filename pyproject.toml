@@ -15,7 +15,6 @@ psutil = "^5.9.0"
 pyyaml = "^6.0.2"
 python-dotenv = "^1.0.0"
 openai = "^1.0.0"
-requests = "^2.32.3"
 # FastAPI and related dependencies
 fastapi = "^0.110.0"
 uvicorn = {extras = ["standard"], version = "^0.24.0"}
