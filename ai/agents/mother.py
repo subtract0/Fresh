@@ -20,6 +20,7 @@ from collections import defaultdict
 from ai.memory.store import get_store, InMemoryMemoryStore
 from ai.tools.memory_tools import WriteMemory
 from ai.agents.senior_reviewer import SeniorReviewer, ReviewDecision
+from ai.integration.github_pr import GitHubPRIntegration, BranchInfo
 from openai import OpenAI
 import os
 from pathlib import Path
@@ -412,40 +413,41 @@ Output Type: {request.output_type}
                 print(f"📊 Review decision: {review_result.decision.value} (confidence: {review_result.confidence:.2f})")
                 print(f"💭 Review reasoning: {review_result.reasoning[:100]}...")
                 
-                # Handle review decision
+                # Handle review decision with PR workflow
                 if review_result.decision == ReviewDecision.APPROVE:
                     # Write new content
                     with open(full_path, 'w') as f:
                         f.write(code_blocks[0])
                     
-                    # Commit changes to git
-                    commit_hash = self._commit_changes(
-                        files=[str(file_path)], 
+                    # Create PR with approved changes
+                    pr_result = self._create_pull_request_for_changes(
+                        files=[str(file_path)],
                         agent_type=agent_type,
-                        request=request
+                        request=request,
+                        review_result=review_result
                     )
                     
-                    status = "approved_and_committed"
+                    status = "approved_and_pr_created" if pr_result else "approved_pr_failed"
                     
                 elif review_result.decision == ReviewDecision.REQUEST_CHANGES:
                     # Don't apply changes, return for revision
                     status = "requires_revision"
-                    commit_hash = None
+                    pr_result = None
                     print(f"🔄 Changes require revision: {', '.join(review_result.suggestions)}")
                     
                 else:  # REJECT
                     # Don't apply changes, task failed
                     status = "rejected"
-                    commit_hash = None
+                    pr_result = None
                     print(f"❌ Changes rejected: {review_result.reasoning}")
                 
                 return {
                     "output": f"Review {status}: {file_path}",
                     "artifacts": {
-                        "files_modified": [str(file_path)] if status == "approved_and_committed" else [],
+                        "files_modified": [str(file_path)] if status.startswith("approved") else [],
                         "backup_content": backup_content,
                         "explanation": response_content,
-                        "commit_hash": commit_hash,
+                        "pr_info": pr_result,
                         "review_status": status,
                         "review_decision": review_result.decision.value,
                         "review_confidence": review_result.confidence,
@@ -453,7 +455,7 @@ Output Type: {request.output_type}
                         "review_suggestions": review_result.suggestions,
                         "security_concerns": review_result.security_concerns
                     },
-                    "files_modified": [str(file_path)] if status == "approved_and_committed" else []
+                    "files_modified": [str(file_path)] if status.startswith("approved") else []
                 }
             
             # If no specific file identified, return explanation
@@ -565,6 +567,125 @@ Output Type: {request.output_type}
             return None
         except Exception as e:
             print(f"⚠️ Unexpected error during commit: {e}")
+            return None
+    
+    def _create_pull_request_for_changes(
+        self,
+        files: List[str],
+        agent_type: str, 
+        request: SpawnRequest,
+        review_result: Any
+    ) -> Optional[Dict[str, Any]]:
+        """Create a pull request for approved changes.
+        
+        Args:
+            files: List of files that were modified
+            agent_type: Type of agent that made changes
+            request: Original spawn request
+            review_result: Senior review result
+            
+        Returns:
+            PR information if successful, None otherwise
+        """
+        try:
+            # Initialize GitHub integration
+            github = GitHubPRIntegration()
+            
+            if not github.is_configured():
+                print("⚠️ GitHub integration not configured - committing directly")
+                return self._commit_changes(files, agent_type, request)
+            
+            # Create feature branch
+            branch_info = github.create_feature_branch(
+                task_description=request.instructions,
+                agent_type=agent_type
+            )
+            
+            if not branch_info.created:
+                print("⚠️ Failed to create branch - committing directly")
+                return self._commit_changes(files, agent_type, request)
+            
+            # Create commit message
+            commit_message = f"{agent_type} Agent: {request.instructions[:50]}"
+            if len(request.instructions) > 50:
+                commit_message += "..."
+            
+            commit_message += f"\n\nAuto-generated by Fresh autonomous system"
+            commit_message += f"\n- Agent: {agent_type}"
+            commit_message += f"\n- Model: {request.model}"
+            commit_message += f"\n- Senior Review: {review_result.decision.value} (confidence: {review_result.confidence:.2f})"
+            commit_message += f"\n- Files: {', '.join(files)}"
+            
+            # Commit and push changes
+            push_success = github.commit_and_push_changes(
+                branch_info=branch_info,
+                files=files,
+                commit_message=commit_message
+            )
+            
+            if not push_success:
+                print("⚠️ Failed to push changes")
+                github.cleanup_on_failure(branch_info)
+                return None
+            
+            # Create PR title and body
+            pr_title = f"{agent_type} Agent: {request.instructions[:60]}"
+            if len(request.instructions) > 60:
+                pr_title += "..."
+            
+            pr_body = f"""# 🤖 Autonomous Agent Implementation
+
+**Agent Type**: {agent_type}
+**Task**: {request.instructions}
+
+## 📋 Changes Made
+
+{chr(10).join(f"- `{f}`" for f in files)}
+
+## 🔍 Senior Review Summary
+
+- **Decision**: {review_result.decision.value.upper()}
+- **Confidence**: {review_result.confidence:.2f}
+- **Quality Score**: {review_result.maintainability_score:.2f}
+
+**Reasoning**: {review_result.reasoning}
+
+### Suggestions Addressed
+{chr(10).join(f"- {s}" for s in review_result.suggestions) if review_result.suggestions else "None"}
+
+---
+
+*This PR was automatically created by the Fresh autonomous development system.*
+*All changes have been reviewed by a senior-level AI reviewer before submission.*
+"""
+            
+            # Create pull request
+            pr_info = github.create_pull_request(
+                branch_info=branch_info,
+                title=pr_title,
+                body=pr_body,
+                reviewer_result={
+                    'review_decision': review_result.decision.value,
+                    'review_confidence': review_result.confidence,
+                    'review_reasoning': review_result.reasoning,
+                    'review_suggestions': review_result.suggestions,
+                    'security_concerns': review_result.security_concerns
+                }
+            )
+            
+            if pr_info:
+                return {
+                    "pr_number": pr_info.number,
+                    "pr_url": pr_info.url,
+                    "branch_name": pr_info.branch,
+                    "pr_title": pr_info.title
+                }
+            else:
+                github.cleanup_on_failure(branch_info)
+                return None
+                
+        except Exception as e:
+            print(f"⚠️ Failed to create PR: {e}")
             return None
     
     def get_statistics(self) -> Dict[str, Any]:
