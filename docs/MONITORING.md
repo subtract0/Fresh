@@ -9,6 +9,12 @@ Usage:
 - `poetry run python scripts/watch-agents-adaptive.py`
 - `poetry run python scripts/demo-adaptive-monitor.py`
 
+Persistent Event Bus (cross-process visibility)
+- New: ai/monitor/event_bus.py provides a lightweight JSONL event bus at .monitor/events.jsonl
+- Writing: set MONITOR_PERSIST_EVENTS=1 in any process that emits activity (e.g., demos, agents)
+- Reading: watcher defaults to MONITOR_READ_PERSIST=1 so it sees events from other processes
+- This prevents “IDLE” displays when activity happens in a different terminal/session
+
 Documentation Alignment Service
 - Purpose: Continuously checks documentation cross-references and stores issues/recoveries in memory
 - Managed by: ai/system/coordinator.py as component "docs_alignment"
