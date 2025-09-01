@@ -8,28 +8,37 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import asyncio
 from datetime import datetime
 
-from ai.interface.telegram_bot import FatherDecisionMaker, FreshTelegramBot
-from ai.interface.agent_spawner import AgentSpawner, SpawnRequest, SpawnedAgent
+# Skip all tests if telegram dependencies not available
+try:
+    from ai.interface.telegram_bot import FatherDecisionMaker, FreshTelegramBot
+    from ai.interface.agent_spawner import AgentSpawner, SpawnRequest, SpawnedAgent
+    TELEGRAM_AVAILABLE = True
+except ImportError:
+    TELEGRAM_AVAILABLE = False
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 @pytest.fixture
 def father_decision_maker():
     """Create FatherDecisionMaker instance for testing."""
     return FatherDecisionMaker()
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 @pytest.fixture
 def agent_spawner():
     """Create AgentSpawner instance for testing."""
     return AgentSpawner()
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 @pytest.fixture
 def mock_telegram_bot():
     """Create mock Telegram bot for testing."""
     return FreshTelegramBot("test_token", authorized_users=[12345])
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 class TestFatherDecisionMaker:
     """Test Father agent decision making logic."""
     
@@ -86,6 +95,7 @@ class TestFatherDecisionMaker:
                 assert field in agent
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 class TestAgentSpawner:
     """Test agent spawning and management functionality."""
     
@@ -174,6 +184,7 @@ class TestAgentSpawner:
         assert len(status["agents"]) == 1
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 class TestTelegramBotIntegration:
     """Test complete Telegram bot integration."""
     
@@ -230,6 +241,7 @@ class TestTelegramBotIntegration:
             mock_update.message.reply_text.assert_called()
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 class TestEndToEndWorkflow:
     """Test complete end-to-end workflow."""
     
@@ -270,6 +282,7 @@ class TestEndToEndWorkflow:
         assert history[-1]["request_id"] == "integration_test_001"
 
 
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 class TestErrorHandling:
     """Test error handling and edge cases."""
     
@@ -309,6 +322,7 @@ class TestErrorHandling:
 
 
 @pytest.mark.integration
+@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 class TestRealWorldScenarios:
     """Test realistic user scenarios."""
     

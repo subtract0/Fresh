@@ -164,10 +164,14 @@ class MCPDiscoverySystem:
         self._update_capability_index()
         
         # Record discovery results
-        WriteMemory(
-            content=f"MCP server discovery completed: {len(discovered)} servers found",
-            tags=["mcp", "discovery", "servers"]
-        ).run()
+        try:
+            from ai.tools.memory_tools import WriteMemory
+            WriteMemory(
+                content=f"MCP server discovery completed: {len(discovered)} servers found",
+                tags=["mcp", "discovery", "servers"]
+            ).run()
+        except Exception as e:
+            logger.warning(f"Failed to record memory: {e}")
         
         logger.info(f"Discovery completed: {len(discovered)} servers registered")
         return discovered
