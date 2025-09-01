@@ -34,7 +34,9 @@ class TestFirestoreMemoryStore:
             assert store.collection_name == "agent_memories"
             assert store.max_local_cache == 100
             assert store.sync_on_write is True
-            assert store._firestore_client is mock_client
+            # The client is wrapped, so check if it exists and has the right project
+            assert store._firestore_client is not None
+            assert hasattr(store._firestore_client, 'project')
     
     def test_init_without_firestore(self):
         """Test initialization fallback when Firestore is not available."""

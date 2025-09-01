@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Fresh CLI - Autonomous Development System
+#
+# Usage:
+#   ./fresh scan              # Scan repository for issues
+#   ./fresh spawn "task"      # Spawn agent for specific task
+#   ./fresh run --once        # Run one development cycle
+#   ./fresh run --watch       # Continuous monitoring mode
+
+set -e
+
+# Ensure we're in the Fresh directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
+# Run the Fresh CLI with poetry
+exec poetry run python -m ai.cli.fresh "$@"
