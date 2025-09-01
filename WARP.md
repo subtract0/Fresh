@@ -49,7 +49,14 @@ bash scripts/mvp.sh                         # MVP planning pass
 ```bash
 # Run documentation alignment checks
 fresh::docs::check
+
+# Show full system status (includes docs alignment metrics)
+fresh::deploy::status
 ```
+
+Configuration (optional)
+- DOCS_CHECK_ENABLED=true|false (default: true)
+- DOCS_CHECK_INTERVAL_SEC=600 (seconds)
 
 See also: [Capabilities vs Claims](docs/CAPABILITIES.md) and [Docs Index](docs/INDEX.md).
 

@@ -254,6 +254,34 @@ print('✅ Enhanced agents working')
 
 ---
 
+## 🧾 Documentation Alignment
+
+Keep documentation continuously accurate and cross-referenced.
+
+- Background service (full system): enabled by default via the system coordinator; runs periodic checks and stores failures/recoveries in memory
+- Parallel agent (enhanced agency): DocumentationAgent runs in parallel from Father to perform on-demand checks and memory writes
+
+Configuration
+- DOCS_CHECK_ENABLED=true|false (default: true)
+- DOCS_CHECK_INTERVAL_SEC=600 (default seconds)
+
+Manual check
+```bash
+# Warp helper (after `source ./.warp`)
+fresh::docs::check
+
+# Or directly
+python scripts/check_docs_alignment.py --strict
+```
+
+Status and metrics
+```bash
+python launch_agent_system.py --status
+# Look for: docs_alignment_last_status, docs_alignment_last_run_age_sec, docs_alignment_interval_sec
+```
+
+---
+
 ## 📁 Project Structure
 ```
 Fresh/

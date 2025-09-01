@@ -19,6 +19,8 @@ from ai.tools.enhanced_memory_tools import SmartWriteMemory
 
 class DocumentationAgent(Agent):
     """Agent focused on keeping documentation accurate and aligned with code."""
+    name = "Documentation"
+    
     def __init__(self):
         super().__init__(
             name="Documentation",
