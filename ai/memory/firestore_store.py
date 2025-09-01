@@ -24,6 +24,7 @@ from dataclasses import asdict
 
 from ai.memory.intelligent_store import IntelligentMemoryStore, EnhancedMemoryItem, MemoryType
 from ai.utils.clock import now as time_now
+from ai.monitor.firestore_tracker import wrap_firestore_client
 
 # Try to import Firestore with graceful fallback
 try:
@@ -86,9 +87,10 @@ class FirestoreMemoryStore(IntelligentMemoryStore):
             
         try:
             if self.project_id:
-                self._firestore_client = firestore.Client(project=self.project_id)
+                raw_client = firestore.Client(project=self.project_id)
             else:
-                self._firestore_client = firestore.Client()
+                raw_client = firestore.Client()
+            self._firestore_client = wrap_firestore_client(raw_client)  # Add cost tracking
             logger.info(f"Connected to Firestore project: {self._firestore_client.project}")
         except Exception as e:
             logger.error(f"Failed to initialize Firestore client: {e}")

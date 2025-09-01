@@ -25,6 +25,7 @@ from ai.memory.store import MemoryStore, MemoryItem
 from ai.memory.intelligent_store import (
     IntelligentMemoryStore, 
     EnhancedMemoryItem, 
+from ai.monitor.firestore_tracker import wrap_firestore_client
     MemoryType
 )
 
@@ -71,7 +72,8 @@ class EnhancedFirestoreMemoryStore(IntelligentMemoryStore):
         if not (project_id and client_email and private_key):
             raise RuntimeError("FIREBASE_* env vars are required for Enhanced Firestore")
         
-        self._db = firestore.Client(project=project_id)
+        raw_client = firestore.Client(project=project_id)
+        self._db = wrap_firestore_client(raw_client)  # Add cost tracking
         self._collection = self._db.collection(self.collection_name)
         
         print(f"🔥 Enhanced Firestore: Connected to {project_id}/{self.collection_name}")

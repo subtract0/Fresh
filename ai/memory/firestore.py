@@ -3,6 +3,8 @@ from typing import List, Optional
 import os
 
 from ai.memory.store import MemoryStore, MemoryItem
+from ai.monitor.firestore_tracker import wrap_firestore_client
+
 
 
 class FirestoreMemoryStore(MemoryStore):
@@ -27,7 +29,8 @@ class FirestoreMemoryStore(MemoryStore):
 
         # Use ADC-compatible init via environment variables
         # Expect caller to export GOOGLE_APPLICATION_CREDENTIALS or set envs via workload identity
-        self._db = firestore.Client(project=project_id)  # type: ignore
+        raw_client = firestore.Client(project=project_id)  # type: ignore
+        self._db = wrap_firestore_client(raw_client)  # Add cost tracking
         self._col = self._db.collection("agent_memory")  # type: ignore
 
     def write(self, *, content: str, tags: Optional[List[str]] = None) -> MemoryItem:
