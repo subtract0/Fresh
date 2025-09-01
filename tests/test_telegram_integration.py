@@ -17,24 +17,27 @@ except ImportError:
     TELEGRAM_AVAILABLE = False
 
 
-@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 @pytest.fixture
 def father_decision_maker():
     """Create FatherDecisionMaker instance for testing."""
+    if not TELEGRAM_AVAILABLE:
+        pytest.skip("Telegram dependencies not available")
     return FatherDecisionMaker()
 
 
-@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 @pytest.fixture
 def agent_spawner():
     """Create AgentSpawner instance for testing."""
+    if not TELEGRAM_AVAILABLE:
+        pytest.skip("Telegram dependencies not available")
     return AgentSpawner()
 
 
-@pytest.mark.skipif(not TELEGRAM_AVAILABLE, reason="Telegram dependencies not available")
 @pytest.fixture
 def mock_telegram_bot():
     """Create mock Telegram bot for testing."""
+    if not TELEGRAM_AVAILABLE:
+        pytest.skip("Telegram dependencies not available")
     return FreshTelegramBot("test_token", authorized_users=[12345])
 
 
