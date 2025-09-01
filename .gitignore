@@ -143,3 +143,14 @@ data/
 *.mobileprovision
 android/app/*.keystore
 debug.keystore
+
+# Temporary test and demo files
+*_demo.py
+*_test.py
+workflow_demo.py
+quick_workflow_test.py
+standalone_workflow_test.py
+
+# macOS system files
+.DS_Store
+**/.DS_Store
