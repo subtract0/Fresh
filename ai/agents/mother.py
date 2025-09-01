@@ -19,6 +19,7 @@ from collections import defaultdict
 
 from ai.memory.store import get_store, InMemoryMemoryStore
 from ai.tools.memory_tools import WriteMemory
+from ai.agents.senior_reviewer import SeniorReviewer, ReviewDecision
 from openai import OpenAI
 import os
 from pathlib import Path
@@ -396,26 +397,63 @@ Output Type: {request.output_type}
                     with open(full_path, 'r') as f:
                         backup_content = f.read()
                 
-                # Write new content
-                with open(full_path, 'w') as f:
-                    f.write(code_blocks[0])
+                # Get senior review before applying changes
+                reviewer = SeniorReviewer()
+                print(f"🔍 Senior review in progress...")
                 
-                # Commit changes to git
-                commit_hash = self._commit_changes(
-                    files=[str(file_path)], 
-                    agent_type=agent_type,
-                    request=request
+                review_result = reviewer.review_changes(
+                    original_content=backup_content,
+                    modified_content=code_blocks[0],
+                    file_path=file_path,
+                    change_description=request.instructions,
+                    agent_type=agent_type
                 )
                 
+                print(f"📊 Review decision: {review_result.decision.value} (confidence: {review_result.confidence:.2f})")
+                print(f"💭 Review reasoning: {review_result.reasoning[:100]}...")
+                
+                # Handle review decision
+                if review_result.decision == ReviewDecision.APPROVE:
+                    # Write new content
+                    with open(full_path, 'w') as f:
+                        f.write(code_blocks[0])
+                    
+                    # Commit changes to git
+                    commit_hash = self._commit_changes(
+                        files=[str(file_path)], 
+                        agent_type=agent_type,
+                        request=request
+                    )
+                    
+                    status = "approved_and_committed"
+                    
+                elif review_result.decision == ReviewDecision.REQUEST_CHANGES:
+                    # Don't apply changes, return for revision
+                    status = "requires_revision"
+                    commit_hash = None
+                    print(f"🔄 Changes require revision: {', '.join(review_result.suggestions)}")
+                    
+                else:  # REJECT
+                    # Don't apply changes, task failed
+                    status = "rejected"
+                    commit_hash = None
+                    print(f"❌ Changes rejected: {review_result.reasoning}")
+                
                 return {
-                    "output": f"Successfully updated {file_path}",
+                    "output": f"Review {status}: {file_path}",
                     "artifacts": {
-                        "files_modified": [str(file_path)],
+                        "files_modified": [str(file_path)] if status == "approved_and_committed" else [],
                         "backup_content": backup_content,
                         "explanation": response_content,
-                        "commit_hash": commit_hash
+                        "commit_hash": commit_hash,
+                        "review_status": status,
+                        "review_decision": review_result.decision.value,
+                        "review_confidence": review_result.confidence,
+                        "review_reasoning": review_result.reasoning,
+                        "review_suggestions": review_result.suggestions,
+                        "security_concerns": review_result.security_concerns
                     },
-                    "files_modified": [str(file_path)]
+                    "files_modified": [str(file_path)] if status == "approved_and_committed" else []
                 }
             
             # If no specific file identified, return explanation
