@@ -28,6 +28,11 @@ httpx = "^0.27.0"
 addopts = "-q --timeout=5"
 timeout = 5
 asyncio_mode = "auto"
+# Only collect tests from the canonical suite
+# Avoid collecting example/demo tests under autonomous_todo_api/
+# which may require optional stacks like SQLAlchemy on unsupported Python versions
+# and are not part of CI for this repo.
+testpaths = ["tests"]
 markers = [
     "asyncio: mark test as async",
     "integration: mark test as integration test",
