@@ -42,3 +42,15 @@ fresh::deploy::status() {
   python launch_agent_system.py --status 2>/dev/null || true
 }
 
+# Live adaptive monitor (opens Rich live view). Usage: fresh::monitor::live [min_interval] [max_interval]
+fresh::monitor::live() {
+  local min=${1:-1.0}
+  local max=${2:-10.0}
+  poetry run python scripts/watch-agents-adaptive.py --min-interval "$min" --max-interval "$max"
+}
+
+# One-shot snapshot status (full system components and metrics)
+fresh::status::once() {
+  python launch_agent_system.py --status 2>/dev/null || true
+}
+
