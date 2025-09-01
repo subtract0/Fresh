@@ -204,6 +204,179 @@ Or use the deployment interface ([Deployment Guide](DEPLOYMENT.md)):
 
 ---
 
+## 🧠 Memory-Driven Development Practices
+
+### Enhanced Agent Workflow Patterns
+
+#### Pre-Task Memory Consultation
+```python path=null start=null
+# Before starting any task, consult memory
+from ai.tools.enhanced_memory_tools import SemanticSearchMemory, GetMemoryByType
+from ai.tools.persistent_memory_tools import PersistentMemorySearch
+
+# Search for similar past work
+similar_work = PersistentMemorySearch(
+    keywords=["authentication", "implementation"],
+    limit=5
+).run()
+
+# Get relevant context by type
+if "goal" in task_description:
+    past_goals = GetMemoryByType(memory_type="goal", limit=10).run()
+elif "bug" in task_description:
+    past_errors = GetMemoryByType(memory_type="error", limit=5).run()
+```
+
+#### During-Task Learning Capture
+```python path=null start=null
+# Store progress and insights as you work
+from ai.tools.enhanced_memory_tools import SmartWriteMemory
+
+# Store progress updates
+SmartWriteMemory(
+    content="Progress: JWT middleware implementation 70% complete, token validation working",
+    tags=["progress", "jwt", "middleware"]
+).run()
+
+# Store insights discovered during work
+SmartWriteMemory(
+    content="Learned: JWT expiration validation needs UTC timezone consistency to avoid edge cases",
+    tags=["knowledge", "jwt", "timezone", "edge-case"]
+).run()
+```
+
+#### Post-Task Memory Consolidation
+```python path=null start=null
+# After completing work, consolidate learnings
+from ai.tools.enhanced_memory_tools import SmartWriteMemory, GetRelatedMemories
+
+# Store completion and outcome
+SmartWriteMemory(
+    content="Completed: JWT authentication middleware with refresh token support. Zero security issues found.",
+    tags=["completed", "jwt", "security", "success"]
+).run()
+
+# Store lessons learned
+SmartWriteMemory(
+    content="Pattern: Middleware + utility module separation improved testability by 60% and reduced coupling",
+    tags=["knowledge", "pattern", "architecture", "testing"]
+).run()
+```
+
+### Cross-Agent Memory Sharing
+
+#### Memory Context in Delegation
+```python path=null start=null
+# When delegating to other agents, include relevant memory context
+from ai.tools.enhanced_memory_tools import GetRelatedMemories
+
+# Get relevant context for delegation
+auth_context = PersistentMemorySearch(
+    keywords=["authentication", "security", "patterns"],
+    limit=5
+).run()
+
+delegation_message = f"""
+Task: Implement JWT authentication testing
+
+Relevant Past Experience:
+{auth_context}
+
+Apply learned patterns and avoid known pitfalls from previous JWT implementations.
+"""
+```
+
+#### Learning from Other Agent Experiences
+```python path=null start=null
+# Learn from insights captured by other agents
+architect_insights = PersistentMemorySearch(
+    keywords=["architecture", "jwt", "design"],
+    limit=5
+).run()
+
+developer_bugs = PersistentMemorySearch(
+    keywords=["jwt", "bug", "error", "implementation"],
+    limit=5
+).run()
+
+qa_patterns = PersistentMemorySearch(
+    keywords=["jwt", "testing", "edge case"],
+    limit=5
+).run()
+```
+
+### Memory-Driven Decision Making
+
+#### Pattern-Based Implementation Choices
+```python path=null start=null
+# Use memory to guide technical decisions
+from ai.tools.persistent_memory_tools import MemoryLearningPatterns
+
+# Analyze patterns for similar technical challenges
+security_patterns = MemoryLearningPatterns(
+    focus_areas=["security", "authentication"]
+).run()
+
+# Make informed decisions based on past outcomes
+if "jwt" in successful_patterns:
+    approach = "Use JWT with refresh tokens (90% past success rate)"
+elif "session" in successful_patterns:
+    approach = "Use session-based auth (70% past success rate)"
+```
+
+#### Risk Mitigation Through Memory
+```python path=null start=null
+# Identify and avoid past failure patterns
+past_failures = GetMemoryByType(memory_type="error", limit=20).run()
+auth_failures = [f for f in past_failures if "auth" in f.content.lower()]
+
+common_issues = [
+    "timezone handling in token expiration",
+    "concurrent refresh token scenarios", 
+    "malformed token edge cases"
+]
+
+# Plan implementation to avoid these issues
+risk_mitigation_plan = f"""
+Implementation Plan (Risk-Informed):
+1. Use UTC consistently for all timestamps
+2. Test concurrent refresh scenarios explicitly
+3. Add comprehensive input validation
+Based on {len(auth_failures)} past authentication failures analyzed.
+"""
+```
+
+### Memory Analytics for Continuous Improvement
+
+#### Performance Pattern Analysis
+```python path=null start=null
+# Use analytics to improve development patterns
+from ai.tools.persistent_memory_tools import CrossSessionAnalytics
+
+analytics = CrossSessionAnalytics(days_back=60).run()
+
+# Extract improvement opportunities
+if error_to_knowledge_ratio > 0.5:
+    improvement = "Focus on better error prevention through pattern application"
+if goal_completion_rate < 0.8:
+    improvement = "Analyze successful goal patterns for better planning"
+```
+
+#### Learning Velocity Tracking
+```python path=null start=null
+# Track learning and improvement over time
+patterns = MemoryLearningPatterns(
+    focus_areas=["implementation", "architecture", "testing"]
+).run()
+
+# Identify areas for skill development
+for area in focus_areas:
+    if area_knowledge_growth < threshold:
+        development_plan = f"Increase focus on {area} learning and pattern capture"
+```
+
+---
+
 ## 📝 Documentation Standards
 
 ### Cross-Reference Requirements

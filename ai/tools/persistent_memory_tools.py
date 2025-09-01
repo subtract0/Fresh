@@ -24,6 +24,7 @@ from typing import List, Optional, Dict, Any
 try:
     from agency_swarm.tools import BaseTool
     from pydantic import Field
+    PYDANTIC_AVAILABLE = True
 except ImportError:  # Allow running without agency_swarm
     class BaseTool:
         def __init__(self, **kwargs):
@@ -31,8 +32,9 @@ except ImportError:  # Allow running without agency_swarm
                 setattr(self, key, value)
         def run(self):
             raise NotImplementedError
-    def Field(**kwargs):
-        return None
+    def Field(default=None, **kwargs):
+        return default
+    PYDANTIC_AVAILABLE = False
 from ai.memory.store import get_store
 from ai.memory.firestore_store import FirestoreMemoryStore
 from ai.memory.intelligent_store import MemoryType
@@ -44,13 +46,18 @@ logger = logging.getLogger(__name__)
 class PersistentMemorySearch(BaseTool):
     """Search persistent memory across all sessions and deployments."""
     
-    keywords: List[str] = Field(..., description="Keywords to search for")
-    limit: int = Field(10, description="Maximum results to return")
-    memory_type: Optional[str] = Field(None, description="Filter by memory type (goal, task, error, etc.)")
-    days_back: Optional[int] = Field(None, description="Limit search to last N days (None for all time)")
+    if PYDANTIC_AVAILABLE:
+        keywords: List[str] = Field(..., description="Keywords to search for")
+        limit: int = Field(10, description="Maximum results to return")
+        memory_type: Optional[str] = Field(None, description="Filter by memory type (goal, task, error, etc.)")
+        days_back: Optional[int] = Field(None, description="Limit search to last N days (None for all time)")
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, keywords: List[str], limit: int = 10, memory_type: Optional[str] = None, days_back: Optional[int] = None, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(keywords=keywords, limit=limit, memory_type=memory_type, days_back=days_back, **kwargs)
+            
         if hasattr(self, 'memory_type') and self.memory_type:
             self._parsed_memory_type = MemoryType(self.memory_type)
         else:
@@ -115,9 +122,16 @@ class PersistentMemorySearch(BaseTool):
 class MemoryConsolidation(BaseTool):
     """Consolidate and clean up persistent memories."""
     
-    days_back: int = Field(7, description="Consider memories older than this many days")
-    min_importance: float = Field(0.6, description="Minimum importance score to keep memories")
-    dry_run: bool = Field(True, description="If True, only simulate cleanup without actual deletion")
+    if PYDANTIC_AVAILABLE:
+        days_back: int = Field(7, description="Consider memories older than this many days")
+        min_importance: float = Field(0.6, description="Minimum importance score to keep memories")
+        dry_run: bool = Field(True, description="If True, only simulate cleanup without actual deletion")
+    
+    def __init__(self, days_back: int = 7, min_importance: float = 0.6, dry_run: bool = True, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(days_back=days_back, min_importance=min_importance, dry_run=dry_run, **kwargs)
         
     def run(self) -> str:
         """Run memory consolidation and cleanup."""
@@ -171,7 +185,14 @@ class MemoryConsolidation(BaseTool):
 class CrossSessionAnalytics(BaseTool):
     """Analyze memory patterns across sessions and time."""
     
-    days_back: int = Field(30, description="Analyze memories from last N days")
+    if PYDANTIC_AVAILABLE:
+        days_back: int = Field(30, description="Analyze memories from last N days")
+    
+    def __init__(self, days_back: int = 30, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(days_back=days_back, **kwargs)
         
     def run(self) -> str:
         """Analyze memory patterns across sessions."""
@@ -260,12 +281,17 @@ class CrossSessionAnalytics(BaseTool):
 class MemoryLearningPatterns(BaseTool):
     """Analyze learning patterns and knowledge evolution."""
     
-    focus_areas: Optional[List[str]] = Field(None, description="Specific keywords/areas to analyze (None for all)")
+    if PYDANTIC_AVAILABLE:
+        focus_areas: Optional[List[str]] = Field(None, description="Specific keywords/areas to analyze (None for all)")
     
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, focus_areas: Optional[List[str]] = None, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(focus_areas=focus_areas, **kwargs)
+            
         if not hasattr(self, 'focus_areas') or self.focus_areas is None:
-            self.focus_areas = []
+            self.focus_areas = focus_areas or []
         
     def run(self) -> str:
         """Analyze learning patterns in persistent memory."""
@@ -365,6 +391,9 @@ class MemoryLearningPatterns(BaseTool):
 
 class MemorySync(BaseTool):
     """Force synchronization of local memory to persistent storage."""
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         
     def run(self) -> str:
         """Force sync local memories to Firestore."""

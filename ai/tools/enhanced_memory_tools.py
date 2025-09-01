@@ -15,13 +15,18 @@ from typing import List, Optional, Dict, Any
 try:
     from agency_swarm.tools import BaseTool
     from pydantic import Field
+    PYDANTIC_AVAILABLE = True
 except Exception:  # pragma: no cover - allow running tests without agency_swarm
     class BaseTool:  # type: ignore
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
         def run(self):
             raise NotImplementedError
 
-    def Field(*args, **kwargs):  # type: ignore
-        return None
+    def Field(default=None, **kwargs):  # type: ignore
+        return default
+    PYDANTIC_AVAILABLE = False
 
 from ai.memory.store import get_store
 from ai.memory.intelligent_store import IntelligentMemoryStore, MemoryType, EnhancedMemoryItem
@@ -56,9 +61,16 @@ class SmartWriteMemory(BaseTool):
     Returns:
         str: JSON string with memory ID and intelligence metadata
     """
-
-    content: str = Field(..., description="Content to remember with automatic intelligence")
-    tags: List[str] = Field(default_factory=list, description="Optional tags (auto-enhanced)")
+    
+    if PYDANTIC_AVAILABLE:
+        content: str = Field(..., description="Content to remember with automatic intelligence")
+        tags: List[str] = Field(default_factory=list, description="Optional tags (auto-enhanced)")
+    
+    def __init__(self, content: str, tags: List[str] = None, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(content=content, tags=tags or [], **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -102,9 +114,16 @@ class SemanticSearchMemory(BaseTool):
     Returns:
         str: Formatted search results with relevance scores
     """
-
-    keywords: List[str] = Field(..., description="Keywords to search for")
-    limit: int = Field(default=5, description="Maximum results to return")
+    
+    if PYDANTIC_AVAILABLE:
+        keywords: List[str] = Field(..., description="Keywords to search for")
+        limit: int = Field(default=5, description="Maximum results to return")
+    
+    def __init__(self, keywords: List[str], limit: int = 5, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(keywords=keywords, limit=limit, **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -152,9 +171,16 @@ class GetMemoryByType(BaseTool):
     Returns:
         str: Formatted list of memories of specified type
     """
-
-    memory_type: str = Field(..., description="Type: goal, task, context, decision, progress, error, knowledge")
-    limit: int = Field(default=5, description="Maximum results to return")
+    
+    if PYDANTIC_AVAILABLE:
+        memory_type: str = Field(..., description="Type: goal, task, context, decision, progress, error, knowledge")
+        limit: int = Field(default=5, description="Maximum results to return")
+    
+    def __init__(self, memory_type: str, limit: int = 5, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(memory_type=memory_type, limit=limit, **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -201,9 +227,16 @@ class GetRelatedMemories(BaseTool):
     Returns:
         str: Formatted list of related memories
     """
-
-    memory_id: str = Field(..., description="ID of memory to find relations for")
-    limit: int = Field(default=5, description="Maximum related memories to return")
+    
+    if PYDANTIC_AVAILABLE:
+        memory_id: str = Field(..., description="ID of memory to find relations for")
+        limit: int = Field(default=5, description="Maximum related memories to return")
+    
+    def __init__(self, memory_id: str, limit: int = 5, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(memory_id=memory_id, limit=limit, **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -247,6 +280,9 @@ class AnalyzeMemoryUsage(BaseTool):
     Returns:
         str: Formatted analytics report
     """
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
@@ -300,8 +336,15 @@ class OptimizeMemoryStore(BaseTool):
     Returns:
         str: Optimization report
     """
-
-    max_items: int = Field(default=1000, description="Maximum items to keep")
+    
+    if PYDANTIC_AVAILABLE:
+        max_items: int = Field(default=1000, description="Maximum items to keep")
+    
+    def __init__(self, max_items: int = 1000, **kwargs):
+        if PYDANTIC_AVAILABLE:
+            super().__init__(**kwargs)
+        else:
+            super().__init__(max_items=max_items, **kwargs)
 
     def run(self) -> str:  # type: ignore[override]
         store = get_store()
