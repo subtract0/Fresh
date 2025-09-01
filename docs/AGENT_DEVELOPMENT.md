@@ -2,65 +2,90 @@
 
 > **For AI Agents**: This guide teaches you how to understand, develop, and maintain the Fresh agent ecosystem. Follow these standards to ensure consistency and quality.
 
-**📚 Cross-References**: [Documentation Index](INDEX.md) | [Tool Reference](TOOLS.md) | [Agency Configuration](AGENCY_CONFIG.md) | [Memory System](../ai/memory/README.md)
+**📚 Cross-References**: [Documentation Index](INDEX.md) | [API Reference](API_REFERENCE.md) | [Enhanced Agents](ENHANCED_AGENTS.md) | [Memory System](MEMORY_SYSTEM.md) | [Deployment Guide](DEPLOYMENT.md)
 
 ---
 
 ## 🎯 Agent Development Overview
 
-Fresh uses a **swarm-based architecture** where specialized agents collaborate through defined flows and shared memory. Each agent has:
+Fresh uses a **memory-driven agent architecture** where enhanced agents learn from experience and collaborate through persistent memory. The system now offers two agent types:
 
-- **Role**: Specialized function (planning, development, testing, etc.)
-- **Tools**: Available capabilities (memory, MCP, ADR creation, etc.)
-- **Instructions**: Behavior guidelines and responsibilities
-- **Memory Context**: Shared persistent knowledge
+### Standard Agents (Legacy)
+- **Role**: Specialized function without persistent memory
+- **Tools**: Basic capabilities (memory, MCP, ADR creation, etc.)
+- **Instructions**: Static behavior guidelines
+- **Memory Context**: Session-only memory
+
+### Enhanced Agents (Recommended) 
+- **Role**: Memory-driven specialization with continuous learning
+- **Tools**: Enhanced memory capabilities + standard tools
+- **Intelligence**: Auto-classification, pattern recognition, cross-session learning
+- **Memory Context**: Persistent knowledge with Firestore backend
 
 ### Agent Lifecycle
-1. **Configuration** → [Deployment Guide](DEPLOYMENT.md#agent-configuration)
-2. **Deployment** → [Interface Documentation](INTERFACES.md#deployment-interface)
-3. **Execution** → [Memory System](../ai/memory/README.md#agent-memory-patterns)
-4. **Monitoring** → [Monitoring Guide](MONITORING.md#agent-status)
+1. **Configuration** → [Enhanced Agents Guide](ENHANCED_AGENTS.md#agent-specifications)
+2. **Memory Setup** → [Memory System Setup](MEMORY_SYSTEM.md#memory-store-implementations)
+3. **Deployment** → [Deployment Guide](DEPLOYMENT.md#enhanced-agent-deployment)
+4. **Learning** → [Enhanced Agent Workflows](ENHANCED_AGENTS.md#learning-workflows)
+5. **Monitoring** → [Memory Analytics](API_REFERENCE.md#crosssessionanalytics)
 
 ---
 
 ## 🏗️ Agent Architecture
 
-### Core Agents ([Agency Config](AGENCY_CONFIG.md))
+### Enhanced Agents (Recommended)
+
+| Agent | Role | Memory Strategy | Key Tools | Links |
+|-------|------|----------------|-----------|--------|
+| **EnhancedFather** | Strategic Planning with Cross-Session Goals | Goal evolution, decision learning, pattern recognition | SmartWriteMemory, PersistentMemorySearch, CrossSessionAnalytics | [Enhanced Agents](ENHANCED_AGENTS.md#enhancedfather---strategic-planner) |
+| **EnhancedArchitect** | Design Intelligence with ADR Outcomes | Design patterns, ADR tracking, TDD learning | SmartWriteMemory, GetMemoryByType, PersistentMemorySearch | [Enhanced Agents](ENHANCED_AGENTS.md#enhancedarchitect---design-intelligence) |
+| **EnhancedDeveloper** | Implementation Learning with Bug Prevention | Solution patterns, bug learning, refactoring wisdom | SmartWriteMemory, SemanticSearchMemory, GetRelatedMemories | [Enhanced Agents](ENHANCED_AGENTS.md#enhanceddeveloper---implementation-learning) |
+| **EnhancedQA** | Quality Intelligence with Failure Pattern Recognition | Test patterns, bug patterns, quality metrics | SmartWriteMemory, SemanticSearchMemory, GetMemoryByType | [Enhanced Agents](ENHANCED_AGENTS.md#enhancedqa---quality-intelligence) |
+
+### Legacy Agents (Standard)
 
 | Agent | Role | Key Tools | Links |
 |-------|------|-----------|--------|
-| **Father** | Strategic Planning & Delegation | Memory, Planning, DoD | [Father.py](../ai/agents/Father.py) |
+| **Father** | Strategic Planning | Memory, Planning, DoD | [Father.py](../ai/agents/Father.py) |
 | **Architect** | TDD & ADR Enforcement | ADR Creation, Memory | [Architect.py](../ai/agents/Architect.py) |
 | **Developer** | Implementation | MCP Client, Memory | [Developer.py](../ai/agents/Developer.py) |
 | **QA** | Testing & Quality | MCP Client, Memory | [QA.py](../ai/agents/QA.py) |
-| **Reviewer** | Code Review & Security | Memory, Context | [Reviewer.py](../ai/agents/Reviewer.py) |
 
-### Agent Flow Patterns
+### Enhanced Agent Flow Patterns
 ```
-Father (Strategic) 
+EnhancedFather (Strategic + Memory) 
+  ↓ (with memory context sharing)
+EnhancedArchitect (TDD + Design Patterns)
+  ↓ (with implementation pattern sharing)
+EnhancedDeveloper (Implementation + Bug Learning)
+  ↓ (with test pattern sharing)
+EnhancedQA (Testing + Failure Patterns)
   ↓
-Architect (TDD Enforcement)
-  ↓  
-Developer (Implementation)
-  ↓
-QA (Testing & Validation)
-  ↓
-Reviewer (Security & Quality)
-  ↓
-[Back to Father for coordination]
+[Back to EnhancedFather with consolidated learnings]
 ```
 
-**Implementation**: See [ai/agency.py](../ai/agency.py) for current wiring
+**Memory-Driven Flow**: Each handoff includes relevant memory context from past similar work
+**Implementation**: See [enhanced_agents.py](../ai/agents/enhanced_agents.py) and [Memory Integration](ENHANCED_AGENTS.md#memory-integration)
 
 ---
 
 ## 🛠️ Available Tools
 
-> **Complete Reference**: [Tool Documentation](TOOLS.md)
+> **Complete Reference**: [API Reference](API_REFERENCE.md)
 
-### Memory & Context
-- **WriteMemory** / **ReadMemoryContext** - Persistent knowledge sharing
-- **Memory Store Patterns** - [Memory System Guide](../ai/memory/README.md)
+### Enhanced Memory Tools
+- **SmartWriteMemory** - Auto-classifying memory storage with intelligence metadata
+- **SemanticSearchMemory** - Keyword-based intelligent search with relevance ranking
+- **GetMemoryByType** - Type-filtered memory retrieval (goals, tasks, errors, etc.)
+- **GetRelatedMemories** - Relationship-based memory exploration
+- **PersistentMemorySearch** - Cross-session memory search with advanced filtering
+- **CrossSessionAnalytics** - Memory pattern analysis across sessions
+- **MemoryLearningPatterns** - Learning evolution and pattern analysis
+- **MemoryConsolidation** - Memory cleanup and optimization
+
+### Basic Memory Tools (Legacy)
+- **WriteMemory** / **ReadMemoryContext** - Basic persistent knowledge sharing
+- **Memory Store Patterns** - [Memory System Guide](MEMORY_SYSTEM.md)
 
 ### Planning & Quality
 - **GenerateNextSteps** - Heuristic planning based on context
@@ -77,9 +102,45 @@ Reviewer (Security & Quality)
 
 ---
 
-## 🎨 Creating New Agents
+## 🎨 Creating Enhanced Agents
 
-### 1. Agent Class Structure
+### 1. Enhanced Agent Class Structure
+
+```python path=null start=null
+from ai.agents.enhanced_agents import Agent  # Enhanced base with fallback
+from ai.tools.enhanced_memory_tools import SmartWriteMemory, SemanticSearchMemory
+from ai.tools.persistent_memory_tools import PersistentMemorySearch, CrossSessionAnalytics
+
+class YourEnhancedAgent(Agent):
+    def __init__(self):
+        super().__init__(
+            name="YourAgent",
+            description="Your agent with persistent memory and learning capabilities",
+            instructions=(
+                "You are YourAgent with enhanced memory capabilities:\n"
+                "\n"
+                "MEMORY STRATEGY:\n"
+                "- Use SmartWriteMemory for insights, decisions, and learnings\n"
+                "- Use PersistentMemorySearch to learn from past experiences\n"
+                "- Use CrossSessionAnalytics to understand patterns\n"
+                "\n"
+                "LEARNING APPROACH:\n"
+                "- Always check past similar work before starting\n"
+                "- Apply learned patterns and avoid known issues\n"
+                "- Store insights and learnings for future reference\n"
+            ),
+            tools=[
+                SmartWriteMemory,
+                PersistentMemorySearch,
+                SemanticSearchMemory,
+                CrossSessionAnalytics,
+                # ... other tools
+            ],
+            temperature=0.2,
+        )
+```
+
+### 2. Legacy Agent Class Structure (Standard)
 
 ```python path=null start=null
 from agency_swarm import Agent

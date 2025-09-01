@@ -23,10 +23,16 @@ from typing import List, Optional, Dict, Any
 
 try:
     from agency_swarm.tools import BaseTool
+    from pydantic import Field
 except ImportError:  # Allow running without agency_swarm
     class BaseTool:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
         def run(self):
             raise NotImplementedError
+    def Field(**kwargs):
+        return None
 from ai.memory.store import get_store
 from ai.memory.firestore_store import FirestoreMemoryStore
 from ai.memory.intelligent_store import MemoryType
@@ -38,22 +44,17 @@ logger = logging.getLogger(__name__)
 class PersistentMemorySearch(BaseTool):
     """Search persistent memory across all sessions and deployments."""
     
-    def __init__(self, keywords: List[str], limit: int = 10, 
-                 memory_type: Optional[str] = None, days_back: Optional[int] = None):
-        """
-        Initialize persistent memory search.
-        
-        Args:
-            keywords: Keywords to search for
-            limit: Maximum results to return
-            memory_type: Filter by memory type (goal, task, error, etc.)
-            days_back: Limit search to last N days (None for all time)
-        """
-        super().__init__()
-        self.keywords = keywords
-        self.limit = limit
-        self.memory_type = MemoryType(memory_type) if memory_type else None
-        self.days_back = days_back
+    keywords: List[str] = Field(..., description="Keywords to search for")
+    limit: int = Field(10, description="Maximum results to return")
+    memory_type: Optional[str] = Field(None, description="Filter by memory type (goal, task, error, etc.)")
+    days_back: Optional[int] = Field(None, description="Limit search to last N days (None for all time)")
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if hasattr(self, 'memory_type') and self.memory_type:
+            self._parsed_memory_type = MemoryType(self.memory_type)
+        else:
+            self._parsed_memory_type = None
         
     def run(self) -> str:
         """Search persistent memory with cross-session capability."""
@@ -65,7 +66,7 @@ class PersistentMemorySearch(BaseTool):
                 results = store.search_firestore(
                     keywords=self.keywords,
                     limit=self.limit,
-                    memory_type=self.memory_type
+                    memory_type=self._parsed_memory_type
                 )
                 search_source = "Firestore (persistent)"
             else:
@@ -83,8 +84,8 @@ class PersistentMemorySearch(BaseTool):
             # Format results with persistent memory metadata
             output = [f"PERSISTENT MEMORY SEARCH ({search_source})"]
             output.append(f"Keywords: {', '.join(self.keywords)}")
-            if self.memory_type:
-                output.append(f"Type Filter: {self.memory_type.value.upper()}")
+            if self._parsed_memory_type:
+                output.append(f"Type Filter: {self._parsed_memory_type.value.upper()}")
             if self.days_back:
                 output.append(f"Time Range: Last {self.days_back} days")
             output.append(f"Found: {len(results)} memories")
@@ -114,20 +115,9 @@ class PersistentMemorySearch(BaseTool):
 class MemoryConsolidation(BaseTool):
     """Consolidate and clean up persistent memories."""
     
-    def __init__(self, days_back: int = 7, min_importance: float = 0.6, 
-                 dry_run: bool = True):
-        """
-        Initialize memory consolidation.
-        
-        Args:
-            days_back: Consider memories older than this many days
-            min_importance: Minimum importance score to keep memories
-            dry_run: If True, only simulate cleanup without actual deletion
-        """
-        super().__init__()
-        self.days_back = days_back
-        self.min_importance = min_importance
-        self.dry_run = dry_run
+    days_back: int = Field(7, description="Consider memories older than this many days")
+    min_importance: float = Field(0.6, description="Minimum importance score to keep memories")
+    dry_run: bool = Field(True, description="If True, only simulate cleanup without actual deletion")
         
     def run(self) -> str:
         """Run memory consolidation and cleanup."""
@@ -181,15 +171,7 @@ class MemoryConsolidation(BaseTool):
 class CrossSessionAnalytics(BaseTool):
     """Analyze memory patterns across sessions and time."""
     
-    def __init__(self, days_back: int = 30):
-        """
-        Initialize cross-session analytics.
-        
-        Args:
-            days_back: Analyze memories from last N days
-        """
-        super().__init__()
-        self.days_back = days_back
+    days_back: int = Field(30, description="Analyze memories from last N days")
         
     def run(self) -> str:
         """Analyze memory patterns across sessions."""
@@ -278,15 +260,12 @@ class CrossSessionAnalytics(BaseTool):
 class MemoryLearningPatterns(BaseTool):
     """Analyze learning patterns and knowledge evolution."""
     
-    def __init__(self, focus_areas: Optional[List[str]] = None):
-        """
-        Initialize learning pattern analysis.
-        
-        Args:
-            focus_areas: Specific keywords/areas to analyze (None for all)
-        """
-        super().__init__()
-        self.focus_areas = focus_areas or []
+    focus_areas: Optional[List[str]] = Field(None, description="Specific keywords/areas to analyze (None for all)")
+    
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not hasattr(self, 'focus_areas') or self.focus_areas is None:
+            self.focus_areas = []
         
     def run(self) -> str:
         """Analyze learning patterns in persistent memory."""
@@ -386,10 +365,6 @@ class MemoryLearningPatterns(BaseTool):
 
 class MemorySync(BaseTool):
     """Force synchronization of local memory to persistent storage."""
-    
-    def __init__(self):
-        """Initialize memory sync tool."""
-        super().__init__()
         
     def run(self) -> str:
         """Force sync local memories to Firestore."""
