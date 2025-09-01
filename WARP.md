@@ -173,6 +173,41 @@ Known gaps/pitfalls
 - In CI, OPENAI_API_KEY=dummy (see .github/workflows/ci.yml), which intentionally skips the agency bootstrap test
 - If FIREBASE_* envs are not set, memory falls back to in-memory (intended for dev); Firestore path requires google-cloud-firestore and staging credentials
 
+---
+
+## 🧯 Long-running commands and how to exit (ADR-009)
+Some commands are intended to run continuously until you stop them:
+- fresh run --watch (continuous dev loop)
+- fresh::monitor::live (Rich live UI)
+- fresh::monitor::web (uvicorn web monitor)
+
+Tips
+- Stop with Ctrl-C.
+- For automation, prefer bounded runs (where available) such as a forthcoming `--stop-after` option for watch modes.
+
+## 📴 Offline (safe) mode (ADR-009)
+Use Offline Mode to avoid network calls during local development or demos.
+
+Environment variable
+```bash
+export FRESH_OFFLINE=1
+```
+
+CLI flag (to be added)
+```bash
+fresh run --once --offline   # Example: run a single cycle offline
+```
+
+Behavior
+- Skips networked operations (OpenAI, GitHub, remote discovery) with a clear message.
+- Local paths (e.g., intelligent memory, local scans) still run.
+
+## ⏱️ Default timeouts (ADR-009)
+- External calls should use a 30s default timeout (HTTP, OpenAI, git/gh subprocesses, Firestore where applicable).
+- If a command seems slow, check connectivity or re-run with Offline Mode.
+
+---
+
 References (source files)
 - README.md (Quick start, common tasks)
 - pyproject.toml (Poetry, Python 3.12, pytest config)
@@ -180,5 +215,5 @@ References (source files)
 - tests/*.py
 - scripts/*.sh
 - .github/workflows/*.yml
-- .cursor/rules/ADR.md; ADR-001.md; ADR-002.md; ADR-003.md; workflow.md; folder-structure.md; PRD.md
+- .cursor/rules/ADR-009.md; folder-structure.md; ADR-001.md; ADR-002.md; ADR-003.md; workflow.md; PRD.md
 
