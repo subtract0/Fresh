@@ -10,6 +10,11 @@ import time
 import random
 from typing import List
 
+# Ensure project root on path for 'ai' imports
+from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from ai.monitor.activity import (
     get_activity_detector, 
     record_memory_operation, 

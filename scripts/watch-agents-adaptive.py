@@ -17,6 +17,10 @@ sys.path.insert(0, str(project_root))
 
 from rich.console import Console
 from rich.live import Live
+import os
+
+# Enable reading persistent events by default for cross-process visibility
+os.environ.setdefault("MONITOR_READ_PERSIST", "1")
 
 from ai.monitor.status import get_status
 from ai.monitor.adaptive_ui import AdaptiveMonitorUI, RefreshController
