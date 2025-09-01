@@ -30,6 +30,11 @@ fresh::tests::all() {
   poetry run pytest -q
 }
 
+# Local dev quality check (advisory lint, tests, docs alignment)
+fresh::dev::check() {
+  bash scripts/dev_check.sh
+}
+
 fresh::docs::check() {
   python scripts/check_docs_alignment.py --strict
 }

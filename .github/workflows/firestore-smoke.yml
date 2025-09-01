@@ -1,0 +1,50 @@
+name: Firestore Smoke (optional)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    if: ${{ secrets.FIREBASE_PROJECT_ID && secrets.FIREBASE_CLIENT_EMAIL && secrets.FIREBASE_PRIVATE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install firestore client
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-cloud-firestore
+      - name: Smoke test Firestore
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+        run: |
+          python - <<'PY'
+          import os, json, base64
+          from google.cloud import firestore
+          project=os.getenv('FIREBASE_PROJECT_ID')
+          client_email=os.getenv('FIREBASE_CLIENT_EMAIL')
+          private_key=os.getenv('FIREBASE_PRIVATE_KEY')
+          if private_key and '-----BEGIN PRIVATE KEY-----' not in private_key:
+              private_key=base64.b64decode(private_key).decode()
+          import google.auth
+          from google.oauth2 import service_account
+          creds = service_account.Credentials.from_service_account_info({
+              "type": "service_account",
+              "project_id": project,
+              "private_key_id": "dummy",
+              "private_key": private_key,
+              "client_email": client_email,
+              "client_id": "dummy",
+              "token_uri": "https://oauth2.googleapis.com/token"
+          })
+          db = firestore.Client(project=project, credentials=creds)
+          doc = db.collection('smoke_tests').document('ci')
+          doc.set({'ok': True})
+          data = doc.get().to_dict()
+          print('SMOKE_RESULT', data)
+          PY
+

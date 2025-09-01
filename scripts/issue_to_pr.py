@@ -127,10 +127,64 @@ Safe-mode: docs-only change. After approval, automation can proceed to code/test
     return r.json()
 
 
+def _create_minimal_change(issue_number: int) -> list[Path]:
+    """Create a tiny, harmless code+test change that always passes.
+
+    - Adds ai/health/heartbeat.py with a simple heartbeat() function
+    - Adds tests/test_heartbeat.py verifying the function
+    """
+    created: list[Path] = []
+    hb_dir = Path("ai/health")
+    hb_dir.mkdir(parents=True, exist_ok=True)
+    hb_file = hb_dir / "heartbeat.py"
+    if not hb_file.exists():
+        hb_file.write_text(
+            """
+from __future__ import annotations
+from dataclasses import dataclass
+from datetime import datetime
+
+@dataclass(frozen=True)
+class Heartbeat:
+    ok: bool
+    timestamp: float
+
+
+def heartbeat() -> Heartbeat:
+    """Return a minimal heartbeat signal for monitoring demos.
+
+    This function is intentionally simple and safe.
+    """
+    return Heartbeat(ok=True, timestamp=datetime.utcnow().timestamp())
+""".lstrip(),
+            encoding="utf-8",
+        )
+        created.append(hb_file)
+
+    test_dir = Path("tests")
+    test_dir.mkdir(exist_ok=True)
+    test_file = test_dir / "test_heartbeat.py"
+    if not test_file.exists():
+        test_file.write_text(
+            """
+from ai.health.heartbeat import heartbeat
+
+def test_heartbeat_ok():
+    hb = heartbeat()
+    assert hb.ok is True
+    assert isinstance(hb.timestamp, float)
+""".lstrip(),
+            encoding="utf-8",
+        )
+        created.append(test_file)
+    return created
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--issue", type=int, default=int(os.getenv("ISSUE_NUMBER", "0")))
     ap.add_argument("--base", type=str, default=os.getenv("BASE_BRANCH", "main"))
+    ap.add_argument("--mode", choices=["docs", "minimal"], default=os.getenv("AUTONOMOUS_MODE", "docs"))
     args = ap.parse_args()
     if args.issue <= 0:
         raise SystemExit("ISSUE_NUMBER is required (env or --issue)")
@@ -144,13 +198,18 @@ def main():
     plan_dir = Path("docs/AUTONOMY/intake")
     plan_path, ts = create_plan_file(issue, plan_dir)
 
+    # Optionally create a tiny code+test change
+    extra_paths: list[Path] = []
+    if args.mode == "minimal":
+        extra_paths = _create_minimal_change(issue["number"])  # safe always-passing change
+
     ensure_git_identity()
     branch = f"feat/issue-{issue['number']}-autonomous-intake"
     create_branch(args.base, branch)
-    commit_and_push([plan_path], branch, issue['number'])
+    commit_and_push([plan_path] + extra_paths, branch, issue['number'])
 
     pr = open_pr(repo, token, args.base, branch, issue, plan_path, ts)
-    print(json.dumps({"ok": True, "pr": pr}, indent=2))
+    print(json.dumps({"ok": True, "mode": args.mode, "pr": pr}, indent=2))
 
 
 if __name__ == "__main__":

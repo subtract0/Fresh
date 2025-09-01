@@ -45,11 +45,18 @@ jobs:
             echo "num=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create plan and PR (docs-only)
+      - name: Select mode
+        id: mode
+        run: |
+          # Default to docs; allow repository variable AUTONOMOUS_MODE to override
+          echo "mode=${{ vars.AUTONOMOUS_MODE || 'docs' }}" >> $GITHUB_OUTPUT
+
+      - name: Create plan and PR (mode: ${{ steps.mode.outputs.mode }})
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.num }}
           BASE_BRANCH: main
+          AUTONOMOUS_MODE: ${{ steps.mode.outputs.mode }}
         run: |
-          python scripts/issue_to_pr.py --issue ${ISSUE_NUMBER} --base ${BASE_BRANCH}
+          python scripts/issue_to_pr.py --issue ${ISSUE_NUMBER} --base ${BASE_BRANCH} --mode ${AUTONOMOUS_MODE}

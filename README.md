@@ -350,6 +350,11 @@ bash scripts/bootstrap.sh
 # Run comprehensive tests
 bash scripts/run-tests.sh
 
+# Local dev quality check (advisory lint, tests, docs alignment)
+bash scripts/dev_check.sh
+# Optional: install pre-commit locally
+automat: pre-commit install
+
 # Create architecture decision records
 poetry run python -c "from ai.tools.adr_logger import CreateADR; print(CreateADR(title='Decision title', status='Proposed').run())"
 
