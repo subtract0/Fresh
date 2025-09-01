@@ -24,8 +24,10 @@ import argparse
 from pathlib import Path
 from typing import List, Optional
 
-from ai.loop.repo_scanner import scan_repository, Task
+from ai.loop.repo_scanner import scan_repository, Task, TaskType
 from ai.agents.mother import MotherAgent
+from ai.loop.dev_loop import DevLoop, run_development_cycle
+import asyncio
 
 
 def cmd_scan(args):
@@ -107,13 +109,43 @@ def cmd_run(args):
     """
     if args.watch:
         print("👁️ Starting continuous monitoring mode...")
-        print("   (This feature will be implemented in dev_loop.py)")
-        # TODO: Implement continuous monitoring
+        print(f"   Scanning every {args.interval} seconds")
+        print(f"   Max {args.max_tasks} tasks per cycle")
+        print("   Press Ctrl+C to stop\n")
+        
+        async def watch():
+            from ai.loop.dev_loop import run_continuous_loop
+            await run_continuous_loop(
+                interval=args.interval,
+                max_tasks=args.max_tasks
+            )
+        
+        try:
+            asyncio.run(watch())
+        except KeyboardInterrupt:
+            print("\n⏹️ Stopped monitoring")
         return 0
     else:
         print("🚀 Running single development cycle...")
-        print("   (This feature will be implemented in dev_loop.py)")
-        # TODO: Implement single cycle
+        
+        loop = DevLoop(
+            max_tasks=args.max_tasks,
+            dry_run=args.dry_run
+        )
+        
+        async def run_once():
+            results = await loop.run_cycle()
+            return results
+        
+        results = asyncio.run(run_once())
+        
+        print(f"\n✅ Processed {len(results)} tasks")
+        for result in results:
+            if result.success:
+                print(f"   • {result.agent_type}: {result.output[:60]}...")
+            else:
+                print(f"   • Failed: {result.error}")
+        
         return 0
 
 
@@ -145,6 +177,9 @@ def main():
     run_parser = subparsers.add_parser('run', help='Run autonomous development loop')
     run_parser.add_argument('--once', action='store_true', help='Run single cycle')
     run_parser.add_argument('--watch', action='store_true', help='Continuous monitoring mode')
+    run_parser.add_argument('--max-tasks', type=int, default=5, help='Max tasks per cycle')
+    run_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles (watch mode)')
+    run_parser.add_argument('--dry-run', action='store_true', help='Scan but don\'t execute agents')
     run_parser.set_defaults(func=cmd_run)
     
     # Parse arguments
