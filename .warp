@@ -54,3 +54,9 @@ fresh::status::once() {
   python launch_agent_system.py --status 2>/dev/null || true
 }
 
+# Web monitor (browser). Usage: fresh::monitor::web [port]
+fresh::monitor::web() {
+  local port=${1:-8008}
+  poetry run uvicorn ai.monitor.web:app --host 127.0.0.1 --port "$port"
+}
+
