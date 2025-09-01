@@ -19,6 +19,16 @@ from collections import defaultdict
 
 from ai.memory.store import get_store, InMemoryMemoryStore
 from ai.tools.memory_tools import WriteMemory
+from openai import OpenAI
+import os
+from pathlib import Path
+import subprocess
+from datetime import datetime
+try:
+    from dotenv import load_dotenv
+    load_dotenv()  # Load .env file
+except ImportError:
+    pass  # dotenv not available, use system env vars
 
 
 @dataclass
@@ -228,37 +238,296 @@ class MotherAgent:
         )
     
     def _execute_agent(self, agent_type: str, request: SpawnRequest) -> Dict[str, Any]:
-        """Execute the appropriate agent (placeholder for now).
+        """Execute the appropriate agent with real OpenAI calls.
         
-        This will be integrated with the actual agency agents later.
-        For now, returns simulated results for testing.
+        This creates a specialized agent prompt and executes it using OpenAI,
+        then applies the changes to the actual repository files.
         """
-        # Simulate agent execution
+        try:
+            # Initialize OpenAI client
+            client = OpenAI()
+            
+            # Get current working directory context
+            repo_path = Path.cwd()
+            
+            # Create agent-specific system prompt
+            system_prompt = self._create_agent_system_prompt(agent_type, repo_path)
+            
+            # Create user prompt with task instructions
+            user_prompt = self._create_user_prompt(request, repo_path)
+            
+            # Call OpenAI API with timeout
+            print(f"🤖 Calling OpenAI with model: {self._get_model_name(request.model)}")
+            response = client.chat.completions.create(
+                model=self._get_model_name(request.model),
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}
+                ],
+                temperature=0.1,  # Low temperature for precise code changes
+                timeout=30.0  # 30 second timeout
+            )
+            print(f"✅ OpenAI call completed")
+            
+            # Parse response and apply changes
+            result = self._parse_and_apply_agent_response(
+                response.choices[0].message.content,
+                agent_type,
+                request
+            )
+            
+            return result
+            
+        except Exception as e:
+            # Return error result
+            return {
+                "output": f"Agent execution failed: {str(e)}",
+                "artifacts": {},
+                "success": False
+            }
+    
+    def _create_agent_system_prompt(self, agent_type: str, repo_path: Path) -> str:
+        """Create system prompt for specific agent type."""
+        base_prompt = f"""You are a {agent_type} agent working on a software development project.
+Your role is to make specific, targeted changes to code files.
+
+IMPORTANT RULES:
+1. Always provide complete file content in your response
+2. Make minimal, focused changes to fix the specific issue
+3. Preserve existing code style and formatting
+4. Include clear explanations of what you changed
+
+Repository path: {repo_path}
+"""
+        
         if agent_type == "Developer":
-            return {
-                "output": f"Code implementation for: {request.instructions}",
-                "artifacts": {"files": ["implementation.py"]}
-            }
+            return base_prompt + """Your specialization: Fix bugs, implement features, resolve FIXMEs and TODOs.
+Focus on: Writing clean, maintainable code that solves the specific problem.
+"""
         elif agent_type == "QA":
-            return {
-                "output": f"Tests written for: {request.instructions}",
-                "artifacts": {"test_files": ["test_module.py"]}
-            }
+            return base_prompt + """Your specialization: Write and fix tests, ensure code quality.
+Focus on: Creating comprehensive test cases and fixing failing tests.
+"""
         elif agent_type == "Architect":
-            return {
-                "output": f"Design document for: {request.instructions}",
-                "artifacts": {"design_docs": ["architecture.md"]}
-            }
+            return base_prompt + """Your specialization: System design, API structure, architectural decisions.
+Focus on: Creating well-structured, scalable solutions.
+"""
         elif agent_type == "Reviewer":
-            return {
-                "output": f"Review completed for: {request.instructions}",
-                "artifacts": {"review_notes": ["review.md"]}
-            }
+            return base_prompt + """Your specialization: Code review, validation, quality assurance.
+Focus on: Identifying issues and suggesting improvements.
+"""
         else:  # Father
+            return base_prompt + """Your specialization: Strategic planning, coordination, high-level decisions.
+Focus on: Breaking down complex tasks and providing clear guidance.
+"""
+    
+    def _create_user_prompt(self, request: SpawnRequest, repo_path: Path) -> str:
+        """Create user prompt with task instructions and context."""
+        # Try to extract file path from instructions
+        file_path = self._extract_file_path_from_instructions(request.instructions)
+        
+        context = f"""Task: {request.instructions}
+
+Output Type: {request.output_type}
+"""
+        
+        # Add file content if specific file is mentioned
+        if file_path and (repo_path / file_path).exists():
+            try:
+                with open(repo_path / file_path, 'r') as f:
+                    file_content = f.read()
+                context += f"\n\nCurrent file content ({file_path}):\n```\n{file_content}\n```"
+            except Exception:
+                context += f"\n\nNote: Could not read file {file_path}"
+        
+        context += "\n\nPlease provide your solution with the complete updated file content."
+        
+        return context
+    
+    def _extract_file_path_from_instructions(self, instructions: str) -> Optional[str]:
+        """Extract file path from task instructions."""
+        # Simple pattern matching for common file references
+        import re
+        
+        # Look for file paths like "file.py:line" or "file.py line"
+        patterns = [
+            r'([a-zA-Z0-9_/\-\.]+\.py)[:line]?\s*(\d+)?',
+            r'in\s+([a-zA-Z0-9_/\-\.]+\.[a-zA-Z0-9]+)',
+            r'file\s+([a-zA-Z0-9_/\-\.]+\.[a-zA-Z0-9]+)'
+        ]
+        
+        for pattern in patterns:
+            match = re.search(pattern, instructions)
+            if match:
+                return match.group(1)
+        
+        return None
+    
+    def _parse_and_apply_agent_response(
+        self, 
+        response_content: str, 
+        agent_type: str, 
+        request: SpawnRequest
+    ) -> Dict[str, Any]:
+        """Parse agent response and apply changes to files."""
+        try:
+            # Extract code blocks from response
+            import re
+            code_blocks = re.findall(r'```(?:python|py|\w*)\n(.*?)\n```', response_content, re.DOTALL)
+            
+            if not code_blocks:
+                # No code blocks found, treat entire response as explanation
+                return {
+                    "output": response_content,
+                    "artifacts": {"explanation": "No code changes detected"},
+                    "files_modified": []
+                }
+            
+            # Try to identify target file
+            file_path = self._extract_file_path_from_instructions(request.instructions)
+            
+            if file_path and code_blocks:
+                # Apply the first code block to the identified file
+                full_path = Path.cwd() / file_path
+                
+                # Create backup
+                backup_content = None
+                if full_path.exists():
+                    with open(full_path, 'r') as f:
+                        backup_content = f.read()
+                
+                # Write new content
+                with open(full_path, 'w') as f:
+                    f.write(code_blocks[0])
+                
+                # Commit changes to git
+                commit_hash = self._commit_changes(
+                    files=[str(file_path)], 
+                    agent_type=agent_type,
+                    request=request
+                )
+                
+                return {
+                    "output": f"Successfully updated {file_path}",
+                    "artifacts": {
+                        "files_modified": [str(file_path)],
+                        "backup_content": backup_content,
+                        "explanation": response_content,
+                        "commit_hash": commit_hash
+                    },
+                    "files_modified": [str(file_path)]
+                }
+            
+            # If no specific file identified, return explanation
             return {
-                "output": f"Strategic plan created for: {request.instructions}",
-                "artifacts": {"plan": ["strategy.md"]}
+                "output": response_content,
+                "artifacts": {
+                    "code_blocks": code_blocks,
+                    "explanation": "Code provided but no target file identified"
+                },
+                "files_modified": []
             }
+            
+        except Exception as e:
+            return {
+                "output": f"Failed to parse agent response: {str(e)}",
+                "artifacts": {"error": str(e), "raw_response": response_content},
+                "files_modified": []
+            }
+    
+    def _get_model_name(self, model: str) -> str:
+        """Map friendly model names to OpenAI model names."""
+        model_mapping = {
+            "gpt-4": "gpt-4o",
+            "gpt-4o": "gpt-4o",
+            "gpt-4-mini": "gpt-4o-mini",
+            "gpt-4o-mini": "gpt-4o-mini",
+            "gpt-3.5": "gpt-3.5-turbo",
+            "gpt-3.5-turbo": "gpt-3.5-turbo"
+        }
+        return model_mapping.get(model, "gpt-4o")  # Default to gpt-4o
+    
+    def _commit_changes(
+        self, 
+        files: List[str], 
+        agent_type: str, 
+        request: SpawnRequest
+    ) -> Optional[str]:
+        """Commit changes to git repository.
+        
+        Args:
+            files: List of file paths to commit
+            agent_type: Type of agent that made the changes
+            request: Original spawn request
+            
+        Returns:
+            Commit hash if successful, None otherwise
+        """
+        try:
+            # Check if this is a git repository
+            result = subprocess.run(
+                ["git", "rev-parse", "--git-dir"],
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            
+            if result.returncode != 0:
+                print("⚠️ Not a git repository - skipping commit")
+                return None
+            
+            # Stage the files
+            for file_path in files:
+                subprocess.run(
+                    ["git", "add", file_path],
+                    check=True,
+                    timeout=10
+                )
+            
+            # Create commit message
+            commit_message = f"{agent_type} Agent: {request.instructions[:50]}"
+            if len(request.instructions) > 50:
+                commit_message += "..."
+            
+            commit_message += f"\n\nAuto-commit by Fresh autonomous system"
+            commit_message += f"\nAgent: {agent_type}"
+            commit_message += f"\nModel: {request.model}"
+            commit_message += f"\nFiles: {', '.join(files)}"
+            
+            # Commit the changes
+            result = subprocess.run(
+                ["git", "commit", "-m", commit_message],
+                capture_output=True,
+                text=True,
+                timeout=10
+            )
+            
+            if result.returncode == 0:
+                # Get the commit hash
+                hash_result = subprocess.run(
+                    ["git", "rev-parse", "HEAD"],
+                    capture_output=True,
+                    text=True,
+                    timeout=10
+                )
+                
+                if hash_result.returncode == 0:
+                    commit_hash = hash_result.stdout.strip()[:8]  # Short hash
+                    print(f"📝 Committed changes: {commit_hash}")
+                    return commit_hash
+            
+            print(f"⚠️ Git commit failed: {result.stderr}")
+            return None
+            
+        except subprocess.TimeoutExpired:
+            print("⚠️ Git commit timed out")
+            return None
+        except subprocess.CalledProcessError as e:
+            print(f"⚠️ Git commit error: {e}")
+            return None
+        except Exception as e:
+            print(f"⚠️ Unexpected error during commit: {e}")
+            return None
     
     def get_statistics(self) -> Dict[str, Any]:
         """Get statistics about spawned agents."""

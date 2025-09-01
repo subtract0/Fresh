@@ -54,7 +54,10 @@ def calculate_total(items):
     # TODO: Add input validation
     total = 0
     for item in items:
-        total += item.price  # FIXME: Handle missing price attribute
+        if hasattr(item, 'price'):  # Check if price attribute exists
+            total += item.price  # Handle missing price attribute
+        else:
+            print(f"Warning: Item {item} is missing a price attribute.")  # Log a warning
     return total
 
 def process_user_data(user_id):

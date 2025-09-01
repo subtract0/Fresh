@@ -13,6 +13,8 @@ google-cloud-firestore = "^2.16.0"
 rich = "^13.7.0"
 psutil = "^5.9.0"
 pyyaml = "^6.0.2"
+python-dotenv = "^1.0.0"
+openai = "^1.0.0"
 # FastAPI and related dependencies
 fastapi = "^0.110.0"
 uvicorn = {extras = ["standard"], version = "^0.24.0"}
