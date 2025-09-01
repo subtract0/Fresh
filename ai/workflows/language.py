@@ -298,7 +298,8 @@ class WorkflowBuilder:
             self.workflow.workflow_id = workflow_id
         else:
             self.workflow.workflow_id = str(uuid.uuid4())
-            \n        # Validate the workflow
+            
+        # Validate the workflow
         errors = self.workflow.validate()
         if errors:
             raise WorkflowSyntaxError(f"Workflow validation failed: {'; '.join(errors)}")
