@@ -1,0 +1,44 @@
+# Fresh .warp initialization
+# Source this file in Warp to initialize project helpers
+# Usage: source ./.warp
+
+# Ensure Python path and Poetry virtualenv usage
+export PYTHONPATH="$(pwd)"
+
+fresh::setup() {
+  if command -v poetry >/dev/null 2>&1; then
+    poetry install --no-root
+  else
+    echo "Poetry is required. See https://python-poetry.org/docs/" >&2
+    return 1
+  fi
+}
+
+fresh::demo::memory() {
+  poetry run python scripts/demo-persistent-memory.py
+}
+
+fresh::demo::agents() {
+  poetry run python scripts/demo-agent-activity.py
+}
+
+fresh::tests::core() {
+  poetry run pytest -q tests/test_intelligent_memory.py tests/test_firestore_memory.py
+}
+
+fresh::tests::all() {
+  poetry run pytest -q
+}
+
+fresh::docs::check() {
+  python scripts/check_docs_alignment.py --strict
+}
+
+fresh::docs::index() {
+  echo "Open docs/INDEX.md for the documentation hub."
+}
+
+fresh::deploy::status() {
+  python launch_agent_system.py --status 2>/dev/null || true
+}
+

@@ -255,13 +255,11 @@ print('✅ Enhanced agents working')
 ---
 
 ## 📁 Project Structure
-
 ```
 Fresh/
 ├── 📁 ai/
 │   ├── 📁 memory/                    # Memory system implementation
-│   │   ├── store.py                  # Base interfaces and factory
-│   │   ├── in_memory_store.py        # Basic in-memory storage
+│   │   ├── store.py                  # Base interfaces (includes InMemoryMemoryStore)
 │   │   ├── intelligent_store.py      # Auto-classification and search
 │   │   └── firestore_store.py        # Persistent Firestore storage
 │   ├── 📁 agents/
@@ -289,6 +287,7 @@ Fresh/
 │   └── demo-agent-activity.py        # 🆕 Agent activity simulation
 └── 📁 .cursor/rules/
     └── ADR-004.md                    # 🆕 Persistent memory ADR (✅ IMPLEMENTED)
+```
 ```
 
 ---

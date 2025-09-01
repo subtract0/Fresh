@@ -6,6 +6,14 @@
 
 ---
 
+## 🔧 Initialization
+
+In Warp, initialize helper commands for this repo:
+
+```bash
+source ./.warp
+```
+
 ## 🎯 Quick Command Reference
 
 ### Agent Operations
@@ -36,6 +44,14 @@ bash scripts/mvp.sh                         # MVP planning pass
 ```
 
 **Complete Interface Guide**: [Interface Documentation](docs/INTERFACES.md)
+
+### Documentation Guardrails
+```bash
+# Run documentation alignment checks
+fresh::docs::check
+```
+
+See also: [Capabilities vs Claims](docs/CAPABILITIES.md) and [Docs Index](docs/INDEX.md).
 
 This guide provides comprehensive guidance for working with the Fresh agent development ecosystem.
 

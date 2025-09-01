@@ -15,6 +15,9 @@
 
 ## 📋 Complete Documentation Map
 
+### ✅ Capabilities vs Claims
+- [Capabilities vs Claims Matrix](CAPABILITIES.md) — Ground truth mapping of documented features to code evidence and tests
+
 ### 🏗️ Architecture & Design
 - **[📖 README.md](../README.md)** - Project overview, mission, and quick start guide
 - **[🏛️ Architecture Overview](ARCHITECTURE.md)** - System design, agent flows, and component relationships
@@ -57,7 +60,7 @@
 - **[🔍 Monitoring & Observability](MONITORING.md)** - Status monitoring and debugging
 - **[📈 Performance Guidelines](PERFORMANCE.md)** - Optimization and scaling considerations
 - **[⚡ Real-Time Coordination](../ai/coordination/status.py)** - Advanced status updates and dependency management
-- **[🧪 Integration Testing](../tests/test_integration.py)** - Comprehensive system integration tests
+- **[🧪 Integration Testing](../tests/test_mcp_integration.py)** - MCP and system integration tests
 
 ---
 
@@ -65,7 +68,7 @@
 
 ### By Functional Area
 - **Memory & Persistence**: [Memory System](../ai/memory/README.md) ↔ [ADR-003](../.cursor/rules/ADR-003.md) ↔ [ADR-004](../.cursor/rules/ADR-004.md)
-- **Testing & Quality**: [Testing Guide](TESTING.md) ↔ [Quality Gates](QUALITY_GATES.md) ↔ [Integration Tests](../tests/test_integration.py)
+- **Testing & Quality**: [Testing Guide](TESTING.md) ↔ [Quality Gates](QUALITY_GATES.md) ↔ [Integration Tests](../tests/test_mcp_integration.py)
 - **Agent Development**: [Agent Guide](AGENT_DEVELOPMENT.md) ↔ [System Guide](AGENT_SYSTEM_GUIDE.md) ↔ [Tool Reference](TOOLS.md)
 - **Real-Time Execution**: [Execution Monitor](../ai/execution/monitor.py) ↔ [Status Coordinator](../ai/coordination/status.py) ↔ [System Guide](AGENT_SYSTEM_GUIDE.md)
 - **Automation & Integration**: [GitHub Integration](../ai/integration/github.py) ↔ [Telegram Bot](TELEGRAM_BOT.md) ↔ [System Launcher](../launch_agent_system.py)
@@ -77,7 +80,7 @@
 - **Execution Layer**: [Execution Monitor](../ai/execution/monitor.py) → [Status Coordinator](../ai/coordination/status.py) → [Performance Analytics](../ai/analytics/performance.py)
 - **Integration Layer**: [Telegram Bot](TELEGRAM_BOT.md) → [GitHub Integration](../ai/integration/github.py) → [System Launcher](../launch_agent_system.py)
 - **Tool Layer**: [Tool Reference](TOOLS.md) → [MCP Integration](MCP.md) → [Interface Docs](INTERFACES.md)
-- **Quality Layer**: [Contributing](CONTRIBUTING.md) → [Testing](TESTING.md) → [Integration Tests](../tests/test_integration.py)
+- **Quality Layer**: [Contributing](CONTRIBUTING.md) → [Testing](TESTING.md) → [Integration Tests](../tests/test_mcp_integration.py)
 
 ---
 
