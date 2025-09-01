@@ -157,3 +157,7 @@ standalone_workflow_test.py
 # macOS system files
 .DS_Store
 **/.DS_Store
+
+# Local database files
+todos.db
+*.db

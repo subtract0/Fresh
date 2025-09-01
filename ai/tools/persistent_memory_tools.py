@@ -52,11 +52,15 @@ class PersistentMemorySearch(BaseTool):
         memory_type: Optional[str] = Field(None, description="Filter by memory type (goal, task, error, etc.)")
         days_back: Optional[int] = Field(None, description="Limit search to last N days (None for all time)")
     
-    def __init__(self, keywords: List[str], limit: int = 10, memory_type: Optional[str] = None, days_back: Optional[int] = None, **kwargs):
+    def __init__(self, keywords: List[str] = None, limit: int = 10, memory_type: Optional[str] = None, days_back: Optional[int] = None, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['keywords'] = keywords or kwargs.get('keywords', [])
+            kwargs['limit'] = limit if limit != 10 else kwargs.get('limit', 10)
+            kwargs['memory_type'] = memory_type or kwargs.get('memory_type', None)
+            kwargs['days_back'] = days_back or kwargs.get('days_back', None)
             super().__init__(**kwargs)
         else:
-            super().__init__(keywords=keywords, limit=limit, memory_type=memory_type, days_back=days_back, **kwargs)
+            super().__init__(keywords=keywords or [], limit=limit, memory_type=memory_type, days_back=days_back, **kwargs)
             
         if hasattr(self, 'memory_type') and self.memory_type:
             self._parsed_memory_type = MemoryType(self.memory_type)
@@ -129,6 +133,9 @@ class MemoryConsolidation(BaseTool):
     
     def __init__(self, days_back: int = 7, min_importance: float = 0.6, dry_run: bool = True, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['days_back'] = days_back if days_back != 7 else kwargs.get('days_back', 7)
+            kwargs['min_importance'] = min_importance if min_importance != 0.6 else kwargs.get('min_importance', 0.6)
+            kwargs['dry_run'] = dry_run if dry_run != True else kwargs.get('dry_run', True)
             super().__init__(**kwargs)
         else:
             super().__init__(days_back=days_back, min_importance=min_importance, dry_run=dry_run, **kwargs)
@@ -190,6 +197,7 @@ class CrossSessionAnalytics(BaseTool):
     
     def __init__(self, days_back: int = 30, **kwargs):
         if PYDANTIC_AVAILABLE:
+            kwargs['days_back'] = days_back if days_back != 30 else kwargs.get('days_back', 30)
             super().__init__(**kwargs)
         else:
             super().__init__(days_back=days_back, **kwargs)
