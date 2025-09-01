@@ -1,10 +1,22 @@
 from __future__ import annotations
+import os
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Optional
 
 from ai.utils.clock import now as time_now
+try:
+    from ai.monitor.event_bus import get_bus
+except Exception:
+    # Fallback if event bus is unavailable for any reason
+    def get_bus():  # type: ignore
+        class _Nop:
+            def append(self, *_args, **_kwargs):
+                pass
+            def read_recent(self, *_args, **_kwargs):
+                return []
+        return _Nop()
 
 
 class ActivityLevel(Enum):
@@ -41,9 +53,11 @@ class ActivityDetection:
         self.window_seconds = window_seconds
         self.events: deque[ActivityEvent] = deque()
         self.agent_metrics: Dict[str, AgentMetrics] = {}
+        self._persist_write = os.getenv("MONITOR_PERSIST_EVENTS", "0") in ("1", "true", "True")
+        self._persist_read_default = True  # default to read if bus file exists
         
     def record_event(self, event_type: str, agent_name: Optional[str] = None, details: Optional[str] = None) -> None:
-        """Record an activity event."""
+        """Record an activity event (and optionally persist)."""
         event = ActivityEvent(
             timestamp=time_now(),
             event_type=event_type,
@@ -53,6 +67,18 @@ class ActivityDetection:
         self.events.append(event)
         self._cleanup_old_events()
         
+        # Optional persistence for cross-process visibility
+        try:
+            if self._persist_write:
+                get_bus().append({
+                    "timestamp": event.timestamp,
+                    "event_type": event.event_type,
+                    "agent_name": event.agent_name,
+                    "details": event.details,
+                })
+        except Exception:
+            pass
+        
     def _cleanup_old_events(self) -> None:
         """Remove events older than the window."""
         cutoff = time_now() - self.window_seconds
@@ -60,8 +86,29 @@ class ActivityDetection:
             self.events.popleft()
             
     def compute_activity_level(self) -> ActivityLevel:
-        """Compute current activity level based on recent events."""
+        """Compute current activity level based on recent events.
+        If a persistent bus exists and MONITOR_READ_PERSIST is enabled (or default),
+        incorporate recent persisted events for computation.
+        """
         self._cleanup_old_events()
+        
+        try:
+            use_persist = os.getenv("MONITOR_READ_PERSIST")
+            if use_persist is None:
+                use_persist = "1" if self._persist_read_default else "0"
+            if use_persist in ("1", "true", "True"):
+                # Merge recent persisted events into in-memory window for computation
+                persisted = get_bus().read_recent(limit=50)
+                for ev in persisted:
+                    self.events.append(ActivityEvent(
+                        timestamp=float(ev.get("timestamp", time_now())),
+                        event_type=str(ev.get("event_type", "")),
+                        agent_name=ev.get("agent_name"),
+                        details=ev.get("details"),
+                    ))
+                self._cleanup_old_events()
+        except Exception:
+            pass
         
         if not self.events:
             return ActivityLevel.IDLE
@@ -102,7 +149,25 @@ class ActivityDetection:
         return intervals[level]
     
     def get_recent_events(self, limit: int = 10) -> List[ActivityEvent]:
-        """Get recent events for timeline display."""
+        """Get recent events for timeline display. If a persistent bus exists, prefer it."""
+        try:
+            use_persist = os.getenv("MONITOR_READ_PERSIST")
+            if use_persist is None:
+                use_persist = "1" if self._persist_read_default else "0"
+            if use_persist in ("1", "true", "True"):
+                persisted = get_bus().read_recent(limit=limit)
+                if persisted:
+                    return [
+                        ActivityEvent(
+                            timestamp=float(ev.get("timestamp", time_now())),
+                            event_type=str(ev.get("event_type", "")),
+                            agent_name=ev.get("agent_name"),
+                            details=ev.get("details"),
+                        ) for ev in persisted
+                    ]
+        except Exception:
+            pass
+        
         self._cleanup_old_events()
         return list(self.events)[-limit:] if self.events else []
 
