@@ -166,14 +166,22 @@ def demo_enhanced_agency():
     
     # Display agent capabilities
     for agent in agency.agents:
-        print(f"🤖 {agent.name}:")
-        enhanced_tools = [
-            tool.__name__ for tool in agent.tools 
-            if 'Enhanced' in tool.__name__ or 'Smart' in tool.__name__ or 'Semantic' in tool.__name__
-        ]
+        agent_name = getattr(agent, 'name', str(type(agent).__name__))
+        print(f"🤖 {agent_name}:")
+        
+        # Safely access tools
+        agent_tools = getattr(agent, 'tools', [])
+        enhanced_tools = []
+        for tool in agent_tools:
+            tool_name = getattr(tool, '__name__', str(tool))
+            if any(keyword in tool_name for keyword in ['Enhanced', 'Smart', 'Semantic']):
+                enhanced_tools.append(tool_name)
+        
         if enhanced_tools:
             print(f"   🧠 Intelligent tools: {', '.join(enhanced_tools)}")
-        print(f"   📝 Description: {agent.description}")
+        
+        agent_description = getattr(agent, 'description', 'No description available')
+        print(f"   📝 Description: {agent_description}")
         print()
     
     print("🎉 Enhanced Agency ready for intelligent collaboration!")

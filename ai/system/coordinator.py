@@ -136,6 +136,26 @@ class FreshAgentSystem:
             instance=get_store(),
             dependencies=[]
         )
+
+        # Documentation alignment service (optional)
+        try:
+            doc_cfg = config.get("documentation", {}) if isinstance(config, dict) else {}
+            enabled = bool(doc_cfg.get("enabled", True))
+            interval = int(doc_cfg.get("interval_sec", 600))
+            if enabled:
+                from ai.system.docs_alignment import get_docs_alignment_service, DocsAlignmentConfig
+                service = get_docs_alignment_service(DocsAlignmentConfig(enabled=True, interval_sec=interval))
+                self.components["docs_alignment"] = SystemComponent(
+                    name="docs_alignment",
+                    instance=service,
+                    start_method="start",
+                    stop_method="stop",
+                    dependencies=["memory_store"]
+                )
+            else:
+                logger.info("Docs alignment disabled via config")
+        except Exception as e:
+            logger.warning(f"Docs alignment service not registered: {e}")
         
         # Performance analytics (independent)
         try:

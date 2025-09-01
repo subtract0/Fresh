@@ -35,17 +35,42 @@ logger = logging.getLogger(__name__)
 
 def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
     """Load configuration from file or environment."""
+    # Derive some env flags
+    env_text = ""
+    try:
+        if Path(".env").exists():
+            env_text = Path(".env").read_text()
+    except Exception:
+        env_text = ""
+    
+    def env_has(key: str) -> bool:
+        return key in env_text
+    
+    def env_bool(name: str, default: bool) -> bool:
+        import os
+        val = os.getenv(name)
+        if val is None:
+            return default
+        return str(val).lower() not in ("0", "false", "no")
+    
+    def env_int(name: str, default: int) -> int:
+        import os
+        try:
+            return int(os.getenv(name, str(default)))
+        except Exception:
+            return default
+    
     config = {
         "system": {
             "health_check_interval": 30,
             "startup_timeout": 120
         },
         "telegram": {
-            "enabled": bool(Path(".env").exists() and "TELEGRAM_BOT_TOKEN" in open(".env").read()),
+            "enabled": env_has("TELEGRAM_BOT_TOKEN"),
             "authorized_users": []
         },
         "github": {
-            "enabled": bool(Path(".env").exists() and "GITHUB_TOKEN" in open(".env").read()),
+            "enabled": env_has("GITHUB_TOKEN"),
             "auto_pr": True
         },
         "execution": {
@@ -55,6 +80,10 @@ def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
         "analytics": {
             "enabled": True,
             "retention_days": 90
+        },
+        "documentation": {
+            "enabled": env_bool("DOCS_CHECK_ENABLED", True),
+            "interval_sec": env_int("DOCS_CHECK_INTERVAL_SEC", 600)
         }
     }
     
@@ -64,7 +93,7 @@ def load_config(config_path: Optional[str] = None) -> Dict[str, Any]:
                 file_config = json.load(f)
                 # Merge configurations
                 for key, value in file_config.items():
-                    if key in config:
+                    if key in config and isinstance(config[key], dict) and isinstance(value, dict):
                         config[key].update(value)
                     else:
                         config[key] = value
