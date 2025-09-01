@@ -70,7 +70,6 @@ def fetch_from_database(user_id):
     pass
 
 # FIXME: Remove debug print statements before production
-print("Debug: Application loaded")
 """)
     
     # Create test file
