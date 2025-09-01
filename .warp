@@ -65,3 +65,24 @@ fresh::monitor::web() {
   poetry run uvicorn ai.monitor.web:app --host 127.0.0.1 --port "$port"
 }
 
+# Cost monitoring system
+fresh::cost::setup() {
+  poetry run python scripts/setup_cost_monitoring.py
+}
+
+fresh::cost::demo() {
+  poetry run python scripts/setup_cost_monitoring.py --demo
+}
+
+fresh::cost::summary() {
+  poetry run python scripts/setup_cost_monitoring.py --quick
+}
+
+fresh::cost::dashboard() {
+  poetry run python scripts/setup_cost_monitoring.py --dashboard
+}
+
+fresh::cost::examples() {
+  poetry run python scripts/setup_cost_monitoring.py --examples
+}
+
