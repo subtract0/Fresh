@@ -403,13 +403,50 @@ def main():
             print("❌ git commit failed:", cm.stderr.strip())
             return 1
         print(f"✅ Committed assist report on branch {branch}")
+        pushed = False
         if args.push:
             ps = _git(["git", "push", "-u", "origin", branch], cwd=root)
             if ps.returncode != 0:
                 print("⚠️ Push failed:", ps.stderr.strip())
                 print("   You can push manually: git push -u origin", branch)
             else:
+                pushed = True
                 print(f"✅ Pushed branch to origin/{branch}")
+        # Optional: create a draft PR using gh CLI when available
+        if args.create_pr:
+            if not pushed:
+                print("❌ Cannot create PR because branch is not pushed. Re-run with --push or push manually.")
+                return 1
+            # Try gh first
+            gh = _git(["gh", "--version"], cwd=root)
+            pr_title = args.title or f"Assist plan: {out.name}"
+            if gh.returncode == 0:
+                body_file = None
+                body_arg = []
+                if args.body:
+                    body_arg = ["--body", args.body]
+                else:
+                    # Use report content as body
+                    body_file = out
+                    body_arg = ["--body-file", str(body_file.relative_to(root))]
+                pr = _git([
+                    "gh", "pr", "create",
+                    "--base", args.base,
+                    "--head", branch,
+                    "--title", pr_title,
+                    "--draft",
+                    "--label", "assist-plan",
+                    *body_arg
+                ], cwd=root)
+                if pr.returncode != 0:
+                    print("⚠️ gh pr create failed:", pr.stderr.strip())
+                    print("   You can open a PR manually on GitHub.")
+                else:
+                    print("✅ Draft PR created via gh")
+            else:
+                # Fallback: GitHub API could be added; for now, log clear guidance
+                print("⚠️ gh CLI not found. Skipping PR creation.")
+                print("   Install GitHub CLI or open a PR manually using the pushed branch.")
         return 0
 
     # Plan PR command
@@ -421,6 +458,10 @@ def main():
     assist_plan_pr.add_argument('--deny', nargs='*', help='Policy deny override')
     assist_plan_pr.add_argument('--branch', help='Branch name (default chore/assist-plan-YYYYmmdd-HHMM)')
     assist_plan_pr.add_argument('--push', action='store_true', help='Push the branch to origin')
+    assist_plan_pr.add_argument('--create-pr', action='store_true', help='Create a draft PR (requires gh or GITHUB_TOKEN)')
+    assist_plan_pr.add_argument('--base', default='main', help='Base branch for PR (default: main)')
+    assist_plan_pr.add_argument('--title', help='Custom PR title (default generated)')
+    assist_plan_pr.add_argument('--body', help='Custom PR body (default: use report content)')
     assist_plan_pr.add_argument('--force', action='store_true', help='Proceed even if working tree not clean')
     assist_plan_pr.set_defaults(func=cmd_assist_plan_pr)
 
