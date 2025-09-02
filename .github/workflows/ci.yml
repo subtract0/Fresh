@@ -23,6 +23,12 @@ jobs:
           key: poetry-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}
       - name: Ensure tests changed when src changed
         run: bash scripts/check-tests-changed.sh
+      - name: Smoke: fresh health
+        run: |
+          poetry run python -m ai.cli.fresh health
+      - name: Smoke: fresh assist scan (json)
+        run: |
+          poetry run python -m ai.cli.fresh assist scan . --json --limit 5
       - name: Run tests
         run: bash scripts/run-tests.sh
 

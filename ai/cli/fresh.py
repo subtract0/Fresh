@@ -31,6 +31,7 @@ from ai.agents.mother import MotherAgent
 from ai.loop.dev_loop import DevLoop, run_development_cycle
 import asyncio
 from pathlib import Path
+import yaml
 
 
 def cmd_scan(args):
@@ -236,18 +237,41 @@ def main():
     assist_parser = subparsers.add_parser('assist', help='Assistant tooling (safe by default)')
     assist_sub = assist_parser.add_subparsers(dest='assist_cmd', help='Assist subcommands')
 
+    def _load_policy(path: str) -> dict:
+        root = Path(path).resolve()
+        policy_path = root / ".fresh" / "assist.yaml"
+        default = {
+            'allow': None,
+            'deny': ['.git', 'node_modules', 'venv', '.venv', '__pycache__']
+        }
+        try:
+            if policy_path.exists():
+                data = yaml.safe_load(policy_path.read_text(encoding='utf-8')) or {}
+                allow = data.get('allow') or default['allow']
+                deny = data.get('deny') or default['deny']
+                return {'allow': allow, 'deny': deny}
+        except Exception:
+            pass
+        return default
+
+    def _apply_filters(tasks, allow, deny):
+        def allowed_task(t):
+            p = str(t.file_path)
+            if allow and not any(a in p for a in allow):
+                return False
+            if deny and any(d in p for d in deny):
+                return False
+            return True
+        return [t for t in tasks if allowed_task(t)]
+
     def cmd_assist_scan(args) -> int:
         """Safe, dry-run scan for assist mode (JSON or human)."""
         tasks = scan_repository(args.path)
-        # apply allow/deny filters
-        def allowed(t):
-            p = str(t.file_path)
-            if args.allow and not any(a in p for a in args.allow):
-                return False
-            if args.deny and any(d in p for d in args.deny):
-                return False
-            return True
-        tasks = [t for t in tasks if allowed(t)]
+        # load policy and merge CLI filters
+        policy = _load_policy(args.path)
+        allow = args.allow if args.allow is not None else policy['allow']
+        deny = args.deny if args.deny is not None else policy['deny']
+        tasks = _apply_filters(tasks, allow, deny)
         # deterministic ordering
         tasks.sort(key=lambda x: (str(x.file_path), x.line_number or 0, x.type.value))
         summary = {
@@ -279,6 +303,49 @@ def main():
     assist_scan.add_argument('--allow', nargs='*', help='Only include files containing any of these path fragments')
     assist_scan.add_argument('--deny', nargs='*', help='Exclude files containing any of these path fragments')
     assist_scan.set_defaults(func=cmd_assist_scan)
+
+    def cmd_assist_report(args) -> int:
+        tasks = scan_repository(args.path)
+        policy = _load_policy(args.path)
+        allow = args.allow if args.allow is not None else policy['allow']
+        deny = args.deny if args.deny is not None else policy['deny']
+        tasks = _apply_filters(tasks, allow, deny)
+        tasks.sort(key=lambda x: (str(x.file_path), x.line_number or 0, x.type.value))
+        summary = {}
+        for t in tasks:
+            summary[t.type.value] = summary.get(t.type.value, 0) + 1
+        # Build markdown
+        lines = []
+        lines.append(f"# Assist Report\n")
+        lines.append(f"Scanned: {Path(args.path).resolve()}\n")
+        lines.append("\n## Summary\n")
+        total = len(tasks)
+        lines.append(f"- Total findings: {total}")
+        for k in sorted(summary.keys()):
+            lines.append(f"- {k}: {summary[k]}")
+        lines.append("\n## Items\n")
+        for t in tasks[:args.limit]:
+            desc = t.description.replace('\n', ' ')[:200]
+            lines.append(f"- {t.type.value}: `{t.file_path}:{t.line_number}` — {desc}")
+        content = "\n".join(lines) + "\n"
+        out_path = Path(args.out)
+        if out_path.exists() and not args.force:
+            print(f"❌ Refusing to overwrite existing file: {out_path}")
+            print("   Use --force to overwrite.")
+            return 1
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(content, encoding='utf-8')
+        print(f"✅ Report written: {out_path}")
+        return 0
+
+    assist_report = assist_sub.add_parser('report', help='Emit a Markdown report (dry-run)')
+    assist_report.add_argument('path', nargs='?', default='.', help='Path to scan (default: .)')
+    assist_report.add_argument('--out', default='assist_report.md', help='Output markdown file path')
+    assist_report.add_argument('--limit', type=int, default=500, help='Max items to include')
+    assist_report.add_argument('--allow', nargs='*', help='Only include files containing any of these path fragments')
+    assist_report.add_argument('--deny', nargs='*', help='Exclude files containing any of these path fragments')
+    assist_report.add_argument('--force', action='store_true', help='Overwrite if the output file exists')
+    assist_report.set_defaults(func=cmd_assist_report)
 
     # Health command
     health_parser = subparsers.add_parser('health', help='Show health status and version info (JSON)')
