@@ -1,11 +1,23 @@
 # Fresh AI - Enhanced Agent System with Persistent Memory
 
+> Version: v0 (baseline)
+> Status: stable baseline for building on itself, scaffolding new apps, or assisting other repos.
+> Tag: v0
 🧠 **State-of-the-art autonomous AI agents** with persistent memory, continuous learning, and cross-session intelligence. Fresh AI enables agents to learn from experience, make better decisions based on historical context, and improve performance over time.
 
 [![Tests](https://img.shields.io/badge/tests-32%2F32%20passing-brightgreen)](#testing)
 [![Memory System](https://img.shields.io/badge/memory-intelligent%20%2B%20persistent-blue)](#memory-system)
 [![Agents](https://img.shields.io/badge/agents-4%20enhanced-purple)](#enhanced-agents)
 [![Documentation](https://img.shields.io/badge/docs-comprehensive-orange)](#documentation)
+
+## 🎯 Baseline (v0)
+
+This repository is now marked as v0. It is a clean baseline intended for three supported modes:
+- Build on itself (extend Fresh with features incrementally)
+- Scaffold new applications (create projects outside this repo)
+- Assist other repositories (operate as an agent tool against a target repo)
+
+The next versions (v0.1, v0.2, …) will be small, shippable, and independently verifiable MVPs.
 
 ## 🎯 Mission ✅ ACCOMPLISHED
 
