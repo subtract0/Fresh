@@ -43,6 +43,18 @@ poetry run python -m pytest tests/test_intelligent_memory.py tests/test_firestor
 
 🎉 **Result**: Intelligent memory system with 4 enhanced agents ready for autonomous development!
 
+### CLI Quick Start (Assist and Scaffold)
+
+Assist planning (no code changes)
+- Scan: python -m ai.cli.fresh assist scan . --json --limit 10
+- Report: python -m ai.cli.fresh assist report . --out assist_report.md
+- Plan PR: python -m ai.cli.fresh assist plan-pr . --push --create-pr
+See docs/ASSIST.md
+
+Scaffold a Python package
+- python -m ai.cli.fresh scaffold new MyLib ./out --template python-package
+See docs/SCAFFOLD.md
+
 ## 📚 Documentation System
 
 ### 🎯 Core Guides
