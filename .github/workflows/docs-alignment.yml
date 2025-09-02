@@ -1,19 +1,3 @@
-name: Documentation Alignment
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-
-jobs:
-  docs-alignment:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Run docs alignment check
-        run: |
-          python scripts/check_docs_alignment.py --strict
+# CONSOLIDATED INTO ci.yml TO REDUCE EMAIL NOISE
+# This workflow is disabled - docs alignment now runs as part of main CI
 

@@ -1,7 +1,9 @@
 name: Release Notes
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+  # Disabled automatic PR comments to reduce noise
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
 
 jobs:
   notes:

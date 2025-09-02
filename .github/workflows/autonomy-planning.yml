@@ -1,9 +1,10 @@
 name: Daily Autonomous Planning
 
 on:
-  schedule:
-    - cron: "16 5 * * *"  # 05:16 UTC daily
   workflow_dispatch: {}
+  # Disabled daily schedule to reduce email noise
+  # schedule:
+  #   - cron: "16 5 * * *"  # 05:16 UTC daily
 
 permissions:
   contents: write
