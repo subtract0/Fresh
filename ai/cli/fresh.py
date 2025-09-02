@@ -24,6 +24,7 @@ import argparse
 import os
 from pathlib import Path
 from typing import List, Optional
+import subprocess
 
 from ai.loop.repo_scanner import scan_repository, Task, TaskType
 from ai.agents.mother import MotherAgent
@@ -175,6 +176,53 @@ def cmd_run(args):
         return 0
 
 
+def _read_version() -> str:
+    """Read version string from VERSION file (repo root)."""
+    try:
+        root = Path(__file__).resolve().parents[2]
+        version_file = root / "VERSION"
+        if version_file.exists():
+            return version_file.read_text(encoding="utf-8").strip()
+    except Exception:
+        pass
+    return "unknown"
+
+
+def _git_short_sha(default: str = "unknown") -> str:
+    """Return short git sha for the current repo, if available."""
+    try:
+        # Use git rev-parse; fall back to default on error
+        out = subprocess.run(
+            ["git", "rev-parse", "--short=12", "HEAD"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False
+        )
+        sha = out.stdout.strip()
+        return sha or default
+    except Exception:
+        return default
+
+
+def cmd_health(args) -> int:
+    """Print health information as JSON and return 0."""
+    data = {
+        "ok": True,
+        "version": _read_version(),
+        "commit": _git_short_sha(),
+        "cwd": str(Path.cwd()),
+    }
+    print(json.dumps(data, indent=2))
+    return 0
+
+
+def cmd_version(args) -> int:
+    """Print version and commit in a human-friendly format and return 0."""
+    print(f"Fresh version: {_read_version()} ({_git_short_sha()})")
+    return 0
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -184,6 +232,14 @@ def main():
     
     subparsers = parser.add_subparsers(dest='command', help='Commands')
     
+    # Health command
+    health_parser = subparsers.add_parser('health', help='Show health status and version info (JSON)')
+    health_parser.set_defaults(func=cmd_health)
+
+    # Version command
+    version_parser = subparsers.add_parser('version', help='Show version and commit')
+    version_parser.set_defaults(func=cmd_version)
+
     # Scan command
     scan_parser = subparsers.add_parser('scan', help='Scan repository for issues')
     scan_parser.add_argument('path', nargs='?', default='.', help='Repository path (default: current directory)')
