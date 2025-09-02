@@ -101,7 +101,7 @@ class AppGenesisAgent:
         self.workspace_path = Path(workspace_path)
         self.workspace_path.mkdir(exist_ok=True)
         
-        self.client = OpenAI()  # Will use GPT-5 when available
+        self.client = OpenAI()  # Using GPT-5 for superior reasoning
         self.mother_agent = MotherAgent()
         self.senior_reviewer = SeniorReviewer()
         self.github = GitHubPRIntegration()
@@ -142,15 +142,28 @@ class AppGenesisAgent:
         the most critical aspect of their vision."""
         
         try:
-            response = self.client.chat.completions.create(
-                model="gpt-4o",  # Will upgrade to gpt-5 when available
-                messages=[
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": initial_idea}
-                ],
-                temperature=0.7,
-                max_tokens=200
-            )
+            # Try GPT-5 first, fallback to GPT-4o if needed
+            try:
+                response = self.client.chat.completions.create(
+                    model="gpt-5",
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": initial_idea}
+                    ],
+                    temperature=0.7,
+                    max_completion_tokens=200
+                )
+            except Exception as e:
+                print(f"GPT-5 unavailable, falling back to GPT-4o: {e}")
+                response = self.client.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": initial_idea}
+                    ],
+                    temperature=0.7,
+                    max_tokens=200
+                )
             
             first_question = response.choices[0].message.content
             
@@ -215,7 +228,7 @@ class AppGenesisAgent:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-5",
                 messages=[{"role": "user", "content": assessment_prompt}],
                 temperature=0.1,
                 max_tokens=10
@@ -290,7 +303,7 @@ class AppGenesisAgent:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-4o",
+                model="gpt-5",
                 messages=[{"role": "user", "content": spec_prompt}],
                 temperature=0.3,
                 max_tokens=800
@@ -590,7 +603,7 @@ Thumbs.db
             result = self.mother_agent.run(
                 name=f"task_{task.id}",
                 instructions=instructions,
-                model="gpt-4",  # Will be upgraded to gpt-5
+                model="gpt-5",  # Using GPT-5 for development tasks
                 output_type="code"
             )
             
