@@ -1,7 +1,9 @@
-name: ADR Check
+name: ADR Check (manual)
 on:
-  pull_request:
-    types: [opened, edited, synchronize]
+  workflow_dispatch:
+  # Disabled automatic PR triggers to reduce noise
+  # pull_request:
+  #   types: [opened, edited, synchronize]
 jobs:
   adr:
     runs-on: ubuntu-latest

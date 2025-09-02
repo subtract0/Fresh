@@ -7,8 +7,9 @@ on:
         description: Issue number to plan
         required: true
         type: number
-  issues:
-    types: [labeled]
+  # Disabled automatic issue labeling to reduce noise
+  # issues:
+  #   types: [labeled]
 
 permissions:
   contents: write
