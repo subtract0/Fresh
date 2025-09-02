@@ -225,6 +225,19 @@ def cmd_version(args) -> int:
     return 0
 
 
+def _docs_only_allowed(paths: list[str]) -> bool:
+    """Return True if all paths are 'docs-only' (markdown/text or docs/.fresh trees)."""
+    allowed_ext = ('.md', '.rst', '.txt')
+    for p in paths:
+        s = p.replace('\\', '/')
+        if s.startswith('docs/') or s.startswith('.fresh/'):
+            continue
+        if s.endswith(allowed_ext):
+            continue
+        return False
+    return True
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -351,6 +364,7 @@ def main():
     def _git(args_list, cwd: Path) -> subprocess.CompletedProcess:
         return subprocess.run(args_list, cwd=str(cwd), capture_output=True, text=True, timeout=15)
 
+
     def cmd_assist_plan_pr(args) -> int:
         root = Path(args.path).resolve()
         out = Path(args.out)
@@ -396,6 +410,17 @@ def main():
         add = _git(["git", "add", str(out.relative_to(root))], cwd=root)
         if add.returncode != 0:
             print("❌ git add failed:", add.stderr.strip())
+            return 1
+        # Enforce docs-only staged changes
+        staged = _git(["git", "diff", "--staged", "--name-only"], cwd=root)
+        if staged.returncode != 0:
+            print("❌ Failed to inspect staged changes:", staged.stderr.strip())
+            return 1
+        staged_paths = [line.strip() for line in staged.stdout.splitlines() if line.strip()]
+        if not _docs_only_allowed(staged_paths):
+            print("❌ Staged changes include non-docs files. Aborting to keep safe defaults.")
+            print("   Staged:", ", ".join(staged_paths))
+            print("   Allowed: docs/**, .fresh/**, *.md, *.rst, *.txt")
             return 1
         msg = f"docs(assist): add assist report\n\nGenerated safely by 'fresh assist report'"
         cm = _git(["git", "commit", "-m", msg], cwd=root)
