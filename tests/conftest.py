@@ -1,3 +1,22 @@
+import pytest
+
+INTEGRATION_FILES = {
+    "test_mcp_integration.py",
+    "test_telegram_integration.py",
+    "test_agency_bootstrap.py",
+    "test_agency_persistence.py",
+}
+
+
+def pytest_collection_modifyitems(config, items):
+    for item in items:
+        # Mark known integration test modules as integration
+        nodeid = item.nodeid
+        for fname in INTEGRATION_FILES:
+            if nodeid.endswith("::" + fname) or fname in nodeid:
+                item.add_marker(pytest.mark.integration)
+                break
+
 import sys
 from pathlib import Path
 import pytest
@@ -6,6 +25,13 @@ from unittest.mock import patch
 # Ensure project root is importable during tests
 root = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(root))
+
+# Load .env so integration tests like agency_swarm see OPENAI_API_KEY
+try:
+    from dotenv import load_dotenv
+    load_dotenv(dotenv_path=root / ".env")
+except Exception:
+    pass
 
 from ai.utils.clock import MockClock, set_clock, reset_to_system_clock
 
