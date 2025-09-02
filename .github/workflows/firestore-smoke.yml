@@ -5,6 +5,7 @@ on:
 
 jobs:
   smoke:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     if: ${{ secrets.FIREBASE_PROJECT_ID && secrets.FIREBASE_CLIENT_EMAIL && secrets.FIREBASE_PRIVATE_KEY }}
     steps:

@@ -5,6 +5,7 @@ on:
 
 jobs:
   integration:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     env:
       # Use repo secret if provided; otherwise some integration tests will skip safely
