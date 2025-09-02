@@ -32,6 +32,7 @@ from ai.loop.dev_loop import DevLoop, run_development_cycle
 import asyncio
 from pathlib import Path
 import yaml
+from datetime import datetime
 
 
 def cmd_scan(args):
@@ -346,6 +347,82 @@ def main():
     assist_report.add_argument('--deny', nargs='*', help='Exclude files containing any of these path fragments')
     assist_report.add_argument('--force', action='store_true', help='Overwrite if the output file exists')
     assist_report.set_defaults(func=cmd_assist_report)
+
+    def _git(args_list, cwd: Path) -> subprocess.CompletedProcess:
+        return subprocess.run(args_list, cwd=str(cwd), capture_output=True, text=True, timeout=15)
+
+    def cmd_assist_plan_pr(args) -> int:
+        root = Path(args.path).resolve()
+        out = Path(args.out)
+        # Ensure report exists; if not, generate it (still dry-run of code changes)
+        if not out.exists():
+            # Reuse report logic
+            rr = SimpleNamespace(path=str(root), out=str(out), limit=args.limit, allow=args.allow, deny=args.deny, force=True)
+            # We cannot import SimpleNamespace easily; construct minimal by type
+            class _Args:
+                pass
+            _args = _Args()
+            _args.path = str(root)
+            _args.out = str(out)
+            _args.limit = args.limit
+            _args.allow = args.allow
+            _args.deny = args.deny
+            _args.force = True
+            # call direct builder
+            cmd_assist_report(_args)
+        # Git safety: ensure repo
+        res = _git(["git", "rev-parse", "--is-inside-work-tree"], cwd=root)
+        if res.returncode != 0 or res.stdout.strip() != "true":
+            print("❌ Not a git repository:", root)
+            return 1
+        # If not force, ensure clean working tree
+        if not args.force:
+            st = _git(["git", "status", "--porcelain"], cwd=root)
+            if st.returncode != 0:
+                print("❌ git status failed:", st.stderr.strip())
+                return 1
+            dirty = [line for line in st.stdout.splitlines() if line.strip()]
+            if dirty:
+                print("❌ Working tree not clean. Commit or stash changes, or pass --force.")
+                return 1
+        # Create branch name
+        branch = args.branch or f"chore/assist-plan-{datetime.now().strftime('%Y%m%d-%H%M')}"
+        # Create branch from current HEAD
+        co = _git(["git", "checkout", "-b", branch], cwd=root)
+        if co.returncode != 0:
+            print("❌ Failed to create branch:", co.stderr.strip())
+            return 1
+        # Add only report file
+        add = _git(["git", "add", str(out.relative_to(root))], cwd=root)
+        if add.returncode != 0:
+            print("❌ git add failed:", add.stderr.strip())
+            return 1
+        msg = f"docs(assist): add assist report\n\nGenerated safely by 'fresh assist report'"
+        cm = _git(["git", "commit", "-m", msg], cwd=root)
+        if cm.returncode != 0:
+            print("❌ git commit failed:", cm.stderr.strip())
+            return 1
+        print(f"✅ Committed assist report on branch {branch}")
+        if args.push:
+            ps = _git(["git", "push", "-u", "origin", branch], cwd=root)
+            if ps.returncode != 0:
+                print("⚠️ Push failed:", ps.stderr.strip())
+                print("   You can push manually: git push -u origin", branch)
+            else:
+                print(f"✅ Pushed branch to origin/{branch}")
+        return 0
+
+    # Plan PR command
+    assist_plan_pr = assist_sub.add_parser('plan-pr', help='Create a docs-only branch with the assist report (no code changes)')
+    assist_plan_pr.add_argument('path', nargs='?', default='.', help='Path to repo (default: .)')
+    assist_plan_pr.add_argument('--out', default='assist_report.md', help='Report file to include (will be generated if missing)')
+    assist_plan_pr.add_argument('--limit', type=int, default=500, help='Max items in report if generated')
+    assist_plan_pr.add_argument('--allow', nargs='*', help='Policy allow override')
+    assist_plan_pr.add_argument('--deny', nargs='*', help='Policy deny override')
+    assist_plan_pr.add_argument('--branch', help='Branch name (default chore/assist-plan-YYYYmmdd-HHMM)')
+    assist_plan_pr.add_argument('--push', action='store_true', help='Push the branch to origin')
+    assist_plan_pr.add_argument('--force', action='store_true', help='Proceed even if working tree not clean')
+    assist_plan_pr.set_defaults(func=cmd_assist_plan_pr)
 
     # Health command
     health_parser = subparsers.add_parser('health', help='Show health status and version info (JSON)')
