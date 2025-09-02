@@ -56,8 +56,9 @@ class DiscoverMCPServers(BaseTool):
 class CallMCPTool(BaseTool):
     """Safely call an MCP tool with specified arguments."""
     
-    server: str = Field(..., description="MCP server name (browser, research, documentation)")
-    tool: str = Field(..., description="Tool name to call")
+    # Provide safe defaults so the tool can be constructed, then configured
+    server: str = Field(default="browser", description="MCP server name (browser, research, documentation)")
+    tool: str = Field(default="browser_snapshot", description="Tool name to call")
     args: Dict[str, Any] = Field(default_factory=dict, description="Tool arguments")
     
     def run(self) -> Dict[str, Any]:  # type: ignore[override]

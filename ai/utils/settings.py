@@ -14,7 +14,16 @@ def is_offline() -> bool:
 
     Controlled via env FRESH_OFFLINE (1/true/yes/on). The CLI can also set this env
     when the --offline flag is provided.
+
+    Additionally, default to offline-safe behavior when OPENAI_API_KEY is not set.
+    This keeps tests and local development fast and deterministic by avoiding
+    unintended network calls.
     """
     val = os.getenv("FRESH_OFFLINE", "").strip().lower()
-    return val in _TRUE_SET
+    if val in _TRUE_SET:
+        return True
+    # If no OpenAI key is configured, stay offline by default
+    if not os.getenv("OPENAI_API_KEY"):
+        return True
+    return False
 

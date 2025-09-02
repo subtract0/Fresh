@@ -471,15 +471,21 @@ Remember: You are part of a dynamically spawned team working on: {spawn_request.
                 
         return dependency_graph
     
-    async def get_spawn_status(self, request_id: str) -> Dict[str, Any]:
-        """Get status of a spawn request with execution status if available."""
+    def get_spawn_status(self, request_id: str) -> Optional[Dict[str, Any]]:
+        """Get status of a spawn request.
+
+        Synchronous and side-effect free for ease of use in simple integrations/tests.
+        Returns None if there are no spawned agents for the given request yet.
+        """
         # Get spawned agents for this request
         spawned_agents_for_request = [
             agent for agent in self.spawned_agents.values()
             if agent.parent_task == request_id
         ]
+        if not spawned_agents_for_request:
+            return None
         
-        status = {
+        status: Dict[str, Any] = {
             "request_id": request_id,
             "spawned_agents": len(spawned_agents_for_request),
             "agents": [
@@ -493,63 +499,12 @@ Remember: You are part of a dynamically spawned team working on: {spawn_request.
             ]
         }
         
-        # Check if this request has an execution batch
-        if HAS_EXECUTION_SYSTEM and self.execution_monitor:
-            batches = self.execution_monitor.list_active_batches()
-            
-            # Find matching batch
-            matching_batch = None
-            for batch_id, batch in batches.items():
-                if batch.spawn_request_id == request_id:
-                    matching_batch = batch
-                    break
-            
-            if matching_batch:
-                # Add execution status information
-                status["execution_status"] = matching_batch.status.value
-                status["execution_id"] = matching_batch.batch_id
-                status["start_time"] = matching_batch.start_time.isoformat()
-                status["end_time"] = matching_batch.end_time.isoformat() if matching_batch.end_time else None
-                
-                # Add agent execution details
-                agent_details = []
-                for execution in matching_batch.agent_executions:
-                    agent_details.append({
-                        "agent_id": execution.agent.agent_id,
-                        "type": execution.agent.agent_type,
-                        "status": execution.status.value,
-                        "progress": execution.progress_percentage,
-                        "current_step": execution.current_step,
-                        "result": execution.result[:100] + "..." if execution.result and len(execution.result) > 100 else execution.result
-                    })
-                status["agent_executions"] = agent_details
-                
-                # Get coordination status if available
-                if self.status_coordinator:
-                    coordination_id = f"ctx_{request_id}"
-                    summary = await self.status_coordinator.get_status_summary(coordination_id)
-                    
-                    if summary:
-                        status["coordination"] = {
-                            "overall_progress": summary.overall_progress,
-                            "phase_status": summary.phase_status,
-                            "estimated_completion": summary.estimated_completion.isoformat() if summary.estimated_completion else None,
-                            "blocking_dependencies": summary.blocking_dependencies
-                        }
-            else:
-                # No active execution, check history
-                if request_id in self.execution_history:
-                    status.update(self.execution_history[request_id])
-                else:
-                    status["execution_status"] = "unknown"
-        else:
-            # Legacy status
-            status["status"] = "active" if spawned_agents_for_request else "completed"
-        
+        # Legacy/simple status field
+        status["status"] = "active"
         return status
     
-    async def list_active_agents(self) -> List[Dict[str, Any]]:
-        """List all currently active spawned agents with execution status."""
+    def list_active_agents(self) -> List[Dict[str, Any]]:
+        """List all currently active spawned agents (synchronous)."""
         result = [
             {
                 "agent_id": agent.agent_id,
@@ -558,26 +513,10 @@ Remember: You are part of a dynamically spawned team working on: {spawn_request.
                 "status": agent.status,
                 "spawn_time": agent.spawn_time.isoformat(),
                 "parent_task": agent.parent_task,
-                "execution_status": None
             }
             for agent in self.spawned_agents.values()
             if agent.status in ["spawned", "active", "working"]
         ]
-        
-        # Add execution status if available
-        if HAS_EXECUTION_SYSTEM and self.execution_monitor:
-            executions = self.execution_monitor.list_active_executions()
-            
-            # Update agents with execution information
-            for agent_info in result:
-                for exec_id, execution in executions.items():
-                    if execution.agent.agent_id == agent_info["agent_id"]:
-                        agent_info["execution_status"] = execution.status.value
-                        agent_info["execution_id"] = execution.execution_id
-                        agent_info["progress"] = execution.progress_percentage
-                        agent_info["current_step"] = execution.current_step
-                        break
-                        
         return result
     
     def get_spawn_history(self, limit: int = 10) -> List[Dict[str, Any]]:
