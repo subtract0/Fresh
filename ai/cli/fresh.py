@@ -232,6 +232,54 @@ def main():
     
     subparsers = parser.add_subparsers(dest='command', help='Commands')
     
+    # Assist command group
+    assist_parser = subparsers.add_parser('assist', help='Assistant tooling (safe by default)')
+    assist_sub = assist_parser.add_subparsers(dest='assist_cmd', help='Assist subcommands')
+
+    def cmd_assist_scan(args) -> int:
+        """Safe, dry-run scan for assist mode (JSON or human)."""
+        tasks = scan_repository(args.path)
+        # apply allow/deny filters
+        def allowed(t):
+            p = str(t.file_path)
+            if args.allow and not any(a in p for a in args.allow):
+                return False
+            if args.deny and any(d in p for d in args.deny):
+                return False
+            return True
+        tasks = [t for t in tasks if allowed(t)]
+        # deterministic ordering
+        tasks.sort(key=lambda x: (str(x.file_path), x.line_number or 0, x.type.value))
+        summary = {
+            'total': len(tasks),
+            'by_type': {},
+        }
+        for t in tasks:
+            k = t.type.value
+            summary['by_type'][k] = summary['by_type'].get(k, 0) + 1
+        if args.json:
+            out = {
+                'summary': summary,
+                'items': [t.to_dict() for t in tasks[:args.limit]],
+            }
+            print(json.dumps(out, indent=2))
+        else:
+            print(f"Found {summary['total']} items")
+            for k in sorted(summary['by_type'].keys()):
+                print(f"  {k}: {summary['by_type'][k]}")
+            print()
+            for t in tasks[:args.limit]:
+                print(f"• {t.type.value} {t.file_path}:{t.line_number} — {t.description[:80]}")
+        return 0
+
+    assist_scan = assist_sub.add_parser('scan', help='Scan repository safely (dry-run)')
+    assist_scan.add_argument('path', nargs='?', default='.', help='Path to scan (default: .)')
+    assist_scan.add_argument('--json', action='store_true', help='Output JSON')
+    assist_scan.add_argument('--limit', type=int, default=200, help='Max items to emit')
+    assist_scan.add_argument('--allow', nargs='*', help='Only include files containing any of these path fragments')
+    assist_scan.add_argument('--deny', nargs='*', help='Exclude files containing any of these path fragments')
+    assist_scan.set_defaults(func=cmd_assist_scan)
+
     # Health command
     health_parser = subparsers.add_parser('health', help='Show health status and version info (JSON)')
     health_parser.set_defaults(func=cmd_health)
