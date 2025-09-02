@@ -1,0 +1,29 @@
+name: Integration Tests (manual)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    env:
+      # Use repo secret if provided; otherwise some integration tests will skip safely
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Poetry
+        run: |
+          pipx install poetry
+      - name: Cache Poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}-integration
+      - name: Install dependencies
+        run: |
+          poetry install --no-root
+      - name: Run integration tests
+        run: |
+          poetry run pytest -m integration -q

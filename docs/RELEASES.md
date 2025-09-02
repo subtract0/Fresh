@@ -1,5 +1,18 @@
 # Releases
 
+## v0.1.0
+
+Date: 2025-09-02
+
+Highlights:
+- Assist planning workflow: tests for plan-pr, docs-only enforcement, CLI helpers exported
+- Scaffold command: directory placeholder rendering and tests
+- Integration readiness: basic MCP defaults, Telegram dev dependency, .env loaded for tests
+- CI: default unit suite remains clean; manual integration workflow added
+- Docs: ASSIST.md, SCAFFOLD.md, README CLI quickstart
+
+# Releases
+
 ## v0 (baseline)
 - Tag: v0
 - Commit: 638624ab541d
