@@ -19,6 +19,8 @@ from pathlib import Path
 from typing import List, Optional, Dict, Any
 import fnmatch
 
+from ai.utils.settings import TIMEOUT_SECONDS
+
 
 class TaskType(Enum):
     """Types of tasks that can be detected."""
@@ -254,7 +256,8 @@ class RepoScanner:
                 ["git", "diff", "--name-only"],
                 capture_output=True,
                 text=True,
-                cwd=self.repo_path
+                cwd=self.repo_path,
+                timeout=TIMEOUT_SECONDS
             )
             
             if result.returncode == 0 and result.stdout.strip():

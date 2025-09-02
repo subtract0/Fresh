@@ -20,11 +20,12 @@ from collections import defaultdict
 from ai.memory.store import get_store, InMemoryMemoryStore
 from ai.tools.memory_tools import WriteMemory
 from ai.agents.senior_reviewer import SeniorReviewer, ReviewDecision
-from ai.integration.github_pr import GitHubPRIntegration, BranchInfo
 from openai import OpenAI
+from ai.utils.settings import is_offline, TIMEOUT_SECONDS
 import os
 from pathlib import Path
 import subprocess
+from datetime import datetime
 from datetime import datetime
 try:
     from dotenv import load_dotenv
@@ -246,6 +247,14 @@ class MotherAgent:
         then applies the changes to the actual repository files.
         """
         try:
+            # Respect offline mode: skip networked OpenAI calls
+            if is_offline():
+                return {
+                    "output": "Offline mode: skipped OpenAI call",
+                    "artifacts": {"offline": True},
+                    "success": False
+                }
+
             # Initialize OpenAI client
             client = OpenAI()
             
@@ -267,7 +276,7 @@ class MotherAgent:
                     {"role": "user", "content": user_prompt}
                 ],
                 temperature=0.1,  # Low temperature for precise code changes
-                timeout=30.0  # 30 second timeout
+                timeout=float(TIMEOUT_SECONDS)
             )
             print(f"✅ OpenAI call completed")
             
@@ -476,16 +485,19 @@ Output Type: {request.output_type}
             }
     
     def _get_model_name(self, model: str) -> str:
-        """Map friendly model names to OpenAI model names."""
+        """Map friendly model names to OpenAI model names, preferring GPT-5."""
         model_mapping = {
-            "gpt-4": "gpt-4o",
-            "gpt-4o": "gpt-4o",
-            "gpt-4-mini": "gpt-4o-mini",
+            "gpt-5": "gpt-5",  # GPT-5 when available
+            "gpt-4": "gpt-5",  # Upgrade GPT-4 requests to GPT-5
+            "gpt-4o": "gpt-5",  # Upgrade GPT-4o requests to GPT-5
+            "gpt-4-mini": "gpt-4o-mini",  # Keep mini versions
             "gpt-4o-mini": "gpt-4o-mini",
             "gpt-3.5": "gpt-3.5-turbo",
             "gpt-3.5-turbo": "gpt-3.5-turbo"
         }
-        return model_mapping.get(model, "gpt-4o")  # Default to gpt-4o
+        # Try GPT-5 first, fallback to GPT-4o if not available
+        preferred_model = model_mapping.get(model, "gpt-5")
+        return preferred_model
     
     def _commit_changes(
         self, 

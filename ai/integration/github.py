@@ -25,6 +25,8 @@ from typing import Dict, List, Any, Optional
 from pathlib import Path
 from dataclasses import dataclass, field
 
+from ai.utils.settings import TIMEOUT_SECONDS, is_offline
+
 from ai.memory.store import get_store
 from ai.tools.memory_tools import WriteMemory, ReadMemoryContext
 from ai.interface.agent_spawner import SpawnedAgent
@@ -84,6 +86,9 @@ class GitHubIntegration:
             - Memory System: For work context and history
             - Documentation Standards: docs/AGENT_DEVELOPMENT.md#documentation-standards
         """
+        if is_offline():
+            return PRResult(success=False, error_message="Offline mode: skipping PR creation")
+
         if not self.is_configured():
             error_msg = "GitHub integration not configured. Set GITHUB_TOKEN and repo details."
             logger.warning(error_msg)
@@ -197,11 +202,11 @@ class GitHubIntegration:
         """Create a new feature branch for agent work."""
         try:
             # Ensure we're on the base branch and up to date
-            subprocess.run(['git', 'checkout', self.base_branch], check=True)
-            subprocess.run(['git', 'pull', 'origin', self.base_branch], check=True)
+            subprocess.run(['git', 'checkout', self.base_branch], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
+            subprocess.run(['git', 'pull', 'origin', self.base_branch], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             
             # Create and checkout new branch
-            subprocess.run(['git', 'checkout', '-b', branch_name], check=True)
+            subprocess.run(['git', 'checkout', '-b', branch_name], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             logger.info(f"Created feature branch: {branch_name}")
             return True
             
@@ -217,10 +222,10 @@ class GitHubIntegration:
         """Commit all changes made by agents with detailed commit message."""
         try:
             # Add all changes
-            subprocess.run(['git', 'add', '.'], check=True)
+            subprocess.run(['git', 'add', '.'], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             
             # Check if there are actually changes to commit
-            result = subprocess.run(['git', 'diff', '--staged', '--quiet'], capture_output=True)
+            result = subprocess.run(['git', 'diff', '--staged', '--quiet'], capture_output=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             if result.returncode == 0:  # No changes staged
                 logger.info("No changes to commit")
                 return True
@@ -229,7 +234,7 @@ class GitHubIntegration:
             commit_msg = self._generate_commit_message(analysis, completed_agents)
             
             # Commit changes
-            subprocess.run(['git', 'commit', '-m', commit_msg], check=True)
+            subprocess.run(['git', 'commit', '-m', commit_msg], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             logger.info("Successfully committed agent changes")
             return True
             
@@ -240,7 +245,10 @@ class GitHubIntegration:
     async def _push_branch(self, branch_name: str) -> bool:
         """Push the feature branch to remote repository."""
         try:
-            subprocess.run(['git', 'push', 'origin', branch_name], check=True)
+            if is_offline():
+                logger.info("Offline mode: skipping git push")
+                return False
+            subprocess.run(['git', 'push', 'origin', branch_name], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             logger.info(f"Successfully pushed branch: {branch_name}")
             return True
             
@@ -272,6 +280,12 @@ class GitHubIntegration:
     async def _create_pr_with_gh_cli(self, pr_request: GitHubPRRequest) -> PRResult:
         """Create PR using GitHub CLI."""
         try:
+            # Preflight auth to avoid interactive prompts
+            try:
+                subprocess.run(['gh', 'auth', 'status'], check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL, capture_output=True, text=True)
+            except Exception as e:
+                return PRResult(success=False, error_message="GitHub CLI not authenticated: run `gh auth login`.")
+
             cmd = [
                 'gh', 'pr', 'create',
                 '--title', pr_request.title,
@@ -280,7 +294,7 @@ class GitHubIntegration:
                 '--head', pr_request.branch_name
             ]
             
-            result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+            result = subprocess.run(cmd, capture_output=True, text=True, check=True, timeout=TIMEOUT_SECONDS, stdin=subprocess.DEVNULL)
             
             # Parse PR URL from output
             pr_url = result.stdout.strip()
@@ -317,7 +331,7 @@ class GitHubIntegration:
                 'base': self.base_branch
             }
             
-            response = requests.post(url, headers=headers, json=data)
+            response = requests.post(url, headers=headers, json=data, timeout=TIMEOUT_SECONDS)
             response.raise_for_status()
             
             pr_data = response.json()

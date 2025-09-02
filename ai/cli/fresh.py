@@ -21,6 +21,7 @@ from __future__ import annotations
 import sys
 import json
 import argparse
+import os
 from pathlib import Path
 from typing import List, Optional
 
@@ -108,10 +109,16 @@ def cmd_run(args):
     Args:
         args: Parsed command-line arguments
     """
+    # Honor offline flag by setting env (downstream code checks FRESH_OFFLINE)
+    if args.offline:
+        os.environ["FRESH_OFFLINE"] = "1"
+
     if args.watch:
         print("👁️ Starting continuous monitoring mode...")
         print(f"   Scanning every {args.interval} seconds")
         print(f"   Max {args.max_tasks} tasks per cycle")
+        if args.stop_after > 0:
+            print(f"   Will stop after {args.stop_after} cycles")
         print("   Press Ctrl+C to stop\n")
         
         async def watch():
@@ -122,6 +129,7 @@ def cmd_run(args):
                 state_file=Path(".fresh/dev_loop_state.json")
             )
             
+            cycles = 0
             while True:
                 try:
                     results = await loop.run_cycle()
@@ -129,6 +137,11 @@ def cmd_run(args):
                 except Exception as e:
                     print(f"\n❌ Cycle failed: {e}")
                 
+                cycles += 1
+                if args.stop_after and cycles >= args.stop_after:
+                    print(f"\n⏹️ Reached stop-after limit ({args.stop_after} cycles)")
+                    break
+
                 print(f"Waiting {args.interval} seconds...")
                 await asyncio.sleep(args.interval)
         
@@ -192,8 +205,10 @@ def main():
     run_parser.add_argument('--watch', action='store_true', help='Continuous monitoring mode')
     run_parser.add_argument('--max-tasks', type=int, default=5, help='Max tasks per cycle')
     run_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles (watch mode)')
+    run_parser.add_argument('--stop-after', type=int, default=0, help='Stop after N cycles (watch mode)')
     run_parser.add_argument('--dry-run', action='store_true', help='Scan but don\'t execute agents')
     run_parser.add_argument('--dashboard', action='store_true', help='Show real-time dashboard')
+    run_parser.add_argument('--offline', action='store_true', help='Run in offline mode (skip network calls)')
     run_parser.set_defaults(func=cmd_run)
     
     # Monitor command (alias for run --watch --dashboard)
