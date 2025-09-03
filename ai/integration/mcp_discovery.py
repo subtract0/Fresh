@@ -273,7 +273,14 @@ class MCPDiscoverySystem:
         return servers
         
     async def _discover_config_servers(self) -> List[MCPServerInfo]:
-        """Discover MCP servers from configuration files."""
+        """Discover MCP servers from configuration files and environment.
+        
+        Supports the following configuration sources:
+        - ~/.mcp/servers.json, ~/.config/mcp/servers.json, ./mcp_servers.json, ./.mcp/servers.json, /etc/mcp/servers.json
+        - FRESH_MCP_SERVERS_FILE: path to a JSON file with {"servers": {id: {name, url, ...}}}
+        - FRESH_MCP_SERVERS_JSON: JSON string with the same shape as above
+        - FRESH_MCP_SERVER_URLS: comma-separated list of server URLs (IDs auto-generated)
+        """
         servers = []
         
         # Look for MCP configuration files
@@ -285,12 +292,21 @@ class MCPDiscoverySystem:
             Path("/etc/mcp/servers.json")
         ]
         
+        # Include env-provided file path
+        try:
+            import os
+            env_file = os.getenv("FRESH_MCP_SERVERS_FILE")
+            if env_file:
+                config_locations.insert(0, Path(env_file))
+        except Exception:
+            pass
+        
         for config_path in config_locations:
             if config_path.exists():
                 try:
                     with open(config_path, 'r') as f:
                         config = json.load(f)
-                        
+                    
                     if isinstance(config, dict) and 'servers' in config:
                         for server_id, server_config in config['servers'].items():
                             server = MCPServerInfo(
@@ -302,12 +318,52 @@ class MCPDiscoverySystem:
                                 metadata=server_config
                             )
                             servers.append(server)
-                            
                 except (json.JSONDecodeError, KeyError) as e:
                     logger.warning(f"Invalid MCP config file {config_path}: {e}")
                 except Exception as e:
                     logger.warning(f"Failed to read MCP config {config_path}: {e}")
-                    
+        
+        # Environment-provided JSON
+        try:
+            import os
+            env_json = os.getenv("FRESH_MCP_SERVERS_JSON")
+            if env_json:
+                try:
+                    cfg = json.loads(env_json)
+                    if isinstance(cfg, dict) and 'servers' in cfg:
+                        for server_id, server_config in cfg['servers'].items():
+                            server = MCPServerInfo(
+                                server_id=f"env_{server_id}",
+                                name=server_config.get('name', server_id),
+                                url=server_config.get('url'),
+                                discovery_method="environment",
+                                status="configured",
+                                metadata=server_config
+                            )
+                            servers.append(server)
+                except Exception as e:
+                    logger.warning(f"Invalid FRESH_MCP_SERVERS_JSON: {e}")
+        except Exception:
+            pass
+        
+        # Environment-provided URLs (comma-separated)
+        try:
+            import os
+            urls = os.getenv("FRESH_MCP_SERVER_URLS")
+            if urls:
+                for idx, url in enumerate([u.strip() for u in urls.split(',') if u.strip()]):
+                    server = MCPServerInfo(
+                        server_id=f"env_url_{idx+1}",
+                        name=f"Env MCP Server {idx+1}",
+                        url=url,
+                        discovery_method="environment",
+                        status="configured",
+                        metadata={"source": "FRESH_MCP_SERVER_URLS"}
+                    )
+                    servers.append(server)
+        except Exception:
+            pass
+        
         return servers
         
     async def _discover_wellknown_servers(self) -> List[MCPServerInfo]:

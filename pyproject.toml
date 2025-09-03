@@ -28,9 +28,14 @@ httpx = "^0.27.0"
 python-telegram-bot = "^21.4"
 
 [tool.pytest.ini_options]
-addopts = "-q --timeout=5 -m 'not integration'"
+addopts = "-q -ra --strict-markers --timeout=5 -m 'not integration'"
+xfail_strict = true
 timeout = 5
 asyncio_mode = "auto"
+filterwarnings = [
+    "error::DeprecationWarning",
+    "error::ResourceWarning",
+]
 # Only collect tests from the canonical suite
 # Avoid collecting example/demo tests under autonomous_todo_api/
 # which may require optional stacks like SQLAlchemy on unsupported Python versions

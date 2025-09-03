@@ -1,0 +1,56 @@
+name: Weekly Autonomous Scan
+
+on:
+  schedule:
+    - cron: "7 6 * * 1" # Mondays at 06:07 UTC, low-noise weekly cadence
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-autonomous-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Cache Poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: poetry-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}-weekly
+
+      - name: Install dependencies
+        run: |
+          poetry install --no-interaction --no-root
+
+      - name: MCP status
+        env:
+          # Optional: allow environment-based MCP registration
+          FRESH_MCP_SERVERS_FILE: ${{ vars.FRESH_MCP_SERVERS_FILE }}
+          FRESH_MCP_SERVERS_JSON: ${{ vars.FRESH_MCP_SERVERS_JSON }}
+          FRESH_MCP_SERVER_URLS: ${{ vars.FRESH_MCP_SERVER_URLS }}
+        run: |
+          poetry run python -m ai.cli.fresh mcp status | tee mcp_status.json || true
+
+      - name: Assist scan (read-only)
+        run: |
+          poetry run python -m ai.cli.fresh assist scan . --json --limit 500 | tee weekly_scan.json
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-autonomous-scan
+          path: |
+            weekly_scan.json
+            mcp_status.json
+

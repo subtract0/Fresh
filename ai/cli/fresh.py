@@ -484,6 +484,9 @@ def main():
         description='Fresh - Autonomous Development System'
     )
     
+    # Global memory options
+    parser.add_argument('--use-firestore', action='store_true', help='Initialize persistent Firestore memory if available')
+    
     subparsers = parser.add_subparsers(dest='command', help='Commands')
 
     # Scaffold command group
@@ -617,9 +620,51 @@ def main():
             dry_run=False
         ))
     )
+
+    # MCP command group
+    mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
+    mcp_sub = mcp_parser.add_subparsers(dest='mcp_cmd', help='MCP subcommands')
+
+    async def _mcp_status() -> int:
+        from ai.tools.enhanced_mcp import EnhancedMCPTool
+        tool = EnhancedMCPTool()
+        await tool.initialize()
+        status = await tool.get_server_status()
+        print(json.dumps(status, indent=2, default=str))
+        return 0
+
+    async def _mcp_refresh() -> int:
+        from ai.tools.enhanced_mcp import EnhancedMCPTool
+        tool = EnhancedMCPTool()
+        await tool.initialize()
+        info = await tool.refresh_server_discovery()
+        print(json.dumps(info, indent=2, default=str))
+        return 0
+
+    def cmd_mcp_status(args) -> int:
+        return asyncio.run(_mcp_status())
+
+    def cmd_mcp_refresh(args) -> int:
+        return asyncio.run(_mcp_refresh())
+
+    mcp_status = mcp_sub.add_parser('status', help='Show discovered MCP servers')
+    mcp_status.set_defaults(func=cmd_mcp_status)
+
+    mcp_refresh = mcp_sub.add_parser('refresh', help='Force a discovery refresh')
+    mcp_refresh.set_defaults(func=cmd_mcp_refresh)
     
     # Parse arguments
     args = parser.parse_args()
+
+    # Initialize memory system if requested or if env hints at Firestore usage
+    try:
+        if args.use_firestore or os.getenv('FRESH_USE_FIRESTORE', '').lower() in ('1', 'true', 'yes'):
+            from ai.system.memory_integration import MemoryIntegrationManager
+            mgr = MemoryIntegrationManager()
+            status = mgr.initialize_memory_system()
+            print(f"🧠 Memory initialized: {status.get('store_type')} (firestore_connected={status.get('firestore_connected')})")
+    except Exception as e:
+        print(f"⚠️ Memory initialization skipped: {e}")
     
     # Execute command
     if hasattr(args, 'func'):
