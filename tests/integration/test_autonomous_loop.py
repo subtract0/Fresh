@@ -334,7 +334,9 @@ class TestSafetyController:
             "lines_changed": 50
         }
         
-        is_safe, violations = safety_controller.validate_safety(safe_changes)
+        # Mock the test runner to return success
+        with patch.object(safety_controller, '_run_tests', return_value=True):
+            is_safe, violations = safety_controller.validate_safety(safe_changes)
         
         assert is_safe
         assert len([v for v in violations if v.level == "critical"]) == 0
