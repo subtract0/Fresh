@@ -38,3 +38,19 @@
 - **Feature quality control** - each feature must pass our criteria and be actually necessary to prevent codebase bloat.
 - **Test coverage discipline** - test everything once but avoid testing the same thing twice. Each test must validate a unique, necessary condition.
 - **Documentation synchronization** - code, features, and documentation must remain synchronized through automated verification.
+
+## State-of-the-Art Reference Check (Hard Rule)
+
+**MANDATORY BEFORE ANY INTEGRATION WORK:**
+
+Before starting integration, refactoring, or major feature work:
+1. **Check latest documentation and best practices** for all technologies involved
+2. **Verify current API versions and breaking changes** for dependencies
+3. **Review recent architectural patterns** in the ecosystem
+4. **Confirm compliance with latest security practices**
+5. **Update dependencies to latest stable versions** where feasible
+6. **Document reference sources and decisions** in ADRs
+
+This ensures all integration work uses current standards, patterns, and security practices rather than outdated approaches.
+
+**Rationale:** Technical landscapes evolve rapidly. Integration work built on outdated patterns creates immediate technical debt and security vulnerabilities.
