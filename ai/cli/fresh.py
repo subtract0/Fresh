@@ -1129,6 +1129,80 @@ def cmd_auto_stop(args):
         return 1
 
 
+def cmd_product_analyze(args):
+    """Analyze feature using Product Manager agent."""
+    try:
+        from ai.cli.product_commands import analyze_feature
+        from datetime import datetime
+        
+        # Call the click command function
+        analyze_feature(
+            feature_name=args.feature_name,
+            description=args.description,
+            issues=args.issues or [],
+            output=args.output,
+            save_prd=args.save_prd
+        )
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Product analysis failed: {e}")
+        return 1
+
+
+def cmd_product_roadmap(args):
+    """Generate product roadmap."""
+    try:
+        from ai.cli.product_commands import generate_roadmap
+        from datetime import datetime
+        
+        # Call the click command function
+        generate_roadmap(
+            horizon=args.horizon,
+            output=args.output,
+            save=args.save
+        )
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Roadmap generation failed: {e}")
+        return 1
+
+
+def cmd_product_auto(args):
+    """Start product-driven autonomous development."""
+    try:
+        from ai.cli.product_commands import start_product_auto
+        
+        # Call the click command function
+        start_product_auto(
+            agents=args.agents,
+            budget=args.budget,
+            overnight=args.overnight,
+            min_rice=args.min_rice,
+            no_prds=args.no_prds
+        )
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Product autonomous start failed: {e}")
+        return 1
+
+
+def cmd_product_status(args):
+    """Show product development status."""
+    try:
+        from ai.cli.product_commands import product_status
+        
+        # Call the click command function
+        product_status()
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Product status failed: {e}")
+        return 1
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -1408,6 +1482,39 @@ def main():
 
     mcp_refresh = mcp_sub.add_parser('refresh', help='Force a discovery refresh')
     mcp_refresh.set_defaults(func=cmd_mcp_refresh)
+    
+    # Product command group
+    product_parser = subparsers.add_parser('product', help='Product-driven development and analysis')
+    product_sub = product_parser.add_subparsers(dest='product_cmd', help='Product management commands')
+    
+    # Product analyze command
+    product_analyze = product_sub.add_parser('analyze', help='Analyze feature using Product Manager agent')
+    product_analyze.add_argument('feature_name', nargs='?', help='Feature name to analyze')
+    product_analyze.add_argument('--description', '-d', help='Feature description')
+    product_analyze.add_argument('--issues', '-i', action='append', help='Known issues with the feature')
+    product_analyze.add_argument('--output', '-o', choices=['json', 'prd', 'summary'], default='summary', help='Output format')
+    product_analyze.add_argument('--save-prd', action='store_true', help='Save PRD document to docs/prds/')
+    product_analyze.set_defaults(func=cmd_product_analyze)
+    
+    # Product roadmap command
+    product_roadmap = product_sub.add_parser('roadmap', help='Generate product roadmap from feature analysis')
+    product_roadmap.add_argument('--horizon', '-h', type=int, default=90, help='Planning horizon in days')
+    product_roadmap.add_argument('--output', '-o', choices=['json', 'markdown', 'table'], default='table', help='Output format')
+    product_roadmap.add_argument('--save', action='store_true', help='Save roadmap to docs/roadmap.md')
+    product_roadmap.set_defaults(func=cmd_product_roadmap)
+    
+    # Product auto command
+    product_auto = product_sub.add_parser('auto', help='Start product-driven autonomous development')
+    product_auto.add_argument('--agents', '-a', type=int, default=3, help='Maximum number of concurrent agents')
+    product_auto.add_argument('--budget', '-b', type=float, default=5.0, help='API budget limit in EUR')
+    product_auto.add_argument('--overnight', action='store_true', help='Enable overnight autonomous operation')
+    product_auto.add_argument('--min-rice', type=float, default=5.0, help='Minimum RICE score for auto-approval')
+    product_auto.add_argument('--no-prds', action='store_true', help='Disable PRD generation')
+    product_auto.set_defaults(func=cmd_product_auto)
+    
+    # Product status command
+    product_status = product_sub.add_parser('status', help='Show product-driven autonomous development status')
+    product_status.set_defaults(func=cmd_product_status)
     
     # Parse arguments
     args = parser.parse_args()
