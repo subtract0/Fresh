@@ -29,9 +29,12 @@ import subprocess
 from ai.loop.repo_scanner import scan_repository, Task, TaskType
 from ai.agents.mother import MotherAgent
 from ai.loop.dev_loop import DevLoop, run_development_cycle
+from ai.autonomous import AutonomousLoop
 import asyncio
 import yaml
 from datetime import datetime
+import threading
+import signal
 
 
 # Helper functions exposed at module level (used by scaffold and tests)
@@ -477,6 +480,198 @@ def cmd_scaffold_new(args) -> int:
     return 0
 
 
+# Global autonomous loop instance for continuous mode
+_autonomous_loop_instance = None
+_autonomous_loop_thread = None
+
+
+def cmd_autonomous_status(args):
+    """Show autonomous loop status."""
+    from ai.memory.intelligent_store import IntelligentMemoryStore
+    
+    try:
+        # Create autonomous loop instance to check status
+        memory_store = IntelligentMemoryStore()
+        autonomous_loop = AutonomousLoop(
+            working_directory=args.path,
+            memory_store=memory_store
+        )
+        
+        status = autonomous_loop.get_status()
+        
+        print("🤖 Autonomous Loop Status\n")
+        print(f"Running: {'✅ Yes' if status['running'] else '❌ No'}")
+        print(f"Emergency Stopped: {'🚨 Yes' if status['emergency_stopped'] else '✅ No'}")
+        print(f"Total Cycles: {status['total_cycles']}")
+        
+        if status['current_cycle']:
+            print(f"Current Cycle: {status['current_cycle']}")
+        
+        print(f"\n⚙️ Configuration:")
+        for key, value in status['config'].items():
+            print(f"  {key}: {value}")
+        
+        print(f"\n💚 Health Status:")
+        for key, value in status['health'].items():
+            print(f"  {key}: {value}")
+        
+        if status['recent_cycles']:
+            print(f"\n📊 Recent Cycles ({len(status['recent_cycles'])}):")
+            for cycle in status['recent_cycles'][-3:]:  # Show last 3
+                duration = (cycle['end_time'] - cycle['start_time']) if 'end_time' in cycle else 'running'
+                print(f"  • {cycle['cycle_id']}: {cycle['improvements_successful']}/{cycle['improvements_attempted']} successful")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Error checking status: {e}")
+        return 1
+
+
+def cmd_autonomous_cycle(args):
+    """Run single autonomous improvement cycle."""
+    from ai.memory.intelligent_store import IntelligentMemoryStore
+    
+    print(f"🚀 Running autonomous improvement cycle in {args.path}\n")
+    
+    try:
+        # Create autonomous loop instance
+        memory_store = IntelligentMemoryStore()
+        config = {
+            "max_improvements_per_cycle": args.max_improvements,
+            "safety_level": args.safety_level,
+            "dry_run": args.dry_run
+        }
+        
+        autonomous_loop = AutonomousLoop(
+            working_directory=args.path,
+            memory_store=memory_store,
+            config=config
+        )
+        
+        # Run single cycle
+        result = autonomous_loop.run_single_cycle()
+        
+        # Display results
+        duration = (result.end_time - result.start_time).total_seconds()
+        print(f"✅ Cycle completed in {duration:.1f}s")
+        print(f"   Cycle ID: {result.cycle_id}")
+        print(f"   Opportunities found: {result.opportunities_found}")
+        print(f"   Improvements attempted: {result.improvements_attempted}")
+        print(f"   Improvements successful: {result.improvements_successful}")
+        
+        if result.safety_violations:
+            print(f"   Safety violations: {len(result.safety_violations)}")
+            for violation in result.safety_violations:
+                print(f"     • {violation.level}: {violation.message}")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Error running cycle: {e}")
+        return 1
+
+
+def cmd_autonomous_start(args):
+    """Start continuous autonomous loop."""
+    global _autonomous_loop_instance, _autonomous_loop_thread
+    from ai.memory.intelligent_store import IntelligentMemoryStore
+    
+    if _autonomous_loop_instance and _autonomous_loop_instance.running:
+        print("⚠️ Autonomous loop is already running")
+        return 1
+    
+    print(f"🚀 Starting continuous autonomous loop in {args.path}")
+    print(f"   Scan interval: {args.interval}s")
+    print(f"   Max improvements per cycle: {args.max_improvements}")
+    print(f"   Safety level: {args.safety_level}")
+    print(f"   Press Ctrl+C to stop\n")
+    
+    try:
+        # Create autonomous loop instance
+        memory_store = IntelligentMemoryStore()
+        config = {
+            "scan_interval": args.interval,
+            "max_improvements_per_cycle": args.max_improvements,
+            "safety_level": args.safety_level
+        }
+        
+        _autonomous_loop_instance = AutonomousLoop(
+            working_directory=args.path,
+            memory_store=memory_store,
+            config=config
+        )
+        
+        def cycle_callback(result):
+            """Callback for cycle completion."""
+            duration = (result.end_time - result.start_time).total_seconds()
+            print(f"✅ Cycle {result.cycle_id} completed in {duration:.1f}s: {result.improvements_successful}/{result.improvements_attempted} successful")
+        
+        # Start continuous loop
+        _autonomous_loop_instance.start_continuous_loop(callback=cycle_callback)
+        
+        # Wait for interrupt
+        try:
+            while _autonomous_loop_instance.running:
+                threading.Event().wait(1)
+        except KeyboardInterrupt:
+            print("\n⏹️ Stopping autonomous loop...")
+            _autonomous_loop_instance.stop_continuous_loop()
+            print("✅ Autonomous loop stopped")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Error starting continuous loop: {e}")
+        return 1
+
+
+def cmd_autonomous_stop(args):
+    """Stop continuous autonomous loop."""
+    global _autonomous_loop_instance
+    
+    if not _autonomous_loop_instance or not _autonomous_loop_instance.running:
+        print("⚠️ No autonomous loop is currently running")
+        return 1
+    
+    print("⏹️ Stopping autonomous loop...")
+    _autonomous_loop_instance.stop_continuous_loop()
+    print("✅ Autonomous loop stopped")
+    
+    return 0
+
+
+def cmd_autonomous_emergency_stop(args):
+    """Activate emergency stop."""
+    print(f"🚨 Activating emergency stop: {args.reason}")
+    
+    # This is a simple implementation - in production we'd want to
+    # connect to any running autonomous loop instances
+    emergency_file = Path(".emergency_stop")
+    emergency_file.write_text(f"Emergency stop activated: {args.reason}\nTime: {datetime.now().isoformat()}")
+    
+    print("✅ Emergency stop activated")
+    print("   All autonomous operations will be halted")
+    print("   Use 'fresh autonomous clear-emergency' to resume")
+    
+    return 0
+
+
+def cmd_autonomous_clear_emergency(args):
+    """Clear emergency stop."""
+    emergency_file = Path(".emergency_stop")
+    
+    if not emergency_file.exists():
+        print("✅ No emergency stop is active")
+        return 0
+    
+    print("🔄 Clearing emergency stop...")
+    emergency_file.unlink()
+    print("✅ Emergency stop cleared - autonomous operations can resume")
+    
+    return 0
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -594,6 +789,44 @@ def main():
     spawn_parser.add_argument('--output', default='code', choices=['code', 'tests', 'docs', 'design', 'review'],
                              help='Expected output type')
     spawn_parser.set_defaults(func=cmd_spawn)
+    
+    # Autonomous Loop commands
+    autonomous_parser = subparsers.add_parser('autonomous', help='Control autonomous improvement loop')
+    autonomous_sub = autonomous_parser.add_subparsers(dest='autonomous_cmd', help='Autonomous loop commands')
+    
+    # Status command
+    autonomous_status = autonomous_sub.add_parser('status', help='Show autonomous loop status')
+    autonomous_status.add_argument('--path', default='.', help='Working directory path')
+    autonomous_status.set_defaults(func=cmd_autonomous_status)
+    
+    # Run single cycle
+    autonomous_cycle = autonomous_sub.add_parser('cycle', help='Run single autonomous improvement cycle')
+    autonomous_cycle.add_argument('--path', default='.', help='Working directory path')
+    autonomous_cycle.add_argument('--max-improvements', type=int, default=3, help='Max improvements per cycle')
+    autonomous_cycle.add_argument('--safety-level', choices=['low', 'medium', 'high'], default='high', help='Safety level')
+    autonomous_cycle.add_argument('--dry-run', action='store_true', help='Dry run without actual changes')
+    autonomous_cycle.set_defaults(func=cmd_autonomous_cycle)
+    
+    # Start continuous mode
+    autonomous_start = autonomous_sub.add_parser('start', help='Start continuous autonomous loop')
+    autonomous_start.add_argument('--path', default='.', help='Working directory path')
+    autonomous_start.add_argument('--interval', type=int, default=3600, help='Scan interval in seconds')
+    autonomous_start.add_argument('--max-improvements', type=int, default=5, help='Max improvements per cycle')
+    autonomous_start.add_argument('--safety-level', choices=['low', 'medium', 'high'], default='high', help='Safety level')
+    autonomous_start.set_defaults(func=cmd_autonomous_start)
+    
+    # Stop continuous mode
+    autonomous_stop = autonomous_sub.add_parser('stop', help='Stop continuous autonomous loop')
+    autonomous_stop.set_defaults(func=cmd_autonomous_stop)
+    
+    # Emergency stop
+    autonomous_emergency = autonomous_sub.add_parser('emergency-stop', help='Activate emergency stop')
+    autonomous_emergency.add_argument('reason', help='Reason for emergency stop')
+    autonomous_emergency.set_defaults(func=cmd_autonomous_emergency_stop)
+    
+    # Clear emergency stop
+    autonomous_clear = autonomous_sub.add_parser('clear-emergency', help='Clear emergency stop')
+    autonomous_clear.set_defaults(func=cmd_autonomous_clear_emergency)
     
     # Run command
     run_parser = subparsers.add_parser('run', help='Run autonomous development loop')
