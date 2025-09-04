@@ -225,36 +225,42 @@ class AutonomousOrchestrator:
     async def _get_available_features(self) -> List[Dict[str, Any]]:
         """Get list of features available for autonomous improvement."""
         try:
-            # Run feature inventory to get current state
-            result = subprocess.run(['poetry', 'run', 'python', 'scripts/feature_inventory.py', '--format', 'json'], 
-                                  capture_output=True, text=True, timeout=60)
+            # Read from existing feature inventory file (faster and more reliable)
+            inventory_path = Path('docs/feature_inventory.json')
+            if not inventory_path.exists():
+                # If file doesn't exist, run the CLI to generate it
+                result = subprocess.run(['poetry', 'run', 'python', '-m', 'ai.cli.fresh', 'feature', 'inventory'], 
+                                      capture_output=True, text=True, timeout=120)
+                logger.info(f"Generated feature inventory (returncode: {result.returncode})")
             
-            if result.returncode != 0:
-                logger.warning("Failed to get feature inventory")
+            if not inventory_path.exists():
+                logger.warning("Feature inventory file not found after generation")
                 return []
             
-            # Parse inventory
-            try:
-                inventory = json.loads(result.stdout.split('\n')[-2])  # Get JSON from output
-            except:
-                # Fallback: read from file
-                with open('docs/feature_inventory.json') as f:
-                    inventory = json.load(f)
+            # Parse inventory from JSON file
+            with open(inventory_path) as f:
+                inventory = json.load(f)
             
-            # Filter for good targets
+            # Filter for features that need improvement (have quality issues)
             suitable_features = []
             for feature in inventory.get('features', []):
-                if (feature.get('necessary', False) and 
-                    not feature.get('hooked_up', True) and
-                    feature.get('quality_score', 0) > 0.3 and
-                    len(feature.get('issues', [])) > 0):
+                issues = feature.get('issues', [])
+                
+                # Look for features with actionable quality issues
+                if (len(issues) > 0 and
+                    feature.get('necessary', True) and  # Only work on necessary features
+                    feature.get('quality_score', 0) < 0.9):  # Has room for improvement
                     
                     # Skip if already being worked on
                     feature_name = feature['name']
                     if any(agent.target_feature == feature_name for agent in self.agents.values()):
                         continue
                     
-                    suitable_features.append(feature)
+                    # Prioritize features with hookup and testing issues (easier to fix)
+                    priority_issues = [i for i in issues if 'test coverage' in i or 'not accessible' in i or 'interface' in i]
+                    if priority_issues:
+                        feature['priority_issues'] = priority_issues
+                        suitable_features.append(feature)
             
             # Sort by strategy
             if self.config.feature_selection_strategy == "highest_impact":

@@ -1498,7 +1498,7 @@ def main():
     
     # Product roadmap command
     product_roadmap = product_sub.add_parser('roadmap', help='Generate product roadmap from feature analysis')
-    product_roadmap.add_argument('--horizon', '-h', type=int, default=90, help='Planning horizon in days')
+    product_roadmap.add_argument('--horizon', '-t', type=int, default=90, help='Planning horizon in days')
     product_roadmap.add_argument('--output', '-o', choices=['json', 'markdown', 'table'], default='table', help='Output format')
     product_roadmap.add_argument('--save', action='store_true', help='Save roadmap to docs/roadmap.md')
     product_roadmap.set_defaults(func=cmd_product_roadmap)
