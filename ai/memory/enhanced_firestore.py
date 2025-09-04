@@ -25,9 +25,9 @@ from ai.memory.store import MemoryStore, MemoryItem
 from ai.memory.intelligent_store import (
     IntelligentMemoryStore, 
     EnhancedMemoryItem, 
-from ai.monitor.firestore_tracker import wrap_firestore_client
     MemoryType
 )
+from ai.monitor.firestore_tracker import wrap_firestore_client
 
 
 class EnhancedFirestoreMemoryStore(IntelligentMemoryStore):

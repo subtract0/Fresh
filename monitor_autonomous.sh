@@ -20,9 +20,9 @@ while true; do
         echo "----------------"
         
         # Get latest cost and runtime info
-        LATEST_COST=$(tail -100 orchestration_20agents.log | grep "💰 Cost:" | tail -1 | sed 's/.*Cost: \$\([0-9.]*\).*/\1/')
-        LATEST_BUDGET=$(tail -100 orchestration_20agents.log | grep "💰 Cost:" | tail -1 | sed 's/.*\$\([0-9.]*\)$/\1/')
-        LATEST_RUNTIME=$(tail -100 orchestration_20agents.log | grep "⏱️ Runtime:" | tail -1 | sed 's/.*Runtime: \([0-9.]*\) minutes/\1/')
+        LATEST_COST=$(tail -100 live_agent.log | grep "💰 Cost:" | tail -1 | sed 's/.*Cost: \$\([0-9.]*\).*/\1/')
+        LATEST_BUDGET=$(tail -100 live_agent.log | grep "💰 Cost:" | tail -1 | sed 's/.*\$\([0-9.]*\)$/\1/')
+        LATEST_RUNTIME=$(tail -100 live_agent.log | grep "⏱️ Runtime:" | tail -1 | sed 's/.*Runtime: \([0-9.]*\) minutes/\1/')
         
         if [ -n "$LATEST_COST" ] && [ -n "$LATEST_RUNTIME" ] && [ -n "$LATEST_BUDGET" ]; then
             COST_FLOAT=$(echo "$LATEST_COST" | bc -l 2>/dev/null || echo "$LATEST_COST")
@@ -53,9 +53,9 @@ while true; do
         echo "-----------------"
         
         # Count active agents from latest status
-        ACTIVE_AGENTS=$(tail -100 orchestration_20agents.log | grep "📊 Status:" | tail -1 | sed 's/.*Status: \([0-9]*\) active.*/\1/')
-        COMPLETED_AGENTS=$(tail -100 orchestration_20agents.log | grep "📊 Status:" | tail -1 | sed 's/.*active, \([0-9]*\) completed.*/\1/')
-        FAILED_AGENTS=$(tail -100 orchestration_20agents.log | grep "📊 Status:" | tail -1 | sed 's/.*completed, \([0-9]*\) failed/\1/')
+        ACTIVE_AGENTS=$(tail -100 live_agent.log | grep "📊 Status:" | tail -1 | sed 's/.*Status: \([0-9]*\) active.*/\1/')
+        COMPLETED_AGENTS=$(tail -100 live_agent.log | grep "📊 Status:" | tail -1 | sed 's/.*active, \([0-9]*\) completed.*/\1/')
+        FAILED_AGENTS=$(tail -100 live_agent.log | grep "📊 Status:" | tail -1 | sed 's/.*completed, \([0-9]*\) failed/\1/')
         
         if [ -n "$ACTIVE_AGENTS" ]; then
             echo "   Active: $ACTIVE_AGENTS agents"
@@ -69,7 +69,7 @@ while true; do
         echo ""
         echo "🚀 RECENT AGENT SPAWNS (Last 5):"
         echo "--------------------------------"
-        tail -50 orchestration_20agents.log | grep "🚀.*starting work on" | tail -5 | while read line; do
+        tail -50 live_agent.log | grep "🚀.*starting work on" | tail -5 | while read line; do
             AGENT_ID=$(echo "$line" | sed 's/.*Agent \([a-f0-9]*\) starting.*/\1/')
             FEATURE=$(echo "$line" | sed 's/.*starting work on \(.*\)/\1/')
             echo "   Agent $AGENT_ID → $FEATURE"
@@ -90,7 +90,7 @@ while true; do
         echo ""
         echo "⚠️  RECENT ISSUES (Last 3):"
         echo "---------------------------"
-        RECENT_ERRORS=$(tail -20 orchestration_20agents.log | grep "ERROR" | tail -3)
+        RECENT_ERRORS=$(tail -20 live_agent.log | grep "ERROR" | tail -3)
         if [ -n "$RECENT_ERRORS" ]; then
             echo "$RECENT_ERRORS" | sed 's/^/   /'
         else

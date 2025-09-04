@@ -31,6 +31,11 @@ try:
 except ImportError:
     pass  # dotenv not available, use system env vars
 
+try:
+    from openai import OpenAI
+except ImportError:
+    OpenAI = None  # OpenAI not available
+
 
 @dataclass
 class ChildAgent:
@@ -475,6 +480,12 @@ class MotherAgent:
                 }
 
             # Initialize OpenAI client
+            if OpenAI is None:
+                return {
+                    "output": "OpenAI not available: python package not installed",
+                    "artifacts": {"openai_available": False},
+                    "success": False
+                }
             client = OpenAI()
             
             # Get current working directory context
