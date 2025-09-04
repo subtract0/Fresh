@@ -19,9 +19,11 @@ def test_file_modification():
     # TODO: Add input validation
     return x + y
 
-def process_data():
-    # FIXME: Handle empty data case
-    pass
+def process_data(data=None):
+    # Handle empty data case properly
+    if not data:
+        return []
+    return data
 '''
     
     test_file.write_text(original_content)

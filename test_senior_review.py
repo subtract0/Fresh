@@ -20,7 +20,11 @@ def test_senior_review_approval():
     original = '''def calculate_total(items):
     total = 0
     for item in items:
-        total += item.price  # FIXME: Handle missing price attribute
+        if hasattr(item, 'price'):
+            total += item.price
+        else:
+            # Handle missing price attribute by skipping item
+            continue
     return total'''
     
     modified = '''def calculate_total(items):

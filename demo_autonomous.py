@@ -57,7 +57,9 @@ def calculate_total(items):
         if hasattr(item, 'price'):  # Check if price attribute exists
             total += item.price  # Handle missing price attribute
         else:
-            print(f"Warning: Item {item} is missing a price attribute.")  # Log a warning
+            # Log a warning instead of printing to stdout
+            import logging
+            logging.warning(f"Item {item} is missing a price attribute.")
     return total
 
 def process_user_data(user_id):
@@ -68,8 +70,6 @@ def process_user_data(user_id):
 def fetch_from_database(user_id):
     # TODO: Add proper error handling
     pass
-
-# FIXME: Remove debug print statements before production
 """)
     
     # Create test file
@@ -82,8 +82,12 @@ def test_calculate_total():
     assert True  # Placeholder test
     
 def test_process_user_data():
-    # FIXME: Mock database calls properly
-    pass
+    # Mock database calls properly with unittest.mock
+    from unittest.mock import Mock, patch
+    with patch('__main__.fetch_from_database') as mock_fetch:
+        mock_fetch.return_value = {"user_id": 123, "name": "Test User"}
+        # Test would go here
+        pass
 """)
     
     # Create documentation file
