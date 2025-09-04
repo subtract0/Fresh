@@ -29,3 +29,12 @@
 - If something is not okay or needs to be fixed, that is the highest priority before adding new features.
 - We never ship unfinished code.
 - We never start a new feature unless everything else is clean, simple, tidy, well‑tested, and persistently documented so a new agent instance can easily understand the project status and continue from there.
+
+## Self-Documenting Loop (Core Implementation Rule)
+
+- **Always implement what you build.** No feature or function should exist without being properly connected and functional.
+- **Maintain feature documentation** that lists all features and identifies those not properly hooked up.
+- **Hook up features properly** - ensure each feature is connected to the system and accessible through appropriate interfaces.
+- **Feature quality control** - each feature must pass our criteria and be actually necessary to prevent codebase bloat.
+- **Test coverage discipline** - test everything once but avoid testing the same thing twice. Each test must validate a unique, necessary condition.
+- **Documentation synchronization** - code, features, and documentation must remain synchronized through automated verification.

@@ -667,6 +667,111 @@ def cmd_autonomous_clear_emergency(args):
     return 0
 
 
+def cmd_feature_inventory(args):
+    """Run feature inventory to identify unhooked features and quality issues."""
+    print("🔍 Running comprehensive feature inventory...")
+    
+    try:
+        # Import and run the feature scanner
+        import subprocess
+        import sys
+        
+        script_path = Path(__file__).parent.parent.parent / "scripts" / "feature_inventory.py"
+        
+        result = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True,
+            text=True,
+            cwd=str(Path.cwd())
+        )
+        
+        # Print the output
+        print(result.stdout)
+        
+        if result.stderr:
+            print("⚠️ Warnings:")
+            print(result.stderr)
+        
+        return result.returncode
+        
+    except Exception as e:
+        print(f"❌ Error running feature inventory: {e}")
+        return 1
+
+
+def cmd_feature_validate(args):
+    """Validate that all features meet quality standards."""
+    print("✅ Running feature validation...")
+    
+    # Run inventory first
+    result = cmd_feature_inventory(args)
+    
+    if result != 0:
+        print("❌ Feature validation failed due to quality issues.")
+        print("Address issues before adding new features.")
+        return 1
+    
+    print("✅ All features meet quality standards.")
+    return 0
+
+
+def cmd_feature_hook_missing(args):
+    """Hook up features that are implemented but not accessible."""
+    print("🔌 Identifying features that need to be hooked up...")
+    
+    try:
+        # This would analyze the feature inventory JSON and suggest hookups
+        feature_json_path = Path("docs") / "feature_inventory.json"
+        
+        if not feature_json_path.exists():
+            print("No feature inventory found. Run 'fresh feature inventory' first.")
+            return 1
+        
+        with open(feature_json_path, 'r') as f:
+            import json
+            inventory = json.load(f)
+        
+        unhooked_features = []
+        for feature in inventory.get('features', []):
+            if feature['implemented'] and not feature['hooked_up']:
+                unhooked_features.append(feature)
+        
+        if not unhooked_features:
+            print("✅ All implemented features are properly hooked up!")
+            return 0
+        
+        print(f"🔴 Found {len(unhooked_features)} features that need hookup:")
+        
+        for feature in unhooked_features:
+            print(f"\n• **{feature['name']}** (`{feature['module_path']}`):")
+            print(f"  Description: {feature['description']}")
+            print(f"  Suggestions:")
+            
+            # Generate hookup suggestions
+            if 'command' in feature['name'].lower() or 'cmd' in feature['name'].lower():
+                print(f"    - Add CLI command in ai/cli/fresh.py")
+                print(f"    - Add subparser with: cmd_{feature['name'].lower()}")
+            
+            if any(indicator in feature['name'].lower() for indicator in ['agent', 'tool', 'processor']):
+                print(f"    - Add to appropriate agent's tool list")
+                print(f"    - Add CLI wrapper command if user-facing")
+            
+            if 'loop' in feature['name'].lower() or 'engine' in feature['name'].lower():
+                print(f"    - Add to autonomous loop integration")
+                print(f"    - Add configuration options")
+        
+        print(f"\n📝 Next steps:")
+        print(f"1. Review the suggestions above")
+        print(f"2. Implement appropriate CLI/API hooks")
+        print(f"3. Run 'fresh feature inventory' to verify")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Error analyzing features: {e}")
+        return 1
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -822,6 +927,22 @@ def main():
     # Clear emergency stop
     autonomous_clear = autonomous_sub.add_parser('clear-emergency', help='Clear emergency stop')
     autonomous_clear.set_defaults(func=cmd_autonomous_clear_emergency)
+    
+    # Feature command group
+    feature_parser = subparsers.add_parser('feature', help='Feature management and self-documenting loop')
+    feature_sub = feature_parser.add_subparsers(dest='feature_cmd', help='Feature management commands')
+    
+    # Feature inventory
+    feature_inventory = feature_sub.add_parser('inventory', help='Run comprehensive feature inventory')
+    feature_inventory.set_defaults(func=cmd_feature_inventory)
+    
+    # Feature validation
+    feature_validate = feature_sub.add_parser('validate', help='Validate all features meet quality standards')
+    feature_validate.set_defaults(func=cmd_feature_validate)
+    
+    # Hook up missing features
+    feature_hook = feature_sub.add_parser('hook-missing', help='Identify and suggest hookups for unconnected features')
+    feature_hook.set_defaults(func=cmd_feature_hook_missing)
     
     # Run command
     run_parser = subparsers.add_parser('run', help='Run autonomous development loop')
