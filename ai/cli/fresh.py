@@ -490,36 +490,33 @@ def cmd_autonomous_status(args):
     from ai.memory.intelligent_store import IntelligentMemoryStore
     
     try:
+        # Get working directory - default to current directory if not provided
+        working_dir = getattr(args, 'path', Path.cwd())
+        
         # Create autonomous loop instance to check status
         memory_store = IntelligentMemoryStore()
         autonomous_loop = AutonomousLoop(
-            working_directory=args.path,
+            working_directory=working_dir,
             memory_store=memory_store
         )
         
-        status = autonomous_loop.get_status()
+        # Check if running using running attribute
+        is_running = autonomous_loop.running
         
         print("🤖 Autonomous Loop Status\n")
-        print(f"Running: {'✅ Yes' if status['running'] else '❌ No'}")
-        print(f"Emergency Stopped: {'🚨 Yes' if status['emergency_stopped'] else '✅ No'}")
-        print(f"Total Cycles: {status['total_cycles']}")
+        print(f"Running: {'✅ Yes' if is_running else '❌ No'}")
         
-        if status['current_cycle']:
-            print(f"Current Cycle: {status['current_cycle']}")
+        # Check for emergency stop flag
+        emergency_file = Path(".emergency_stop")
+        emergency_active = emergency_file.exists()
+        print(f"Emergency Stopped: {'🚨 Yes' if emergency_active else '✅ No'}")
         
-        print(f"\n⚙️ Configuration:")
-        for key, value in status['config'].items():
-            print(f"  {key}: {value}")
-        
-        print(f"\n💚 Health Status:")
-        for key, value in status['health'].items():
-            print(f"  {key}: {value}")
-        
-        if status['recent_cycles']:
-            print(f"\n📊 Recent Cycles ({len(status['recent_cycles'])}):")
-            for cycle in status['recent_cycles'][-3:]:  # Show last 3
-                duration = (cycle['end_time'] - cycle['start_time']) if 'end_time' in cycle else 'running'
-                print(f"  • {cycle['cycle_id']}: {cycle['improvements_successful']}/{cycle['improvements_attempted']} successful")
+        if emergency_active:
+            try:
+                emergency_content = emergency_file.read_text()
+                print(f"Emergency Reason: {emergency_content.split('Emergency stop activated: ')[1].split('\\n')[0]}")
+            except:
+                print("Emergency Reason: Unknown")
         
         return 0
         
@@ -532,19 +529,22 @@ def cmd_autonomous_cycle(args):
     """Run single autonomous improvement cycle."""
     from ai.memory.intelligent_store import IntelligentMemoryStore
     
-    print(f"🚀 Running autonomous improvement cycle in {args.path}\n")
+    # Get working directory - default to current directory if not provided
+    working_dir = getattr(args, 'path', Path.cwd())
+    
+    print(f"🚀 Running autonomous improvement cycle in {working_dir}\n")
     
     try:
         # Create autonomous loop instance
         memory_store = IntelligentMemoryStore()
         config = {
-            "max_improvements_per_cycle": args.max_improvements,
-            "safety_level": args.safety_level,
-            "dry_run": args.dry_run
+            "max_improvements_per_cycle": getattr(args, 'max_improvements', 5),
+            "safety_level": getattr(args, 'safety_level', 'medium'),
+            "dry_run": getattr(args, 'dry_run', False)
         }
         
         autonomous_loop = AutonomousLoop(
-            working_directory=args.path,
+            working_directory=working_dir,
             memory_store=memory_store,
             config=config
         )
@@ -552,18 +552,18 @@ def cmd_autonomous_cycle(args):
         # Run single cycle
         result = autonomous_loop.run_single_cycle()
         
-        # Display results
-        duration = (result.end_time - result.start_time).total_seconds()
-        print(f"✅ Cycle completed in {duration:.1f}s")
-        print(f"   Cycle ID: {result.cycle_id}")
-        print(f"   Opportunities found: {result.opportunities_found}")
-        print(f"   Improvements attempted: {result.improvements_attempted}")
-        print(f"   Improvements successful: {result.improvements_successful}")
-        
-        if result.safety_violations:
-            print(f"   Safety violations: {len(result.safety_violations)}")
-            for violation in result.safety_violations:
-                print(f"     • {violation.level}: {violation.message}")
+        # Display results - handle different result formats
+        if isinstance(result, dict):
+            print(f"✅ Cycle completed")
+            print(f"   Status: {result.get('status', 'unknown')}")
+            print(f"   Changes: {result.get('changes', 0)}")
+        else:
+            # Handle structured result object if available
+            print(f"✅ Cycle completed")
+            if hasattr(result, 'cycle_id'):
+                print(f"   Cycle ID: {result.cycle_id}")
+            if hasattr(result, 'improvements_successful'):
+                print(f"   Improvements: {result.improvements_successful}")
         
         return 0
         
@@ -577,47 +577,42 @@ def cmd_autonomous_start(args):
     global _autonomous_loop_instance, _autonomous_loop_thread
     from ai.memory.intelligent_store import IntelligentMemoryStore
     
-    if _autonomous_loop_instance and _autonomous_loop_instance.running:
+    if _autonomous_loop_instance and hasattr(_autonomous_loop_instance, 'running') and _autonomous_loop_instance.running:
         print("⚠️ Autonomous loop is already running")
         return 1
     
-    print(f"🚀 Starting continuous autonomous loop in {args.path}")
-    print(f"   Scan interval: {args.interval}s")
-    print(f"   Max improvements per cycle: {args.max_improvements}")
-    print(f"   Safety level: {args.safety_level}")
+    # Get working directory - default to current directory if not provided
+    working_dir = getattr(args, 'path', Path.cwd())
+    
+    print(f"🚀 Starting continuous autonomous loop in {working_dir}")
+    print(f"   Scan interval: {getattr(args, 'interval', 60)}s")
+    print(f"   Max improvements per cycle: {getattr(args, 'max_improvements', 5)}")
+    print(f"   Safety level: {getattr(args, 'safety_level', 'medium')}")
     print(f"   Press Ctrl+C to stop\n")
     
     try:
         # Create autonomous loop instance
         memory_store = IntelligentMemoryStore()
         config = {
-            "scan_interval": args.interval,
-            "max_improvements_per_cycle": args.max_improvements,
-            "safety_level": args.safety_level
+            "scan_interval": getattr(args, 'interval', 60),
+            "max_improvements_per_cycle": getattr(args, 'max_improvements', 5),
+            "safety_level": getattr(args, 'safety_level', 'medium')
         }
         
         _autonomous_loop_instance = AutonomousLoop(
-            working_directory=args.path,
+            working_directory=working_dir,
             memory_store=memory_store,
             config=config
         )
         
         def cycle_callback(result):
             """Callback for cycle completion."""
-            duration = (result.end_time - result.start_time).total_seconds()
-            print(f"✅ Cycle {result.cycle_id} completed in {duration:.1f}s: {result.improvements_successful}/{result.improvements_attempted} successful")
+            print(f"✅ Cycle completed: {result}")
         
         # Start continuous loop
         _autonomous_loop_instance.start_continuous_loop(callback=cycle_callback)
         
-        # Wait for interrupt
-        try:
-            while _autonomous_loop_instance.running:
-                threading.Event().wait(1)
-        except KeyboardInterrupt:
-            print("\n⏹️ Stopping autonomous loop...")
-            _autonomous_loop_instance.stop_continuous_loop()
-            print("✅ Autonomous loop stopped")
+        print("✅ Autonomous loop started")
         
         return 0
         
@@ -630,9 +625,9 @@ def cmd_autonomous_stop(args):
     """Stop continuous autonomous loop."""
     global _autonomous_loop_instance
     
-    if not _autonomous_loop_instance or not _autonomous_loop_instance.running:
+    if not _autonomous_loop_instance or not (hasattr(_autonomous_loop_instance, 'running') and _autonomous_loop_instance.running):
         print("⚠️ No autonomous loop is currently running")
-        return 1
+        return 0  # Not an error - just informational
     
     print("⏹️ Stopping autonomous loop...")
     _autonomous_loop_instance.stop_continuous_loop()
