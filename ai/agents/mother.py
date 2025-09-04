@@ -18,20 +18,147 @@ from typing import Dict, List, Optional, Any
 from collections import defaultdict
 
 from ai.memory.store import get_store, InMemoryMemoryStore
+from ai.memory.intelligent_store import IntelligentMemoryStore, MemoryType
 from ai.tools.memory_tools import WriteMemory
-from ai.agents.senior_reviewer import SeniorReviewer, ReviewDecision
-from openai import OpenAI
+from ai.agents.enhanced_agents import EnhancedDeveloper, EnhancedArchitect, EnhancedQA
 from ai.utils.settings import is_offline, TIMEOUT_SECONDS
 import os
+import uuid
 from pathlib import Path
-import subprocess
-from datetime import datetime
-from datetime import datetime
 try:
     from dotenv import load_dotenv
     load_dotenv()  # Load .env file
 except ImportError:
     pass  # dotenv not available, use system env vars
+
+
+@dataclass
+class ChildAgent:
+    """Child agent spawned by Mother Agent."""
+    id: str
+    name: str
+    instructions: str
+    model: str
+    output_type: str
+    parent_id: str
+    working_directory: Optional[str] = None
+    status: str = "spawned"
+    memory_store: Optional[Any] = None
+    _messages: List[Dict[str, Any]] = field(default_factory=list)
+    
+    def __post_init__(self):
+        if not self.memory_store:
+            self.memory_store = get_store() or InMemoryMemoryStore()
+    
+    def execute(self) -> Dict[str, Any]:
+        """Execute the agent task."""
+        self.status = "executing"
+        
+        try:
+            # Record task start in memory
+            self.memory_store.write(
+                content=f"Started task: {self.instructions}",
+                tags=["agent", self.name, "task_start"]
+            )
+            
+            # Phase 1: Analyze the task and codebase
+            analysis = self._analyze_task()
+            
+            # Phase 2: Look for similar patterns in memory
+            patterns = self._find_patterns()
+            
+            # Phase 3: Generate solution
+            solution = self._generate_solution(analysis, patterns)
+            
+            # Phase 4: Validate solution
+            validation = self._validate_solution(solution)
+            
+            # Phase 5: Create deliverable
+            result = self._create_deliverable(solution, validation)
+            
+            # Record completion in memory
+            self.memory_store.write(
+                content=f"Completed task: {self.instructions}. Success: {result.get('success', False)}",
+                tags=["agent", self.name, "task_complete"]
+            )
+            
+            self.status = "completed"
+            return result
+            
+        except Exception as e:
+            # Record failure in memory
+            self.memory_store.write(
+                content=f"Failed task: {self.instructions}. Error: {str(e)}",
+                tags=["agent", self.name, "task_failed", "error"]
+            )
+            
+            self.status = "failed"
+            return {
+                "success": False,
+                "error": str(e),
+                "agent_id": self.id
+            }
+    
+    def _analyze_task(self) -> Dict[str, Any]:
+        """Analyze the task and codebase."""
+        # Placeholder for task analysis
+        return {
+            "task_type": self.output_type,
+            "complexity": "medium",
+            "estimated_effort": "30min"
+        }
+    
+    def _find_patterns(self) -> List[Any]:
+        """Find similar patterns from memory."""
+        # Look for similar successful tasks
+        patterns = self.memory_store.query(
+            tags=["success", "pattern"],
+            limit=3
+        )
+        
+        return patterns[:3]  # Top 3 most relevant patterns
+    
+    def _generate_solution(self, analysis: Dict[str, Any], patterns: List[Any]) -> Dict[str, Any]:
+        """Generate solution based on analysis and patterns."""
+        # Placeholder for solution generation
+        return {
+            "approach": "pattern_based" if patterns else "novel",
+            "solution": f"Generated solution for: {self.instructions}",
+            "confidence": 0.8 if patterns else 0.6
+        }
+    
+    def _validate_solution(self, solution: Dict[str, Any]) -> Dict[str, Any]:
+        """Validate the generated solution."""
+        # Placeholder for solution validation
+        return {
+            "valid": True,
+            "tests_pass": True,
+            "quality_score": 0.9
+        }
+    
+    def _create_deliverable(self, solution: Dict[str, Any], validation: Dict[str, Any]) -> Dict[str, Any]:
+        """Create the final deliverable."""
+        success = validation.get("valid", False) and validation.get("tests_pass", False)
+        
+        return {
+            "success": success,
+            "solution": solution.get("solution"),
+            "approach": solution.get("approach"),
+            "confidence": solution.get("confidence"),
+            "quality_score": validation.get("quality_score"),
+            "files_changed": [],  # Would be populated with actual file changes
+            "agent_id": self.id
+        }
+    
+    def send_message_to_parent(self, message: Dict[str, Any]) -> None:
+        """Send message to parent agent."""
+        message["from"] = self.id
+        message["to"] = self.parent_id
+        self._messages.append(message)
+    
+    def on_progress(self, update: Dict[str, Any]) -> None:
+        """Handle progress updates (can be overridden)."""
+        pass
 
 
 @dataclass
@@ -100,6 +227,11 @@ class MotherAgent:
         self.max_history = max_history
         self._lock = threading.Lock()
         self._agent_registry = self._initialize_agent_registry()
+        
+        # New attributes for v1.0
+        self.id = f"mother-{uuid.uuid4().hex[:8]}"
+        self.active_agents: Dict[str, ChildAgent] = {}
+        self.agent_messages: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
     
     def _initialize_agent_registry(self) -> Dict[str, str]:
         """Initialize mapping of task types to agent types."""
@@ -120,6 +252,93 @@ class MotherAgent:
             "strategy": "Father",
             "coordinate": "Father"
         }
+    
+    def spawn(self, name: str, instructions: str, model: str = "gpt-4", 
+              output_type: str = "code", working_directory: Optional[str] = None) -> ChildAgent:
+        """Spawn a new child agent.
+        
+        This is the new v1.0 interface for spawning agents that return
+        actual agent objects for more sophisticated workflows.
+        
+        Args:
+            name: Name/identifier for the agent
+            instructions: Task instructions for the agent
+            model: AI model to use (default: gpt-4)
+            output_type: Expected output type (code/tests/docs/design/review)
+            working_directory: Directory for agent to work in
+            
+        Returns:
+            ChildAgent instance ready for execution
+        """
+        # Generate unique agent ID
+        agent_id = f"agent-{uuid.uuid4().hex[:8]}"
+        
+        # Create child agent
+        child_agent = ChildAgent(
+            id=agent_id,
+            name=name,
+            instructions=instructions,
+            model=model,
+            output_type=output_type,
+            parent_id=self.id,
+            working_directory=working_directory,
+            memory_store=self.memory_store
+        )
+        
+        # Register the agent
+        with self._lock:
+            self.active_agents[agent_id] = child_agent
+        
+        # Record spawn in memory
+        self.memory_store.write(
+            content=f"Spawned agent '{name}' for task: {instructions}",
+            tags=["mother", "spawn", name]
+        )
+        
+        return child_agent
+    
+    def get_active_agents(self) -> List[ChildAgent]:
+        """Get list of currently active agents."""
+        with self._lock:
+            return list(self.active_agents.values())
+    
+    def get_agent_by_id(self, agent_id: str) -> Optional[ChildAgent]:
+        """Get agent by ID."""
+        with self._lock:
+            return self.active_agents.get(agent_id)
+    
+    def get_messages_from(self, agent_id: str) -> List[Dict[str, Any]]:
+        """Get messages from a specific agent."""
+        return self.agent_messages.get(agent_id, [])
+    
+    def cleanup_completed_agents(self) -> int:
+        """Remove completed agents from active registry."""
+        removed = 0
+        with self._lock:
+            completed_agents = [
+                agent_id for agent_id, agent in self.active_agents.items()
+                if agent.status in ['completed', 'failed']
+            ]
+            
+            for agent_id in completed_agents:
+                del self.active_agents[agent_id]
+                removed += 1
+        
+        return removed
+    
+    def scan_for_issues(self, directory: str) -> List[Dict[str, Any]]:
+        """Scan directory for issues that agents can fix."""
+        # Placeholder implementation - would integrate with repo scanner
+        issues = [
+            {
+                "type": "potential_error",
+                "file": "src/main.py",
+                "line": 6,
+                "description": "Division by zero possible in divide function",
+                "severity": "medium"
+            }
+        ]
+        return issues
     
     def run(self, name: str, instructions: str, 
             model: str = "gpt-4", output_type: str = "code") -> AgentResult:

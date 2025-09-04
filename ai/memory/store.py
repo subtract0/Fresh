@@ -29,7 +29,7 @@ def render_context(limit: int = 5, tags: Optional[List[str]] = None) -> str:
     return "\n".join(lines)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=False)
 class MemoryItem:
     id: str
     content: str
