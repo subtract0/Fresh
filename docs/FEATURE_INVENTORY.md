@@ -1,6 +1,6 @@
 # Feature Inventory Report
 
-**Generated**: 2025-09-04T23:16:31.465097
+**Generated**: 2025-09-04T23:19:46.537836
 **Total Features**: 510
 
 ## Summary
@@ -13,11 +13,11 @@
 | Tested | 72 | 14.1% |
 | CLI Accessible | 25 | 4.9% |
 | API Accessible | 0 | 0.0% |
-| Potentially Unnecessary | 231 | 45.3% |
+| Potentially Unnecessary | 230 | 45.1% |
 
 ## Quality Metrics
 
-- **Average Quality Score**: 0.54/1.0
+- **Average Quality Score**: 0.55/1.0
 - **High Quality Features** (≥0.8): 68
 - **Features with Issues**: 503
 
@@ -25,78 +25,13 @@
 
 1. Hook up 485 unconnected features to CLI/API interfaces
 2. Add test coverage for 438 untested features
-3. Review and consider removing 231 potentially unnecessary features
+3. Review and consider removing 230 potentially unnecessary features
 4. Consider consolidating features to reduce complexity
 
 
 ## Feature Details
 
 ### 🔴 Critical Issues (Features Not Hooked Up)
-
-- **restore_memories** (`ai/memory/enhanced_firestore.py`)
-  - Description: Restore memories from a backup file.
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **sync_with_firestore** (`ai/memory/enhanced_firestore.py`)
-  - Description: Synchronize local memory with Firestore.
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **write_operation** (`ai/memory/enhanced_firestore.py`)
-  - Description: Function write_operation
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **delete_operation** (`ai/memory/enhanced_firestore.py`)
-  - Description: Function delete_operation
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **get_firestore_stats** (`ai/memory/enhanced_firestore.py`)
-  - Description: Function get_firestore_stats
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **get_firestore_memories** (`ai/memory/enhanced_firestore.py`)
-  - Description: Function get_firestore_memories
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **restore_operation** (`ai/memory/enhanced_firestore.py`)
-  - Description: Function restore_operation
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **sync_to_firestore** (`ai/memory/enhanced_firestore.py`)
-  - Description: Function sync_to_firestore
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **get_issue** (`scripts/issue_to_pr.py`)
-  - Description: Function get_issue
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **create_plan_file** (`scripts/issue_to_pr.py`)
-  - Description: Function create_plan_file
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **create_branch** (`scripts/issue_to_pr.py`)
-  - Description: Function create_branch
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **commit_and_push** (`scripts/issue_to_pr.py`)
-  - Description: Function commit_and_push
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
-
-- **open_pr** (`scripts/issue_to_pr.py`)
-  - Description: Function open_pr
-  - Quality Score: 0.3000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation, Feature may not be necessary - consider removal
 
 - **patch_openai** (`ai/agency_openai_patch.py`)
   - Description: Patch the openai module with cost tracking.
@@ -408,8 +343,43 @@
   - Quality Score: 0.4000000000000001
   - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
 
-- **get_production_analytics** (`ai/memory/enhanced_firestore.py`)
-  - Description: Get enhanced analytics including Firestore metrics.
+- **restore_memories** (`ai/memory/enhanced_firestore.py`)
+  - Description: Restore memories from a backup file.
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **sync_with_firestore** (`ai/memory/enhanced_firestore.py`)
+  - Description: Synchronize local memory with Firestore.
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **write_operation** (`ai/memory/enhanced_firestore.py`)
+  - Description: Function write_operation
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **delete_operation** (`ai/memory/enhanced_firestore.py`)
+  - Description: Function delete_operation
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **get_firestore_stats** (`ai/memory/enhanced_firestore.py`)
+  - Description: Function get_firestore_stats
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **get_firestore_memories** (`ai/memory/enhanced_firestore.py`)
+  - Description: Function get_firestore_memories
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **restore_operation** (`ai/memory/enhanced_firestore.py`)
+  - Description: Function restore_operation
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **sync_to_firestore** (`ai/memory/enhanced_firestore.py`)
+  - Description: Function sync_to_firestore
   - Quality Score: 0.4000000000000001
   - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
 
@@ -863,6 +833,31 @@
   - Quality Score: 0.4000000000000001
   - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
 
+- **get_issue** (`scripts/issue_to_pr.py`)
+  - Description: Function get_issue
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **create_plan_file** (`scripts/issue_to_pr.py`)
+  - Description: Function create_plan_file
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **create_branch** (`scripts/issue_to_pr.py`)
+  - Description: Function create_branch
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **commit_and_push** (`scripts/issue_to_pr.py`)
+  - Description: Function commit_and_push
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
+- **open_pr** (`scripts/issue_to_pr.py`)
+  - Description: Function open_pr
+  - Quality Score: 0.4000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
+
 - **FeatureScanner** (`scripts/feature_inventory.py`)
   - Description: Scans codebase to identify and validate features.
   - Quality Score: 0.4000000000000001
@@ -1077,16 +1072,6 @@
   - Description: Main class for adaptive agent monitoring.
   - Quality Score: 0.4000000000000001
   - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature may not be necessary - consider removal
-
-- **EnhancedFirestoreMemoryStore** (`ai/memory/enhanced_firestore.py`)
-  - Description: Enhanced Firestore memory store with intelligent features and production capabilities.
-  - Quality Score: 0.5000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation
-
-- **optimize_firestore_memory** (`ai/memory/enhanced_firestore.py`)
-  - Description: Optimize memory by removing low-importance items from both local and Firestore.
-  - Quality Score: 0.5000000000000001
-  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage, Feature lacks documentation
 
 - **build_agency** (`ai/agency.py`)
   - Description: Construct the basic agency with directional flows.
@@ -1558,8 +1543,23 @@
   - Quality Score: 0.6000000000000001
   - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage
 
+- **EnhancedFirestoreMemoryStore** (`ai/memory/enhanced_firestore.py`)
+  - Description: Enhanced Firestore memory store with intelligent features and production capabilities.
+  - Quality Score: 0.6000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage
+
 - **write** (`ai/memory/enhanced_firestore.py`)
   - Description: Write enhanced memory item with Firestore persistence.
+  - Quality Score: 0.6000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage
+
+- **get_production_analytics** (`ai/memory/enhanced_firestore.py`)
+  - Description: Get enhanced analytics including Firestore metrics.
+  - Quality Score: 0.6000000000000001
+  - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage
+
+- **optimize_firestore_memory** (`ai/memory/enhanced_firestore.py`)
+  - Description: Optimize memory by removing low-importance items from both local and Firestore.
   - Quality Score: 0.6000000000000001
   - Issues: Feature is not accessible through any interface (CLI/API), Feature lacks test coverage
 
@@ -2534,71 +2534,6 @@
 
 ### 🟠 Potentially Unnecessary Features
 
-- **restore_memories** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **sync_with_firestore** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **write_operation** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **delete_operation** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **get_firestore_stats** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **get_firestore_memories** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **restore_operation** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **sync_to_firestore** (`ai/memory/enhanced_firestore.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **get_issue** (`scripts/issue_to_pr.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **create_plan_file** (`scripts/issue_to_pr.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **create_branch** (`scripts/issue_to_pr.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **commit_and_push** (`scripts/issue_to_pr.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
-- **open_pr** (`scripts/issue_to_pr.py`)
-  - Hooked Up: ❌
-  - Tested: ❌
-  - Quality Score: 0.3000000000000001
-
 - **patch_openai** (`ai/agency_openai_patch.py`)
   - Hooked Up: ❌
   - Tested: ❌
@@ -2909,7 +2844,42 @@
   - Tested: ❌
   - Quality Score: 0.4000000000000001
 
-- **get_production_analytics** (`ai/memory/enhanced_firestore.py`)
+- **restore_memories** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **sync_with_firestore** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **write_operation** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **delete_operation** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **get_firestore_stats** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **get_firestore_memories** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **restore_operation** (`ai/memory/enhanced_firestore.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **sync_to_firestore** (`ai/memory/enhanced_firestore.py`)
   - Hooked Up: ❌
   - Tested: ❌
   - Quality Score: 0.4000000000000001
@@ -3360,6 +3330,31 @@
   - Quality Score: 0.4000000000000001
 
 - **demo_live_monitoring** (`scripts/demo-adaptive-monitor.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **get_issue** (`scripts/issue_to_pr.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **create_plan_file** (`scripts/issue_to_pr.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **create_branch** (`scripts/issue_to_pr.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **commit_and_push** (`scripts/issue_to_pr.py`)
+  - Hooked Up: ❌
+  - Tested: ❌
+  - Quality Score: 0.4000000000000001
+
+- **open_pr** (`scripts/issue_to_pr.py`)
   - Hooked Up: ❌
   - Tested: ❌
   - Quality Score: 0.4000000000000001
@@ -6212,18 +6207,17 @@
 
 ---
 
-### 💻 ❓ commit_and_push
+### 💻 📚 ❓ commit_and_push
 
 **Module**: `scripts/issue_to_pr.py`
 
 **Description**: Function commit_and_push
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -6232,6 +6226,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -6526,18 +6521,17 @@
 
 ---
 
-### 💻 ❓ create_branch
+### 💻 📚 ❓ create_branch
 
 **Module**: `scripts/issue_to_pr.py`
 
 **Description**: Function create_branch
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -6546,6 +6540,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -6845,18 +6840,17 @@
 
 ---
 
-### 💻 ❓ create_plan_file
+### 💻 📚 ❓ create_plan_file
 
 **Module**: `scripts/issue_to_pr.py`
 
 **Description**: Function create_plan_file
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -6865,6 +6859,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -7047,18 +7042,17 @@
 
 ---
 
-### 💻 ❓ delete_operation
+### 💻 📚 ❓ delete_operation
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Function delete_operation
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -7067,6 +7061,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -7451,18 +7446,17 @@
 
 ---
 
-### 💻 EnhancedFirestoreMemoryStore
+### 💻 📚 EnhancedFirestoreMemoryStore
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Enhanced Firestore memory store with intelligent features and production capabilities.
 
-**Quality Score**: 0.5000000000000001/1.0
+**Quality Score**: 0.6000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 
 **Status**:
 - Implemented: ✅
@@ -7470,6 +7464,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ✅
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -8840,18 +8835,17 @@
 
 ---
 
-### 💻 ❓ get_firestore_memories
+### 💻 📚 ❓ get_firestore_memories
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Function get_firestore_memories
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -8860,21 +8854,21 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
-### 💻 ❓ get_firestore_stats
+### 💻 📚 ❓ get_firestore_stats
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Function get_firestore_stats
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -8883,6 +8877,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -8931,18 +8926,17 @@
 
 ---
 
-### 💻 ❓ get_issue
+### 💻 📚 ❓ get_issue
 
 **Module**: `scripts/issue_to_pr.py`
 
 **Description**: Function get_issue
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -8951,6 +8945,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -9198,26 +9193,25 @@
 
 ---
 
-### 💻 📚 ❓ get_production_analytics
+### 💻 📚 get_production_analytics
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Get enhanced analytics including Firestore metrics.
 
-**Quality Score**: 0.4000000000000001/1.0
+**Quality Score**: 0.6000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature may not be necessary - consider removal
 
 **Status**:
 - Implemented: ✅
 - CLI Accessible: ❌
 - API Accessible: ❌
 - Tested: ❌
-- Necessary: ❓
-- Documentation: docs/COST_MONITORING.md
+- Necessary: ✅
+- Documentation: docs/COST_MONITORING.md, docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -11183,18 +11177,17 @@
 
 ---
 
-### 💻 ❓ open_pr
+### 💻 📚 ❓ open_pr
 
 **Module**: `scripts/issue_to_pr.py`
 
 **Description**: Function open_pr
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -11203,6 +11196,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -11229,18 +11223,17 @@
 
 ---
 
-### 💻 optimize_firestore_memory
+### 💻 📚 optimize_firestore_memory
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Optimize memory by removing low-importance items from both local and Firestore.
 
-**Quality Score**: 0.5000000000000001/1.0
+**Quality Score**: 0.6000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 
 **Status**:
 - Implemented: ✅
@@ -11248,6 +11241,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ✅
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -12259,18 +12253,17 @@
 
 ---
 
-### 💻 ❓ restore_memories
+### 💻 📚 ❓ restore_memories
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Restore memories from a backup file.
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -12279,21 +12272,21 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
-### 💻 ❓ restore_operation
+### 💻 📚 ❓ restore_operation
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Function restore_operation
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -12302,6 +12295,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -14053,18 +14047,17 @@
 
 ---
 
-### 💻 ❓ sync_to_firestore
+### 💻 📚 ❓ sync_to_firestore
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Function sync_to_firestore
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -14073,21 +14066,21 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
-### 💻 ❓ sync_with_firestore
+### 💻 📚 ❓ sync_with_firestore
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Synchronize local memory with Firestore.
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -14096,6 +14089,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 
@@ -15382,18 +15376,17 @@
 
 ---
 
-### 💻 ❓ write_operation
+### 💻 📚 ❓ write_operation
 
 **Module**: `ai/memory/enhanced_firestore.py`
 
 **Description**: Function write_operation
 
-**Quality Score**: 0.3000000000000001/1.0
+**Quality Score**: 0.4000000000000001/1.0
 
 **Issues**:
 - Feature is not accessible through any interface (CLI/API)
 - Feature lacks test coverage
-- Feature lacks documentation
 - Feature may not be necessary - consider removal
 
 **Status**:
@@ -15402,6 +15395,7 @@
 - API Accessible: ❌
 - Tested: ❌
 - Necessary: ❓
+- Documentation: docs/FEATURE_INVENTORY.md
 
 ---
 

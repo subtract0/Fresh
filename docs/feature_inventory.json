@@ -3,7 +3,7 @@
   "implemented_features": 510,
   "hooked_up_features": 25,
   "tested_features": 72,
-  "unnecessary_features": 231,
+  "unnecessary_features": 230,
   "cli_features": 25,
   "api_features": 0,
   "features": [
@@ -14970,12 +14970,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.5000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.6000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
-        "Feature lacks test coverage",
-        "Feature lacks documentation"
+        "Feature lacks test coverage"
       ]
     },
     {
@@ -15119,12 +15120,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15137,19 +15139,19 @@
       "implemented": true,
       "hooked_up": false,
       "tested": false,
-      "necessary": false,
+      "necessary": true,
       "cli_accessible": null,
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
       "documentation": [
-        "docs/COST_MONITORING.md"
+        "docs/COST_MONITORING.md",
+        "docs/FEATURE_INVENTORY.md"
       ],
-      "quality_score": 0.4000000000000001,
+      "quality_score": 0.6000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
-        "Feature lacks test coverage",
-        "Feature may not be necessary - consider removal"
+        "Feature lacks test coverage"
       ]
     },
     {
@@ -15166,12 +15168,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15189,12 +15192,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.5000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.6000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
-        "Feature lacks test coverage",
-        "Feature lacks documentation"
+        "Feature lacks test coverage"
       ]
     },
     {
@@ -15211,12 +15215,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15234,12 +15239,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15257,12 +15263,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15280,12 +15287,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15303,12 +15311,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -15326,12 +15335,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -25189,12 +25199,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -25212,12 +25223,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -25235,12 +25247,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -25258,12 +25271,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -25281,12 +25295,13 @@
       "api_accessible": false,
       "dependencies": [],
       "test_files": [],
-      "documentation": [],
-      "quality_score": 0.3000000000000001,
+      "documentation": [
+        "docs/FEATURE_INVENTORY.md"
+      ],
+      "quality_score": 0.4000000000000001,
       "issues": [
         "Feature is not accessible through any interface (CLI/API)",
         "Feature lacks test coverage",
-        "Feature lacks documentation",
         "Feature may not be necessary - consider removal"
       ]
     },
@@ -34235,7 +34250,7 @@
     }
   ],
   "quality_summary": {
-    "average_quality_score": 0.54,
+    "average_quality_score": 0.55,
     "high_quality_features": 68,
     "features_with_issues": 503,
     "coverage_metrics": {
@@ -34650,46 +34665,35 @@
     "register_context: Feature may not be necessary - consider removal",
     "EnhancedFirestoreMemoryStore: Feature is not accessible through any interface (CLI/API)",
     "EnhancedFirestoreMemoryStore: Feature lacks test coverage",
-    "EnhancedFirestoreMemoryStore: Feature lacks documentation",
     "write: Feature is not accessible through any interface (CLI/API)",
     "write: Feature lacks test coverage",
     "restore_memories: Feature is not accessible through any interface (CLI/API)",
     "restore_memories: Feature lacks test coverage",
-    "restore_memories: Feature lacks documentation",
     "restore_memories: Feature may not be necessary - consider removal",
     "get_production_analytics: Feature is not accessible through any interface (CLI/API)",
     "get_production_analytics: Feature lacks test coverage",
-    "get_production_analytics: Feature may not be necessary - consider removal",
     "sync_with_firestore: Feature is not accessible through any interface (CLI/API)",
     "sync_with_firestore: Feature lacks test coverage",
-    "sync_with_firestore: Feature lacks documentation",
     "sync_with_firestore: Feature may not be necessary - consider removal",
     "optimize_firestore_memory: Feature is not accessible through any interface (CLI/API)",
     "optimize_firestore_memory: Feature lacks test coverage",
-    "optimize_firestore_memory: Feature lacks documentation",
     "write_operation: Feature is not accessible through any interface (CLI/API)",
     "write_operation: Feature lacks test coverage",
-    "write_operation: Feature lacks documentation",
     "write_operation: Feature may not be necessary - consider removal",
     "delete_operation: Feature is not accessible through any interface (CLI/API)",
     "delete_operation: Feature lacks test coverage",
-    "delete_operation: Feature lacks documentation",
     "delete_operation: Feature may not be necessary - consider removal",
     "get_firestore_stats: Feature is not accessible through any interface (CLI/API)",
     "get_firestore_stats: Feature lacks test coverage",
-    "get_firestore_stats: Feature lacks documentation",
     "get_firestore_stats: Feature may not be necessary - consider removal",
     "get_firestore_memories: Feature is not accessible through any interface (CLI/API)",
     "get_firestore_memories: Feature lacks test coverage",
-    "get_firestore_memories: Feature lacks documentation",
     "get_firestore_memories: Feature may not be necessary - consider removal",
     "restore_operation: Feature is not accessible through any interface (CLI/API)",
     "restore_operation: Feature lacks test coverage",
-    "restore_operation: Feature lacks documentation",
     "restore_operation: Feature may not be necessary - consider removal",
     "sync_to_firestore: Feature is not accessible through any interface (CLI/API)",
     "sync_to_firestore: Feature lacks test coverage",
-    "sync_to_firestore: Feature lacks documentation",
     "sync_to_firestore: Feature may not be necessary - consider removal",
     "set_memory_store: Feature is not accessible through any interface (CLI/API)",
     "get_store: Feature is not accessible through any interface (CLI/API)",
@@ -35218,23 +35222,18 @@
     "main: Feature lacks test coverage",
     "get_issue: Feature is not accessible through any interface (CLI/API)",
     "get_issue: Feature lacks test coverage",
-    "get_issue: Feature lacks documentation",
     "get_issue: Feature may not be necessary - consider removal",
     "create_plan_file: Feature is not accessible through any interface (CLI/API)",
     "create_plan_file: Feature lacks test coverage",
-    "create_plan_file: Feature lacks documentation",
     "create_plan_file: Feature may not be necessary - consider removal",
     "create_branch: Feature is not accessible through any interface (CLI/API)",
     "create_branch: Feature lacks test coverage",
-    "create_branch: Feature lacks documentation",
     "create_branch: Feature may not be necessary - consider removal",
     "commit_and_push: Feature is not accessible through any interface (CLI/API)",
     "commit_and_push: Feature lacks test coverage",
-    "commit_and_push: Feature lacks documentation",
     "commit_and_push: Feature may not be necessary - consider removal",
     "open_pr: Feature is not accessible through any interface (CLI/API)",
     "open_pr: Feature lacks test coverage",
-    "open_pr: Feature lacks documentation",
     "open_pr: Feature may not be necessary - consider removal",
     "main: Feature is not accessible through any interface (CLI/API)",
     "main: Feature lacks test coverage",
@@ -35418,8 +35417,8 @@
   "recommendations": [
     "Hook up 485 unconnected features to CLI/API interfaces",
     "Add test coverage for 438 untested features",
-    "Review and consider removing 231 potentially unnecessary features",
+    "Review and consider removing 230 potentially unnecessary features",
     "Consider consolidating features to reduce complexity"
   ],
-  "generated_at": "2025-09-04T23:16:31.465097"
+  "generated_at": "2025-09-04T23:19:46.537836"
 }
