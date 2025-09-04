@@ -207,3 +207,4 @@ todos.db
 
 # Generated agent configs (not source)
 agent_configs/
+.fresh/orchestration_report_*.json
