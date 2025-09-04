@@ -772,6 +772,178 @@ def cmd_feature_hook_missing(args):
         return 1
 
 
+def cmd_memory_init(args):
+    """Initialize intelligent memory system."""
+    try:
+        from ai.enhanced_agency import initialize_intelligent_memory
+        from ai.memory.store import get_store
+        
+        if args.dry_run:
+            print("🔍 DRY RUN: Would initialize memory system")
+            print(f"  Enhanced Firestore: {'Yes' if args.enhanced_firestore else 'No'}")
+            print(f"  Force reinitialization: {'Yes' if args.force else 'No'}")
+            
+            # Check current environment
+            firebase_configured = all([
+                os.getenv("FIREBASE_PROJECT_ID"),
+                os.getenv("FIREBASE_CLIENT_EMAIL"),
+                os.getenv("FIREBASE_PRIVATE_KEY")
+            ])
+            print(f"  Firebase credentials: {'Configured' if firebase_configured else 'Missing'}")
+            return 0
+        
+        print("🧠 Initializing intelligent memory system...")
+        
+        if args.force:
+            print("⚠️  Force mode: Reinitializing existing memory system")
+        
+        # Initialize with the selected options
+        initialize_intelligent_memory(use_enhanced_firestore=args.enhanced_firestore)
+        
+        # Verify initialization
+        store = get_store()
+        store_type = type(store).__name__
+        
+        print(f"✅ Memory system initialized successfully")
+        print(f"   Store Type: {store_type}")
+        
+        # Test basic functionality
+        test_content = f"Memory system initialized at {datetime.now()}"
+        from ai.tools.memory_tools import WriteMemory
+        WriteMemory(
+            content=test_content,
+            tags=["system", "init", "autonomous"]
+        ).run()
+        
+        print(f"   Test write successful: Basic memory operations working")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Memory initialization failed: {e}")
+        return 1
+
+
+def cmd_memory_status(args):
+    """Show memory system status."""
+    try:
+        from ai.memory.store import get_store
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        store = get_store()
+        store_type = type(store).__name__
+        
+        print(f"🧠 Memory System Status")
+        print(f"=" * 40)
+        print(f"Store Type: {store_type}")
+        
+        # Get basic metrics if available
+        if hasattr(store, '_items'):
+            item_count = len(store._items)
+            print(f"Stored Items: {item_count}")
+        
+        # Enhanced features
+        if isinstance(store, IntelligentMemoryStore):
+            print(f"\n🧠 Intelligent Features:")
+            print(f"  ✅ Semantic Search")
+            print(f"  ✅ Auto Classification")
+            print(f"  ✅ Importance Scoring")
+            print(f"  ✅ Keyword Extraction")
+            print(f"  ✅ Related Items Mapping")
+            
+            if hasattr(store, 'get_analytics'):
+                try:
+                    analytics = store.get_analytics()
+                    print(f"\n📊 Analytics:")
+                    for key, value in analytics.items():
+                        print(f"  {key}: {value}")
+                except:
+                    pass
+        
+        # Environment info
+        if args.verbose:
+            print(f"\n🔧 Environment:")
+            firebase_configured = all([
+                os.getenv("FIREBASE_PROJECT_ID"),
+                os.getenv("FIREBASE_CLIENT_EMAIL"),
+                os.getenv("FIREBASE_PRIVATE_KEY")
+            ])
+            print(f"  Firebase configured: {'Yes' if firebase_configured else 'No'}")
+            
+            if firebase_configured:
+                print(f"  Project ID: {os.getenv('FIREBASE_PROJECT_ID')}")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to get memory status: {e}")
+        return 1
+
+
+def cmd_memory_analytics(args):
+    """Show memory analytics."""
+    try:
+        from ai.memory.store import get_store
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        store = get_store()
+        
+        if not isinstance(store, IntelligentMemoryStore):
+            print(f"⚠️  Analytics not available for {type(store).__name__}")
+            print(f"   Use 'fresh memory init' to enable intelligent memory")
+            return 1
+        
+        print(f"📊 Memory Analytics")
+        print(f"=" * 40)
+        
+        try:
+            if hasattr(store, 'get_analytics'):
+                analytics = store.get_analytics()
+                
+                if args.format == 'json':
+                    print(json.dumps(analytics, indent=2, default=str))
+                elif args.format == 'table':
+                    # Simple table format
+                    for category, data in analytics.items():
+                        print(f"\n{category}:")
+                        if isinstance(data, dict):
+                            for key, value in data.items():
+                                print(f"  {key:20} {value}")
+                        else:
+                            print(f"  {data}")
+                else:  # summary format
+                    total_memories = analytics.get('total_memories', 0)
+                    print(f"Total Memories: {total_memories}")
+                    
+                    memory_types = analytics.get('memory_types', {})
+                    if memory_types:
+                        print(f"\nBy Type:")
+                        for mem_type, count in memory_types.items():
+                            print(f"  {mem_type}: {count}")
+                    
+                    importance_stats = analytics.get('importance_stats', {})
+                    if importance_stats:
+                        print(f"\nImportance Distribution:")
+                        print(f"  Average: {importance_stats.get('average', 0):.2f}")
+                        print(f"  High (>0.7): {importance_stats.get('high_importance', 0)}")
+                    
+                    top_keywords = analytics.get('top_keywords', [])
+                    if top_keywords:
+                        print(f"\nTop Keywords: {', '.join(top_keywords[:10])}")
+            else:
+                print("Basic analytics not available for this store")
+                
+        except Exception as e:
+            print(f"⚠️  Analytics error: {e}")
+            return 1
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to get analytics: {e}")
+        return 1
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -970,6 +1142,27 @@ def main():
         ))
     )
 
+    # Memory command group
+    memory_parser = subparsers.add_parser('memory', help='Intelligent memory system management')
+    memory_sub = memory_parser.add_subparsers(dest='memory_cmd', help='Memory management commands')
+    
+    # Memory initialization
+    memory_init = memory_sub.add_parser('init', help='Initialize intelligent memory system')
+    memory_init.add_argument('--enhanced-firestore', action='store_true', help='Use Enhanced Firestore (production)')
+    memory_init.add_argument('--force', action='store_true', help='Force reinitialization')
+    memory_init.add_argument('--dry-run', action='store_true', help='Show what would be initialized without doing it')
+    memory_init.set_defaults(func=cmd_memory_init)
+    
+    # Memory status
+    memory_status = memory_sub.add_parser('status', help='Show memory system status and metrics')
+    memory_status.add_argument('--verbose', action='store_true', help='Show detailed status information')
+    memory_status.set_defaults(func=cmd_memory_status)
+    
+    # Memory analytics
+    memory_analytics = memory_sub.add_parser('analytics', help='Show memory analytics and insights')
+    memory_analytics.add_argument('--format', choices=['json', 'table', 'summary'], default='summary', help='Output format')
+    memory_analytics.set_defaults(func=cmd_memory_analytics)
+    
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
     mcp_sub = mcp_parser.add_subparsers(dest='mcp_cmd', help='MCP subcommands')
