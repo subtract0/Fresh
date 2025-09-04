@@ -15,7 +15,7 @@ import hashlib
 from collections import defaultdict, Counter
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import List, Optional, Dict, Set, Tuple
+from typing import List, Optional, Dict, Set, Tuple, Any
 from enum import Enum
 
 from ai.memory.store import MemoryStore, MemoryItem
@@ -33,7 +33,7 @@ class MemoryType(Enum):
     KNOWLEDGE = "knowledge" # Facts and learned information
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=False)  # Changed to mutable for metadata updates
 class EnhancedMemoryItem(MemoryItem):
     """Enhanced memory item with intelligent metadata."""
     memory_type: MemoryType = field(default=MemoryType.CONTEXT)
@@ -41,6 +41,7 @@ class EnhancedMemoryItem(MemoryItem):
     related_ids: List[str] = field(default_factory=list)
     importance_score: float = field(default=0.5)  # 0.0-1.0
     summary: Optional[str] = field(default=None)
+    metadata: Dict[str, Any] = field(default_factory=dict)  # Additional metadata
 
 
 class IntelligentMemoryStore(MemoryStore):

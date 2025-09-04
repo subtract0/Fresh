@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  firestore:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    container_name: fresh-firestore-emulator
+    ports:
+      - "8080:8080"
+      - "4400:4400"  # Firestore UI
+    environment:
+      - FIRESTORE_PROJECT_ID=fresh-local
+      - FIRESTORE_EMULATOR_HOST=0.0.0.0:8080
+    command: |
+      sh -c "
+        gcloud config set project fresh-local &&
+        gcloud emulators firestore start 
+          --host-port=0.0.0.0:8080 
+          --host-port=0.0.0.0:4400
+      "
+    volumes:
+      - firestore_data:/opt/firestore/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  # Optional: Redis for caching
+  redis:
+    image: redis:7-alpine
+    container_name: fresh-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  firestore_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  default:
+    name: fresh-network
+    driver: bridge

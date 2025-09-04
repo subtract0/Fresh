@@ -86,12 +86,34 @@ class FirestoreMemoryStore(IntelligentMemoryStore):
             return
             
         try:
+            import os
+            
+            # Check for emulator settings
+            emulator_host = os.environ.get('FIRESTORE_EMULATOR_HOST')
+            if emulator_host:
+                logger.info(f"Using Firestore emulator at {emulator_host}")
+                # For emulator, use a default project ID if not set
+                if not self.project_id:
+                    self.project_id = os.environ.get('FIREBASE_PROJECT_ID', 'fresh-local')
+            
             if self.project_id:
                 raw_client = firestore.Client(project=self.project_id)
             else:
                 raw_client = firestore.Client()
-            self._firestore_client = wrap_firestore_client(raw_client)  # Add cost tracking
+            
+            # Skip cost tracking wrapper for emulator
+            if emulator_host:
+                self._firestore_client = raw_client
+            else:
+                self._firestore_client = wrap_firestore_client(raw_client)  # Add cost tracking
+            
             logger.info(f"Connected to Firestore project: {self._firestore_client.project}")
+            
+            # Test connection
+            test_collection = self._firestore_client.collection('_test')
+            test_collection.document('ping').set({'timestamp': datetime.now(timezone.utc)})
+            test_collection.document('ping').delete()
+            
         except Exception as e:
             logger.error(f"Failed to initialize Firestore client: {e}")
             logger.warning("Falling back to in-memory storage")
@@ -192,10 +214,21 @@ class FirestoreMemoryStore(IntelligentMemoryStore):
         except Exception as e:
             logger.error(f"Failed to sync memory {item.id} to Firestore: {e}")
     
-    def write(self, *, content: str, tags: Optional[List[str]] = None) -> EnhancedMemoryItem:
+    def write(self, *, content: str, tags: Optional[List[str]] = None, 
+              memory_type: Optional[MemoryType] = None, 
+              metadata: Optional[Dict[str, Any]] = None) -> EnhancedMemoryItem:
         """Write enhanced memory item with Firestore persistence."""
         # Use parent implementation for intelligent processing
-        item = super().write(content=content, tags=tags)
+        if memory_type:
+            # Override auto-classification if type provided
+            item = super().write(content=content, tags=tags)
+            item.memory_type = memory_type
+        else:
+            item = super().write(content=content, tags=tags)
+        
+        # Add metadata if provided
+        if metadata:
+            item.metadata = metadata
         
         # Sync to Firestore if enabled
         if self.sync_on_write:
