@@ -1,61 +1,10 @@
-name: Issue to PR (Autonomous Intake)
-
+# DISABLED: Manual trigger only to reduce noise
+name: Issue to PR (Disabled)
 on:
   workflow_dispatch:
-    inputs:
-      issue_number:
-        description: Issue number to plan
-        required: true
-        type: number
-  # Disabled automatic issue labeling to reduce noise
-  # issues:
-  #   types: [labeled]
-
-permissions:
-  contents: write
-  pull-requests: write
 
 jobs:
-  intake:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+  placeholder:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests
-
-      - name: Determine issue number
-        id: issue
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "num=${{ inputs.issue_number }}" >> $GITHUB_OUTPUT
-          else
-            echo "num=${{ github.event.issue.number }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Select mode
-        id: mode
-        run: |
-          # Default to docs; allow repository variable AUTONOMOUS_MODE to override
-          echo "mode=${{ vars.AUTONOMOUS_MODE || 'docs' }}" >> $GITHUB_OUTPUT
-
-      - name: Create plan and PR (mode: ${{ steps.mode.outputs.mode }})
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          ISSUE_NUMBER: ${{ steps.issue.outputs.num }}
-          BASE_BRANCH: main
-          AUTONOMOUS_MODE: ${{ steps.mode.outputs.mode }}
-        run: |
-          python scripts/issue_to_pr.py --issue ${ISSUE_NUMBER} --base ${BASE_BRANCH} --mode ${AUTONOMOUS_MODE}
+      - run: echo 'This workflow is disabled to reduce email noise'

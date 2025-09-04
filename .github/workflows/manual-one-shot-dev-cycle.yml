@@ -1,6 +1,5 @@
 name: Autonomous Dev Cycle (manual)
-
-on:
+true:
   workflow_dispatch:
     inputs:
       dry_run:
@@ -18,48 +17,48 @@ on:
         required: false
         default: 5
         type: number
-
 permissions:
   contents: write
   pull-requests: write
-
 concurrency:
   group: manual-autonomous-dev
   cancel-in-progress: false
-
 jobs:
   run-once:
     runs-on: ubuntu-latest
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Optional Firestore persistence (set these secrets if using Firestore)
       FRESH_USE_FIRESTORE: ${{ vars.FRESH_USE_FIRESTORE }}
       FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
       FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
       FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Install Poetry
+      run: pipx install poetry
+    - name: Cache Poetry
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pypoetry
+        key: poetry-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}-manual-dev
+    - name: Install dependencies
+      run: 'poetry install --no-interaction --no-root
 
-      - name: Install Poetry
-        run: pipx install poetry
+        '
+    - name: One-shot dev cycle
+      run: 'ARGS="--once --max-tasks ${{ github.event.inputs.max_tasks }}"
 
-      - name: Cache Poetry
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pypoetry
-          key: poetry-${{ runner.os }}-${{ hashFiles('**/pyproject.toml') }}-manual-dev
+        if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run";
+        fi
 
-      - name: Install dependencies
-        run: |
-          poetry install --no-interaction --no-root
+        if [ "${{ github.event.inputs.offline }}" = "true" ]; then ARGS="$ARGS --offline";
+        fi
 
-      - name: One-shot dev cycle
-        run: |
-          ARGS="--once --max-tasks ${{ github.event.inputs.max_tasks }}"
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then ARGS="$ARGS --dry-run"; fi
-          if [ "${{ github.event.inputs.offline }}" = "true" ]; then ARGS="$ARGS --offline"; fi
-          poetry run python -m ai.cli.fresh run $ARGS
+        poetry run python -m ai.cli.fresh run $ARGS
 
+        '
+'on':
+  workflow_dispatch: {}

@@ -1,18 +1,22 @@
 name: ADR Check (manual)
-on:
-  workflow_dispatch:
-  # Disabled automatic PR triggers to reduce noise
-  # pull_request:
-  #   types: [opened, edited, synchronize]
+true:
+  workflow_dispatch: null
 jobs:
   adr:
     if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Require ADR reference in PR body
-        env:
-          PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
-          echo "$PR_BODY" | grep -E 'ADR-[0-9]+' >/dev/null || { echo "PR must reference an ADR (e.g., ADR-001)."; exit 1; }
+    - uses: actions/checkout@v4
+    - name: Require ADR reference in PR body
+      env:
+        PR_BODY: ${{ github.event.pull_request.body }}
+      run: 'echo "$PR_BODY" | grep -E ''ADR-[0-9]+'' >/dev/null || { echo "PR must
+        reference an ADR (e.g., ADR-001)."; exit 1; }
 
+        '
+'on':
+  pull_request:
+    types:
+    - opened
+    - synchronize
+    - reopened

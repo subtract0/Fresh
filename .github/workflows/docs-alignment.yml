@@ -1,3 +1,11 @@
-# CONSOLIDATED INTO ci.yml TO REDUCE EMAIL NOISE
-# This workflow is disabled - docs alignment now runs as part of main CI
+# DISABLED: This workflow has been disabled to reduce noise
+# Its functionality has been moved to ci.yml or made manual-only
+name: docs-alignment (Disabled)
+on:
+  workflow_dispatch: # Manual trigger only
 
+jobs:
+  placeholder:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'This workflow is disabled'

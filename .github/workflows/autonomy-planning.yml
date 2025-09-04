@@ -1,54 +1,10 @@
-name: Daily Autonomous Planning
-
+# DISABLED: Manual trigger only to reduce noise
+name: Autonomy Planning (Disabled)
 on:
-  workflow_dispatch: {}
-  # Disabled daily schedule to reduce email noise
-  # schedule:
-  #   - cron: "16 5 * * *"  # 05:16 UTC daily
-
-permissions:
-  contents: write
-  pull-requests: write
+  workflow_dispatch:
 
 jobs:
-  plan:
+  placeholder:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-python-version: '3.12'
-
-      - name: Install Poetry
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install poetry
-
-      - name: Install deps
-        run: |
-          poetry install --no-interaction --no-root
-
-      - name: Run one-shot planning pass
-        run: |
-          poetry run python scripts/one_shot_plan.py
-
-      - name: Create PR with planning artifacts
-        uses: peter-evans/create-pull-request@v6
-        with:
-          branch: auto/daily-planning
-          title: "chore(autonomy): daily planning artifacts"
-          commit-message: "chore(autonomy): daily planning artifacts [skip ci]"
-          body: |
-            Automated daily planning pass that generates:
-            - docs/AUTONOMY/next_steps/*
-            - docs/AUTONOMY/release_notes/*
-            - docs/AUTONOMY/runs/*
-
-            This is non-interactive and safe. Merge or review as desired.
-          add-paths: |
-            docs/AUTONOMY/**
+      - run: echo 'This workflow is disabled to reduce email noise'
