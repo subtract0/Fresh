@@ -772,6 +772,437 @@ def cmd_feature_hook_missing(args):
         return 1
 
 
+def cmd_memory_init(args):
+    """Initialize intelligent memory system."""
+    try:
+        from ai.enhanced_agency import initialize_intelligent_memory
+        from ai.memory.store import get_store
+        
+        if args.dry_run:
+            print("🔍 DRY RUN: Would initialize memory system")
+            print(f"  Enhanced Firestore: {'Yes' if args.enhanced_firestore else 'No'}")
+            print(f"  Force reinitialization: {'Yes' if args.force else 'No'}")
+            
+            # Check current environment
+            firebase_configured = all([
+                os.getenv("FIREBASE_PROJECT_ID"),
+                os.getenv("FIREBASE_CLIENT_EMAIL"),
+                os.getenv("FIREBASE_PRIVATE_KEY")
+            ])
+            print(f"  Firebase credentials: {'Configured' if firebase_configured else 'Missing'}")
+            return 0
+        
+        print("🧠 Initializing intelligent memory system...")
+        
+        if args.force:
+            print("⚠️  Force mode: Reinitializing existing memory system")
+        
+        # Initialize with the selected options
+        initialize_intelligent_memory(use_enhanced_firestore=args.enhanced_firestore)
+        
+        # Verify initialization
+        store = get_store()
+        store_type = type(store).__name__
+        
+        print(f"✅ Memory system initialized successfully")
+        print(f"   Store Type: {store_type}")
+        
+        # Test basic functionality
+        test_content = f"Memory system initialized at {datetime.now()}"
+        from ai.tools.memory_tools import WriteMemory
+        WriteMemory(
+            content=test_content,
+            tags=["system", "init", "autonomous"]
+        ).run()
+        
+        print(f"   Test write successful: Basic memory operations working")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Memory initialization failed: {e}")
+        return 1
+
+
+def cmd_memory_status(args):
+    """Show memory system status."""
+    try:
+        from ai.memory.store import get_store
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        store = get_store()
+        store_type = type(store).__name__
+        
+        print(f"🧠 Memory System Status")
+        print(f"=" * 40)
+        print(f"Store Type: {store_type}")
+        
+        # Get basic metrics if available
+        if hasattr(store, '_items'):
+            item_count = len(store._items)
+            print(f"Stored Items: {item_count}")
+        
+        # Enhanced features
+        if isinstance(store, IntelligentMemoryStore):
+            print(f"\n🧠 Intelligent Features:")
+            print(f"  ✅ Semantic Search")
+            print(f"  ✅ Auto Classification")
+            print(f"  ✅ Importance Scoring")
+            print(f"  ✅ Keyword Extraction")
+            print(f"  ✅ Related Items Mapping")
+            
+            if hasattr(store, 'get_analytics'):
+                try:
+                    analytics = store.get_analytics()
+                    print(f"\n📊 Analytics:")
+                    for key, value in analytics.items():
+                        print(f"  {key}: {value}")
+                except:
+                    pass
+        
+        # Environment info
+        if args.verbose:
+            print(f"\n🔧 Environment:")
+            firebase_configured = all([
+                os.getenv("FIREBASE_PROJECT_ID"),
+                os.getenv("FIREBASE_CLIENT_EMAIL"),
+                os.getenv("FIREBASE_PRIVATE_KEY")
+            ])
+            print(f"  Firebase configured: {'Yes' if firebase_configured else 'No'}")
+            
+            if firebase_configured:
+                print(f"  Project ID: {os.getenv('FIREBASE_PROJECT_ID')}")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to get memory status: {e}")
+        return 1
+
+
+def cmd_memory_analytics(args):
+    """Show memory analytics."""
+    try:
+        from ai.memory.store import get_store
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        store = get_store()
+        
+        if not isinstance(store, IntelligentMemoryStore):
+            print(f"⚠️  Analytics not available for {type(store).__name__}")
+            print(f"   Use 'fresh memory init' to enable intelligent memory")
+            return 1
+        
+        print(f"📊 Memory Analytics")
+        print(f"=" * 40)
+        
+        try:
+            if hasattr(store, 'get_analytics'):
+                analytics = store.get_analytics()
+                
+                if args.format == 'json':
+                    print(json.dumps(analytics, indent=2, default=str))
+                elif args.format == 'table':
+                    # Simple table format
+                    for category, data in analytics.items():
+                        print(f"\n{category}:")
+                        if isinstance(data, dict):
+                            for key, value in data.items():
+                                print(f"  {key:20} {value}")
+                        else:
+                            print(f"  {data}")
+                else:  # summary format
+                    total_memories = analytics.get('total_memories', 0)
+                    print(f"Total Memories: {total_memories}")
+                    
+                    memory_types = analytics.get('memory_types', {})
+                    if memory_types:
+                        print(f"\nBy Type:")
+                        for mem_type, count in memory_types.items():
+                            print(f"  {mem_type}: {count}")
+                    
+                    importance_stats = analytics.get('importance_stats', {})
+                    if importance_stats:
+                        print(f"\nImportance Distribution:")
+                        print(f"  Average: {importance_stats.get('average', 0):.2f}")
+                        print(f"  High (>0.7): {importance_stats.get('high_importance', 0)}")
+                    
+                    top_keywords = analytics.get('top_keywords', [])
+                    if top_keywords:
+                        print(f"\nTop Keywords: {', '.join(top_keywords[:10])}")
+            else:
+                print("Basic analytics not available for this store")
+                
+        except Exception as e:
+            print(f"⚠️  Analytics error: {e}")
+            return 1
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to get analytics: {e}")
+        return 1
+
+
+# Global orchestrator instance for CLI commands
+_orchestrator_instance = None
+
+
+def cmd_auto_start(args):
+    """Start autonomous development orchestration."""
+    global _orchestrator_instance
+    
+    try:
+        from ai.orchestration.autonomous_orchestrator import AutonomousOrchestrator, OrchestrationConfig
+        
+        if _orchestrator_instance and _orchestrator_instance.is_running:
+            print("⚠️  Orchestration already running. Use 'fresh auto status' to check status.")
+            return 1
+        
+        print(f"🚀 Starting Autonomous Development Orchestration")
+        print(f"   Max Agents: {args.agents}")
+        print(f"   Budget: ${args.budget:.2f} USD")
+        print(f"   Runtime: {args.hours} hours")
+        print(f"   Overnight Mode: {args.overnight}")
+        print(f"   Strategy: {args.strategy}")
+        print(f"   User Approval: {'No' if args.no_approval else 'Yes'}")
+        
+        config = OrchestrationConfig(
+            max_agents=args.agents,
+            budget_usd=args.budget,
+            overnight_mode=args.overnight,
+            max_runtime_hours=args.hours,
+            require_user_approval=not args.no_approval,
+            feature_selection_strategy=args.strategy
+        )
+        
+        _orchestrator_instance = AutonomousOrchestrator(config)
+        
+        print(f"\n🎆 Orchestration starting! Use 'fresh auto status' to monitor progress.")
+        print(f"🗺 Press Ctrl+C at any time to gracefully shutdown.")
+        
+        # Run orchestration
+        asyncio.run(_orchestrator_instance.start_orchestration())
+        
+        return 0
+        
+    except KeyboardInterrupt:
+        print(f"\n⏹️  Orchestration interrupted by user")
+        return 0
+    except Exception as e:
+        print(f"❌ Failed to start orchestration: {e}")
+        return 1
+
+
+def cmd_auto_status(args):
+    """Show orchestration status."""
+    global _orchestrator_instance
+    
+    if not _orchestrator_instance:
+        print("⚠️  No orchestration running. Use 'fresh auto start' to begin.")
+        return 1
+    
+    try:
+        status = _orchestrator_instance.get_status()
+        
+        if args.format == 'json':
+            print(json.dumps(status, indent=2, default=str))
+            return 0
+        
+        print(f"🤖 AUTONOMOUS ORCHESTRATION STATUS")
+        print(f"{'='*50}")
+        print(f"Running: {'Yes' if status['is_running'] else 'No'}")
+        print(f"Cost: ${status['total_cost_usd']:.2f} / ${status['budget_usd']:.2f}")
+        print(f"Agents: {len(status['agents'])}")
+        
+        if not status['agents']:
+            print(f"\n📋 No agents spawned yet")
+            return 0
+        
+        print(f"\n🤖 AGENTS:")
+        for agent_id, agent_data in status['agents'].items():
+            emoji = {
+                'starting': '🚀',
+                'analyzing': '🔍', 
+                'implementing': '🛠️',
+                'testing': '🧪',
+                'awaiting_user': '👤',
+                'committing': '📋',
+                'completed': '✅',
+                'failed': '❌',
+                'paused': '⏸️'
+            }.get(agent_data['status'], '🤖')
+            
+            print(f"  {emoji} {agent_id[:8]} | {agent_data['status']} | {agent_data['target_feature'] or 'N/A'}")
+            print(f"     Runtime: {agent_data['runtime_minutes']:.1f}min | Cost: ${agent_data['cost_usd']:.2f}")
+            
+            if agent_data['user_question']:
+                print(f"     ❓ Question: {agent_data['user_question'][:80]}...")
+            
+            if agent_data['pr_url']:
+                print(f"     🔗 PR: {agent_data['pr_url']}")
+            
+            if args.format == 'detailed' and agent_data['last_progress']:
+                print(f"     📋 Last: {agent_data['last_progress'][-100:]}")
+            
+            print()
+        
+        # Show agents awaiting user interaction
+        awaiting = [a for a in status['agents'].values() if a['status'] == 'awaiting_user']
+        if awaiting:
+            print(f"⚠️  {len(awaiting)} agents awaiting your approval:")
+            for agent in awaiting:
+                print(f"   Use: fresh auto approve {agent['id'][:8]}")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to get status: {e}")
+        return 1
+
+
+def cmd_auto_approve(args):
+    """Approve agent awaiting user interaction."""
+    global _orchestrator_instance
+    
+    if not _orchestrator_instance:
+        print("⚠️  No orchestration running.")
+        return 1
+    
+    try:
+        # Find matching agent ID (prefix match)
+        matching_agents = [
+            agent_id for agent_id in _orchestrator_instance.agents.keys()
+            if agent_id.startswith(args.agent_id)
+        ]
+        
+        if not matching_agents:
+            print(f"❌ No agent found matching ID: {args.agent_id}")
+            return 1
+        
+        if len(matching_agents) > 1:
+            print(f"⚠️  Multiple agents match '{args.agent_id}': {matching_agents}")
+            print(f"   Please be more specific.")
+            return 1
+        
+        agent_id = matching_agents[0]
+        _orchestrator_instance.approve_agent(agent_id)
+        
+        print(f"👍 Agent {agent_id[:8]} approved and continuing work")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to approve agent: {e}")
+        return 1
+
+
+def cmd_auto_stop(args):
+    """Stop autonomous orchestration."""
+    global _orchestrator_instance
+    
+    if not _orchestrator_instance or not _orchestrator_instance.is_running:
+        print("⚠️  No orchestration running.")
+        return 0
+    
+    try:
+        print(f"⏹️  Stopping autonomous orchestration...")
+        
+        if args.force:
+            print(f"⚠️  Force stop requested - agents may not complete cleanly")
+        else:
+            print(f"🔄 Graceful shutdown - agents will finish current work")
+        
+        _orchestrator_instance.shutdown_requested = True
+        
+        # Wait a bit for graceful shutdown
+        if not args.force:
+            import time
+            time.sleep(5)
+        
+        print(f"✅ Orchestration stopped")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Failed to stop orchestration: {e}")
+        return 1
+
+
+def cmd_product_analyze(args):
+    """Analyze feature using Product Manager agent."""
+    try:
+        from ai.cli.product_commands import analyze_feature
+        from datetime import datetime
+        
+        # Call the click command function
+        analyze_feature(
+            feature_name=args.feature_name,
+            description=args.description,
+            issues=args.issues or [],
+            output=args.output,
+            save_prd=args.save_prd
+        )
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Product analysis failed: {e}")
+        return 1
+
+
+def cmd_product_roadmap(args):
+    """Generate product roadmap."""
+    try:
+        from ai.cli.product_commands import generate_roadmap
+        from datetime import datetime
+        
+        # Call the click command function
+        generate_roadmap(
+            horizon=args.horizon,
+            output=args.output,
+            save=args.save
+        )
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Roadmap generation failed: {e}")
+        return 1
+
+
+def cmd_product_auto(args):
+    """Start product-driven autonomous development."""
+    try:
+        from ai.cli.product_commands import start_product_auto
+        
+        # Call the click command function
+        start_product_auto(
+            agents=args.agents,
+            budget=args.budget,
+            overnight=args.overnight,
+            min_rice=args.min_rice,
+            no_prds=args.no_prds
+        )
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Product autonomous start failed: {e}")
+        return 1
+
+
+def cmd_product_status(args):
+    """Show product development status."""
+    try:
+        from ai.cli.product_commands import product_status
+        
+        # Call the click command function
+        product_status()
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Product status failed: {e}")
+        return 1
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -970,6 +1401,56 @@ def main():
         ))
     )
 
+    # Autonomous orchestration command group
+    auto_parser = subparsers.add_parser('auto', help='Autonomous development orchestration')
+    auto_sub = auto_parser.add_subparsers(dest='auto_cmd', help='Autonomous orchestration commands')
+    
+    # Start orchestration
+    auto_start = auto_sub.add_parser('start', help='Start autonomous development orchestration')
+    auto_start.add_argument('--agents', type=int, default=10, help='Maximum number of agents (default: 10)')
+    auto_start.add_argument('--budget', type=float, default=10.0, help='Budget in USD (default: 10.0)')
+    auto_start.add_argument('--overnight', action='store_true', help='Enable overnight operation mode')
+    auto_start.add_argument('--hours', type=int, default=8, help='Maximum runtime in hours (default: 8)')
+    auto_start.add_argument('--no-approval', action='store_true', help='Skip user approval checkpoints')
+    auto_start.add_argument('--strategy', choices=['highest_impact', 'safest', 'random'], default='highest_impact', help='Feature selection strategy')
+    auto_start.set_defaults(func=cmd_auto_start)
+    
+    # Status
+    auto_status = auto_sub.add_parser('status', help='Show orchestration status')
+    auto_status.add_argument('--format', choices=['summary', 'detailed', 'json'], default='summary', help='Output format')
+    auto_status.set_defaults(func=cmd_auto_status)
+    
+    # Approve agent
+    auto_approve = auto_sub.add_parser('approve', help='Approve agent awaiting user interaction')
+    auto_approve.add_argument('agent_id', help='Agent ID to approve')
+    auto_approve.set_defaults(func=cmd_auto_approve)
+    
+    # Stop orchestration
+    auto_stop = auto_sub.add_parser('stop', help='Stop autonomous orchestration')
+    auto_stop.add_argument('--force', action='store_true', help='Force immediate stop')
+    auto_stop.set_defaults(func=cmd_auto_stop)
+    
+    # Memory command group
+    memory_parser = subparsers.add_parser('memory', help='Intelligent memory system management')
+    memory_sub = memory_parser.add_subparsers(dest='memory_cmd', help='Memory management commands')
+    
+    # Memory initialization
+    memory_init = memory_sub.add_parser('init', help='Initialize intelligent memory system')
+    memory_init.add_argument('--enhanced-firestore', action='store_true', help='Use Enhanced Firestore (production)')
+    memory_init.add_argument('--force', action='store_true', help='Force reinitialization')
+    memory_init.add_argument('--dry-run', action='store_true', help='Show what would be initialized without doing it')
+    memory_init.set_defaults(func=cmd_memory_init)
+    
+    # Memory status
+    memory_status = memory_sub.add_parser('status', help='Show memory system status and metrics')
+    memory_status.add_argument('--verbose', action='store_true', help='Show detailed status information')
+    memory_status.set_defaults(func=cmd_memory_status)
+    
+    # Memory analytics
+    memory_analytics = memory_sub.add_parser('analytics', help='Show memory analytics and insights')
+    memory_analytics.add_argument('--format', choices=['json', 'table', 'summary'], default='summary', help='Output format')
+    memory_analytics.set_defaults(func=cmd_memory_analytics)
+    
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
     mcp_sub = mcp_parser.add_subparsers(dest='mcp_cmd', help='MCP subcommands')
@@ -1001,6 +1482,39 @@ def main():
 
     mcp_refresh = mcp_sub.add_parser('refresh', help='Force a discovery refresh')
     mcp_refresh.set_defaults(func=cmd_mcp_refresh)
+    
+    # Product command group
+    product_parser = subparsers.add_parser('product', help='Product-driven development and analysis')
+    product_sub = product_parser.add_subparsers(dest='product_cmd', help='Product management commands')
+    
+    # Product analyze command
+    product_analyze = product_sub.add_parser('analyze', help='Analyze feature using Product Manager agent')
+    product_analyze.add_argument('feature_name', nargs='?', help='Feature name to analyze')
+    product_analyze.add_argument('--description', '-d', help='Feature description')
+    product_analyze.add_argument('--issues', '-i', action='append', help='Known issues with the feature')
+    product_analyze.add_argument('--output', '-o', choices=['json', 'prd', 'summary'], default='summary', help='Output format')
+    product_analyze.add_argument('--save-prd', action='store_true', help='Save PRD document to docs/prds/')
+    product_analyze.set_defaults(func=cmd_product_analyze)
+    
+    # Product roadmap command
+    product_roadmap = product_sub.add_parser('roadmap', help='Generate product roadmap from feature analysis')
+    product_roadmap.add_argument('--horizon', '-t', type=int, default=90, help='Planning horizon in days')
+    product_roadmap.add_argument('--output', '-o', choices=['json', 'markdown', 'table'], default='table', help='Output format')
+    product_roadmap.add_argument('--save', action='store_true', help='Save roadmap to docs/roadmap.md')
+    product_roadmap.set_defaults(func=cmd_product_roadmap)
+    
+    # Product auto command
+    product_auto = product_sub.add_parser('auto', help='Start product-driven autonomous development')
+    product_auto.add_argument('--agents', '-a', type=int, default=3, help='Maximum number of concurrent agents')
+    product_auto.add_argument('--budget', '-b', type=float, default=5.0, help='API budget limit in EUR')
+    product_auto.add_argument('--overnight', action='store_true', help='Enable overnight autonomous operation')
+    product_auto.add_argument('--min-rice', type=float, default=5.0, help='Minimum RICE score for auto-approval')
+    product_auto.add_argument('--no-prds', action='store_true', help='Disable PRD generation')
+    product_auto.set_defaults(func=cmd_product_auto)
+    
+    # Product status command
+    product_status = product_sub.add_parser('status', help='Show product-driven autonomous development status')
+    product_status.set_defaults(func=cmd_product_status)
     
     # Parse arguments
     args = parser.parse_args()

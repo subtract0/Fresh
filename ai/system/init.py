@@ -237,4 +237,330 @@ class FreshAgentSystem:
             for name, component in self.components.items():
                 if name in started_components or not can_start(component):
                     continue
-                    \n                try:\n                    await self._start_component(component)\n                    started_components.add(name)\n                    made_progress = True\n                    \n                except Exception as e:\n                    logger.error(f\"Failed to start component {name}: {e}\")\n                    component.status = \"failed\"\n                    component.last_error = str(e)\n                    component.error_count += 1\n                    \n                    # For critical components, fail the entire system\n                    if name in [\"memory_store\", \"agent_spawner\"]:\n                        raise\n                        \n            if not made_progress:\n                unstarted = [name for name in self.components if name not in started_components]\n                logger.error(f\"Unable to start components due to dependency issues: {unstarted}\")\n                break\n                \n    async def _start_component(self, component: SystemComponent):\n        \"\"\"Start a single component.\"\"\"\n        logger.info(f\"Starting component: {component.name}\")\n        \n        try:\n            if component.start_method and hasattr(component.instance, component.start_method):\n                start_func = getattr(component.instance, component.start_method)\n                if asyncio.iscoroutinefunction(start_func):\n                    await start_func()\n                else:\n                    start_func()\n                    \n            component.status = \"running\"\n            component.start_time = datetime.now()\n            logger.info(f\"Component {component.name} started successfully\")\n            \n        except Exception as e:\n            component.status = \"failed\"\n            component.last_error = str(e)\n            component.error_count += 1\n            raise\n            \n    async def _verify_system_health(self):\n        \"\"\"Verify that all critical components are healthy.\"\"\"\n        logger.info(\"Verifying system health...\")\n        \n        critical_components = [\"memory_store\", \"agent_spawner\"]\n        \n        for component_name in critical_components:\n            if component_name not in self.components:\n                raise RuntimeError(f\"Critical component {component_name} not available\")\n                \n            component = self.components[component_name]\n            if component.status != \"running\":\n                raise RuntimeError(f\"Critical component {component_name} is not running: {component.status}\")\n                \n        # Test basic functionality\n        try:\n            # Test memory system\n            WriteMemory(\n                content=\"System health check - memory system operational\",\n                tags=[\"system\", \"health\", \"test\"]\n            ).run()\n            \n        except Exception as e:\n            raise RuntimeError(f\"Memory system health check failed: {e}\")\n            \n        logger.info(\"System health verification completed\")\n        \n    async def _health_monitoring_loop(self):\n        \"\"\"Continuous health monitoring loop.\"\"\"\n        while not self._shutdown_event.is_set():\n            try:\n                await asyncio.sleep(self.health_check_interval)\n                await self._perform_health_checks()\n                \n            except asyncio.CancelledError:\n                break\n            except Exception as e:\n                logger.error(f\"Health monitoring error: {e}\")\n                await asyncio.sleep(5)  # Brief pause before retry\n                \n    async def _perform_health_checks(self):\n        \"\"\"Perform health checks on all components.\"\"\"\n        for name, component in self.components.items():\n            try:\n                if (component.health_check_method and \n                    hasattr(component.instance, component.health_check_method)):\n                    \n                    health_func = getattr(component.instance, component.health_check_method)\n                    if asyncio.iscoroutinefunction(health_func):\n                        result = await health_func()\n                    else:\n                        result = health_func()\n                        \n                    if not result:\n                        logger.warning(f\"Component {name} failed health check\")\n                        component.status = \"unhealthy\"\n                    elif component.status == \"unhealthy\":\n                        component.status = \"running\"  # Recovery\n                        \n            except Exception as e:\n                logger.error(f\"Health check failed for {name}: {e}\")\n                component.error_count += 1\n                component.last_error = str(e)\n                \n    async def get_system_status(self) -> SystemStatus:\n        \"\"\"Get comprehensive system status.\"\"\"\n        uptime = (datetime.now() - self.start_time).total_seconds()\n        \n        # Component statuses\n        component_statuses = {\n            name: comp.status for name, comp in self.components.items()\n        }\n        \n        # Overall health assessment\n        failed_components = [name for name, status in component_statuses.items() if status == \"failed\"]\n        unhealthy_components = [name for name, status in component_statuses.items() if status == \"unhealthy\"]\n        \n        if failed_components:\n            overall_health = \"critical\"\n        elif unhealthy_components:\n            overall_health = \"degraded\"\n        else:\n            overall_health = \"healthy\"\n            \n        # Collect recent errors\n        recent_errors = []\n        for component in self.components.values():\n            if component.last_error:\n                recent_errors.append(f\"{component.name}: {component.last_error}\")\n                \n        # Active agents and executions (if available)\n        active_agents = 0\n        active_executions = 0\n        \n        if \"agent_spawner\" in self.components:\n            try:\n                spawner = self.components[\"agent_spawner\"].instance\n                agents = await spawner.list_active_agents() if hasattr(spawner, 'list_active_agents') else []\n                active_agents = len(agents)\n            except Exception:\n                pass\n                \n        if \"execution_monitor\" in self.components:\n            try:\n                monitor = self.components[\"execution_monitor\"].instance\n                executions = monitor.list_active_executions() if hasattr(monitor, 'list_active_executions') else {}\n                active_executions = len(executions)\n            except Exception:\n                pass\n                \n        # Performance metrics (simplified)\n        performance_metrics = {\n            \"uptime_seconds\": uptime,\n            \"component_count\": len(self.components),\n            \"error_count\": sum(comp.error_count for comp in self.components.values())\n        }\n        \n        return SystemStatus(\n            overall_health=overall_health,\n            components=component_statuses,\n            uptime_seconds=uptime,\n            active_agents=active_agents,\n            active_executions=active_executions,\n            recent_errors=recent_errors[-10:],  # Last 10 errors\n            performance_metrics=performance_metrics\n        )\n        \n    async def restart_component(self, component_name: str) -> bool:\n        \"\"\"Restart a specific component.\"\"\"\n        if component_name not in self.components:\n            logger.error(f\"Component {component_name} not found\")\n            return False\n            \n        component = self.components[component_name]\n        \n        try:\n            logger.info(f\"Restarting component: {component_name}\")\n            \n            # Stop component\n            if (component.stop_method and \n                hasattr(component.instance, component.stop_method)):\n                stop_func = getattr(component.instance, component.stop_method)\n                if asyncio.iscoroutinefunction(stop_func):\n                    await stop_func()\n                else:\n                    stop_func()\n                    \n            # Start component\n            await self._start_component(component)\n            \n            WriteMemory(\n                content=f\"Component {component_name} restarted successfully\",\n                tags=[\"system\", \"restart\", \"recovery\", component_name]\n            ).run()\n            \n            return True\n            \n        except Exception as e:\n            logger.error(f\"Failed to restart component {component_name}: {e}\")\n            \n            WriteMemory(\n                content=f\"Failed to restart component {component_name}: {str(e)}\",\n                tags=[\"system\", \"restart\", \"failure\", component_name]\n            ).run()\n            \n            return False\n            \n    def add_shutdown_handler(self, handler: Callable):\n        \"\"\"Add a shutdown handler function.\"\"\"\n        self.shutdown_handlers.append(handler)\n        \n    async def shutdown(self):\n        \"\"\"Gracefully shutdown all system components.\"\"\"\n        logger.info(\"Initiating system shutdown...\")\n        \n        self._shutdown_event.set()\n        \n        # Cancel health monitoring\n        if self._health_check_task:\n            self._health_check_task.cancel()\n            try:\n                await self._health_check_task\n            except asyncio.CancelledError:\n                pass\n                \n        # Execute custom shutdown handlers\n        for handler in self.shutdown_handlers:\n            try:\n                if asyncio.iscoroutinefunction(handler):\n                    await handler()\n                else:\n                    handler()\n            except Exception as e:\n                logger.error(f\"Shutdown handler failed: {e}\")\n                \n        # Stop components in reverse dependency order\n        shutdown_order = self._determine_shutdown_order()\n        \n        for component_name in shutdown_order:\n            if component_name not in self.components:\n                continue\n                \n            component = self.components[component_name]\n            \n            try:\n                if (component.stop_method and \n                    hasattr(component.instance, component.stop_method)):\n                    stop_func = getattr(component.instance, component.stop_method)\n                    if asyncio.iscoroutinefunction(stop_func):\n                        await stop_func()\n                    else:\n                        stop_func()\n                        \n                component.status = \"stopped\"\n                logger.info(f\"Component {component_name} stopped\")\n                \n            except Exception as e:\n                logger.error(f\"Error stopping component {component_name}: {e}\")\n                \n        # Record shutdown\n        try:\n            WriteMemory(\n                content=f\"Fresh Agent System shutdown completed at {datetime.now()}\",\n                tags=[\"system\", \"shutdown\", \"complete\"]\n            ).run()\n        except Exception:\n            pass  # Memory system may already be stopped\n            \n        logger.info(\"System shutdown completed\")\n        \n    def _determine_shutdown_order(self) -> List[str]:\n        \"\"\"Determine the order to shutdown components (reverse of startup order).\"\"\"\n        # Simple reverse dependency order\n        shutdown_order = []\n        processed = set()\n        \n        def add_to_shutdown_order(component_name: str):\n            if component_name in processed or component_name not in self.components:\n                return\n                \n            component = self.components[component_name]\n            \n            # First, add components that depend on this one\n            for name, comp in self.components.items():\n                if component_name in comp.dependencies and name not in processed:\n                    add_to_shutdown_order(name)\n                    \n            shutdown_order.append(component_name)\n            processed.add(component_name)\n            \n        # Process all components\n        for component_name in self.components:\n            add_to_shutdown_order(component_name)\n            \n        return shutdown_order\n\n\n# Global system instance\n_system_instance: Optional[FreshAgentSystem] = None\n\ndef get_system() -> FreshAgentSystem:\n    \"\"\"Get the global Fresh Agent System instance.\"\"\"\n    global _system_instance\n    if _system_instance is None:\n        _system_instance = FreshAgentSystem()\n    return _system_instance\n\n\nasync def initialize_system(config: Optional[Dict[str, Any]] = None) -> bool:\n    \"\"\"Initialize the Fresh Agent System with optional configuration.\"\"\"\n    system = get_system()\n    return await system.initialize(config)\n\n\nasync def shutdown_system():\n    \"\"\"Shutdown the Fresh Agent System gracefully.\"\"\"\n    system = get_system()\n    await system.shutdown()\n\n\nasync def get_status() -> SystemStatus:\n    \"\"\"Get current system status.\"\"\"\n    system = get_system()\n    return await system.get_system_status()"
+                    
+                try:
+                    await self._start_component(component)
+                    started_components.add(name)
+                    made_progress = True
+                    
+                except Exception as e:
+                    logger.error(f"Failed to start component {name}: {e}")
+                    component.status = "failed"
+                    component.last_error = str(e)
+                    component.error_count += 1
+                    
+                    # For critical components, fail the entire system
+                    if name in ["memory_store", "agent_spawner"]:
+                        raise
+                        
+            if not made_progress:
+                unstarted = [name for name in self.components if name not in started_components]
+                logger.error(f"Unable to start components due to dependency issues: {unstarted}")
+                break
+                
+    async def _start_component(self, component: SystemComponent):
+        """Start a single component."""
+        logger.info(f"Starting component: {component.name}")
+        
+        try:
+            if component.start_method and hasattr(component.instance, component.start_method):
+                start_func = getattr(component.instance, component.start_method)
+                if asyncio.iscoroutinefunction(start_func):
+                    await start_func()
+                else:
+                    start_func()
+                    
+            component.status = "running"
+            component.start_time = datetime.now()
+            logger.info(f"Component {component.name} started successfully")
+            
+        except Exception as e:
+            component.status = "failed"
+            component.last_error = str(e)
+            component.error_count += 1
+            raise
+            
+    async def _verify_system_health(self):
+        """Verify that all critical components are healthy."""
+        logger.info("Verifying system health...")
+        
+        critical_components = ["memory_store", "agent_spawner"]
+        
+        for component_name in critical_components:
+            if component_name not in self.components:
+                raise RuntimeError(f"Critical component {component_name} not available")
+                
+            component = self.components[component_name]
+            if component.status != "running":
+                raise RuntimeError(f"Critical component {component_name} is not running: {component.status}")
+                
+        # Test basic functionality
+        try:
+            # Test memory system
+            WriteMemory(
+                content="System health check - memory system operational",
+                tags=["system", "health", "test"]
+            ).run()
+            
+        except Exception as e:
+            raise RuntimeError(f"Memory system health check failed: {e}")
+            
+        logger.info("System health verification completed")
+        
+    async def _health_monitoring_loop(self):
+        """Continuous health monitoring loop."""
+        while not self._shutdown_event.is_set():
+            try:
+                await asyncio.sleep(self.health_check_interval)
+                await self._perform_health_checks()
+                
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"Health monitoring error: {e}")
+                await asyncio.sleep(5)  # Brief pause before retry
+                
+    async def _perform_health_checks(self):
+        """Perform health checks on all components."""
+        for name, component in self.components.items():
+            try:
+                if (component.health_check_method and 
+                    hasattr(component.instance, component.health_check_method)):
+                    
+                    health_func = getattr(component.instance, component.health_check_method)
+                    if asyncio.iscoroutinefunction(health_func):
+                        result = await health_func()
+                    else:
+                        result = health_func()
+                        
+                    if not result:
+                        logger.warning(f"Component {name} failed health check")
+                        component.status = "unhealthy"
+                    elif component.status == "unhealthy":
+                        component.status = "running"  # Recovery
+                        
+            except Exception as e:
+                logger.error(f"Health check failed for {name}: {e}")
+                component.error_count += 1
+                component.last_error = str(e)
+                
+    async def get_system_status(self) -> SystemStatus:
+        """Get comprehensive system status."""
+        uptime = (datetime.now() - self.start_time).total_seconds()
+        
+        # Component statuses
+        component_statuses = {
+            name: comp.status for name, comp in self.components.items()
+        }
+        
+        # Overall health assessment
+        failed_components = [name for name, status in component_statuses.items() if status == "failed"]
+        unhealthy_components = [name for name, status in component_statuses.items() if status == "unhealthy"]
+        
+        if failed_components:
+            overall_health = "critical"
+        elif unhealthy_components:
+            overall_health = "degraded"
+        else:
+            overall_health = "healthy"
+            
+        # Collect recent errors
+        recent_errors = []
+        for component in self.components.values():
+            if component.last_error:
+                recent_errors.append(f"{component.name}: {component.last_error}")
+                
+        # Active agents and executions (if available)
+        active_agents = 0
+        active_executions = 0
+        
+        if "agent_spawner" in self.components:
+            try:
+                spawner = self.components["agent_spawner"].instance
+                agents = await spawner.list_active_agents() if hasattr(spawner, 'list_active_agents') else []
+                active_agents = len(agents)
+            except Exception:
+                pass
+                
+        if "execution_monitor" in self.components:
+            try:
+                monitor = self.components["execution_monitor"].instance
+                executions = monitor.list_active_executions() if hasattr(monitor, 'list_active_executions') else {}
+                active_executions = len(executions)
+            except Exception:
+                pass
+                
+        # Performance metrics (simplified)
+        performance_metrics = {
+            "uptime_seconds": uptime,
+            "component_count": len(self.components),
+            "error_count": sum(comp.error_count for comp in self.components.values())
+        }
+        
+        return SystemStatus(
+            overall_health=overall_health,
+            components=component_statuses,
+            uptime_seconds=uptime,
+            active_agents=active_agents,
+            active_executions=active_executions,
+            recent_errors=recent_errors[-10:],  # Last 10 errors
+            performance_metrics=performance_metrics
+        )
+        
+    async def restart_component(self, component_name: str) -> bool:
+        """Restart a specific component."""
+        if component_name not in self.components:
+            logger.error(f"Component {component_name} not found")
+            return False
+            
+        component = self.components[component_name]
+        
+        try:
+            logger.info(f"Restarting component: {component_name}")
+            
+            # Stop component
+            if (component.stop_method and 
+                hasattr(component.instance, component.stop_method)):
+                stop_func = getattr(component.instance, component.stop_method)
+                if asyncio.iscoroutinefunction(stop_func):
+                    await stop_func()
+                else:
+                    stop_func()
+                    
+            # Start component
+            await self._start_component(component)
+            
+            WriteMemory(
+                content=f"Component {component_name} restarted successfully",
+                tags=["system", "restart", "recovery", component_name]
+            ).run()
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"Failed to restart component {component_name}: {e}")
+            
+            WriteMemory(
+                content=f"Failed to restart component {component_name}: {str(e)}",
+                tags=["system", "restart", "failure", component_name]
+            ).run()
+            
+            return False
+            
+    def add_shutdown_handler(self, handler: Callable):
+        """Add a shutdown handler function."""
+        self.shutdown_handlers.append(handler)
+        
+    async def shutdown(self):
+        """Gracefully shutdown all system components."""
+        logger.info("Initiating system shutdown...")
+        
+        self._shutdown_event.set()
+        
+        # Cancel health monitoring
+        if self._health_check_task:
+            self._health_check_task.cancel()
+            try:
+                await self._health_check_task
+            except asyncio.CancelledError:
+                pass
+                
+        # Execute custom shutdown handlers
+        for handler in self.shutdown_handlers:
+            try:
+                if asyncio.iscoroutinefunction(handler):
+                    await handler()
+                else:
+                    handler()
+            except Exception as e:
+                logger.error(f"Shutdown handler failed: {e}")
+                
+        # Stop components in reverse dependency order
+        shutdown_order = self._determine_shutdown_order()
+        
+        for component_name in shutdown_order:
+            if component_name not in self.components:
+                continue
+                
+            component = self.components[component_name]
+            
+            try:
+                if (component.stop_method and 
+                    hasattr(component.instance, component.stop_method)):
+                    stop_func = getattr(component.instance, component.stop_method)
+                    if asyncio.iscoroutinefunction(stop_func):
+                        await stop_func()
+                    else:
+                        stop_func()
+                        
+                component.status = "stopped"
+                logger.info(f"Component {component_name} stopped")
+                
+            except Exception as e:
+                logger.error(f"Error stopping component {component_name}: {e}")
+                
+        # Record shutdown
+        try:
+            WriteMemory(
+                content=f"Fresh Agent System shutdown completed at {datetime.now()}",
+                tags=["system", "shutdown", "complete"]
+            ).run()
+        except Exception:
+            pass  # Memory system may already be stopped
+            
+        logger.info("System shutdown completed")
+        
+    def _determine_shutdown_order(self) -> List[str]:
+        """Determine the order to shutdown components (reverse of startup order)."""
+        # Simple reverse dependency order
+        shutdown_order = []
+        processed = set()
+        
+        def add_to_shutdown_order(component_name: str):
+            if component_name in processed or component_name not in self.components:
+                return
+                
+            component = self.components[component_name]
+            
+            # First, add components that depend on this one
+            for name, comp in self.components.items():
+                if component_name in comp.dependencies and name not in processed:
+                    add_to_shutdown_order(name)
+                    
+            shutdown_order.append(component_name)
+            processed.add(component_name)
+            
+        # Process all components
+        for component_name in self.components:
+            add_to_shutdown_order(component_name)
+            
+        return shutdown_order
+
+
+# Global system instance
+_system_instance: Optional[FreshAgentSystem] = None
+
+def get_system() -> FreshAgentSystem:
+    """Get the global Fresh Agent System instance."""
+    global _system_instance
+    if _system_instance is None:
+        _system_instance = FreshAgentSystem()
+    return _system_instance
+
+
+async def initialize_system(config: Optional[Dict[str, Any]] = None) -> bool:
+    """Initialize the Fresh Agent System with optional configuration."""
+    system = get_system()
+    return await system.initialize(config)
+
+
+async def shutdown_system():
+    """Shutdown the Fresh Agent System gracefully."""
+    system = get_system()
+    await system.shutdown()
+
+
+async def get_status() -> SystemStatus:
+    """Get current system status."""
+    system = get_system()
+    return await system.get_system_status()
