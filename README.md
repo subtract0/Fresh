@@ -1,14 +1,15 @@
 # Fresh AI - Enhanced Agent System with Persistent Memory
 
-> Version: v0 (baseline)
-> Status: stable baseline for building on itself, scaffolding new apps, or assisting other repos.
-> Tag: v0
-🧠 **State-of-the-art autonomous AI agents** with persistent memory, continuous learning, and cross-session intelligence. Fresh AI enables agents to learn from experience, make better decisions based on historical context, and improve performance over time.
+> **Version**: v0 (baseline)
+> **Status**: See [Feature Status Matrix](docs/FEATURE_STATUS.md) for implementation truth  
+> **Requirements**: Python 3.12+, Poetry
 
-[![Tests](https://img.shields.io/badge/tests-32%2F32%20passing-brightgreen)](#testing)
-[![Memory System](https://img.shields.io/badge/memory-intelligent%20%2B%20persistent-blue)](#memory-system)
-[![Agents](https://img.shields.io/badge/agents-4%20enhanced-purple)](#enhanced-agents)
-[![Documentation](https://img.shields.io/badge/docs-comprehensive-orange)](#documentation)
+🧠 **Autonomous AI agents with persistent memory** - Agents that learn from experience, make decisions based on historical context, and improve over time.
+
+[![Tests](https://img.shields.io/badge/tests-28%20files-brightgreen)](#testing)
+[![Memory](https://img.shields.io/badge/memory-3%20stores-blue)](#memory-system)
+[![Implementation](https://img.shields.io/badge/features-14%20implemented-purple)](docs/FEATURE_STATUS.md)
+[![Documentation](https://img.shields.io/badge/docs-truth--based-orange)](docs/FEATURE_STATUS.md)
 
 ## 🎯 Baseline (v0)
 
@@ -27,33 +28,29 @@ The next versions (v0.1, v0.2, …) will be small, shippable, and independently 
 
 ```bash
 # 1. Install and setup
-cd /path/to/Fresh
-poetry install --no-root
-export PYTHONPATH=$(pwd)
+git clone https://github.com/yourusername/Fresh.git
+cd Fresh
+./scripts/bootstrap.sh  # Or: poetry install --no-root
 
-# 2. Test the memory system
-PYTHONPATH=$(pwd) poetry run python scripts/demo-persistent-memory.py
+# 2. Verify what's actually implemented
+poetry run python scripts/analyze_feature_status.py
+cat docs/FEATURE_STATUS.md
 
-# 3. Test enhanced agents
-PYTHONPATH=$(pwd) poetry run python scripts/demo-agent-activity.py
-
-# 4. Run the test suite
-poetry run python -m pytest tests/test_intelligent_memory.py tests/test_firestore_memory.py
+# 3. Test core features
+poetry run python -m ai.cli.fresh scan .  # Scan for issues
+poetry run pytest tests/ -q               # Run test suite
 ```
 
-🎉 **Result**: Intelligent memory system with 4 enhanced agents ready for autonomous development!
+### Working CLI Commands (Verified)
 
-### CLI Quick Start (Assist and Scaffold)
+```bash
+# Core commands that work
+poetry run python -m ai.cli.fresh scan . --json  # Scan repository
+poetry run python -m ai.cli.fresh spawn "task"   # Spawn agent
+poetry run python -m ai.cli.fresh run --once     # Dev cycle
+```
 
-Assist planning (no code changes)
-- Scan: python -m ai.cli.fresh assist scan . --json --limit 10
-- Report: python -m ai.cli.fresh assist report . --out assist_report.md
-- Plan PR: python -m ai.cli.fresh assist plan-pr . --push --create-pr
-See docs/ASSIST.md
-
-Scaffold a Python package
-- python -m ai.cli.fresh scaffold new MyLib ./out --template python-package
-See docs/SCAFFOLD.md
+📊 **Implementation Status**: See [Feature Status Matrix](docs/FEATURE_STATUS.md) for what actually works vs what's planned.
 
 ## 📚 Documentation System
 
