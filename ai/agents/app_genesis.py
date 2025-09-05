@@ -142,27 +142,15 @@ class AppGenesisAgent:
         the most critical aspect of their vision."""
         
         try:
-            # Try GPT-5 first, fallback to GPT-4o if needed
-            try:
-                response = self.client.chat.completions.create(
-                    model="gpt-5",
+            # Use GPT-4o for app creation
+            response = self.client.chat.completions.create(
+                model="gpt-4o",
                     messages=[
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": initial_idea}
                     ],
                     temperature=0.7,
                     max_completion_tokens=200
-                )
-            except Exception as e:
-                print(f"GPT-5 unavailable, falling back to GPT-4o: {e}")
-                response = self.client.chat.completions.create(
-                    model="gpt-4o",
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": initial_idea}
-                    ],
-                    temperature=0.7,
-                    max_tokens=200
                 )
             
             first_question = response.choices[0].message.content
@@ -228,7 +216,7 @@ class AppGenesisAgent:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": assessment_prompt}],
                 temperature=0.1,
                 max_tokens=10
@@ -303,7 +291,7 @@ class AppGenesisAgent:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": spec_prompt}],
                 temperature=0.3,
                 max_tokens=800
@@ -603,7 +591,7 @@ Thumbs.db
             result = self.mother_agent.run(
                 name=f"task_{task.id}",
                 instructions=instructions,
-                model="gpt-5",  # Using GPT-5 for development tasks
+                model="gpt-4o",  # Using GPT-4o for development tasks
                 output_type="code"
             )
             
