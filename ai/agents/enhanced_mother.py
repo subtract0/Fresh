@@ -426,12 +426,35 @@ class EnhancedMotherAgent(MotherAgent):
                 # Determine model based on agent type and task complexity
                 model = "gpt-4o-mini" if task.get("priority", 1) <= 3 else "gpt-4o"
                 
-                # Spawn specialized agent
-                result = self.run(
-                    name=f"{agent_type}_{task_id}",
-                    instructions=description,
-                    model=model,
-                    output_type=task.get("output_type", "analysis")
+                # Create detailed context for specialized agent
+                context_instructions = f"""
+You are a {agent_type} specialist working as part of an orchestrated research team.
+
+**Your specific task**: {description}
+
+**Context**: You are analyzing opportunities for autonomous software deployment and business intelligence.
+This is part of a larger market research and opportunity analysis project.
+
+**Your role**: Provide professional {task.get('output_type', 'analysis')} based on your specialization.
+Focus on actionable insights and concrete recommendations.
+
+**Expected deliverable**: {task.get('output_type', 'analysis').replace('_', ' ').title()}
+
+Be specific, data-driven, and provide concrete next steps where applicable.
+"""
+                
+                # Add timeout handling for agent execution
+                timeout_seconds = 120  # 2 minutes per agent
+                
+                # Spawn specialized agent with timeout protection
+                result = await asyncio.wait_for(
+                    self._run_agent_async(
+                        name=f"{agent_type}_{task_id}",
+                        instructions=context_instructions,
+                        model=model,
+                        output_type=task.get("output_type", "analysis")
+                    ),
+                    timeout=timeout_seconds
                 )
                 
                 if result.success:
@@ -450,6 +473,15 @@ class EnhancedMotherAgent(MotherAgent):
                     }
                     print(f"   ❌ {agent_type} failed: {result.error}")
                     
+            except asyncio.TimeoutError:
+                timeout_msg = f"Agent {agent_type} timed out after {timeout_seconds}s"
+                phase_results[task_id] = {
+                    "agent_type": agent_type,
+                    "error": timeout_msg,
+                    "success": False
+                }
+                print(f"   ⏰ {agent_type} timed out - moving to next agent")
+                
             except Exception as e:
                 phase_results[task_id] = {
                     "agent_type": agent_type,
@@ -508,6 +540,28 @@ Based on the analysis results, recommended actions:
         
         return report.strip()
 
+    async def _run_agent_async(self, name: str, instructions: str, model: str, output_type: str):
+        """Async wrapper for agent execution to support timeout handling."""
+        import asyncio
+        import concurrent.futures
+        
+        # Run the synchronous agent in a thread pool to make it awaitable
+        loop = asyncio.get_event_loop()
+        
+        def run_sync_agent():
+            return self.run(
+                name=name,
+                instructions=instructions, 
+                model=model,
+                output_type=output_type
+            )
+        
+        # Execute in thread pool to avoid blocking the event loop
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            result = await loop.run_in_executor(executor, run_sync_agent)
+        
+        return result
+    
     def get_orchestration_statistics(self) -> Dict[str, Any]:
         """Get statistics about orchestration performance."""
         if not self.orchestration_history:

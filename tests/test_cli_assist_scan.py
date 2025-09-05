@@ -46,7 +46,7 @@ def test_assist_scan_json(tmp_path, monkeypatch, capsys):
     assert any(pth.endswith("mod1.py") or "mod1.py" in pth for pth in first_paths)
 
     # Check that at least one of the expected comments is detected in the tasks for mod1.py
-    comment_keys = ("comment", "text", "message")
+    comment_keys = ("description", "comment", "text", "message")
 
     def get_comment(item):
         for k in comment_keys:

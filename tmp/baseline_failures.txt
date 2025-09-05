@@ -1,0 +1,1817 @@
+...................................................................FFFFF [ 27%]
+s................................................................F...... [ 54%]
+............................................................FFFFFF.FFFF~~~~~~~~~~~~~~~~ Stack of Thread-6 (spawn_agent) (13035925504) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+~~~~~~~~~~~~~~~~~ Stack of Thread-5 (spawn_agent) (6160216064) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+~~~~~~~~~~~~~~~~~ Stack of Thread-4 (spawn_agent) (6143389696) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
++++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
+F~~~~~~~~~~~~~~~~ Stack of Thread-6 (spawn_agent) (13035925504) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+~~~~~~~~~~~~~~~~~ Stack of Thread-5 (spawn_agent) (6160216064) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
++++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
+F..........F......................................                       [100%]
+=================================== FAILURES ===================================
+________ TestFirestoreCrossSession.test_memory_persists_across_sessions ________
+
+self = <test_firestore_cross_session.TestFirestoreCrossSession object at 0x107b343b0>
+unique_session_id = 'test_session_1f9352ec'
+
+    def test_memory_persists_across_sessions(self, firestore_store, unique_session_id):
+        """Test that memory written in one session can be read in another."""
+        # Session 1: Write memory
+        test_content = f"Test memory from {unique_session_id}"
+        test_tags = ["test", "cross-session", unique_session_id]
+    
+        memory_id = firestore_store.write(
+            content=test_content,
+            memory_type=MemoryType.KNOWLEDGE,
+            tags=test_tags
+        )
+    
+        assert memory_id is not None
+    
+        # Simulate session end
+        del firestore_store
+    
+        # Session 2: Create new store instance (new session)
+        new_store = FirestoreMemoryStore()
+    
+        # Query for the memory
+        results = new_store.query(tags=[unique_session_id])
+    
+>       assert len(results) > 0
+E       assert 0 > 0
+E        +  where 0 = len([])
+
+tests/integration/test_firestore_cross_session.py:53: AssertionError
+------------------------------ Captured log setup ------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+------------------------------ Captured log call -------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+___________ TestFirestoreCrossSession.test_learning_patterns_persist ___________
+
+self = <test_firestore_cross_session.TestFirestoreCrossSession object at 0x107b345c0>
+unique_session_id = 'test_session_2e3d337e'
+
+    def test_learning_patterns_persist(self, firestore_store, unique_session_id):
+        """Test that learned patterns are available in future sessions."""
+        # Session 1: Record multiple similar successes
+        for i in range(3):
+            firestore_store.write(
+                content=f"Successfully fixed type error by adding type hints",
+                memory_type=MemoryType.KNOWLEDGE,
+                tags=["pattern", "typescript", "success", unique_session_id],
+                metadata={
+                    "task": "fix_type_error",
+                    "approach": "add_type_hints",
+                    "success": True,
+                    "iteration": i
+                }
+            )
+    
+        # Simulate session end
+        del firestore_store
+    
+        # Session 2: New store should find the pattern
+        new_store = FirestoreMemoryStore()
+    
+        # Query for learned patterns
+        patterns = new_store.query(
+            memory_type=MemoryType.KNOWLEDGE,
+            tags=["pattern", "typescript", unique_session_id]
+        )
+    
+>       assert len(patterns) == 3
+E       assert 0 == 3
+E        +  where 0 = len([])
+
+tests/integration/test_firestore_cross_session.py:85: AssertionError
+------------------------------ Captured log setup ------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+------------------------------ Captured log call -------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+___________ TestFirestoreCrossSession.test_agent_memory_accumulation ___________
+
+self = <test_firestore_cross_session.TestFirestoreCrossSession object at 0x107b347d0>
+unique_session_id = 'test_session_6a4c6b94'
+
+    def test_agent_memory_accumulation(self, firestore_store, unique_session_id):
+        """Test that agent memories accumulate over multiple sessions."""
+        agent_id = f"test_agent_{unique_session_id}"
+    
+        # Session 1: Agent learns something
+        firestore_store.write(
+            content="Learned: Use async/await for API calls",
+            memory_type=MemoryType.KNOWLEDGE,
+            tags=["agent", agent_id],
+            metadata={"agent_id": agent_id, "session": 1}
+        )
+    
+        # Session 2: Agent learns more
+        del firestore_store
+        store_session2 = FirestoreMemoryStore()
+        store_session2.write(
+            content="Learned: Add retry logic for network failures",
+            memory_type=MemoryType.KNOWLEDGE,
+            tags=["agent", agent_id],
+            metadata={"agent_id": agent_id, "session": 2}
+        )
+    
+        # Session 3: Agent recalls all learning
+        del store_session2
+        store_session3 = FirestoreMemoryStore()
+    
+        all_learning = store_session3.query(tags=[agent_id])
+    
+>       assert len(all_learning) == 2
+E       assert 0 == 2
+E        +  where 0 = len([])
+
+tests/integration/test_firestore_cross_session.py:118: AssertionError
+------------------------------ Captured log setup ------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+------------------------------ Captured log call -------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+_________ TestFirestoreCrossSession.test_memory_search_across_sessions _________
+
+self = <test_firestore_cross_session.TestFirestoreCrossSession object at 0x107b349e0>
+unique_session_id = 'test_session_27aadb83'
+
+    def test_memory_search_across_sessions(self, firestore_store, unique_session_id):
+        """Test that semantic search works across session boundaries."""
+        # Session 1: Write various memories
+        memories = [
+            ("Python type hints improve code quality", ["python", "types"]),
+            ("TypeScript interfaces define contracts", ["typescript", "types"]),
+            ("Rust ownership prevents memory bugs", ["rust", "memory"]),
+        ]
+    
+        for content, tags in memories:
+            firestore_store.write(
+                content=content,
+                memory_type=MemoryType.KNOWLEDGE,
+                tags=tags + [unique_session_id]
+            )
+    
+        # Session 2: Search for type-related memories
+        del firestore_store
+        new_store = FirestoreMemoryStore()
+    
+        # Search by keyword
+        type_memories = new_store.query(
+            keywords=["type", "types"],
+            tags=[unique_session_id]
+        )
+    
+>       assert len(type_memories) >= 2
+E       assert 0 >= 2
+E        +  where 0 = len([])
+
+tests/integration/test_firestore_cross_session.py:149: AssertionError
+------------------------------ Captured log setup ------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+------------------------------ Captured log call -------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+______ TestFirestoreCrossSession.test_memory_consolidation_cross_session _______
+
+self = <test_firestore_cross_session.TestFirestoreCrossSession object at 0x107b34bf0>
+unique_session_id = 'test_session_420db443'
+
+    def test_memory_consolidation_cross_session(self, firestore_store, unique_session_id):
+        """Test that memory consolidation works across sessions."""
+        # Session 1: Write many similar memories
+        for i in range(10):
+            firestore_store.write(
+                content=f"Fixed bug #{i} in authentication",
+                memory_type=MemoryType.TASK,
+                tags=["bug", "auth", unique_session_id],
+                metadata={"bug_id": i}
+            )
+    
+        # Session 2: Consolidate memories
+        del firestore_store
+        new_store = FirestoreMemoryStore()
+    
+        # Get all auth bugs
+        auth_bugs = new_store.query(tags=["auth", unique_session_id])
+    
+        # Should be able to see pattern
+>       assert len(auth_bugs) == 10
+E       assert 0 == 10
+E        +  where 0 = len([])
+
+tests/integration/test_firestore_cross_session.py:172: AssertionError
+------------------------------ Captured log setup ------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+------------------------------ Captured log call -------------------------------
+ERROR    ai.memory.firestore_store:firestore_store.py:118 Failed to initialize Firestore client: File ./firebase-credentials.json was not found.
+WARNING  ai.memory.firestore_store:firestore_store.py:119 Falling back to in-memory storage
+____________________________ test_assist_scan_json _____________________________
+
+tmp_path = PosixPath('/private/var/folders/sj/ttm056wn69ncqkyty42kd_dc0000gn/T/pytest-of-am/pytest-14/test_assist_scan_json0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x108535c40>
+capsys = <_pytest.capture.CaptureFixture object at 0x108534350>
+
+    def test_assist_scan_json(tmp_path, monkeypatch, capsys):
+        # Create a tiny repo fixture
+        p = tmp_path / "pkg"
+        p.mkdir()
+        f1 = p / "mod1.py"
+        f1.write_text("""
+    # TODO: refactor
+    # FIXME: broken edge case  # Test data for scanner
+    """
+        )
+        f2 = p / "readme.md"
+        f2.write_text("ok\n")
+    
+        args = SimpleNamespace(path=str(tmp_path), json=True, limit=100, allow=None, deny=None)
+        rc = fresh.main if False else None  # silence linter; we're calling internal cmd
+    
+        # call the internal function wired via parser in the CLI module
+        # For simplicity, directly call the nested function by reconstructing it here is complex;
+        # Instead, invoke the CLI through argparse would be overkill in-unit.
+        # We'll import scan_repository directly to emulate the same path and compare counts.
+        # To keep scope tight, call the internal helper by constructing a minimal Namespace and using cmd_scan.
+        args2 = SimpleNamespace(path=str(tmp_path), json=True, limit=200, allow=None, deny=None)
+        fresh.cmd_scan(args2)
+        out = capsys.readouterr().out
+        data = json.loads(out)
+    
+        assert data["total"] >= 1
+        # Ensure tasks include the python file
+        first_paths = [item["file_path"] for item in data["tasks"]]
+        assert any("mod1.py" in p for p in first_paths)
+    
+        # Check that at least one of the expected comments is detected in the tasks for mod1.py
+>       comments = [item["comment"] for item in data["tasks"] if "mod1.py" in item["file_path"]]
+                    ^^^^^^^^^^^^^^^
+E       KeyError: 'comment'
+
+tests/test_cli_assist_scan.py:40: KeyError
+________________ TestMotherAgent.test_run_with_basic_parameters ________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fec620>
+
+    def test_run_with_basic_parameters(self):
+        """Test run method with basic parameters."""
+        mother = MotherAgent()
+    
+>       result = mother.run(
+            name="test_agent",
+            instructions="Fix the bug in module X",
+            model="gpt-4",
+            output_type="code"
+        )
+
+tests/test_mother_agent.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+____________ TestMotherAgent.test_run_spawns_appropriate_agent_type ____________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fec800>
+
+    def test_run_spawns_appropriate_agent_type(self):
+        """Test that run method spawns the correct agent based on instructions."""
+        mother = MotherAgent()
+    
+        # Test spawning for bug fix (should route to Developer)
+>       result = mother.run(
+            name="bug_fixer",
+            instructions="Fix TypeError in utils.py line 42",
+            model="gpt-4",
+            output_type="code"
+        )
+
+tests/test_mother_agent.py:49: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+______________ TestMotherAgent.test_run_with_test_generation_task ______________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fec9e0>
+
+    def test_run_with_test_generation_task(self):
+        """Test spawning for test generation tasks."""
+        mother = MotherAgent()
+    
+>       result = mother.run(
+            name="test_creator",
+            instructions="Write tests for the new authentication module",
+            model="gpt-4",
+            output_type="tests"
+        )
+
+tests/test_mother_agent.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+_______________ TestMotherAgent.test_run_with_architecture_task ________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fecbc0>
+
+    def test_run_with_architecture_task(self):
+        """Test spawning for architecture/design tasks."""
+        mother = MotherAgent()
+    
+>       result = mother.run(
+            name="architect",
+            instructions="Design the API structure for user management",
+            model="gpt-4",
+            output_type="design"
+        )
+
+tests/test_mother_agent.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+_______________ TestMotherAgent.test_memory_persistence_on_spawn _______________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fecda0>
+
+    def test_memory_persistence_on_spawn(self):
+        """Test that spawn requests are persisted to memory."""
+        memory_store = InMemoryMemoryStore()
+        mother = MotherAgent(memory_store=memory_store)
+    
+>       result = mother.run(
+            name="memory_test",
+            instructions="Implement caching layer",
+            model="gpt-4",
+            output_type="code"
+        )
+
+tests/test_mother_agent.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+_________________ TestMotherAgent.test_spawn_request_tracking __________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fecf80>
+
+    def test_spawn_request_tracking(self):
+        """Test that spawn requests are properly tracked."""
+        mother = MotherAgent()
+    
+        # Spawn multiple agents
+        results = []
+        for i in range(3):
+>           result = mother.run(
+                name=f"agent_{i}",
+                instructions=f"Task {i}",
+                model="gpt-4",
+                output_type="code"
+            )
+
+tests/test_mother_agent.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+_____________________ TestMotherAgent.test_model_selection _____________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fed340>
+
+    def test_model_selection(self):
+        """Test different model selections."""
+        mother = MotherAgent()
+    
+        models = ["gpt-4", "gpt-3.5-turbo", "claude-2"]
+    
+        for model in models:
+>           result = mother.run(
+                name=f"agent_{model}",
+                instructions="Simple task",
+                model=model,
+                output_type="code"
+            )
+
+tests/test_mother_agent.py:152: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+✅ OpenAI call completed
+🤖 Calling OpenAI with model: gpt-3.5-turbo
+✅ OpenAI call completed
+🤖 Calling OpenAI with model: gpt-5
+_________________ TestMotherAgent.test_output_type_validation __________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fed520>
+
+    def test_output_type_validation(self):
+        """Test output type validation and defaults."""
+        mother = MotherAgent()
+    
+        valid_types = ["code", "tests", "docs", "design", "review"]
+    
+        for output_type in valid_types:
+>           result = mother.run(
+                name=f"agent_{output_type}",
+                instructions="Task",
+                model="gpt-4",
+                output_type=output_type
+            )
+
+tests/test_mother_agent.py:168: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+______________ TestMotherAgent.test_integration_with_father_agent ______________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fed670>
+
+    def test_integration_with_father_agent(self):
+        """Test integration with Father agent for planning."""
+        # Test without mocking for now - just verify routing
+        mother = MotherAgent()
+    
+>       result = mother.run(
+            name="planner",
+            instructions="Plan the refactoring of the authentication system",
+            model="gpt-4",
+            output_type="plan"
+        )
+
+tests/test_mother_agent.py:182: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+___________________ TestMotherAgent.test_spawn_history_limit ___________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fecdd0>
+
+    def test_spawn_history_limit(self):
+        """Test that spawn history has a reasonable limit."""
+        mother = MotherAgent(max_history=5)
+    
+        # Spawn more than the limit
+        for i in range(10):
+>           mother.run(
+                name=f"agent_{i}",
+                instructions=f"Task {i}",
+                model="gpt-4",
+                output_type="code"
+            )
+
+tests/test_mother_agent.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+_________________ TestMotherAgent.test_concurrent_spawn_safety _________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fec920>
+
+    def test_concurrent_spawn_safety(self):
+        """Test that Mother Agent handles concurrent spawns safely."""
+        import threading
+    
+        mother = MotherAgent()
+        results = []
+    
+        def spawn_agent(idx):
+            result = mother.run(
+                name=f"concurrent_{idx}",
+                instructions=f"Concurrent task {idx}",
+                model="gpt-4",
+                output_type="code"
+            )
+            results.append(result)
+    
+        threads = []
+        for i in range(5):
+            t = threading.Thread(target=spawn_agent, args=(i,))
+            threads.append(t)
+            t.start()
+    
+        for t in threads:
+>           t.join()
+
+tests/test_mother_agent.py:233: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py:1149: in join
+    self._wait_for_tstate_lock()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Thread(Thread-4 (spawn_agent), stopped 6143389696)>, block = True
+timeout = -1
+
+    def _wait_for_tstate_lock(self, block=True, timeout=-1):
+        # Issue #18808: wait for the thread state to be gone.
+        # At the end of the thread's life, after all knowledge of the thread
+        # is removed from C data structures, C code releases our _tstate_lock.
+        # This method passes its arguments to _tstate_lock.acquire().
+        # If the lock is acquired, the C code is done, and self._stop() is
+        # called.  That sets ._is_stopped to True, and ._tstate_lock to None.
+        lock = self._tstate_lock
+        if lock is None:
+            # already determined that the C code is done
+            assert self._is_stopped
+            return
+    
+        try:
+>           if lock.acquire(block, timeout):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py:1169: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+🤖 Calling OpenAI with model: gpt-5
+🤖 Calling OpenAI with model: gpt-5
+🤖 Calling OpenAI with model: gpt-5
+🤖 Calling OpenAI with model: gpt-5
++++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~ Stack of Thread-8 (spawn_agent) (13069578240) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+~~~~~~~~~~~~~~~~ Stack of Thread-7 (spawn_agent) (13052751872) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+__________________ TestMotherAgent.test_get_spawn_statistics ___________________
+
+self = <test_mother_agent.TestMotherAgent object at 0x107fec350>
+
+    def test_get_spawn_statistics(self):
+        """Test getting statistics about spawned agents."""
+        mother = MotherAgent()
+    
+        # Spawn various agents
+        mother.run("dev1", "Fix bug", "gpt-4", "code")
+>       mother.run("qa1", "Write tests", "gpt-4", "tests")
+
+tests/test_mother_agent.py:246: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ai/agents/mother.py:393: in run
+    result = self._execute_agent(
+ai/agents/mother.py:521: in _execute_agent
+    response = client.chat.completions.create(**api_params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py:287: in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py:1147: in create
+    return self._post(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:1259: in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py:982: in request
+    response = self._client.send(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:926: in send
+    response = self._send_handling_auth(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:954: in _send_handling_auth
+    response = self._send_handling_redirects(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:991: in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py:1027: in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py:236: in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:256: in handle_request
+    raise exc from None
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py:236: in handle_request
+    response = connection.handle_request(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py:103: in handle_request
+    return self._connection.handle_request(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:136: in handle_request
+    raise exc
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:106: in handle_request
+    ) = self._receive_response_headers(**kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:177: in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py:217: in _receive_event
+    data = self._network_stream.read(
+../../Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py:128: in read
+    return self._sock.recv(max_bytes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1232: in recv
+    return self.read(buflen)
+           ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=0>, len = 65536
+buffer = None
+
+    def read(self, len=1024, buffer=None):
+        """Read up to LEN bytes and return them.
+        Return zero-length string on EOF."""
+    
+        self._checkClosed()
+        if self._sslobj is None:
+            raise ValueError("Read on closed or unwrapped SSL socket.")
+        try:
+            if buffer is not None:
+                return self._sslobj.read(len, buffer)
+            else:
+>               return self._sslobj.read(len)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+E               Failed: Timeout (>5.0s) from pytest-timeout.
+
+/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py:1105: Failed
+----------------------------- Captured stdout call -----------------------------
+🤖 Calling OpenAI with model: gpt-5
+✅ OpenAI call completed
+🤖 Calling OpenAI with model: gpt-5
+✅ OpenAI call completed
++++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
+~~~~~~~~~~~~~~~~ Stack of Thread-8 (spawn_agent) (13069578240) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+~~~~~~~~~~~~~~~~ Stack of Thread-7 (spawn_agent) (13052751872) ~~~~~~~~~~~~~~~~~
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1032, in _bootstrap
+    self._bootstrap_inner()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/am/Code/Fresh/tests/test_mother_agent.py", line 218, in spawn_agent
+    result = mother.run(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 393, in run
+    result = self._execute_agent(
+  File "/Users/am/Code/Fresh/ai/agents/mother.py", line 521, in _execute_agent
+    response = client.chat.completions.create(**api_params)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_utils/_utils.py", line 287, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/resources/chat/completions/completions.py", line 1147, in create
+    return self._post(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 1259, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/openai/_base_client.py", line 982, in request
+    response = self._client.send(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 926, in send
+    response = self._send_handling_auth(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpx/_transports/default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 236, in handle_request
+    response = connection.handle_request(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 103, in handle_request
+    return self._connection.handle_request(request)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 106, in handle_request
+    ) = self._receive_response_headers(**kwargs)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 177, in _receive_response_headers
+    event = self._receive_event(timeout=timeout)
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_sync/http11.py", line 217, in _receive_event
+    data = self._network_stream.read(
+  File "/Users/am/Library/Caches/pypoetry/virtualenvs/fresh-qMJmUG-U-py3.12/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 128, in read
+    return self._sock.recv(max_bytes)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1232, in recv
+    return self.read(buflen)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.11/Frameworks/Python.framework/Versions/3.12/lib/python3.12/ssl.py", line 1105, in read
+    return self._sslobj.read(len)
+___________________ TestRepoScanner.test_find_todos_in_files ___________________
+
+self = <test_repo_scanner.TestRepoScanner object at 0x107fed370>
+tmp_path = PosixPath('/private/var/folders/sj/ttm056wn69ncqkyty42kd_dc0000gn/T/pytest-of-am/pytest-14/test_find_todos_in_files0')
+
+        def test_find_todos_in_files(self, tmp_path):
+            """Test finding TODO and FIXME comments in code."""
+            # Create test files with TODOs
+            test_file = tmp_path / "test.py"
+            test_file.write_text("""
+    def example():
+        # TODO: Implement this function
+        pass
+    
+    # FIXME: This is broken  # Test data for scanner
+    def broken():
+        return None
+    """)
+    
+            scanner = RepoScanner(repo_path=tmp_path)
+            tasks = scanner.find_todos()
+    
+            assert len(tasks) == 2
+            assert any(t.description == "TODO: Implement this function" for t in tasks)
+>           assert any(t.description == "FIXME: This is broken" for t in tasks)  # Ensure exact match
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           assert False
+E            +  where False = any(<generator object TestRepoScanner.test_find_todos_in_files.<locals>.<genexpr> at 0x108d460c0>)
+
+tests/test_repo_scanner.py:54: AssertionError
+=========================== short test summary info ============================
+SKIPPED [1] tests/integration/test_firestore_cross_session.py:250: docker-compose not available
+FAILED tests/integration/test_firestore_cross_session.py::TestFirestoreCrossSession::test_memory_persists_across_sessions
+FAILED tests/integration/test_firestore_cross_session.py::TestFirestoreCrossSession::test_learning_patterns_persist
+FAILED tests/integration/test_firestore_cross_session.py::TestFirestoreCrossSession::test_agent_memory_accumulation
+FAILED tests/integration/test_firestore_cross_session.py::TestFirestoreCrossSession::test_memory_search_across_sessions
+FAILED tests/integration/test_firestore_cross_session.py::TestFirestoreCrossSession::test_memory_consolidation_cross_session
+FAILED tests/test_cli_assist_scan.py::test_assist_scan_json - KeyError: 'comm...
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_run_with_basic_parameters
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_run_spawns_appropriate_agent_type
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_run_with_test_generation_task
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_run_with_architecture_task
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_memory_persistence_on_spawn
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_spawn_request_tracking
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_model_selection - Fa...
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_output_type_validation
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_integration_with_father_agent
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_spawn_history_limit
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_concurrent_spawn_safety
+FAILED tests/test_mother_agent.py::TestMotherAgent::test_get_spawn_statistics
+FAILED tests/test_repo_scanner.py::TestRepoScanner::test_find_todos_in_files
+✅ OpenAI call completed
+✅ OpenAI call completed
+✅ OpenAI call completed
+✅ OpenAI call completed

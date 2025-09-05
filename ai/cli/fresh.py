@@ -124,6 +124,89 @@ def cmd_spawn(args):
     return 0
 
 
+def cmd_orchestrate(args):
+    """Orchestrate complex multi-agent research and analysis.
+    
+    Args:
+        args: Parsed command-line arguments
+    """
+    print(f"🎭 Orchestrating complex task: {args.command[:60]}...")
+    
+    # Build constraints from arguments
+    constraints = {}
+    if args.budget:
+        constraints['budget'] = args.budget
+    if args.timeline:
+        constraints['timeline'] = args.timeline
+    if args.scope:
+        constraints['scope'] = args.scope
+    
+    if constraints:
+        print(f"📋 Constraints: {json.dumps(constraints, indent=2)}")
+    
+    async def run_orchestration():
+        try:
+            # Import enhanced mother agent
+            from ai.agents.enhanced_mother import EnhancedMotherAgent
+            from ai.memory.intelligent_store import IntelligentMemoryStore
+            
+            # Initialize enhanced orchestration system
+            memory_store = IntelligentMemoryStore()
+            enhanced_mother = EnhancedMotherAgent(memory_store=memory_store)
+            
+            # Run orchestrated task
+            result = await enhanced_mother.orchestrate_complex_task(
+                command=args.command,
+                constraints=constraints,
+                skip_clarifications=args.skip_clarifications
+            )
+            
+            # Output results based on format
+            if args.output_format == 'json':
+                output_data = {
+                    "task_id": result.task_id,
+                    "success": result.success,
+                    "agents_spawned": result.agents_spawned,
+                    "execution_time": result.execution_time,
+                    "results": result.results,
+                    "final_report": result.final_report,
+                    "errors": result.errors
+                }
+                print(json.dumps(output_data, indent=2, default=str))
+            else:
+                # Markdown/text format
+                print("\n" + "=" * 60)
+                print("🎯 ORCHESTRATION COMPLETED")
+                print("=" * 60)
+                print(f"Task ID: {result.task_id}")
+                print(f"Success: {result.success}")
+                print(f"Agents Deployed: {result.agents_spawned}")
+                print(f"Execution Time: {result.execution_time:.1f}s")
+                
+                if result.errors:
+                    print(f"\n⚠️ Errors ({len(result.errors)}):")
+                    for error in result.errors:
+                        print(f"   • {error}")
+                
+                if result.final_report:
+                    print("\n📋 FINAL REPORT:")
+                    print(result.final_report)
+            
+            return 0 if result.success else 1
+            
+        except ImportError as e:
+            print(f"❌ Enhanced orchestration not available: {e}")
+            print("   Install requirements: poetry install")
+            return 1
+        except Exception as e:
+            print(f"❌ Orchestration failed: {e}")
+            import traceback
+            traceback.print_exc()
+            return 1
+    
+    return asyncio.run(run_orchestration())
+
+
 def cmd_monitor(args):
     """Monitor command with enhanced interactive option."""
     if args.enhanced:
@@ -915,6 +998,16 @@ def main():
     spawn_parser.add_argument('--output', default='code', choices=['code', 'tests', 'docs', 'design', 'review'],
                              help='Expected output type')
     spawn_parser.set_defaults(func=cmd_spawn)
+    
+    # Orchestrate command for complex multi-agent tasks
+    orchestrate_parser = subparsers.add_parser('orchestrate', help='Orchestrate complex multi-agent research and analysis')
+    orchestrate_parser.add_argument('command', help='Complex command for orchestration (e.g., market research, business analysis)')
+    orchestrate_parser.add_argument('--budget', help='Budget constraint (e.g., "under_$500")')
+    orchestrate_parser.add_argument('--timeline', help='Timeline constraint (e.g., "same_day", "within_week")')
+    orchestrate_parser.add_argument('--scope', help='Scope constraint (e.g., "digital_only", "physical_products")')
+    orchestrate_parser.add_argument('--skip-clarifications', action='store_true', help='Skip clarification questions and proceed with defaults')
+    orchestrate_parser.add_argument('--output-format', choices=['json', 'markdown', 'text'], default='markdown', help='Output format for final report')
+    orchestrate_parser.set_defaults(func=cmd_orchestrate)
     
     # Autonomous Loop commands
     autonomous_parser = subparsers.add_parser('autonomous', help='Control autonomous improvement loop')
