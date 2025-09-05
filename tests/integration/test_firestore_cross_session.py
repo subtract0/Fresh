@@ -204,6 +204,11 @@ class TestFirestoreWithDocker:
         """Ensure Docker Firestore emulator is running."""
         import subprocess
         import os
+        import shutil
+        
+        # Check if docker-compose is available
+        if not shutil.which("docker-compose"):
+            pytest.skip("docker-compose not available")
         
         # Check if emulator is already running
         try:

@@ -186,14 +186,16 @@ class IntelligentMemoryStore(MemoryStore):
         # Update type index
         self._type_index[item.memory_type].append(item.id)
         
-    def write(self, *, content: str, tags: Optional[List[str]] = None) -> MemoryItem:
+    def write(self, *, content: str, tags: Optional[List[str]] = None, memory_type: Optional[MemoryType] = None, metadata: Optional[Dict[str, Any]] = None) -> MemoryItem:
         """Write enhanced memory item with automatic intelligence."""
         tags = tags or []
         item_id = self._generate_id()
         
         # Extract intelligence
         keywords = self._extract_keywords(content)
-        memory_type = self._classify_content(content, tags)
+        # Use provided memory_type or auto-classify
+        if memory_type is None:
+            memory_type = self._classify_content(content, tags)
         importance = self._calculate_importance(content, memory_type)
         summary = self._generate_summary(content)
         
@@ -207,7 +209,8 @@ class IntelligentMemoryStore(MemoryStore):
             keywords=keywords,
             related_ids=[],  # Will be populated after storage
             importance_score=importance,
-            summary=summary
+            summary=summary,
+            metadata=metadata or {}
         )
         
         # Store item
@@ -227,7 +230,8 @@ class IntelligentMemoryStore(MemoryStore):
                 keywords=item.keywords,
                 related_ids=related_ids,
                 importance_score=item.importance_score,
-                summary=item.summary
+                summary=item.summary,
+                metadata=item.metadata
             )
             self._items[-1] = updated_item  # Replace the last added item
             
@@ -245,20 +249,35 @@ class IntelligentMemoryStore(MemoryStore):
                             keywords=existing_item.keywords,
                             related_ids=existing_item.related_ids + [item_id],
                             importance_score=existing_item.importance_score,
-                            summary=existing_item.summary
+                            summary=existing_item.summary,
+                            metadata=existing_item.metadata
                         )
                         self._items[i] = updated_existing
             
         return self._items[-1]
         
-    def query(self, *, limit: int = 5, tags: Optional[List[str]] = None) -> List[MemoryItem]:
+    def query(self, *, limit: int = 5, tags: Optional[List[str]] = None, keywords: Optional[List[str]] = None, memory_type: Optional[MemoryType] = None) -> List[MemoryItem]:
         """Enhanced query with intelligent filtering."""
         items = self._items
         
+        # Filter by memory type if provided
+        if memory_type is not None:
+            items = [i for i in items if i.memory_type == memory_type]
+            
         # Filter by tags if provided
         if tags:
             tagset = set(tags)
             items = [i for i in items if tagset.intersection(i.tags)]
+            
+        # Filter by keywords if provided
+        if keywords:
+            keyword_set = set(k.lower() for k in keywords)
+            filtered_items = []
+            for item in items:
+                item_keywords = set(item.keywords)
+                if keyword_set & item_keywords:  # If any keywords match
+                    filtered_items.append(item)
+            items = filtered_items
             
         # Sort by importance and recency
         items = sorted(items, key=lambda i: (i.importance_score, i.created_at.timestamp()), reverse=True)

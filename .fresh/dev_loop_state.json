@@ -1,0 +1,11 @@
+{
+  "processed_tasks": [
+    {
+      "type": "FIXME",
+      "description": "FIXME: This is broken  # Test data for scanner",
+      "file_path": "tests/test_repo_scanner.py",
+      "line_number": 44
+    }
+  ],
+  "last_run": "2025-09-05T02:14:19.734426"
+}
