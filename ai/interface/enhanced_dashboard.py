@@ -1175,16 +1175,27 @@ RESULTS:
         
         // Initialize dashboard
         async function init() {
-            await startConversation();
-            await loadTemplates();
-            await loadTasks();
-            await updateSystemStatus();
-            
-            // Auto-refresh
-            setInterval(() => {
-                loadTasks();
-                updateSystemStatus();
-            }, 5000);
+            try {
+                console.log('Initializing dashboard...');
+                await startConversation();
+                await loadTemplates();
+                await loadTasks();
+                await updateSystemStatus();
+                console.log('Dashboard initialized successfully');
+                
+                // Auto-refresh
+                setInterval(() => {
+                    loadTasks();
+                    updateSystemStatus();
+                }, 5000);
+            } catch (error) {
+                console.error('Failed to initialize dashboard:', error);
+                // Show error in chat status if main init fails
+                const chatStatusElement = document.getElementById('chat-status');
+                if (chatStatusElement) {
+                    chatStatusElement.textContent = 'Initialization Failed';
+                }
+            }
             
             // Enable Enter to send in chat
             document.getElementById('chat-input').addEventListener('keydown', function(e) {
@@ -1199,11 +1210,17 @@ RESULTS:
         async function startConversation() {
             try {
                 const response = await fetch('/api/conversation/start');
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
                 const data = await response.json();
                 conversationId = data.conversation_id;
+                console.log('Conversation started:', conversationId);
                 await loadMessages();
             } catch (error) {
                 console.error('Failed to start conversation:', error);
+                // Show error message in chat
+                addMessageToUI('system', `❌ Failed to start conversation: ${error.message}`);
             }
         }
         
@@ -1444,13 +1461,28 @@ RESULTS:
                     '✅ Enhanced Mother Agent Ready' : 
                     '⚠️ Basic Mother Agent Only';
                     
-                document.getElementById('system-status').textContent = statusText;
-                document.getElementById('chat-status').textContent = 
-                    `${data.active_conversations} conversations • ${data.running_tasks} running`;
+                const statusElement = document.getElementById('system-status');
+                const chatStatusElement = document.getElementById('chat-status');
+                
+                if (statusElement) {
+                    statusElement.textContent = statusText;
+                }
+                
+                if (chatStatusElement) {
+                    chatStatusElement.textContent = 
+                        `${data.active_conversations || 0} conversations • ${data.running_tasks || 0} running`;
+                }
                     
             } catch (error) {
                 console.error('Failed to update status:', error);
-                document.getElementById('system-status').textContent = '❌ System Error';
+                const statusElement = document.getElementById('system-status');
+                if (statusElement) {
+                    statusElement.textContent = '❌ System Error';
+                }
+                const chatStatusElement = document.getElementById('chat-status');
+                if (chatStatusElement) {
+                    chatStatusElement.textContent = 'Connection Error';
+                }
             }
         }
         
