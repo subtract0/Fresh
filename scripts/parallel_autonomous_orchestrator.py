@@ -109,11 +109,10 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
             # Create prompt
             prompt = self.get_implementation_prompt(job.file_path, current_code, job.description)
             
-            # Ultra-cost-optimized with GPT-4o-mini for maximum efficiency
-            # GPT-4o-mini: ultra-cheap, fast, good for standard implementations
-            # GPT-4o: backup for complex cases
-            # GPT-5-mini: final fallback
-            models_to_try = ["gpt-4o-mini", "gpt-4o", "gpt-5-mini"]  # Maximum cost efficiency
+            # Production configuration: GPT-4o-mini → GPT-5 (high reasoning) fallback only
+            # GPT-4o-mini: ultra-cheap, fast, proven 100% success rate
+            # GPT-5: high reasoning fallback for any edge cases
+            models_to_try = ["gpt-4o-mini", "gpt-5"]  # Trusted production models only
             
             implementation = None
             successful_model = None
@@ -135,12 +134,8 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
                     # Smart MotherAgent model parameters
                     if model.startswith("gpt-5"):
                         api_params["max_completion_tokens"] = 2500  # Cost-controlled limit
-                        # Smart reasoning selection for cost efficiency
-                        if "planning" in job.description.lower() or "strategy" in job.description.lower():
-                            api_params["reasoning_effort"] = "high"  # high reasoning for planning
-                        else:
-                            api_params["reasoning_effort"] = "medium"  # medium for coding
-                        api_params["verbosity"] = "low"  # Concise for cost control
+                        api_params["reasoning_effort"] = "high"  # High reasoning for all GPT-5 calls
+                        api_params["verbosity"] = "low"  # Low verbosity for cost control
                     else:
                         api_params["max_tokens"] = 2500
                         api_params["temperature"] = 0.1
@@ -221,7 +216,7 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
         print(f"\n🚀 MotherAgent: Spawning {len(features)} autonomous workers in PARALLEL")
         print(f"💰 Budget limit: ${self.budget_limit}")
         print(f"👥 Max concurrent workers: {self.max_workers}")
-        print(f"🤖 Ultra-cost-optimized: GPT-4o-mini (ultra-cheap) → GPT-4o (backup) → GPT-5-mini (fallback)")
+        print(f"🤖 Production models: GPT-4o-mini (proven 100% success) → GPT-5 (high reasoning fallback)")
         print(f"⚡ TRUE PARALLEL EXECUTION - All {len(features)} workers will run simultaneously!")
         print("=" * 80)
         

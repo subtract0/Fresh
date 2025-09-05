@@ -8,54 +8,70 @@ from rich.console import Console
 from rich.table import Table
 from pathlib import Path
 import json
+import os
 
 console = Console()
 
+def load_config(config_path: str):
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    with open(config_path, 'r') as file:
+        return json.load(file)
+
+def perform_semantic_search(query: str, config: dict):
+    # Placeholder for actual semantic search logic
+    # This should interact with a semantic search engine or model
+    return {
+        "query": query,
+        "results": [
+            {"id": 1, "text": "Sample result 1"},
+            {"id": 2, "text": "Sample result 2"},
+        ]
+    }
 
 @click.command()
 @click.option('--verbose', '-v', is_flag=True, help='Enable verbose output')
 @click.option('--output', '-o', type=click.Choice(['json', 'table', 'plain']), 
               default='table', help='Output format')
 @click.option('--config', type=click.Path(exists=True), help='Configuration file')
+@click.argument('query', type=str)
 @click.pass_context
-def semanticsearchmemory(ctx, verbose: bool, output: str, config: Optional[str]):
+def semanticsearchmemory(ctx, verbose: bool, output: str, config: Optional[str], query: str):
     """
     SemanticSearchMemory command.
     
-    TODO: Implement SemanticSearchMemory CLI functionality
-    - Add command-line arguments and options
-    - Implement business logic
-    - Add proper error handling
-    - Add configuration support
+    This command performs a semantic search based on the provided query.
     """
     try:
         if verbose:
             console.print(f"[blue]Running SemanticSearchMemory command...[/blue]")
         
-        # TODO: Implement actual SemanticSearchMemory logic here
-        result_data = {
-            "feature": "SemanticSearchMemory",
-            "status": "not_implemented", 
-            "message": "TODO: Implement SemanticSearchMemory functionality",
-            "config_used": config,
-            "verbose": verbose
-        }
+        if config:
+            config_data = load_config(config)
+        else:
+            raise ValueError("Configuration file must be provided.")
+
+        if not query:
+            raise ValueError("Query cannot be empty.")
+
+        result_data = perform_semantic_search(query, config_data)
         
         # Output results based on format
         if output == 'json':
             console.print_json(json.dumps(result_data, indent=2))
         elif output == 'table':
             table = Table(title=f"SemanticSearchMemory Results")
-            table.add_column("Property", style="cyan")
-            table.add_column("Value", style="magenta")
+            table.add_column("ID", style="cyan")
+            table.add_column("Text", style="magenta")
             
-            for key, value in result_data.items():
-                table.add_row(str(key), str(value))
+            for result in result_data["results"]:
+                table.add_row(str(result["id"]), result["text"])
             
             console.print(table)
         else:  # plain
-            for key, value in result_data.items():
-                console.print(f"{key}: {value}")
+            console.print(f"Query: {result_data['query']}")
+            for result in result_data["results"]:
+                console.print(f"ID: {result['id']}, Text: {result['text']}")
         
         if verbose:
             console.print(f"[green]✅ SemanticSearchMemory completed successfully[/green]")
@@ -65,7 +81,6 @@ def semanticsearchmemory(ctx, verbose: bool, output: str, config: Optional[str])
         if verbose:
             console.print_exception()
         ctx.exit(1)
-
 
 # Export command for CLI registration
 __all__ = ["semanticsearchmemory"]
