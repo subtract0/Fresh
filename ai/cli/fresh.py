@@ -1142,6 +1142,105 @@ def main():
     
     dashboard_parser.set_defaults(func=cmd_dashboard)
 
+    # Ask and Implement command - High-level interface for feature requests
+    ask_parser = subparsers.add_parser('ask', help='High-level interface: describe what you want, agents plan and implement it')
+    ask_parser.add_argument('request', help='Description of what you want implemented')
+    ask_parser.add_argument('--branch-prefix', default='auto-feature', help='Prefix for the feature branch (default: auto-feature)')
+    
+    def cmd_ask(args):
+        """Execute ask-and-implement workflow."""
+        try:
+            from ai.interface.ask_implement import ask_and_implement
+            import json
+            
+            print(f"🤖 Processing request: {args.request}")
+            result = ask_and_implement(args.request, args.branch_prefix)
+            
+            if 'error' in result:
+                print(f"❌ Error: {result['error']}")
+                return 1
+            
+            print(f"✅ Feature branch created: {result['branch']}")
+            print(f"🔍 MCP servers available: {result['mcp_servers']}")
+            print(f"📋 Implementation plan:\n{result['plan']}")
+            print(f"\n💡 Next: {result['next']}")
+            
+            return 0
+        except ImportError as e:
+            print(f"❌ Ask-and-implement not available: {e}")
+            return 1
+        except Exception as e:
+            print(f"❌ Ask-and-implement failed: {e}")
+            return 1
+    
+    ask_parser.set_defaults(func=cmd_ask)
+
+    # Deploy command for agent swarm management
+    deploy_parser = subparsers.add_parser('deploy', help='Manage and deploy agent swarms with YAML configuration')
+    deploy_sub = deploy_parser.add_subparsers(dest='deploy_cmd', help='Deploy commands')
+    
+    # Create config
+    deploy_create = deploy_sub.add_parser('create', help='Create agent swarm configuration')
+    deploy_create.add_argument('config_name', nargs='?', default='default', help='Configuration name (default: default)')
+    
+    # Deploy swarm
+    deploy_swarm = deploy_sub.add_parser('deploy', help='Deploy agent swarm')
+    deploy_swarm.add_argument('config_name', nargs='?', default='default', help='Configuration name (default: default)')
+    deploy_swarm.add_argument('--context', help='Deployment context description')
+    
+    # List configs
+    deploy_list = deploy_sub.add_parser('list', help='List available configurations')
+    
+    def cmd_deploy(args):
+        """Execute deploy commands."""
+        try:
+            from ai.interface.deploy_agents import AgentDeploymentInterface
+            import json
+            
+            interface = AgentDeploymentInterface()
+            
+            if args.deploy_cmd == 'create':
+                config = interface.create_default_config()
+                config.name = args.config_name
+                config_path = interface.save_config(config)
+                print(f"✅ Created configuration: {config_path}")
+                print(f"📋 Configuration '{args.config_name}' ready for deployment")
+                
+            elif args.deploy_cmd == 'deploy':
+                print(f"🚀 Deploying swarm: {args.config_name}")
+                result = interface.deploy_swarm(args.config_name, args.context)
+                
+                print(f"✅ Swarm deployed: {result['swarm_name']}")
+                print(f"📝 Description: {result['description']}")
+                print(f"🤖 Active agents: {len(result['active_agents'])} of {result['total_agents']}")
+                print(f"   - {', '.join(result['active_agents'])}")
+                print(f"🔄 Agent flows: {len(result['flows'])} connections")
+                print(f"📄 Config file: {result['config_file']}")
+                
+            elif args.deploy_cmd == 'list':
+                configs = interface.list_configs()
+                if configs:
+                    print(f"📋 Available configurations: {len(configs)}")
+                    for config in configs:
+                        print(f"   - {config}")
+                else:
+                    print("📋 No configurations found. Use 'fresh deploy create' to create one.")
+                    
+            else:
+                print("❌ Unknown deploy command. Use --help for options.")
+                return 1
+                
+            return 0
+            
+        except ImportError as e:
+            print(f"❌ Deploy interface not available: {e}")
+            return 1
+        except Exception as e:
+            print(f"❌ Deploy failed: {e}")
+            return 1
+    
+    deploy_parser.set_defaults(func=cmd_deploy)
+
     # Telegram Bot command
     telegram_parser = subparsers.add_parser('telegram', help='Launch Telegram bot interface for agent requests')
     telegram_parser.add_argument('--token', help='Telegram bot token (or set TELEGRAM_BOT_TOKEN env var)')
