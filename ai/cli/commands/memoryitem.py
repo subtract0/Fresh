@@ -10,16 +10,33 @@ console = Console()
 
 class MemoryItem:
     def __init__(self, config_path: str):
+        """
+        Initialize the MemoryItem with the given configuration path.
+
+        :param config_path: Path to the configuration file.
+        """
         self.config_path = config_path
         self.load_config()
 
     def load_config(self):
+        """
+        Load the configuration from the specified file.
+
+        Raises:
+            FileNotFoundError: If the configuration file does not exist.
+            json.JSONDecodeError: If the configuration file is not valid JSON.
+        """
         if not os.path.exists(self.config_path):
             raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
         with open(self.config_path, 'r') as file:
             self.config = json.load(file)
 
     def process_memory_item(self):
+        """
+        Process the memory item based on the loaded configuration.
+
+        :return: A dictionary containing the processing result.
+        """
         # Simulate processing logic
         return {
             "feature": "MemoryItem",
@@ -38,6 +55,11 @@ def memoryitem(ctx, verbose: bool, output: str, config: str):
     """
     MemoryItem command.
     Processes memory items based on the provided configuration.
+
+    :param ctx: Click context.
+    :param verbose: Flag to enable verbose output.
+    :param output: Desired output format.
+    :param config: Path to the configuration file.
     """
     try:
         if verbose:

@@ -19,6 +19,14 @@ def create_agent_panel(ctx, verbose: bool, output: str, config: Optional[str]):
     create_agent_panel command.
     
     This command creates an agent panel based on the provided configuration.
+    It accepts a configuration file in JSON or YAML format and outputs the result
+    in the specified format (JSON, table, or plain text).
+    
+    Args:
+        ctx: Click context.
+        verbose (bool): Enable verbose output.
+        output (str): Output format.
+        config (Optional[str]): Path to the configuration file.
     """
     try:
         if verbose:

@@ -8,12 +8,36 @@ import os
 
 console = Console()
 
-def load_config(config_path: str):
+def load_config(config_path: str) -> dict:
+    """
+    Load configuration from a JSON file.
+
+    Args:
+        config_path (str): Path to the configuration file.
+
+    Returns:
+        dict: Parsed configuration data.
+
+    Raises:
+        FileNotFoundError: If the configuration file does not exist.
+        json.JSONDecodeError: If the configuration file is not valid JSON.
+    """
     with open(config_path, 'r') as f:
         return json.load(f)
 
-def perform_update(config):
-    # Simulate update logic based on configuration
+def perform_update(config: dict) -> dict:
+    """
+    Perform the update based on the provided configuration.
+
+    Args:
+        config (dict): Configuration data for the update.
+
+    Returns:
+        dict: Result of the update operation.
+
+    Raises:
+        ValueError: If the configuration does not contain the 'update' key.
+    """
     if 'update' not in config:
         raise ValueError("Configuration must contain 'update' key.")
     return {"status": "success", "details": "Update performed successfully."}
@@ -27,6 +51,12 @@ def perform_update(config):
 def update(ctx, verbose: bool, output: str, config: Optional[str]):
     """
     Update command to perform updates based on the provided configuration.
+
+    Args:
+        ctx: Click context.
+        verbose (bool): Flag to enable verbose output.
+        output (str): Desired output format.
+        config (Optional[str]): Path to the configuration file.
     """
     try:
         if verbose:

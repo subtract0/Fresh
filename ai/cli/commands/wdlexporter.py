@@ -8,11 +8,38 @@ import yaml
 
 console = Console()
 
-def load_config(config_path: str):
-    with open(config_path, 'r') as file:
-        return yaml.safe_load(file)
+def load_config(config_path: str) -> dict:
+    """
+    Load configuration from a YAML file.
 
-def validate_config(config):
+    Args:
+        config_path (str): Path to the configuration file.
+
+    Returns:
+        dict: Loaded configuration data.
+
+    Raises:
+        FileNotFoundError: If the configuration file does not exist.
+        yaml.YAMLError: If there is an error parsing the YAML file.
+    """
+    try:
+        with open(config_path, 'r') as file:
+            return yaml.safe_load(file)
+    except FileNotFoundError as e:
+        raise FileNotFoundError(f"Configuration file not found: {config_path}") from e
+    except yaml.YAMLError as e:
+        raise ValueError(f"Error parsing YAML file: {config_path}") from e
+
+def validate_config(config: dict) -> None:
+    """
+    Validate the loaded configuration.
+
+    Args:
+        config (dict): Configuration data to validate.
+
+    Raises:
+        ValueError: If required keys are missing in the configuration.
+    """
     required_keys = ['input', 'output', 'parameters']
     for key in required_keys:
         if key not in config:
@@ -24,10 +51,16 @@ def validate_config(config):
               default='table', help='Output format')
 @click.option('--config', type=click.Path(exists=True), help='Configuration file')
 @click.pass_context
-def wdlexporter(ctx, verbose: bool, output: str, config: Optional[str]):
+def wdlexporter(ctx, verbose: bool, output: str, config: Optional[str]) -> None:
     """
     WDLExporter command.
     Exports WDL files based on the provided configuration.
+
+    Args:
+        ctx: Click context.
+        verbose (bool): Flag to enable verbose output.
+        output (str): Desired output format.
+        config (Optional[str]): Path to the configuration file.
     """
     try:
         if verbose:

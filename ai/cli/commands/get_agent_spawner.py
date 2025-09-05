@@ -8,12 +8,33 @@ import os
 
 console = Console()
 
-def load_config(config_path: str):
+def load_config(config_path: str) -> dict:
+    """
+    Load configuration from a JSON file.
+
+    Args:
+        config_path (str): Path to the configuration file.
+
+    Returns:
+        dict: Parsed JSON configuration data.
+
+    Raises:
+        FileNotFoundError: If the configuration file does not exist.
+        json.JSONDecodeError: If the configuration file is not valid JSON.
+    """
     with open(config_path, 'r') as file:
         return json.load(file)
 
-def get_agent_spawner_logic(config):
-    # Placeholder for actual logic to get agent spawner details
+def get_agent_spawner_logic(config: dict) -> dict:
+    """
+    Retrieve agent spawner details based on the provided configuration.
+
+    Args:
+        config (dict): Configuration data.
+
+    Returns:
+        dict: Agent spawner details including agent name, spawner type, and status.
+    """
     return {
         "agent_name": config.get("agent_name", "default_agent"),
         "spawner_type": config.get("spawner_type", "default_spawner"),
@@ -30,6 +51,12 @@ def get_agent_spawner(ctx, verbose: bool, output: str, config: Optional[str]):
     """
     get_agent_spawner command.
     Retrieves agent spawner information based on the provided configuration.
+
+    Args:
+        ctx: Click context.
+        verbose (bool): Flag to enable verbose output.
+        output (str): Desired output format.
+        config (Optional[str]): Path to the configuration file.
     """
     try:
         if verbose:

@@ -16,9 +16,15 @@ console = Console()
 @click.pass_context
 def build(ctx, verbose: bool, output: str, config: Optional[str]):
     """
-    build command.
+    Build command.
     
     This command builds the project based on the provided configuration.
+    It creates a build directory and generates a build output file.
+    
+    :param ctx: Click context
+    :param verbose: Flag to enable verbose output
+    :param output: Desired output format (json, table, plain)
+    :param config: Path to the configuration file
     """
     try:
         if verbose:
@@ -37,8 +43,7 @@ def build(ctx, verbose: bool, output: str, config: Optional[str]):
         build_directory = config_data.get("build_directory", "build")
         os.makedirs(build_directory, exist_ok=True)
 
-        # Here you would add the actual build logic (e.g., compiling code, packaging)
-        # For demonstration, we will just create a dummy file
+        # Create a dummy file to simulate build output
         with open(os.path.join(build_directory, 'build_output.txt'), 'w') as f:
             f.write("Build completed successfully.")
 
@@ -70,6 +75,15 @@ def build(ctx, verbose: bool, output: str, config: Optional[str]):
         if verbose:
             console.print(f"[green]✅ Build completed successfully[/green]")
             
+    except FileNotFoundError as fnf_error:
+        console.print(f"[red]❌ Build failed: Configuration file not found: {str(fnf_error)}[/red]")
+        ctx.exit(1)
+    except json.JSONDecodeError as json_error:
+        console.print(f"[red]❌ Build failed: Invalid JSON in configuration file: {str(json_error)}[/red]")
+        ctx.exit(1)
+    except ValueError as value_error:
+        console.print(f"[red]❌ Build failed: {str(value_error)}[/red]")
+        ctx.exit(1)
     except Exception as e:
         console.print(f"[red]❌ Build failed: {str(e)}[/red]")
         if verbose:

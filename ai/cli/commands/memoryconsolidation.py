@@ -8,13 +8,39 @@ import os
 
 console = Console()
 
-def load_config(config_path: str):
+def load_config(config_path: str) -> dict:
+    """
+    Load configuration from a JSON file.
+
+    Args:
+        config_path (str): Path to the configuration file.
+
+    Returns:
+        dict: Loaded configuration data.
+
+    Raises:
+        FileNotFoundError: If the configuration file does not exist.
+        json.JSONDecodeError: If the configuration file is not valid JSON.
+    """
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Configuration file '{config_path}' not found.")
+    
     with open(config_path, 'r') as f:
         return json.load(f)
 
-def consolidate_memory(config):
-    # Placeholder for actual memory consolidation logic
-    # Simulating memory consolidation process
+def consolidate_memory(config: dict) -> dict:
+    """
+    Consolidate memory based on the provided configuration.
+
+    Args:
+        config (dict): Configuration data containing memory settings.
+
+    Returns:
+        dict: Result of the memory consolidation process.
+
+    Raises:
+        ValueError: If 'memory_limit' is not present in the configuration.
+    """
     if 'memory_limit' not in config:
         raise ValueError("Configuration must include 'memory_limit'")
     
@@ -35,6 +61,12 @@ def memoryconsolidation(ctx, verbose: bool, output: str, config: Optional[str]):
     """
     MemoryConsolidation command.
     Consolidates memory based on the provided configuration.
+
+    Args:
+        ctx: Click context.
+        verbose (bool): Flag to enable verbose output.
+        output (str): Desired output format.
+        config (Optional[str]): Path to the configuration file.
     """
     try:
         if verbose:
