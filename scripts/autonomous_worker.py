@@ -112,9 +112,9 @@ The implementation should be professional, robust, and ready for production use.
             elif model.startswith("gpt-5"):
                 # GPT-5 models - use for coding
                 api_params["max_completion_tokens"] = max_tokens
-                # GPT-5 supports temperature and reasoning_effort
-                api_params["temperature"] = 0.1
-                api_params["reasoning_effort"] = "medium"  # balanced speed vs quality
+                # GPT-5 uses reasoning_effort and verbosity for control
+                api_params["reasoning_effort"] = "medium"  # production level reasoning
+                api_params["verbosity"] = "low"  # concise final answer
             else:
                 api_params["max_tokens"] = max_tokens
                 api_params["temperature"] = 0.1

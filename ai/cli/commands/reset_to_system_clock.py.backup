@@ -81,6 +81,7 @@ def _sync_time(command: str, ntp_server: str, verbose: bool) -> Dict:
     Dict
         Dictionary containing execution details.
     """
+    system = platform.system().lower()
     start_time = datetime.utcnow()
 
     if command == "timedatectl":
@@ -104,29 +105,21 @@ def _sync_time(command: str, ntp_server: str, verbose: bool) -> Dict:
         )
         status = "success"
         message = "Time synchronization completed successfully."
-    except FileNotFoundError:
-        completed = subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr="Command not found.")
-        status = "failed"
-        message = f"Time synchronization failed: Command '{cmd[0]}' not found."
     except subprocess.CalledProcessError as exc:
         completed = exc
         status = "failed"
         message = f"Time synchronization failed: {exc}"
-    except Exception as exc:  # Generic safeguard
-        completed = subprocess.CompletedProcess(cmd, returncode=1, stdout="", stderr=str(exc))
-        status = "failed"
-        message = f"Unexpected error during synchronization: {exc}"
 
     end_time = datetime.utcnow()
     return {
         "command": " ".join(cmd),
         "returncode": completed.returncode,
-        "stdout": (completed.stdout or "").strip(),
-        "stderr": (completed.stderr or "").strip(),
+        "stdout": completed.stdout.strip() if completed.stdout else "",
+        "stderr": completed.stderr.strip() if completed.stderr else "",
         "status": status,
         "message": message,
-        "start_time_utc": start_time.isoformat(timespec="seconds") + "Z",
-        "end_time_utc": end_time.isoformat(timespec="seconds") + "Z",
+        "start_time_utc": start_time.isoformat() + "Z",
+        "end_time_utc": end_time.isoformat() + "Z",
         "duration_seconds": (end_time - start_time).total_seconds(),
     }
 
