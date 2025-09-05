@@ -1,0 +1,4170 @@
+{
+  "timestamp": "2025-09-05T02:08:12.976385",
+  "gaps": {
+    "missing_readmes": [
+      {
+        "feature": "ai_agents",
+        "path": "/Users/am/Code/Fresh/ai/agents",
+        "file_count": 14
+      },
+      {
+        "feature": "ai_tools",
+        "path": "/Users/am/Code/Fresh/ai/tools",
+        "file_count": 15
+      },
+      {
+        "feature": "ai_cli",
+        "path": "/Users/am/Code/Fresh/ai/cli",
+        "file_count": 3
+      },
+      {
+        "feature": "ai_interface",
+        "path": "/Users/am/Code/Fresh/ai/interface",
+        "file_count": 5
+      },
+      {
+        "feature": "ai_integration",
+        "path": "/Users/am/Code/Fresh/ai/integration",
+        "file_count": 3
+      },
+      {
+        "feature": "ai_loop",
+        "path": "/Users/am/Code/Fresh/ai/loop",
+        "file_count": 3
+      },
+      {
+        "feature": "ai_monitor",
+        "path": "/Users/am/Code/Fresh/ai/monitor",
+        "file_count": 10
+      },
+      {
+        "feature": "ai_workflows",
+        "path": "/Users/am/Code/Fresh/ai/workflows",
+        "file_count": 5
+      },
+      {
+        "feature": "ai_autonomous",
+        "path": "/Users/am/Code/Fresh/ai/autonomous",
+        "file_count": 6
+      },
+      {
+        "feature": "ai_services",
+        "path": "/Users/am/Code/Fresh/ai/services",
+        "file_count": 2
+      }
+    ],
+    "undocumented_files": [
+      {
+        "file": "tests/test_intent_normalizer.py",
+        "size": 550,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_release_notes.py",
+        "size": 1204,
+        "functions": 3
+      },
+      {
+        "file": "tests/test_scaffold_python_package.py",
+        "size": 943,
+        "functions": 1
+      },
+      {
+        "file": "tests/test_monitor_event_bus.py",
+        "size": 1503,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_dod_checker.py",
+        "size": 289,
+        "functions": 1
+      },
+      {
+        "file": "tests/test_assist_plan_pr.py",
+        "size": 3272,
+        "functions": 4
+      },
+      {
+        "file": "tests/test_agency_persistence.py",
+        "size": 940,
+        "functions": 1
+      },
+      {
+        "file": "tests/test_next_steps.py",
+        "size": 946,
+        "functions": 3
+      },
+      {
+        "file": "tests/test_docs_only_enforce.py",
+        "size": 400,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_cli_health.py",
+        "size": 816,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_adr_tool.py",
+        "size": 1110,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_memory_store.py",
+        "size": 1018,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_agency_bootstrap.py",
+        "size": 808,
+        "functions": 1
+      },
+      {
+        "file": "tests/test_cli_assist_report.py",
+        "size": 1352,
+        "functions": 1
+      },
+      {
+        "file": "tests/test_memory_tools.py",
+        "size": 586,
+        "functions": 2
+      },
+      {
+        "file": "tests/test_devcycle_loop.py",
+        "size": 393,
+        "functions": 1
+      },
+      {
+        "file": "tests/test_mvp_runner.py",
+        "size": 637,
+        "functions": 1
+      },
+      {
+        "file": "scaffolding/templates/python-package/setup.py",
+        "size": 217,
+        "functions": 0
+      },
+      {
+        "file": "scaffolding/templates/python-package/tests/test_sanity.py",
+        "size": 97,
+        "functions": 1
+      },
+      {
+        "file": "ai/tools/release_notes_cli.py",
+        "size": 1415,
+        "functions": 3
+      },
+      {
+        "file": "ai/monitor/status.py",
+        "size": 2789,
+        "functions": 2
+      },
+      {
+        "file": "ai/memory/store.py",
+        "size": 2219,
+        "functions": 8
+      },
+      {
+        "file": "ai/agents/Father.py",
+        "size": 875,
+        "functions": 0
+      },
+      {
+        "file": "ai/agents/Architect.py",
+        "size": 461,
+        "functions": 0
+      },
+      {
+        "file": "ai/agents/Reviewer.py",
+        "size": 410,
+        "functions": 0
+      },
+      {
+        "file": "ai/agents/Developer.py",
+        "size": 499,
+        "functions": 0
+      },
+      {
+        "file": "ai/agents/QA.py",
+        "size": 494,
+        "functions": 0
+      }
+    ],
+    "incomplete_headers": [
+      {
+        "file": "test_autonomous_demo.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_launcher.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "demo_autonomous_workflow.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "setup_real_autonomous_dev.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "simple_autonomous_starter.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "demo_improve_me.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_dev_demo.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "real_autonomous_workflow.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_development_guide.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "test_agent_system.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_todo_api.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "quick_autonomous_dev.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "start_autonomous_development.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "test_senior_review.py",
+        "missing": [
+          "file identification",
+          "description"
+        ]
+      },
+      {
+        "file": "demo_autonomous.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_dev_strategy.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "strategic_analysis.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "fresh_app_genesis.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "test_autonomous_real.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "launch_agent_system.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_dev_starter.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "fix_autonomous_dev.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "launch_enhanced_agent_system.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "start_autonomous_dev.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "my_first_autonomous_workflow.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_todo_api/continue_autonomous_dev.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "autonomous_todo_api/main.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "tests/conftest.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "tests/test_cli_assist_scan.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "tests/test_adaptive_refresh.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "tests/test_activity_detection.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "tests/test_monitor_status.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/agency.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/__init__.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/analyze_feature_status.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/demo-adaptive-monitor.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/validate_rule_consolidation.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/one_shot_plan.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/issue_to_pr.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/feature_inventory.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/test_enhanced_agent_integration.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/diagnostic_scan.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/demo-agent-activity.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/agent_heartbeat.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/validate-monitoring.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/analyze_documentation_gaps.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/apply_agency_cost_tracking.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/apply_firestore_cost_tracking.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/demo-persistent-memory.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/inventory_codebase.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/setup_cost_monitoring.py",
+        "missing": [
+          "file identification",
+          "description"
+        ]
+      },
+      {
+        "file": "scripts/fix_workflows.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/cost_monitoring_first_apps.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/automated_cleanup.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/check_docs_alignment.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/test_production_memory.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scripts/watch-agents-adaptive.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "scaffolding/templates/python-package/src/{{package}}/__init__.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/interface/ask_implement.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/intent.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/dod_checker.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/release_notes.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/adr_logger.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/__init__.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/next_steps.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/test_runner.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/tools/mcp_client.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/monitor/adaptive_ui.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/monitor/activity.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/monitor/event_bus.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/memory/firestore.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/runner/mvp.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/agents/__init__.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/utils/__init__.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/utils/settings.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/cli/fresh.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      },
+      {
+        "file": "ai/loop/devcycle.py",
+        "missing": [
+          "file identification",
+          "description",
+          "usage examples"
+        ]
+      }
+    ],
+    "orphaned_files": [
+      {
+        "file": "tests/test_intent_normalizer.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_release_notes.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_scaffold_python_package.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_monitor_event_bus.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_dod_checker.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_assist_plan_pr.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_next_steps.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_docs_only_enforce.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_cli_health.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_adr_tool.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_cli_assist_scan.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_adaptive_refresh.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_mother_agent.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_cli_assist_report.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_dev_loop.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_activity_detection.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_monitor_status.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_memory_tools.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_devcycle_loop.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/test_mvp_runner.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "scripts/diagnostic_scan.py",
+        "reason": "No references found",
+        "recommendation": "document_purpose"
+      },
+      {
+        "file": "scripts/automated_cleanup.py",
+        "reason": "No references found",
+        "recommendation": "document_purpose"
+      },
+      {
+        "file": "tests/unit/test_feedback_simple.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/integration/test_autonomous_cli.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/integration/test_magic_cli.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/integration/test_firestore_cross_session.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/integration/test_magic_command.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/integration/test_mother_agent_workflow.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/cli/test_autonomous_commands.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      },
+      {
+        "file": "tests/cli/test_feature_commands.py",
+        "reason": "No references found",
+        "recommendation": "link_to_tests"
+      }
+    ],
+    "broken_links": [],
+    "missing_examples": []
+  },
+  "features": {
+    "ai_memory": {
+      "path": "/Users/am/Code/Fresh/ai/memory",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/memory/enhanced_firestore.py",
+        "/Users/am/Code/Fresh/ai/memory/store.py",
+        "/Users/am/Code/Fresh/ai/memory/intelligent_store.py",
+        "/Users/am/Code/Fresh/ai/memory/firestore_store.py",
+        "/Users/am/Code/Fresh/ai/memory/firestore.py"
+      ],
+      "has_readme": true,
+      "has_init": false
+    },
+    "ai_agents": {
+      "path": "/Users/am/Code/Fresh/ai/agents",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/agents/Father.py",
+        "/Users/am/Code/Fresh/ai/agents/EnhancedFather.py",
+        "/Users/am/Code/Fresh/ai/agents/enhanced_agents.py",
+        "/Users/am/Code/Fresh/ai/agents/DocumentationAgent.py",
+        "/Users/am/Code/Fresh/ai/agents/mother.py",
+        "/Users/am/Code/Fresh/ai/agents/__init__.py",
+        "/Users/am/Code/Fresh/ai/agents/Architect.py",
+        "/Users/am/Code/Fresh/ai/agents/app_genesis.py",
+        "/Users/am/Code/Fresh/ai/agents/EnhancedArchitect.py",
+        "/Users/am/Code/Fresh/ai/agents/senior_reviewer.py",
+        "/Users/am/Code/Fresh/ai/agents/Reviewer.py",
+        "/Users/am/Code/Fresh/ai/agents/EnhancedDeveloper.py",
+        "/Users/am/Code/Fresh/ai/agents/Developer.py",
+        "/Users/am/Code/Fresh/ai/agents/QA.py"
+      ],
+      "has_readme": false,
+      "has_init": true
+    },
+    "ai_tools": {
+      "path": "/Users/am/Code/Fresh/ai/tools",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/tools/intent.py",
+        "/Users/am/Code/Fresh/ai/tools/dod_checker.py",
+        "/Users/am/Code/Fresh/ai/tools/release_notes.py",
+        "/Users/am/Code/Fresh/ai/tools/enhanced_mcp.py",
+        "/Users/am/Code/Fresh/ai/tools/enhanced_memory_tools.py",
+        "/Users/am/Code/Fresh/ai/tools/memory_tools.py",
+        "/Users/am/Code/Fresh/ai/tools/adr_logger.py",
+        "/Users/am/Code/Fresh/ai/tools/__init__.py",
+        "/Users/am/Code/Fresh/ai/tools/docs_tools.py",
+        "/Users/am/Code/Fresh/ai/tools/release_notes_cli.py",
+        "/Users/am/Code/Fresh/ai/tools/next_steps.py",
+        "/Users/am/Code/Fresh/ai/tools/production_memory_tools.py",
+        "/Users/am/Code/Fresh/ai/tools/test_runner.py",
+        "/Users/am/Code/Fresh/ai/tools/persistent_memory_tools.py",
+        "/Users/am/Code/Fresh/ai/tools/mcp_client.py"
+      ],
+      "has_readme": false,
+      "has_init": true
+    },
+    "ai_cli": {
+      "path": "/Users/am/Code/Fresh/ai/cli",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/cli/magic.py",
+        "/Users/am/Code/Fresh/ai/cli/fresh.py",
+        "/Users/am/Code/Fresh/ai/cli/magic_cli.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "ai_interface": {
+      "path": "/Users/am/Code/Fresh/ai/interface",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/interface/telegram_bot.py",
+        "/Users/am/Code/Fresh/ai/interface/deploy_agents.py",
+        "/Users/am/Code/Fresh/ai/interface/ask_implement.py",
+        "/Users/am/Code/Fresh/ai/interface/console_dashboard.py",
+        "/Users/am/Code/Fresh/ai/interface/agent_spawner.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "ai_integration": {
+      "path": "/Users/am/Code/Fresh/ai/integration",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/integration/github_pr.py",
+        "/Users/am/Code/Fresh/ai/integration/mcp_discovery.py",
+        "/Users/am/Code/Fresh/ai/integration/github.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "ai_loop": {
+      "path": "/Users/am/Code/Fresh/ai/loop",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/loop/dev_loop.py",
+        "/Users/am/Code/Fresh/ai/loop/repo_scanner.py",
+        "/Users/am/Code/Fresh/ai/loop/devcycle.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "ai_monitor": {
+      "path": "/Users/am/Code/Fresh/ai/monitor",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/monitor/adaptive_ui.py",
+        "/Users/am/Code/Fresh/ai/monitor/web.py",
+        "/Users/am/Code/Fresh/ai/monitor/openai_tracker.py",
+        "/Users/am/Code/Fresh/ai/monitor/cost_tracker.py",
+        "/Users/am/Code/Fresh/ai/monitor/activity.py",
+        "/Users/am/Code/Fresh/ai/monitor/cost_dashboard.py",
+        "/Users/am/Code/Fresh/ai/monitor/event_bus.py",
+        "/Users/am/Code/Fresh/ai/monitor/firestore_tracker.py",
+        "/Users/am/Code/Fresh/ai/monitor/cost_optimizer.py",
+        "/Users/am/Code/Fresh/ai/monitor/status.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "ai_workflows": {
+      "path": "/Users/am/Code/Fresh/ai/workflows",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/workflows/__init__.py",
+        "/Users/am/Code/Fresh/ai/workflows/types.py",
+        "/Users/am/Code/Fresh/ai/workflows/templates.py",
+        "/Users/am/Code/Fresh/ai/workflows/engine.py",
+        "/Users/am/Code/Fresh/ai/workflows/language.py"
+      ],
+      "has_readme": false,
+      "has_init": true
+    },
+    "ai_autonomous": {
+      "path": "/Users/am/Code/Fresh/ai/autonomous",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/autonomous/monitor.py",
+        "/Users/am/Code/Fresh/ai/autonomous/feedback.py",
+        "/Users/am/Code/Fresh/ai/autonomous/__init__.py",
+        "/Users/am/Code/Fresh/ai/autonomous/engine.py",
+        "/Users/am/Code/Fresh/ai/autonomous/loop.py",
+        "/Users/am/Code/Fresh/ai/autonomous/safety.py"
+      ],
+      "has_readme": false,
+      "has_init": true
+    },
+    "ai_services": {
+      "path": "/Users/am/Code/Fresh/ai/services",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/services/__init__.py",
+        "/Users/am/Code/Fresh/ai/services/self_documenting_loop.py"
+      ],
+      "has_readme": false,
+      "has_init": true
+    },
+    "ai_system": {
+      "path": "/Users/am/Code/Fresh/ai/system",
+      "type": "directory",
+      "files": [
+        "/Users/am/Code/Fresh/ai/system/coordinator.py",
+        "/Users/am/Code/Fresh/ai/system/memory_integration.py",
+        "/Users/am/Code/Fresh/ai/system/init.py",
+        "/Users/am/Code/Fresh/ai/system/docs_alignment.py"
+      ],
+      "has_readme": true,
+      "has_init": false
+    },
+    "root_test_autonomous_demo": {
+      "path": "/Users/am/Code/Fresh/test_autonomous_demo.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/test_autonomous_demo.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_autonomous_launcher": {
+      "path": "/Users/am/Code/Fresh/autonomous_launcher.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/autonomous_launcher.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_demo_autonomous_workflow": {
+      "path": "/Users/am/Code/Fresh/demo_autonomous_workflow.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/demo_autonomous_workflow.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_setup_real_autonomous_dev": {
+      "path": "/Users/am/Code/Fresh/setup_real_autonomous_dev.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/setup_real_autonomous_dev.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_simple_autonomous_starter": {
+      "path": "/Users/am/Code/Fresh/simple_autonomous_starter.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/simple_autonomous_starter.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_demo_improve_me": {
+      "path": "/Users/am/Code/Fresh/demo_improve_me.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/demo_improve_me.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_autonomous_dev_demo": {
+      "path": "/Users/am/Code/Fresh/autonomous_dev_demo.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/autonomous_dev_demo.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_real_autonomous_workflow": {
+      "path": "/Users/am/Code/Fresh/real_autonomous_workflow.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/real_autonomous_workflow.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_autonomous_development_guide": {
+      "path": "/Users/am/Code/Fresh/autonomous_development_guide.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/autonomous_development_guide.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_test_agent_system": {
+      "path": "/Users/am/Code/Fresh/test_agent_system.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/test_agent_system.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_autonomous_todo_api": {
+      "path": "/Users/am/Code/Fresh/autonomous_todo_api.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/autonomous_todo_api.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_quick_autonomous_dev": {
+      "path": "/Users/am/Code/Fresh/quick_autonomous_dev.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/quick_autonomous_dev.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_start_autonomous_development": {
+      "path": "/Users/am/Code/Fresh/start_autonomous_development.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/start_autonomous_development.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_test_senior_review": {
+      "path": "/Users/am/Code/Fresh/test_senior_review.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/test_senior_review.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_demo_autonomous": {
+      "path": "/Users/am/Code/Fresh/demo_autonomous.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/demo_autonomous.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_autonomous_dev_strategy": {
+      "path": "/Users/am/Code/Fresh/autonomous_dev_strategy.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/autonomous_dev_strategy.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_strategic_analysis": {
+      "path": "/Users/am/Code/Fresh/strategic_analysis.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/strategic_analysis.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_fresh_app_genesis": {
+      "path": "/Users/am/Code/Fresh/fresh_app_genesis.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/fresh_app_genesis.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_test_autonomous_real": {
+      "path": "/Users/am/Code/Fresh/test_autonomous_real.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/test_autonomous_real.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_launch_agent_system": {
+      "path": "/Users/am/Code/Fresh/launch_agent_system.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/launch_agent_system.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_autonomous_dev_starter": {
+      "path": "/Users/am/Code/Fresh/autonomous_dev_starter.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/autonomous_dev_starter.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_fix_autonomous_dev": {
+      "path": "/Users/am/Code/Fresh/fix_autonomous_dev.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/fix_autonomous_dev.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_launch_enhanced_agent_system": {
+      "path": "/Users/am/Code/Fresh/launch_enhanced_agent_system.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/launch_enhanced_agent_system.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_start_autonomous_dev": {
+      "path": "/Users/am/Code/Fresh/start_autonomous_dev.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/start_autonomous_dev.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    },
+    "root_my_first_autonomous_workflow": {
+      "path": "/Users/am/Code/Fresh/my_first_autonomous_workflow.py",
+      "type": "file",
+      "files": [
+        "/Users/am/Code/Fresh/my_first_autonomous_workflow.py"
+      ],
+      "has_readme": false,
+      "has_init": false
+    }
+  },
+  "connectivity": {
+    "nodes": [
+      {
+        "id": "test_autonomous_demo.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_launcher.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "demo_autonomous_workflow.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "setup_real_autonomous_dev.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "simple_autonomous_starter.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "demo_improve_me.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_dev_demo.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "real_autonomous_workflow.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_development_guide.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "test_agent_system.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_todo_api.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "quick_autonomous_dev.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "start_autonomous_development.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "test_senior_review.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "demo_autonomous.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_dev_strategy.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "strategic_analysis.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "fresh_app_genesis.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "test_autonomous_real.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "launch_agent_system.py",
+        "type": "agent",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_dev_starter.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "fix_autonomous_dev.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "launch_enhanced_agent_system.py",
+        "type": "agent",
+        "feature": "root"
+      },
+      {
+        "id": "start_autonomous_dev.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "my_first_autonomous_workflow.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_todo_api/models.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_todo_api/database.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_todo_api/continue_autonomous_dev.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_todo_api/main.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "autonomous_todo_api/test_main.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_intelligent_memory.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_intent_normalizer.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/conftest.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_docs_alignment.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_release_notes.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_scaffold_python_package.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_monitor_event_bus.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_rule_consolidation.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_dod_checker.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_mcp_integration.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_assist_plan_pr.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_agency_persistence.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_next_steps.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_docs_only_enforce.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_telegram_integration.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_repo_scanner.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_cli_health.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_adr_tool.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_memory_store.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_cli_assist_scan.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_adaptive_refresh.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_mother_agent.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_agency_bootstrap.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_cli_assist_report.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_dev_loop.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_activity_detection.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_monitor_status.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_memory_tools.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_firestore_memory.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_devcycle_loop.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/test_mvp_runner.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "ai/agency_openai_patch.py",
+        "type": "module",
+        "feature": "agency_openai_patch.py"
+      },
+      {
+        "id": "ai/agency.py",
+        "type": "module",
+        "feature": "agency.py"
+      },
+      {
+        "id": "ai/__init__.py",
+        "type": "package",
+        "feature": "__init__.py"
+      },
+      {
+        "id": "ai/enhanced_agency.py",
+        "type": "module",
+        "feature": "enhanced_agency.py"
+      },
+      {
+        "id": "scripts/analyze_feature_status.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/demo-adaptive-monitor.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/validate_rule_consolidation.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/one_shot_plan.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/issue_to_pr.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/feature_inventory.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/test_enhanced_agent_integration.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/diagnostic_scan.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/demo-agent-activity.py",
+        "type": "agent",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/agent_heartbeat.py",
+        "type": "agent",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/validate-monitoring.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/analyze_documentation_gaps.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/apply_agency_cost_tracking.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/apply_firestore_cost_tracking.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/demo-persistent-memory.py",
+        "type": "memory",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/inventory_codebase.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/setup_cost_monitoring.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/fix_workflows.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/cost_monitoring_first_apps.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/automated_cleanup.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/check_docs_alignment.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/test_production_memory.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "scripts/watch-agents-adaptive.py",
+        "type": "agent",
+        "feature": "root"
+      },
+      {
+        "id": "scaffolding/templates/python-package/setup.py",
+        "type": "module",
+        "feature": "root"
+      },
+      {
+        "id": "scaffolding/templates/python-package/tests/test_sanity.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "scaffolding/templates/python-package/src/{{package}}/__init__.py",
+        "type": "package",
+        "feature": "root"
+      },
+      {
+        "id": "tests/unit/test_feedback_simple.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/integration/test_autonomous_cli.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/integration/test_magic_cli.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/integration/test_firestore_cross_session.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/integration/test_magic_command.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/integration/test_mother_agent_workflow.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/integration/test_autonomous_loop.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/cli/test_autonomous_commands.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "tests/cli/test_feature_commands.py",
+        "type": "test",
+        "feature": "root"
+      },
+      {
+        "id": "ai/interface/telegram_bot.py",
+        "type": "module",
+        "feature": "interface"
+      },
+      {
+        "id": "ai/interface/deploy_agents.py",
+        "type": "agent",
+        "feature": "interface"
+      },
+      {
+        "id": "ai/interface/ask_implement.py",
+        "type": "module",
+        "feature": "interface"
+      },
+      {
+        "id": "ai/interface/console_dashboard.py",
+        "type": "module",
+        "feature": "interface"
+      },
+      {
+        "id": "ai/interface/agent_spawner.py",
+        "type": "agent",
+        "feature": "interface"
+      },
+      {
+        "id": "ai/tools/intent.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/dod_checker.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/release_notes.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/enhanced_mcp.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/enhanced_memory_tools.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/memory_tools.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/adr_logger.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/__init__.py",
+        "type": "package",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/docs_tools.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/release_notes_cli.py",
+        "type": "cli",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/next_steps.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/production_memory_tools.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/test_runner.py",
+        "type": "test",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/persistent_memory_tools.py",
+        "type": "tool",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/tools/mcp_client.py",
+        "type": "cli",
+        "feature": "tools"
+      },
+      {
+        "id": "ai/monitor/adaptive_ui.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/web.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/openai_tracker.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/cost_tracker.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/activity.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/cost_dashboard.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/event_bus.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/firestore_tracker.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/cost_optimizer.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/monitor/status.py",
+        "type": "module",
+        "feature": "monitor"
+      },
+      {
+        "id": "ai/coordination/status.py",
+        "type": "module",
+        "feature": "coordination"
+      },
+      {
+        "id": "ai/memory/enhanced_firestore.py",
+        "type": "memory",
+        "feature": "memory"
+      },
+      {
+        "id": "ai/memory/store.py",
+        "type": "memory",
+        "feature": "memory"
+      },
+      {
+        "id": "ai/memory/intelligent_store.py",
+        "type": "memory",
+        "feature": "memory"
+      },
+      {
+        "id": "ai/memory/firestore_store.py",
+        "type": "memory",
+        "feature": "memory"
+      },
+      {
+        "id": "ai/memory/firestore.py",
+        "type": "memory",
+        "feature": "memory"
+      },
+      {
+        "id": "ai/integration/github_pr.py",
+        "type": "module",
+        "feature": "integration"
+      },
+      {
+        "id": "ai/integration/mcp_discovery.py",
+        "type": "module",
+        "feature": "integration"
+      },
+      {
+        "id": "ai/integration/github.py",
+        "type": "module",
+        "feature": "integration"
+      },
+      {
+        "id": "ai/runner/mvp.py",
+        "type": "module",
+        "feature": "runner"
+      },
+      {
+        "id": "ai/workflows/__init__.py",
+        "type": "package",
+        "feature": "workflows"
+      },
+      {
+        "id": "ai/workflows/types.py",
+        "type": "module",
+        "feature": "workflows"
+      },
+      {
+        "id": "ai/workflows/templates.py",
+        "type": "module",
+        "feature": "workflows"
+      },
+      {
+        "id": "ai/workflows/engine.py",
+        "type": "module",
+        "feature": "workflows"
+      },
+      {
+        "id": "ai/workflows/language.py",
+        "type": "module",
+        "feature": "workflows"
+      },
+      {
+        "id": "ai/agents/Father.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/EnhancedFather.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/enhanced_agents.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/DocumentationAgent.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/mother.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/__init__.py",
+        "type": "package",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/Architect.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/app_genesis.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/EnhancedArchitect.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/senior_reviewer.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/Reviewer.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/EnhancedDeveloper.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/Developer.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/agents/QA.py",
+        "type": "agent",
+        "feature": "agents"
+      },
+      {
+        "id": "ai/utils/clock.py",
+        "type": "module",
+        "feature": "utils"
+      },
+      {
+        "id": "ai/utils/__init__.py",
+        "type": "package",
+        "feature": "utils"
+      },
+      {
+        "id": "ai/utils/settings.py",
+        "type": "module",
+        "feature": "utils"
+      },
+      {
+        "id": "ai/cli/magic.py",
+        "type": "cli",
+        "feature": "cli"
+      },
+      {
+        "id": "ai/cli/fresh.py",
+        "type": "cli",
+        "feature": "cli"
+      },
+      {
+        "id": "ai/cli/magic_cli.py",
+        "type": "cli",
+        "feature": "cli"
+      },
+      {
+        "id": "ai/system/coordinator.py",
+        "type": "module",
+        "feature": "system"
+      },
+      {
+        "id": "ai/system/memory_integration.py",
+        "type": "memory",
+        "feature": "system"
+      },
+      {
+        "id": "ai/system/init.py",
+        "type": "module",
+        "feature": "system"
+      },
+      {
+        "id": "ai/system/docs_alignment.py",
+        "type": "module",
+        "feature": "system"
+      },
+      {
+        "id": "ai/execution/monitor.py",
+        "type": "module",
+        "feature": "execution"
+      },
+      {
+        "id": "ai/autonomous/monitor.py",
+        "type": "module",
+        "feature": "autonomous"
+      },
+      {
+        "id": "ai/autonomous/feedback.py",
+        "type": "module",
+        "feature": "autonomous"
+      },
+      {
+        "id": "ai/autonomous/__init__.py",
+        "type": "package",
+        "feature": "autonomous"
+      },
+      {
+        "id": "ai/autonomous/engine.py",
+        "type": "module",
+        "feature": "autonomous"
+      },
+      {
+        "id": "ai/autonomous/loop.py",
+        "type": "module",
+        "feature": "autonomous"
+      },
+      {
+        "id": "ai/autonomous/safety.py",
+        "type": "module",
+        "feature": "autonomous"
+      },
+      {
+        "id": "ai/services/__init__.py",
+        "type": "package",
+        "feature": "services"
+      },
+      {
+        "id": "ai/services/self_documenting_loop.py",
+        "type": "module",
+        "feature": "services"
+      },
+      {
+        "id": "ai/loop/dev_loop.py",
+        "type": "module",
+        "feature": "loop"
+      },
+      {
+        "id": "ai/loop/repo_scanner.py",
+        "type": "module",
+        "feature": "loop"
+      },
+      {
+        "id": "ai/loop/devcycle.py",
+        "type": "module",
+        "feature": "loop"
+      },
+      {
+        "id": "ai/analytics/performance.py",
+        "type": "module",
+        "feature": "analytics"
+      }
+    ],
+    "edges": [
+      {
+        "from": "autonomous_dev_demo.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "autonomous_development_guide.py",
+        "to": "ai/workflows",
+        "type": "import"
+      },
+      {
+        "from": "autonomous_development_guide.py",
+        "to": "ai/workflows/templates",
+        "type": "import"
+      },
+      {
+        "from": "test_agent_system.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "test_senior_review.py",
+        "to": "ai/agents/senior_reviewer",
+        "type": "import"
+      },
+      {
+        "from": "demo_autonomous.py",
+        "to": "ai/loop/dev_loop",
+        "type": "import"
+      },
+      {
+        "from": "demo_autonomous.py",
+        "to": "ai/loop/repo_scanner",
+        "type": "import"
+      },
+      {
+        "from": "demo_autonomous.py",
+        "to": "ai/interface/console_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "fresh_app_genesis.py",
+        "to": "ai/agents/app_genesis",
+        "type": "import"
+      },
+      {
+        "from": "fresh_app_genesis.py",
+        "to": "ai/agents/app_genesis",
+        "type": "import"
+      },
+      {
+        "from": "test_autonomous_real.py",
+        "to": "ai/autonomous",
+        "type": "import"
+      },
+      {
+        "from": "test_autonomous_real.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "launch_agent_system.py",
+        "to": "ai/system/coordinator",
+        "type": "import"
+      },
+      {
+        "from": "launch_agent_system.py",
+        "to": "ai/system/coordinator",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/system/memory_integration",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/agents/enhanced_agents",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/memory/firestore_store",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/tools/docs_tools",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "launch_enhanced_agent_system.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intelligent_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_intent_normalizer.py",
+        "to": "ai/tools/intent",
+        "type": "import"
+      },
+      {
+        "from": "tests/conftest.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "tests/conftest.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_release_notes.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_release_notes.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_scaffold_python_package.py",
+        "to": "ai/cli",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_monitor_event_bus.py",
+        "to": "ai/monitor/event_bus",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_monitor_event_bus.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_dod_checker.py",
+        "to": "ai/tools/dod_checker",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_mcp_integration.py",
+        "to": "ai/integration/mcp_discovery",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_mcp_integration.py",
+        "to": "ai/tools/enhanced_mcp",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_mcp_integration.py",
+        "to": "ai/tools/mcp_client",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_assist_plan_pr.py",
+        "to": "ai/cli/fresh",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_agency_persistence.py",
+        "to": "ai/agency",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_agency_persistence.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_agency_persistence.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_agency_persistence.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_next_steps.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_next_steps.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_docs_only_enforce.py",
+        "to": "ai/cli/fresh",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_telegram_integration.py",
+        "to": "ai/interface/telegram_bot",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_telegram_integration.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_repo_scanner.py",
+        "to": "ai/loop/repo_scanner",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_cli_health.py",
+        "to": "ai/cli",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_adr_tool.py",
+        "to": "ai/tools/adr_logger",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_adr_tool.py",
+        "to": "ai/tools/adr_logger",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_memory_store.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_cli_assist_scan.py",
+        "to": "ai/cli",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_adaptive_refresh.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_adaptive_refresh.py",
+        "to": "ai/monitor/adaptive_ui",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_mother_agent.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_mother_agent.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_agency_bootstrap.py",
+        "to": "ai/agency",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_cli_assist_report.py",
+        "to": "ai/cli",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_dev_loop.py",
+        "to": "ai/loop/dev_loop",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_dev_loop.py",
+        "to": "ai/loop/repo_scanner",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_dev_loop.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_activity_detection.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_monitor_status.py",
+        "to": "ai/monitor/status",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_memory_tools.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_firestore_memory.py",
+        "to": "ai/memory/firestore_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_firestore_memory.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_devcycle_loop.py",
+        "to": "ai/loop/devcycle",
+        "type": "import"
+      },
+      {
+        "from": "tests/test_mvp_runner.py",
+        "to": "ai/runner/mvp",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency_openai_patch.py",
+        "to": "ai/monitor/openai_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/agents/Architect",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/agents/Developer",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/agents/QA",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/agents/Reviewer",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/agents/Father",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/agency.py",
+        "to": "ai/memory/firestore",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/agents/EnhancedArchitect",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/agents/EnhancedDeveloper",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/agents/EnhancedFather",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/agents/QA",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/agents/Reviewer",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/agents/DocumentationAgent",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/memory/firestore",
+        "type": "import"
+      },
+      {
+        "from": "ai/enhanced_agency.py",
+        "to": "ai/memory/enhanced_firestore",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-adaptive-monitor.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-adaptive-monitor.py",
+        "to": "ai/monitor/status",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-adaptive-monitor.py",
+        "to": "ai/monitor/adaptive_ui",
+        "type": "import"
+      },
+      {
+        "from": "scripts/one_shot_plan.py",
+        "to": "ai/runner/mvp",
+        "type": "import"
+      },
+      {
+        "from": "scripts/issue_to_pr.py",
+        "to": "ai/health/heartbeat",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_enhanced_agent_integration.py",
+        "to": "ai/enhanced_agency",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_enhanced_agent_integration.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_enhanced_agent_integration.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_enhanced_agent_integration.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-agent-activity.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-agent-activity.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "scripts/agent_heartbeat.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "scripts/validate-monitoring.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "scripts/validate-monitoring.py",
+        "to": "ai/monitor/adaptive_ui",
+        "type": "import"
+      },
+      {
+        "from": "scripts/validate-monitoring.py",
+        "to": "ai/monitor/status",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_agency_cost_tracking.py",
+        "to": "ai/monitor/openai_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_agency_cost_tracking.py",
+        "to": "ai/agency",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_agency_cost_tracking.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_firestore_cost_tracking.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_firestore_cost_tracking.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_firestore_cost_tracking.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_firestore_cost_tracking.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_firestore_cost_tracking.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/apply_firestore_cost_tracking.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-persistent-memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-persistent-memory.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-persistent-memory.py",
+        "to": "ai/memory/firestore_store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-persistent-memory.py",
+        "to": "ai/tools/persistent_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "scripts/demo-persistent-memory.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/cost_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/cost_optimizer",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/openai_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/openai_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/setup_cost_monitoring.py",
+        "to": "ai/monitor/cost_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "scripts/cost_monitoring_first_apps.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/cost_monitoring_first_apps.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/cost_monitoring_first_apps.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/cost_monitoring_first_apps.py",
+        "to": "ai/monitor/cost_optimizer",
+        "type": "import"
+      },
+      {
+        "from": "scripts/cost_monitoring_first_apps.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_production_memory.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_production_memory.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_production_memory.py",
+        "to": "ai/tools/production_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "scripts/test_production_memory.py",
+        "to": "ai/memory/enhanced_firestore",
+        "type": "import"
+      },
+      {
+        "from": "scripts/watch-agents-adaptive.py",
+        "to": "ai/monitor/status",
+        "type": "import"
+      },
+      {
+        "from": "scripts/watch-agents-adaptive.py",
+        "to": "ai/monitor/adaptive_ui",
+        "type": "import"
+      },
+      {
+        "from": "tests/unit/test_feedback_simple.py",
+        "to": "ai/autonomous/feedback",
+        "type": "import"
+      },
+      {
+        "from": "tests/unit/test_feedback_simple.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_autonomous_cli.py",
+        "to": "ai/cli/fresh",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_autonomous_cli.py",
+        "to": "ai/autonomous",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_autonomous_cli.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_magic_cli.py",
+        "to": "ai/cli/magic_cli",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_firestore_cross_session.py",
+        "to": "ai/memory/firestore_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_firestore_cross_session.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_magic_command.py",
+        "to": "ai/cli/magic",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_magic_command.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_mother_agent_workflow.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_mother_agent_workflow.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_mother_agent_workflow.py",
+        "to": "ai/agents/enhanced_agents",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_autonomous_loop.py",
+        "to": "ai/autonomous",
+        "type": "import"
+      },
+      {
+        "from": "tests/integration/test_autonomous_loop.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "tests/cli/test_autonomous_commands.py",
+        "to": "ai/cli/fresh",
+        "type": "import"
+      },
+      {
+        "from": "tests/cli/test_autonomous_commands.py",
+        "to": "ai/autonomous/loop",
+        "type": "import"
+      },
+      {
+        "from": "tests/cli/test_feature_commands.py",
+        "to": "ai/cli/fresh",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/telegram_bot.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/telegram_bot.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/telegram_bot.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/telegram_bot.py",
+        "to": "ai/interface/deploy_agents",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/deploy_agents.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/deploy_agents.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/ask_implement.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/ask_implement.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/ask_implement.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/ask_implement.py",
+        "to": "ai/tools/mcp_client",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/console_dashboard.py",
+        "to": "ai/loop/repo_scanner",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/console_dashboard.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/agent_spawner.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/agent_spawner.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/agent_spawner.py",
+        "to": "ai/interface/deploy_agents",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/agent_spawner.py",
+        "to": "ai/execution/monitor",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/agent_spawner.py",
+        "to": "ai/coordination/status",
+        "type": "import"
+      },
+      {
+        "from": "ai/interface/agent_spawner.py",
+        "to": "ai/integration/github",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/release_notes.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_mcp.py",
+        "to": "ai/integration/mcp_discovery",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_mcp.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_memory_tools.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_memory_tools.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/enhanced_memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/memory_tools.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/release_notes_cli.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/release_notes_cli.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/next_steps.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/production_memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/production_memory_tools.py",
+        "to": "ai/memory/enhanced_firestore",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/production_memory_tools.py",
+        "to": "ai/memory/enhanced_firestore",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/persistent_memory_tools.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/persistent_memory_tools.py",
+        "to": "ai/memory/firestore_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/persistent_memory_tools.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/tools/persistent_memory_tools.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/adaptive_ui.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/adaptive_ui.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/web.py",
+        "to": "ai/monitor/status",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/openai_tracker.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/openai_tracker.py",
+        "to": "ai/monitor/openai_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/cost_tracker.py",
+        "to": "ai/interface/telegram_bot",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/activity.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/activity.py",
+        "to": "ai/monitor/event_bus",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/cost_dashboard.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/firestore_tracker.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/firestore_tracker.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/cost_optimizer.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/status.py",
+        "to": "ai/agency",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/status.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/status.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/status.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/status.py",
+        "to": "ai/monitor/cost_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/monitor/status.py",
+        "to": "ai/monitor/activity",
+        "type": "import"
+      },
+      {
+        "from": "ai/coordination/status.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/coordination/status.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/coordination/status.py",
+        "to": "ai/execution/monitor",
+        "type": "import"
+      },
+      {
+        "from": "ai/coordination/status.py",
+        "to": "ai/interface/telegram_bot",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/enhanced_firestore.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/enhanced_firestore.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/enhanced_firestore.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/store.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/intelligent_store.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/intelligent_store.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/firestore_store.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/firestore_store.py",
+        "to": "ai/utils/clock",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/firestore_store.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/firestore.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/memory/firestore.py",
+        "to": "ai/monitor/firestore_tracker",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/mcp_discovery.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/mcp_discovery.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/mcp_discovery.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/github.py",
+        "to": "ai/utils/settings",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/github.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/github.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/integration/github.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/runner/mvp.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/runner/mvp.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/runner/mvp.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/runner/mvp.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "ai/runner/mvp.py",
+        "to": "ai/tools/dod_checker",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/__init__.py",
+        "to": "ai/workflows/types",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/__init__.py",
+        "to": "ai/workflows/language",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/__init__.py",
+        "to": "ai/workflows/engine",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/__init__.py",
+        "to": "ai/workflows/templates",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/types.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/types.py",
+        "to": "ai/integration/mcp_discovery",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/templates.py",
+        "to": "ai/workflows/types",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/templates.py",
+        "to": "ai/workflows/language",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/engine.py",
+        "to": "ai/workflows/types",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/engine.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/engine.py",
+        "to": "ai/tools/enhanced_mcp",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/engine.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/engine.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/engine.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/workflows/language.py",
+        "to": "ai/workflows/types",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Father.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Father.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Father.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Father.py",
+        "to": "ai/tools/intent",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedFather.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedFather.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedFather.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedFather.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedFather.py",
+        "to": "ai/tools/intent",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/tools/persistent_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/tools/release_notes",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/tools/next_steps",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/tools/intent",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/tools/mcp_client",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/agents/Father",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/agents/Architect",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/agents/Developer",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/enhanced_agents.py",
+        "to": "ai/agents/QA",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/DocumentationAgent.py",
+        "to": "ai/tools/docs_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/DocumentationAgent.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/mother.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/mother.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/mother.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/mother.py",
+        "to": "ai/agents/enhanced_agents",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/mother.py",
+        "to": "ai/utils/settings",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Architect.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/app_genesis.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/app_genesis.py",
+        "to": "ai/agents/senior_reviewer",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/app_genesis.py",
+        "to": "ai/integration/github_pr",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedArchitect.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedArchitect.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Reviewer.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedDeveloper.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedDeveloper.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/EnhancedDeveloper.py",
+        "to": "ai/tools/mcp_client",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Developer.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/Developer.py",
+        "to": "ai/tools/mcp_client",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/QA.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/agents/QA.py",
+        "to": "ai/tools/mcp_client",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/magic.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/magic.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/loop/repo_scanner",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/loop/dev_loop",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/autonomous",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/loop/dev_loop",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/tools/enhanced_mcp",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/tools/enhanced_mcp",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/fresh.py",
+        "to": "ai/system/memory_integration",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/magic_cli.py",
+        "to": "ai/cli/magic",
+        "type": "import"
+      },
+      {
+        "from": "ai/cli/magic_cli.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/system/docs_alignment",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/analytics/performance",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/coordination/status",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/execution/monitor",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/integration/github",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/integration/mcp_discovery",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/coordinator.py",
+        "to": "ai/interface/telegram_bot",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/memory_integration.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/memory_integration.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/memory_integration.py",
+        "to": "ai/memory/firestore_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/analytics/performance",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/coordination/status",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/execution/monitor",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/integration/github",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/init.py",
+        "to": "ai/interface/telegram_bot",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/docs_alignment.py",
+        "to": "ai/tools/docs_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/system/docs_alignment.py",
+        "to": "ai/tools/enhanced_memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/execution/monitor.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/execution/monitor.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/execution/monitor.py",
+        "to": "ai/interface/agent_spawner",
+        "type": "import"
+      },
+      {
+        "from": "ai/execution/monitor.py",
+        "to": "ai/integration/github",
+        "type": "import"
+      },
+      {
+        "from": "ai/execution/monitor.py",
+        "to": "ai/interface/telegram_bot",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/monitor.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/feedback.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/__init__.py",
+        "to": "/loop",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/__init__.py",
+        "to": "/safety",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/__init__.py",
+        "to": "/monitor",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/__init__.py",
+        "to": "/engine",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/__init__.py",
+        "to": "/feedback",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/engine.py",
+        "to": "ai/cli/magic",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/engine.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/loop.py",
+        "to": "ai/autonomous/safety",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/loop.py",
+        "to": "ai/cli/magic",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/loop.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/loop.py",
+        "to": "ai/autonomous/monitor",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/loop.py",
+        "to": "ai/autonomous/engine",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/loop.py",
+        "to": "ai/autonomous/feedback",
+        "type": "import"
+      },
+      {
+        "from": "ai/autonomous/safety.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/services/__init__.py",
+        "to": "/self_documenting_loop",
+        "type": "import"
+      },
+      {
+        "from": "ai/services/self_documenting_loop.py",
+        "to": "ai/memory/intelligent_store",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/loop/repo_scanner",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/agents/mother",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/interface/console_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/interface/console_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/interface/console_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/interface/console_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/dev_loop.py",
+        "to": "ai/interface/console_dashboard",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/repo_scanner.py",
+        "to": "ai/utils/settings",
+        "type": "import"
+      },
+      {
+        "from": "ai/loop/devcycle.py",
+        "to": "ai/tools/test_runner",
+        "type": "import"
+      },
+      {
+        "from": "ai/analytics/performance.py",
+        "to": "ai/memory/store",
+        "type": "import"
+      },
+      {
+        "from": "ai/analytics/performance.py",
+        "to": "ai/tools/memory_tools",
+        "type": "import"
+      }
+    ]
+  },
+  "metrics": {
+    "total_files": 182,
+    "total_features": 37,
+    "documentation_coverage": {
+      "files_documented": 155,
+      "coverage_percentage": 85.2,
+      "readme_coverage": 2,
+      "readme_percentage": 5.4
+    },
+    "quality_issues": {
+      "orphaned_files": 30,
+      "incomplete_headers": 77,
+      "missing_readmes": 10,
+      "broken_links": 0
+    },
+    "agent_readiness_score": 57.7
+  }
+}

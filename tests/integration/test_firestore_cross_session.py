@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Optional
 
 from ai.memory.firestore_store import FirestoreMemoryStore
-from ai.memory.types import MemoryType
+from ai.memory.intelligent_store import MemoryType
 
 
 class TestFirestoreCrossSession:

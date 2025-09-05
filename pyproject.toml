@@ -44,6 +44,7 @@ testpaths = ["tests"]
 markers = [
     "asyncio: mark test as async",
     "integration: mark test as integration test",
+    "docker: mark test as requiring docker",
 ]
 
 [build-system]

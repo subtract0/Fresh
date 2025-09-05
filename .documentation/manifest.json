@@ -1,0 +1,192 @@
+{
+  "version": "1.0.0",
+  "generated": "2025-09-05T02:10:00Z",
+  "project": {
+    "name": "Fresh AI - Enhanced Agent System",
+    "version": "0.1.0",
+    "description": "Agent-ready repo with persistent memory and TDD + ADR discipline",
+    "root_path": "/Users/am/Code/Fresh"
+  },
+  "features": {
+    "ai_memory": {
+      "path": "ai/memory",
+      "type": "core",
+      "status": "active",
+      "purpose": "Persistent memory system with intelligent classification",
+      "files": [
+        {
+          "path": "ai/memory/store.py",
+          "type": "service", 
+          "exports": ["InMemoryMemoryStore", "get_store"],
+          "purpose": "Base memory store interfaces and factory"
+        },
+        {
+          "path": "ai/memory/intelligent_store.py", 
+          "type": "service",
+          "exports": ["IntelligentMemoryStore"],
+          "purpose": "Auto-classification and semantic search"
+        },
+        {
+          "path": "ai/memory/firestore_store.py",
+          "type": "service",
+          "exports": ["FirestoreMemoryStore"], 
+          "purpose": "Persistent Firestore backend"
+        }
+      ],
+      "dependencies": {
+        "internal": [],
+        "external": ["google-cloud-firestore"]
+      },
+      "api": {
+        "write": "Store memory with auto-classification",
+        "read": "Retrieve memories by ID or criteria", 
+        "search": "Semantic search across memory types"
+      },
+      "tests": ["tests/test_intelligent_memory.py", "tests/test_firestore_memory.py"],
+      "documentation": ["docs/MEMORY_SYSTEM.md"]
+    },
+    "ai_agents": {
+      "path": "ai/agents",
+      "type": "core", 
+      "status": "active",
+      "purpose": "Enhanced agents with persistent memory integration",
+      "files": [
+        {
+          "path": "ai/agents/enhanced_agents.py",
+          "type": "component",
+          "exports": ["EnhancedFather", "EnhancedArchitect", "EnhancedDeveloper", "EnhancedQA"],
+          "purpose": "Memory-driven agent implementations"
+        },
+        {
+          "path": "ai/agents/mother.py", 
+          "type": "component",
+          "exports": ["MotherAgent"],
+          "purpose": "Agent spawning and orchestration"
+        }
+      ],
+      "dependencies": {
+        "internal": ["ai_memory", "ai_tools"],
+        "external": ["agency-swarm", "openai"]
+      },
+      "api": {
+        "create_enhanced_agents": "Factory for memory-driven agents",
+        "spawn": "Create and configure new agent instances"
+      },
+      "tests": ["tests/test_mother_agent.py"],
+      "documentation": ["docs/ENHANCED_AGENTS.md"]
+    },
+    "ai_tools": {
+      "path": "ai/tools", 
+      "type": "supporting",
+      "status": "active",
+      "purpose": "Memory tools and system utilities",
+      "files": [
+        {
+          "path": "ai/tools/enhanced_memory_tools.py",
+          "type": "tool",
+          "exports": ["SmartWriteMemory", "SemanticSearchMemory"],
+          "purpose": "Intelligent memory operations"
+        },
+        {
+          "path": "ai/tools/adr_logger.py",
+          "type": "tool", 
+          "exports": ["CreateADR"],
+          "purpose": "Architecture decision record creation"
+        }
+      ],
+      "dependencies": {
+        "internal": ["ai_memory"], 
+        "external": []
+      },
+      "api": {
+        "memory_operations": "Write, search, and manage memories",
+        "documentation": "ADR and documentation tools"
+      },
+      "tests": ["tests/test_memory_tools.py", "tests/test_adr_tool.py"],
+      "documentation": ["docs/API_REFERENCE.md"]
+    },
+    "ai_cli": {
+      "path": "ai/cli",
+      "type": "interface",
+      "status": "active", 
+      "purpose": "Command-line interface for Fresh system",
+      "files": [
+        {
+          "path": "ai/cli/fresh.py",
+          "type": "cli",
+          "exports": ["cmd_scan", "cmd_spawn", "cmd_run"],
+          "purpose": "Main CLI commands and entry points"
+        }
+      ],
+      "dependencies": {
+        "internal": ["ai_agents", "ai_loop"],
+        "external": ["click"]
+      },
+      "api": {
+        "scan": "Repository analysis and issue detection",
+        "spawn": "Create new agent instances", 
+        "run": "Execute development cycles"
+      },
+      "tests": ["tests/test_cli_health.py"],
+      "documentation": ["README.md#working-cli-commands"]
+    }
+  },
+  "orphans": [
+    {
+      "path": "test_autonomous_demo.py",
+      "reason": "Root-level demo file",
+      "recommendation": "Move to examples/ or document as entry point"
+    }
+  ],
+  "documentation_standards": {
+    "file_header": {
+      "required": ["@file", "@description", "@usage"],
+      "optional": ["@see", "@since", "@notes"]
+    },
+    "readme_structure": {
+      "sections": ["Purpose", "Components", "Usage", "Dependencies", "Testing"],
+      "examples": true,
+      "api_reference": true
+    },
+    "feature_documentation": {
+      "architecture": "Component overview and relationships",
+      "api": "Public interfaces and usage examples", 
+      "testing": "Test strategy and examples"
+    }
+  },
+  "connection_map": {
+    "entry_points": ["ai/cli/fresh.py", "autonomous_launcher.py"],
+    "core_modules": ["ai/memory", "ai/agents", "ai/tools"], 
+    "interfaces": ["ai/cli", "ai/interface"],
+    "support": ["ai/monitor", "ai/workflows", "ai/system"]
+  },
+  "agent_instructions": {
+    "navigation": {
+      "start_here": ".documentation/manifest.json",
+      "feature_map": "Use features section to understand codebase structure", 
+      "dependencies": "Check internal/external dependencies before changes"
+    },
+    "development": {
+      "before_changes": "Review feature documentation and tests",
+      "after_changes": "Update documentation and run validation",
+      "new_features": "Follow feature template and update manifest"
+    },
+    "quality": {
+      "standards": "All files need proper headers and documentation",
+      "testing": "Features require comprehensive test coverage",
+      "validation": "Run scripts/validate_documentation.py before commits"
+    }
+  },
+  "metrics": {
+    "last_updated": "2025-09-05T02:10:00Z",
+    "documentation_coverage": 85.2,
+    "readme_coverage": 5.4,
+    "agent_readiness_score": 57.7,
+    "critical_gaps": {
+      "undocumented_files": 27,
+      "missing_readmes": 10, 
+      "orphaned_files": 30,
+      "incomplete_headers": 77
+    }
+  }
+}

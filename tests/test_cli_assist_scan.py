@@ -12,7 +12,7 @@ def test_assist_scan_json(tmp_path, monkeypatch, capsys):
     f1 = p / "mod1.py"
     f1.write_text("""
 # TODO: refactor
-# FIXME: broken edge case
+# FIXME: broken edge case  # Test data for scanner
 """
     )
     f2 = p / "readme.md"

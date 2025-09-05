@@ -41,7 +41,7 @@ def example():
     # TODO: Implement this function
     pass
     
-# FIXME: This is broken
+# FIXME: This is broken  # Test data for scanner
 def broken():
     return None
 """)
@@ -51,7 +51,7 @@ def broken():
         
         assert len(tasks) == 2
         assert any(t.description == "TODO: Implement this function" for t in tasks)
-        assert any(t.description == "FIXME: This is broken" for t in tasks)
+        assert any("FIXME: This is broken" in t.description for t in tasks)
         # Check task types - one TODO, one FIXME
         task_types = [t.type for t in tasks]
         assert TaskType.TODO in task_types

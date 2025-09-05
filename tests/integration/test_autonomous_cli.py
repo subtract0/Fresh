@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 from unittest.mock import patch
 
-from ai.cli.fresh import FreshCLI
+from ai.cli.fresh import cmd_scan, cmd_spawn, cmd_run
 from ai.autonomous import AutonomousLoop
 from ai.memory.intelligent_store import IntelligentMemoryStore
 
