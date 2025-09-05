@@ -124,6 +124,31 @@ def cmd_spawn(args):
     return 0
 
 
+def cmd_monitor(args):
+    """Monitor command with enhanced interactive option."""
+    if args.enhanced:
+        # Run enhanced interactive monitor
+        from ai.cli.enhanced_monitor import run_enhanced_monitor
+        import asyncio
+        try:
+            asyncio.run(run_enhanced_monitor())
+        except KeyboardInterrupt:
+            print("\n👋 Monitor stopped")
+        return 0
+    else:
+        # Run standard monitor (existing functionality)
+        return cmd_run(argparse.Namespace(
+            watch=True,
+            dashboard=True,
+            max_tasks=args.max_tasks,
+            interval=args.interval,
+            dry_run=False,
+            once=False,
+            stop_after=0,
+            offline=False
+        ))
+
+
 def cmd_run(args):
     """Run autonomous development loop.
     
@@ -957,21 +982,11 @@ def main():
     run_parser.set_defaults(func=cmd_run)
     
     # Monitor command (alias for run --watch --dashboard)
-    monitor_parser = subparsers.add_parser('monitor', help='Monitor with live dashboard')
+    monitor_parser = subparsers.add_parser('monitor', help='Monitor agents with interactive dashboard')
     monitor_parser.add_argument('--max-tasks', type=int, default=5, help='Max tasks per cycle')
     monitor_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles')
-    monitor_parser.set_defaults(
-        func=lambda args: cmd_run(argparse.Namespace(
-            watch=True,
-            dashboard=True,
-            max_tasks=args.max_tasks,
-            interval=args.interval,
-            dry_run=False,
-            once=False,
-            stop_after=0,
-            offline=False
-        ))
-    )
+    monitor_parser.add_argument('--enhanced', action='store_true', help='Use enhanced interactive monitor')
+    monitor_parser.set_defaults(func=cmd_monitor)
 
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
