@@ -17,3 +17,8 @@ def factorial(n):
     if n == 0:
         return 1
     return n * factorial(n - 1)
+
+# Simple function to print a hello world message
+def hello_world():
+    """Prints 'Hello, World!' to the console."""
+    print("Hello, World!")
