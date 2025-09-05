@@ -101,15 +101,20 @@ The implementation should be professional, robust, and ready for production use.
                 ]
             }
             
-            # Reasoning models (o3, o3-mini) have different parameter requirements
+            # Model-specific parameter requirements
             if model.startswith("o3") or model.startswith("o1"):
+                # o3 reasoning models - use for planning
                 api_params["max_completion_tokens"] = max_tokens
-                # Reasoning models use default temperature, no custom temperature
-                # Use developer messages instead of system messages for reasoning models
                 api_params["messages"] = [
                     {"role": "developer", "content": "You are an expert Python developer. Return only working Python code, no explanations."},
                     {"role": "user", "content": prompt}
                 ]
+            elif model.startswith("gpt-5"):
+                # GPT-5 models - use for coding
+                api_params["max_completion_tokens"] = max_tokens
+                # GPT-5 supports temperature and reasoning_effort
+                api_params["temperature"] = 0.1
+                api_params["reasoning_effort"] = "medium"  # balanced speed vs quality
             else:
                 api_params["max_tokens"] = max_tokens
                 api_params["temperature"] = 0.1
@@ -150,11 +155,14 @@ The implementation should be professional, robust, and ready for production use.
             error_msg = str(e)
             print(f"❌ Model {model} failed: {error_msg}")
             
-            # For reasoning models, provide more detailed debugging
+            # Model-specific debugging
             if model.startswith("o3") or model.startswith("o1"):
-                print(f"   🔍 Reasoning model debug: Full error details for troubleshooting")
-                if hasattr(e, 'response'):
-                    print(f"   🔍 Response status: {getattr(e.response, 'status_code', 'N/A')}")
+                print(f"   🔍 o3 reasoning model debug: {error_msg}")
+            elif model.startswith("gpt-5"):
+                print(f"   🔍 GPT-5 coding model debug: {error_msg}")
+            
+            if hasattr(e, 'response'):
+                print(f"   🔍 Response status: {getattr(e.response, 'status_code', 'N/A')}")
             
             return None
     
@@ -180,12 +188,12 @@ The implementation should be professional, robust, and ready for production use.
         # Create prompt
         prompt = self.get_implementation_prompt(file_path, current_code, feature_description)
         
-        # Try models in order: o3 → o3-mini → GPT-4o (state-of-art per MCP reference)
+        # Try models: o3 for planning, gpt-5 for coding, fallbacks
         models_to_try = [
-            "o3",           # Latest OpenAI reasoning model
-            "o3-mini",      # Reasoning model (cost-efficient)
-            "gpt-4o",       # Fallback to GPT-4o
-            "gpt-4-turbo-preview",  # Final fallback
+            "o3",           # Planning and high-level reasoning
+            "gpt-5",        # Code generation (flagship)
+            "gpt-5-mini",   # Code generation (cost-efficient) 
+            "gpt-4o",       # Fallback
             "gpt-4-turbo"   # Last resort
         ]
         
@@ -303,19 +311,55 @@ The implementation should be professional, robust, and ready for production use.
 def main():
     """Main execution function"""
     print("🚀 Fresh AI Autonomous Implementation Worker")
-    print("🤖 o3 → o3-mini → GPT-4o fallback chain (state-of-art per MCP 688cf28d)")
+    print("🤖 o3 (planning) → GPT-5 (coding) → GPT-5-mini → GPT-4o fallback")
     print("=" * 60)
     
-    # Test features (testing o3 reasoning models with real TODO stub)
+    # 40 Feature batch for autonomous implementation  
     test_features = [
-        {
-            "file_path": "ai/api/endpoints/basetool.py",
-            "description": "Base tool API endpoint with core functionality and error handling"
-        }
+        {"file_path": "ai/api/endpoints/create_activity_panel.py", "description": "Activity panel creation with monitoring dashboard"},
+        {"file_path": "ai/api/endpoints/track_embedding.py", "description": "Embedding usage tracking and analytics"},
+        {"file_path": "ai/api/endpoints/appgenesisagent.py", "description": "Application genesis agent for project initialization"},
+        {"file_path": "ai/api/endpoints/quick_cost_summary.py", "description": "Quick cost summary and budget overview"},
+        {"file_path": "ai/api/endpoints/openaiusagetracker.py", "description": "OpenAI API usage tracking and monitoring"},
+        {"file_path": "ai/api/endpoints/memorysync.py", "description": "Memory synchronization between stores"},
+        {"file_path": "ai/api/endpoints/get_discovery_summary.py", "description": "Discovery summary and analytics reporting"},
+        {"file_path": "ai/api/endpoints/trackedembeddings.py", "description": "Tracked embeddings with usage analytics"},
+        {"file_path": "ai/api/endpoints/execute.py", "description": "General execution endpoint for commands"},
+        {"file_path": "ai/api/endpoints/forecast_monthly_cost.py", "description": "Monthly cost forecasting and budgeting"},
+        {"file_path": "ai/api/endpoints/track_write.py", "description": "Write operation tracking and monitoring"},
+        {"file_path": "ai/api/endpoints/clear_activity.py", "description": "Activity clearing and reset functionality"},
+        {"file_path": "ai/api/endpoints/set_memory_store.py", "description": "Memory store configuration and setup"},
+        {"file_path": "ai/api/endpoints/get_active_agents.py", "description": "Active agent listing and status"},
+        {"file_path": "ai/api/endpoints/initialize_agent_memory_system.py", "description": "Agent memory system initialization"},
+        {"file_path": "ai/api/endpoints/restorememorystore.py", "description": "Memory store backup and restoration"},
+        {"file_path": "ai/api/endpoints/get_by_id.py", "description": "Get entity by ID with error handling"},
+        {"file_path": "ai/api/endpoints/trackedquerysnapshot.py", "description": "Query snapshot tracking for analytics"},
+        {"file_path": "ai/api/endpoints/estimate_and_track_from_messages.py", "description": "Message-based cost estimation and tracking"},
+        {"file_path": "ai/api/endpoints/inmemorymemorystore.py", "description": "In-memory store implementation"},
+        {"file_path": "ai/api/endpoints/sync_with_firestore.py", "description": "Firestore synchronization operations"},
+        {"file_path": "ai/api/endpoints/check_budget_status.py", "description": "Budget status checking and alerts"},
+        {"file_path": "ai/api/endpoints/analyze_usage_patterns.py", "description": "Usage pattern analysis and insights"},
+        {"file_path": "ai/api/endpoints/refreshcontroller.py", "description": "Refresh controller for UI updates"},
+        {"file_path": "ai/api/endpoints/consolidate_memories.py", "description": "Memory consolidation and optimization"},
+        {"file_path": "ai/api/endpoints/count_messages_tokens.py", "description": "Token counting for messages"},
+        {"file_path": "ai/api/endpoints/crosssessionanalytics.py", "description": "Cross-session analytics and tracking"},
+        {"file_path": "ai/api/endpoints/create.py", "description": "Generic creation endpoint"},
+        {"file_path": "ai/api/endpoints/limit.py", "description": "Rate limiting and quota management"},
+        {"file_path": "ai/api/endpoints/show_integration_examples.py", "description": "Integration examples and documentation"},
+        {"file_path": "ai/api/endpoints/get_related_memories.py", "description": "Related memory retrieval and linking"},
+        {"file_path": "ai/api/endpoints/ensure_memory_system_ready.py", "description": "Memory system readiness validation"},
+        {"file_path": "ai/api/endpoints/trackedquery.py", "description": "Query tracking and performance monitoring"},
+        {"file_path": "ai/api/endpoints/get_development_status.py", "description": "Development status and progress tracking"},
+        {"file_path": "ai/api/endpoints/memoryintegrationconfig.py", "description": "Memory integration configuration"},
+        {"file_path": "ai/api/endpoints/get_agent.py", "description": "Agent retrieval and information"},
+        {"file_path": "ai/api/endpoints/demonstrate_analytics.py", "description": "Analytics demonstration and examples"},
+        {"file_path": "ai/api/endpoints/enhancedmemoryitem.py", "description": "Enhanced memory item with metadata"},
+        {"file_path": "ai/api/endpoints/get_production_analytics.py", "description": "Production analytics and monitoring"},
+        {"file_path": "ai/api/endpoints/track_completion.py", "description": "Completion tracking and metrics"}
     ]
     
-    # Create worker with $10 budget for testing
-    worker = AutonomousImplementationWorker(budget_limit=10.0)
+    # Create worker with $5 budget for 40-feature batch (estimated $1.20)
+    worker = AutonomousImplementationWorker(budget_limit=5.0)
     
     # Run the batch
     report = worker.run_batch(test_features)
