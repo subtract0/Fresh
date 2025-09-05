@@ -30,6 +30,7 @@ from ai.loop.repo_scanner import scan_repository, Task, TaskType
 from ai.agents.mother import MotherAgent
 from ai.loop.dev_loop import DevLoop, run_development_cycle
 from ai.autonomous import AutonomousLoop
+from ai.autonomous.feature_hookup import AutonomousFeatureHookup
 import asyncio
 import yaml
 from datetime import datetime
@@ -122,6 +123,74 @@ def cmd_spawn(args):
         return 1
     
     return 0
+
+
+def cmd_hook_features(args):
+    """Autonomously hook up unconnected features to CLI and API interfaces.
+    
+    Args:
+        args: Parsed command-line arguments
+    """
+    print("🔗 Starting autonomous feature hookup process...")
+    
+    try:
+        hookup_system = AutonomousFeatureHookup()
+        
+        # Generate hookup plan
+        print("📊 Analyzing feature inventory...")
+        plan = hookup_system.generate_hookup_plan(max_features=args.max_features)
+        
+        print(f"✅ Analysis complete!")
+        print(f"   Total Features: {plan.total_features}")
+        print(f"   Unhooked Features: {plan.unhooked_features}")
+        print(f"   Target Hookup: {plan.target_hookup_count}")
+        print(f"   Batches: {len(plan.integration_batches)}")
+        print(f"   Estimated Time: {plan.estimated_completion_time}")
+        
+        if not args.analyze_only:
+            # Export results
+            output_dir = Path("docs/hookup_analysis")
+            output_dir.mkdir(exist_ok=True)
+            
+            # Export prioritized features
+            csv_path = output_dir / "unconnected_prioritized.csv"
+            hookup_system.export_prioritized_features(plan.prioritized_features, csv_path)
+            print(f"📄 Exported prioritized features to {csv_path}")
+            
+            # Generate integration spec
+            spec_path = output_dir / "integration_plan.yaml"
+            spec = hookup_system.generate_integration_spec(plan, spec_path)
+            print(f"📋 Generated integration plan at {spec_path}")
+            
+            # Validate plan
+            validation = hookup_system.validate_plan(plan)
+            print(f"\n🔍 Plan Validation: {'✅ VALID' if validation['valid'] else '❌ INVALID'}")
+            
+            if validation["warnings"]:
+                print("⚠️ Warnings:")
+                for warning in validation["warnings"]:
+                    print(f"   • {warning}")
+            
+            print("\n📈 Statistics:")
+            stats = validation["statistics"]
+            print(f"   CLI Features: {stats['cli_features']}")
+            print(f"   API Features: {stats['api_features']}")
+            print(f"   High Priority: {stats['high_priority_features']}")
+            print(f"   Complex Features: {stats['complex_features']}")
+            
+            print(f"\n🎯 Next Steps:")
+            print(f"   1. Review {csv_path} for feature priorities")
+            print(f"   2. Implement features in batches using {spec_path}")
+            print(f"   3. Run TDD cycle for each batch")
+            print(f"   4. Update feature inventory after each batch")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        import traceback
+        traceback.print_exc() 
+        return 1
 
 
 def cmd_orchestrate(args):
@@ -1094,6 +1163,12 @@ def main():
     # Hook up missing features
     feature_hook = feature_sub.add_parser('hook-missing', help='Identify and suggest hookups for unconnected features')
     feature_hook.set_defaults(func=cmd_feature_hook_missing)
+    
+    # Autonomous feature hookup
+    feature_hookup = feature_sub.add_parser('hookup', help='Autonomously hook up unconnected features to CLI/API interfaces')
+    feature_hookup.add_argument('--max-features', type=int, default=440, help='Max features to hook up (default: 440 for 80%% target)')
+    feature_hookup.add_argument('--analyze-only', action='store_true', help='Only analyze and plan, do not implement')
+    feature_hookup.set_defaults(func=cmd_hook_features)
     
     # Run command
     run_parser = subparsers.add_parser('run', help='Run autonomous development loop')
