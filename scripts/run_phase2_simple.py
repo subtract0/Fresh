@@ -26,7 +26,7 @@ class SimplePhase2Runner:
     
     def __init__(self, max_cost: float = 50.0):
         self.max_cost = max_cost
-        self.model = "gpt-4"
+        self.model = "gpt-5"
         self.client = OpenAI()
         self.implemented_features = 0
         self.failed_features = 0
@@ -78,16 +78,33 @@ Generate ONLY the implementation code - no markdown, explanations, or comments o
 The code should be production-ready and complete.
 """
 
-            # Call OpenAI API
-            response = self.client.chat.completions.create(
-                model=self.model,
-                messages=[
-                    {"role": "system", "content": "You are a senior Python developer. Generate clean, production-ready code for the Fresh AI system."},
-                    {"role": "user", "content": prompt}
-                ],
-                max_tokens=1500,
-                temperature=0.1
-            )
+            # Call OpenAI API with intelligent model fallback
+            model_to_use = self.model
+            try:
+                response = self.client.chat.completions.create(
+                    model=model_to_use,
+                    messages=[
+                        {"role": "system", "content": "You are a senior Python developer using the latest AI capabilities. Generate clean, production-ready code for the Fresh AI system."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    max_tokens=1500,
+                    temperature=0.1
+                )
+            except Exception as model_error:
+                if "does not exist" in str(model_error).lower() or "not found" in str(model_error).lower():
+                    print(f"⚠️ Model {model_to_use} not available, falling back to gpt-4-turbo")
+                    model_to_use = "gpt-4-turbo"
+                    response = self.client.chat.completions.create(
+                        model=model_to_use,
+                        messages=[
+                            {"role": "system", "content": "You are a senior Python developer using advanced AI capabilities. Generate clean, production-ready code for the Fresh AI system."},
+                            {"role": "user", "content": prompt}
+                        ],
+                        max_tokens=1500,
+                        temperature=0.1
+                    )
+                else:
+                    raise model_error
             
             implementation = response.choices[0].message.content.strip()
             
