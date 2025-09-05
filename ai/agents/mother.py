@@ -501,16 +501,24 @@ class MotherAgent:
             user_prompt = self._create_user_prompt(request, repo_path)
             
             # Call OpenAI API with timeout
-            print(f"🤖 Calling OpenAI with model: {self._get_model_name(request.model)}")
-            response = client.chat.completions.create(
-                model=self._get_model_name(request.model),
-                messages=[
+            model_name = self._get_model_name(request.model)
+            print(f"🤖 Calling OpenAI with model: {model_name}")
+            
+            # Configure temperature based on model capabilities
+            api_params = {
+                "model": model_name,
+                "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
-                temperature=0.1,  # Low temperature for precise code changes
-                timeout=float(TIMEOUT_SECONDS)
-            )
+                "timeout": float(TIMEOUT_SECONDS)
+            }
+            
+            # GPT-5 only supports default temperature (1.0), others support custom temperature
+            if model_name != "gpt-5":
+                api_params["temperature"] = 0.1  # Low temperature for precise code changes
+            
+            response = client.chat.completions.create(**api_params)
             print(f"✅ OpenAI call completed")
             
             # Parse response and apply changes
@@ -718,18 +726,18 @@ Output Type: {request.output_type}
             }
     
     def _get_model_name(self, model: str) -> str:
-        """Map friendly model names to OpenAI model names."""
+        """Map friendly model names to OpenAI model names, preferring GPT-5."""
         model_mapping = {
-            "gpt-5": "gpt-4o",  # GPT-5 not ready yet, use GPT-4o
-            "gpt-4": "gpt-4o",  # Upgrade GPT-4 requests to GPT-4o
-            "gpt-4o": "gpt-4o",  # Keep GPT-4o
+            "gpt-5": "gpt-5",  # GPT-5 when available
+            "gpt-4": "gpt-5",  # Upgrade GPT-4 requests to GPT-5
+            "gpt-4o": "gpt-5",  # Upgrade GPT-4o requests to GPT-5
             "gpt-4-mini": "gpt-4o-mini",  # Keep mini versions
             "gpt-4o-mini": "gpt-4o-mini",
             "gpt-3.5": "gpt-3.5-turbo",
             "gpt-3.5-turbo": "gpt-3.5-turbo"
         }
-        # Default to GPT-4o for stability
-        preferred_model = model_mapping.get(model, "gpt-4o")
+        # Try GPT-5 first, fallback to GPT-4o if not available
+        preferred_model = model_mapping.get(model, "gpt-5")
         return preferred_model
     
     def _commit_changes(
