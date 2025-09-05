@@ -20,6 +20,9 @@ poetry run python -m ai.cli.fresh scan . --json
 # Spawn an agent for a specific task (WORKS) 
 poetry run python -m ai.cli.fresh spawn "Fix the bug in auth module"
 
+# Spawn agent with Firebase persistent memory (WORKS) 🔥
+poetry run python -m ai.cli.fresh --use-firestore spawn "your task" --output code
+
 # Run autonomous development loop (WORKS)
 poetry run python -m ai.cli.fresh run --once
 
@@ -85,6 +88,10 @@ store = InMemoryMemoryStore()
 # IntelligentMemoryStore - WORKS  
 from ai.memory.intelligent_store import IntelligentMemoryStore
 store = IntelligentMemoryStore()  # Auto-classification, search, analytics
+
+# FirestoreMemoryStore - WORKS (with credentials) 🔥
+from ai.memory.firestore_store import FirestoreMemoryStore
+store = FirestoreMemoryStore()  # Persistent cross-session memory
 ```
 
 #### Enhanced Agents (Working)
@@ -101,15 +108,7 @@ store = IntelligentMemoryStore()  # Auto-classification, search, analytics
 
 ### ⚠️ Partial Implementation (Needs Setup)
 
-#### FirestoreMemoryStore
-```bash
-# Code exists but requires environment setup:
-export FIREBASE_PROJECT_ID=your-project
-export FIREBASE_CLIENT_EMAIL=your-email  
-export FIREBASE_PRIVATE_KEY=your-key
-
-# Falls back to InMemoryStore if not configured
-```
+*No items currently in this section - see Firebase setup guide in docs/FIREBASE_INTEGRATION.md*
 
 ---
 
@@ -140,6 +139,7 @@ cat docs/FEATURE_STATUS.md
 - **[Feature Status Matrix](docs/FEATURE_STATUS.md)** - AUTO-GENERATED truth matrix
 - **[Memory System](docs/MEMORY_SYSTEM.md)** - Memory architecture guide
 - **[Enhanced Agents](docs/ENHANCED_AGENTS.md)** - Agent capabilities
+- **[Firebase Integration](docs/FIREBASE_INTEGRATION.md)** - Persistent memory setup guide 🔥
 - **[API Reference](docs/API_REFERENCE.md)** - API documentation
 
 ---
@@ -185,7 +185,11 @@ export PYTHONPATH=$(pwd)
 export OPENAI_API_KEY=sk-...           # For LLM agents
 export TELEGRAM_BOT_TOKEN=...          # For Telegram bot
 export GITHUB_TOKEN=$(gh auth token)   # For GitHub operations
-export FIREBASE_PROJECT_ID=...         # For persistent memory
+
+# Firebase (for persistent memory) - see docs/FIREBASE_INTEGRATION.md
+export FIREBASE_PROJECT_ID=...         # Firebase project ID
+export FIREBASE_CLIENT_EMAIL=...       # Service account email  
+export FIREBASE_PRIVATE_KEY=...        # Service account private key
 ```
 
 ---

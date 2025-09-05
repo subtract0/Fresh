@@ -228,20 +228,34 @@ poetry install --no-root
 poetry run python scripts/demo-persistent-memory.py
 ```
 
-### Production with Firestore
+### Production with Firebase Firestore 🔥
+
+**✅ Firebase Persistent Memory**: Fully integrated and production-ready
+
 ```bash
+# Quick setup with Firebase integration guide
+# See docs/FIREBASE_INTEGRATION.md for complete setup
+
 # Set up persistent memory
 export FIREBASE_PROJECT_ID="your-project"
 export FIREBASE_PRIVATE_KEY="your-key"
 export FIREBASE_CLIENT_EMAIL="service@account.com"
 
-# Deploy enhanced agents
+# Test Firebase connection
+poetry run python scripts/demo-persistent-memory.py
+
+# Use CLI with persistent memory
+poetry run python -m ai.cli.fresh --use-firestore spawn "your task" --output code
+
+# Deploy enhanced agents with persistence
 PYTHONPATH=$(pwd) poetry run python -c "
 from ai.agents.enhanced_agents import create_enhanced_agents
 agents = create_enhanced_agents()
-print(f'Deployed {len(agents)} enhanced agents')
+print(f'Deployed {len(agents)} enhanced agents with persistent memory')
 "
 ```
+
+**🚀 Quick Start with Firebase**: See [Firebase Integration Guide](docs/FIREBASE_INTEGRATION.md) and [Firebase Quickstart](docs/FIREBASE_QUICKSTART.md)
 
 **📖 Deep Dive**: [Deployment and Operations Guide](docs/DEPLOYMENT.md)
 
@@ -449,6 +463,8 @@ PY
 - **[API Reference](docs/API_REFERENCE.md)** - Comprehensive API documentation
 - **[Agent Development Guide](docs/AGENT_DEVELOPMENT.md)** - Development best practices
 - **[Deployment and Operations](docs/DEPLOYMENT.md)** - Production deployment guide
+- **[Firebase Integration Guide](docs/FIREBASE_INTEGRATION.md)** 🔥 - Production persistent memory setup
+- **[Firebase Quickstart](docs/FIREBASE_QUICKSTART.md)** ⚡ - Get Firebase running fast
 
 ### 🏗️ Architecture Decisions
 - **[ADR-004: Persistent Agent Memory](.cursor/rules/ADR-004.md)** - ✅ IMPLEMENTED
