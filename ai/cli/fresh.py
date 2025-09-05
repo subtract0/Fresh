@@ -1118,6 +1118,30 @@ def main():
     monitor_parser.add_argument('--no-browser', action='store_true', help='Don\'t open browser automatically for web dashboard')
     monitor_parser.set_defaults(func=cmd_monitor)
 
+    # Enhanced Dashboard command
+    dashboard_parser = subparsers.add_parser('dashboard', help='Launch enhanced conversational Mother Agent dashboard')
+    dashboard_parser.add_argument('--port', type=int, default=8080, help='Port to run dashboard on (default: 8080)')
+    dashboard_parser.add_argument('--no-browser', action='store_true', help='Don\'t open browser automatically')
+    
+    def cmd_dashboard(args):
+        """Launch the enhanced conversational dashboard."""
+        try:
+            from ai.interface.enhanced_dashboard import start_enhanced_dashboard
+            start_enhanced_dashboard(args.port, not args.no_browser)
+            return 0
+        except KeyboardInterrupt:
+            print("\n👋 Enhanced dashboard stopped")
+            return 0
+        except ImportError as e:
+            print(f"❌ Enhanced dashboard not available: {e}")
+            print("   Make sure all dependencies are installed: poetry install")
+            return 1
+        except Exception as e:
+            print(f"❌ Dashboard failed to start: {e}")
+            return 1
+    
+    dashboard_parser.set_defaults(func=cmd_dashboard)
+
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
     mcp_sub = mcp_parser.add_subparsers(dest='mcp_cmd', help='MCP subcommands')

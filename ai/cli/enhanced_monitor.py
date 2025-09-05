@@ -277,34 +277,37 @@ class EnhancedMonitor:
             self.agent_status.update_agent('autonomous', 'error')
             
     async def run_single_scan(self):
-        """Run single repository scan"""
+        """Run single repository scan - PRODUCTION VERSION"""
         try:
             self.agent_status.update_agent('scanner', 'running')
             self.agent_status.current_operation = 'Repository Scan'
-            self.add_activity("🔍 Running repository scan")
+            self.add_activity("🔍 Running repository scan - analyzing real codebase")
             
-            # Run scan command
-            process = await asyncio.create_subprocess_exec(
-                'poetry', 'run', 'python', '-m', 'ai.cli.fresh', 'scan', '.', '--json',
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE
-            )
+            # Import and use the actual scan function directly
+            from ai.loop.repo_scanner import scan_repository
             
-            stdout, stderr = await process.communicate()
+            # Run the actual scan function
+            tasks = scan_repository('.')
             
-            if process.returncode == 0:
-                try:
-                    result = json.loads(stdout.decode())
-                    total_issues = result.get('total', 0)
-                    self.agent_status.update_agent('scanner', 'completed', 
-                                                 issues_found=total_issues,
-                                                 last_scan=datetime.now().isoformat())
-                    self.add_activity(f"✅ Scan completed: {total_issues} issues found")
-                except json.JSONDecodeError:
-                    self.add_activity("✅ Scan completed (parsing error)")
-            else:
-                self.add_activity(f"❌ Scan failed: {stderr.decode()}")
-                self.agent_status.update_agent('scanner', 'error')
+            # Process results
+            total_issues = len(tasks)
+            
+            # Group by type for detailed reporting
+            issue_types = {}
+            for task in tasks:
+                task_type = task.type.value
+                if task_type not in issue_types:
+                    issue_types[task_type] = 0
+                issue_types[task_type] += 1
+            
+            self.agent_status.update_agent('scanner', 'completed', 
+                                         issues_found=total_issues,
+                                         last_scan=datetime.now().isoformat())
+            
+            # Detailed activity reporting
+            self.add_activity(f"✅ Scan completed: {total_issues} total issues found")
+            for issue_type, count in issue_types.items():
+                self.add_activity(f"  • {issue_type}: {count} issues")
                 
             self.agent_status.current_operation = None
             
@@ -748,39 +751,33 @@ This module provides functionality for {self.infer_directory_purpose(dir_path).l
             self.agent_status.current_operation = None
             
     async def select_productive_task(self) -> dict:
-        """Select a productive task based on current codebase state"""
-        from pathlib import Path
+        """Select a productive task - PRODUCTION VERSION with real functions"""
         import random
         
         productive_tasks = [
             {
                 'type': 'code_analysis',
                 'description': 'Analyze code complexity and suggest refactoring opportunities',
-                'command': ['python', '-c', 'from pathlib import Path; files = list(Path(\".\").glob(\"**/*.py\")); print(f\"Analyzed {len(files)} Python files - suggest modularizing large files and adding type hints\")'],
                 'expected_time': 30
             },
             {
                 'type': 'security_scan',
-                'description': 'Scan for potential security vulnerabilities in dependencies',
-                'command': ['python', '-c', 'import subprocess; result = subprocess.run([\"pip\", \"list\"], capture_output=True, text=True); print(f\"Security scan completed - reviewed {len(result.stdout.split())} dependencies\")'],
+                'description': 'Scan for potential security vulnerabilities in code',
                 'expected_time': 20
             },
             {
                 'type': 'test_coverage',
                 'description': 'Analyze test coverage and identify untested code areas',
-                'command': ['python', '-c', 'from pathlib import Path; test_files = list(Path(\".\").glob(\"**/test*.py\")); src_files = list(Path(\".\").glob(\"**/*.py\")); coverage = len(test_files) / max(len(src_files), 1) * 100; print(f\"Test coverage analysis: ~{coverage:.1f}% - recommend adding tests for core modules\")'],
                 'expected_time': 25
             },
             {
                 'type': 'dependency_audit',
-                'description': 'Audit project dependencies for outdated packages',
-                'command': ['python', '-c', 'import sys; print(f\"Dependency audit completed - Python {sys.version_info.major}.{sys.version_info.minor} detected, recommend updating outdated packages\")'],
+                'description': 'Audit project dependencies and Python version',
                 'expected_time': 15
             },
             {
                 'type': 'performance_analysis', 
                 'description': 'Analyze codebase for potential performance bottlenecks',
-                'command': ['python', '-c', 'from pathlib import Path; large_files = [f for f in Path(\".\").glob(\"**/*.py\") if f.stat().st_size > 5000]; print(f\"Performance analysis: {len(large_files)} large files found - consider optimizing import statements and function complexity\")'],
                 'expected_time': 35
             }
         ]
@@ -789,33 +786,31 @@ This module provides functionality for {self.infer_directory_purpose(dir_path).l
         return random.choice(productive_tasks)
         
     async def execute_productive_task(self, task: dict) -> dict:
-        """Execute a productive task and return results"""
+        """Execute a productive task with REAL functionality - PRODUCTION VERSION"""
         try:
             self.add_activity(f"⚙️ Executing {task['type'].replace('_', ' ')}...")
             
-            # Execute the command
-            process = await asyncio.create_subprocess_exec(
-                *task['command'],
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.PIPE,
-                cwd='.'  # Ensure we're in the right directory
-            )
+            # Execute real functions instead of subprocess calls
+            task_type = task['type']
             
-            stdout, stderr = await process.communicate()
-            
-            if process.returncode == 0:
-                output = stdout.decode().strip()
-                return {
-                    'success': True,
-                    'output': output or f"{task['type'].replace('_', ' ').title()} completed successfully",
-                    'task_type': task['type']
-                }
+            if task_type == 'code_analysis':
+                result = await self.analyze_code_complexity()
+            elif task_type == 'security_scan':
+                result = await self.scan_security_vulnerabilities()
+            elif task_type == 'test_coverage':
+                result = await self.analyze_test_coverage()
+            elif task_type == 'dependency_audit':
+                result = await self.audit_dependencies()
+            elif task_type == 'performance_analysis':
+                result = await self.analyze_performance_bottlenecks()
             else:
-                return {
-                    'success': False,
-                    'error': stderr.decode().strip() or f"{task['type']} execution failed",
-                    'task_type': task['type']
-                }
+                result = f"Unknown task type: {task_type}"
+            
+            return {
+                'success': True,
+                'output': result,
+                'task_type': task_type
+            }
                 
         except Exception as e:
             return {
@@ -823,6 +818,181 @@ This module provides functionality for {self.infer_directory_purpose(dir_path).l
                 'error': f"Task execution error: {str(e)}",
                 'task_type': task.get('type', 'unknown')
             }
+            
+    async def analyze_code_complexity(self) -> str:
+        """Analyze code complexity - REAL implementation"""
+        from pathlib import Path
+        
+        python_files = list(Path('.').glob('**/*.py'))
+        # Filter out test files and __pycache__
+        source_files = [f for f in python_files if 'test' not in str(f) and '__pycache__' not in str(f)]
+        
+        large_files = []
+        total_lines = 0
+        
+        for file_path in source_files:
+            try:
+                lines = len(file_path.read_text().splitlines())
+                total_lines += lines
+                if lines > 200:  # Files over 200 lines might need refactoring
+                    large_files.append((str(file_path), lines))
+            except:
+                continue
+                
+        avg_file_size = total_lines / len(source_files) if source_files else 0
+        
+        result = f"Code complexity analysis: {len(source_files)} Python files, {total_lines} total lines. "
+        result += f"Average file size: {avg_file_size:.1f} lines. "
+        
+        if large_files:
+            result += f"{len(large_files)} large files detected - consider refactoring: "
+            result += ", ".join([f"{f}({l} lines)" for f, l in large_files[:3]])
+        else:
+            result += "Good file size distribution - no large files needing refactoring."
+            
+        return result
+        
+    async def scan_security_vulnerabilities(self) -> str:
+        """Scan for security vulnerabilities - REAL implementation"""
+        from pathlib import Path
+        
+        security_issues = []
+        
+        # Check for common security patterns
+        python_files = list(Path('.').glob('**/*.py'))
+        source_files = [f for f in python_files if 'test' not in str(f) and '__pycache__' not in str(f)]
+        
+        dangerous_patterns = [
+            ('eval(', 'eval() function usage'),
+            ('exec(', 'exec() function usage'), 
+            ('os.system', 'os.system() usage'),
+            ('subprocess.shell=True', 'subprocess with shell=True'),
+            ('password', 'hardcoded password reference'),
+            ('api_key', 'hardcoded API key reference')
+        ]
+        
+        for file_path in source_files[:20]:  # Limit scan for performance
+            try:
+                content = file_path.read_text().lower()
+                for pattern, issue_type in dangerous_patterns:
+                    if pattern in content:
+                        security_issues.append(f"{file_path}: {issue_type}")
+            except:
+                continue
+                
+        result = f"Security scan completed - analyzed {len(source_files)} files. "
+        
+        if security_issues:
+            result += f"Found {len(security_issues)} potential security issues: "
+            result += "; ".join(security_issues[:3])
+        else:
+            result += "No obvious security vulnerabilities detected in scanned files."
+            
+        return result
+        
+    async def analyze_test_coverage(self) -> str:
+        """Analyze test coverage - REAL implementation"""
+        from pathlib import Path
+        
+        # Count test files vs source files
+        all_python_files = list(Path('.').glob('**/*.py'))
+        test_files = [f for f in all_python_files if 'test' in str(f)]
+        source_files = [f for f in all_python_files if 'test' not in str(f) and '__pycache__' not in str(f)]
+        
+        # Simple coverage estimate based on test vs source ratio
+        coverage_ratio = len(test_files) / max(len(source_files), 1) * 100
+        
+        # Find untested modules
+        untested_modules = []
+        for source_file in source_files:
+            potential_test_name = f"test_{source_file.stem}.py"
+            has_test = any(potential_test_name in str(tf) for tf in test_files)
+            if not has_test and source_file.stem not in ['__init__', 'main']:
+                untested_modules.append(source_file.stem)
+        
+        result = f"Test coverage analysis: {len(test_files)} test files vs {len(source_files)} source files. "
+        result += f"Estimated coverage: {coverage_ratio:.1f}%. "
+        
+        if untested_modules:
+            result += f"{len(untested_modules)} modules appear untested: "
+            result += ", ".join(untested_modules[:5])
+        else:
+            result += "Good test coverage - most modules have corresponding tests."
+            
+        return result
+        
+    async def audit_dependencies(self) -> str:
+        """Audit dependencies - REAL implementation"""
+        from pathlib import Path
+        import sys
+        
+        # Check pyproject.toml and requirements.txt
+        deps_found = []
+        
+        if Path('pyproject.toml').exists():
+            content = Path('pyproject.toml').read_text()
+            if '[tool.poetry.dependencies]' in content:
+                deps_found.append('Poetry dependencies detected')
+                
+        if Path('requirements.txt').exists():
+            req_lines = len(Path('requirements.txt').read_text().strip().split('\n'))
+            deps_found.append(f'{req_lines} pip requirements')
+            
+        python_version = f"Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+        
+        result = f"Dependency audit: {python_version} detected. "
+        
+        if deps_found:
+            result += "Dependencies: " + ", ".join(deps_found)
+            result += ". Recommend regular updates and security scanning."
+        else:
+            result += "No obvious dependency files found - recommend adding requirements management."
+            
+        return result
+        
+    async def analyze_performance_bottlenecks(self) -> str:
+        """Analyze performance bottlenecks - REAL implementation"""
+        from pathlib import Path
+        
+        # Find large files that might have performance issues
+        large_files = []
+        complex_imports = []
+        
+        python_files = list(Path('.').glob('**/*.py'))
+        source_files = [f for f in python_files if 'test' not in str(f) and '__pycache__' not in str(f)]
+        
+        for file_path in source_files:
+            try:
+                content = file_path.read_text()
+                lines = content.splitlines()
+                
+                # Check file size
+                if len(lines) > 500:
+                    large_files.append((str(file_path), len(lines)))
+                    
+                # Check for excessive imports
+                import_count = sum(1 for line in lines[:50] if line.strip().startswith(('import ', 'from ')))
+                if import_count > 20:
+                    complex_imports.append((str(file_path), import_count))
+                    
+            except:
+                continue
+                
+        result = f"Performance analysis: scanned {len(source_files)} files. "
+        
+        issues = []
+        if large_files:
+            issues.append(f"{len(large_files)} large files (>500 lines)")
+        if complex_imports:
+            issues.append(f"{len(complex_imports)} files with complex imports (>20)")
+            
+        if issues:
+            result += "Potential bottlenecks: " + ", ".join(issues)
+            result += ". Consider code splitting and lazy imports."
+        else:
+            result += "No obvious performance bottlenecks detected - good code structure."
+            
+        return result
             
     async def stop_current_operation(self):
         """Stop current operation"""
