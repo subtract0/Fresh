@@ -498,16 +498,49 @@ Deliver professional analysis in your area of specialization.
             # Add timeout handling for agent execution
             timeout_seconds = 120  # 2 minutes per agent
             
-            # Spawn specialized agent with timeout protection
-            result = await asyncio.wait_for(
-                self._run_agent_async(
-                    name=f"{agent_type}_{task_id}",
-                    instructions=context_instructions,
-                    model=model,
-                    output_type=task.get("output_type", "analysis")
-                ),
-                timeout=timeout_seconds
-            )
+            # Spawn specialized agent with timeout protection and retry logic
+            max_retries = 2
+            retry_count = 0
+            
+            while retry_count <= max_retries:
+                try:
+                    result = await asyncio.wait_for(
+                        self._run_agent_async(
+                            name=f"{agent_type}_{task_id}_attempt_{retry_count + 1}",
+                            instructions=context_instructions,
+                            model=model,
+                            output_type=task.get("output_type", "analysis")
+                        ),
+                        timeout=timeout_seconds
+                    )
+                    
+                    # Success - break out of retry loop
+                    break
+                    
+                except asyncio.TimeoutError:
+                    retry_count += 1
+                    if retry_count <= max_retries:
+                        print(f"   ⏱️ {agent_type} attempt {retry_count} timed out, retrying...")
+                        # Reduce timeout for retries
+                        timeout_seconds = max(60, timeout_seconds - 30)
+                        continue
+                    else:
+                        print(f"   ⏰ {agent_type} timed out after {max_retries + 1} attempts")
+                        raise
+                        
+                except Exception as e:
+                    retry_count += 1
+                    if retry_count <= max_retries and "rate limit" in str(e).lower():
+                        wait_time = min(30, 5 * retry_count)  # Exponential backoff
+                        print(f"   ⏳ {agent_type} hit rate limit, waiting {wait_time}s before retry {retry_count + 1}...")
+                        await asyncio.sleep(wait_time)
+                        continue
+                    elif retry_count <= max_retries:
+                        print(f"   ♾️ {agent_type} failed (attempt {retry_count}), retrying: {str(e)[:50]}...")
+                        continue
+                    else:
+                        print(f"   💥 {agent_type} failed after {max_retries + 1} attempts: {e}")
+                        raise
             
             if result.success:
                 return {
