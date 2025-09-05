@@ -38,6 +38,19 @@ def process_data(data=None):
     # Replace the OpenAI call with a mock for testing
     def mock_execute_agent(agent_type, request):
         """Mock agent execution for testing."""
+        # Simulate the agent fixing the input validation TODO
+        fixed_content = '''def calculate(x, y):
+    if not isinstance(x, (int, float)) or not isinstance(y, (int, float)):
+        raise ValueError("Both x and y must be numbers")
+    return x + y
+
+def process_data(data=None):
+    # Handle empty data case properly
+    if not data:
+        return []
+    return data
+'''
+        test_file.write_text(fixed_content)
         return {
             "output": f"Fixed TODO in {test_file}",
             "artifacts": {
