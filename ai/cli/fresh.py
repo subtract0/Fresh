@@ -1423,6 +1423,53 @@ def main():
             return 1
     
     telegram_parser.set_defaults(func=cmd_telegram)
+    
+    # Coordination command group (Activity monitoring and agent tracking)
+    coordination_parser = subparsers.add_parser('coordination', help='Agent coordination and activity monitoring')
+    coordination_sub = coordination_parser.add_subparsers(dest='coordination_cmd', help='Coordination commands')
+    
+    # Record agent activity
+    coord_record_activity = coordination_sub.add_parser('record-agent-activity', help='Record agent lifecycle activity')
+    coord_record_activity.add_argument('activity_type', choices=['start', 'complete', 'error', 'pause'], help='Type of agent activity')
+    coord_record_activity.add_argument('agent_name', help='Name of the agent')
+    coord_record_activity.add_argument('--details', help='Additional activity details')
+    
+    # Record flow activity
+    coord_record_flow = coordination_sub.add_parser('record-flow-activity', help='Record agent flow coordination activity')
+    coord_record_flow.add_argument('flow_type', choices=['start', 'end', 'handoff'], help='Type of flow activity')
+    coord_record_flow.add_argument('from_agent', help='Source agent name')
+    coord_record_flow.add_argument('to_agent', help='Target agent name')
+    
+    # Get recent events
+    coord_recent_events = coordination_sub.add_parser('recent-events', help='Get recent coordination and activity events')
+    coord_recent_events.add_argument('--limit', type=int, default=10, help='Maximum number of events to return')
+    coord_recent_events.add_argument('--json', action='store_true', help='Output events as JSON')
+    
+    # Activity level
+    coord_activity_level = coordination_sub.add_parser('activity-level', help='Get current system activity level')
+    coord_activity_level.add_argument('--json', action='store_true', help='Output activity level as JSON')
+    
+    # Refresh interval based on activity
+    coord_refresh_interval = coordination_sub.add_parser('refresh-interval', help='Get recommended refresh interval based on activity')
+    coord_refresh_interval.add_argument('--json', action='store_true', help='Output interval as JSON')
+    
+    def cmd_coordination(args):
+        """Coordination command dispatcher."""
+        if args.coordination_cmd == 'record-agent-activity':
+            return cmd_coordination_record_agent_activity(args)
+        elif args.coordination_cmd == 'record-flow-activity':
+            return cmd_coordination_record_flow_activity(args)
+        elif args.coordination_cmd == 'recent-events':
+            return cmd_coordination_recent_events(args)
+        elif args.coordination_cmd == 'activity-level':
+            return cmd_coordination_activity_level(args)
+        elif args.coordination_cmd == 'refresh-interval':
+            return cmd_coordination_refresh_interval(args)
+        else:
+            print("Usage: fresh coordination {record-agent-activity|record-flow-activity|recent-events|activity-level|refresh-interval}")
+            return 1
+    
+    coordination_parser.set_defaults(func=cmd_coordination)
 
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
@@ -1749,6 +1796,171 @@ def cmd_memory_semantic_search(args):
         return 1
     except Exception as e:
         print(f"❌ Error with semantic search: {e}")
+        return 1
+
+
+def cmd_coordination_record_agent_activity(args):
+    """Record agent lifecycle activity."""
+    try:
+        from ai.monitor.activity import record_agent_activity
+        
+        # Record the agent activity
+        record_agent_activity(args.activity_type, args.agent_name)
+        
+        print(f"✅ Recorded agent activity: {args.agent_name} -> {args.activity_type}")
+        if args.details:
+            print(f"   Details: {args.details}")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error recording agent activity: {e}")
+        return 1
+
+
+def cmd_coordination_record_flow_activity(args):
+    """Record agent flow coordination activity."""
+    try:
+        from ai.monitor.activity import record_flow_activity
+        
+        # Record the flow activity
+        record_flow_activity(args.flow_type, args.from_agent, args.to_agent)
+        
+        print(f"✅ Recorded flow activity: {args.from_agent} -> {args.to_agent} ({args.flow_type})")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error recording flow activity: {e}")
+        return 1
+
+
+def cmd_coordination_recent_events(args):
+    """Get recent coordination and activity events."""
+    try:
+        from ai.monitor.activity import get_activity_detector
+        
+        detector = get_activity_detector()
+        events = detector.get_recent_events(limit=args.limit)
+        
+        if args.json:
+            result = {
+                "total_events": len(events),
+                "events": []
+            }
+            for event in events:
+                result["events"].append({
+                    "timestamp": event.timestamp,
+                    "event_type": event.event_type,
+                    "agent_name": event.agent_name,
+                    "details": event.details
+                })
+            print(json.dumps(result, indent=2, default=str))
+        else:
+            print(f"📅 Recent activity events (last {args.limit}):")
+            print()
+            
+            if not events:
+                print("   No recent events found")
+                return 0
+            
+            for i, event in enumerate(events, 1):
+                timestamp_str = datetime.fromtimestamp(event.timestamp).strftime("%H:%M:%S")
+                print(f"{i:2d}. [{timestamp_str}] {event.event_type}")
+                if event.agent_name:
+                    print(f"     Agent: {event.agent_name}")
+                if event.details:
+                    print(f"     Details: {event.details}")
+                print()
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error getting recent events: {e}")
+        return 1
+
+
+def cmd_coordination_activity_level(args):
+    """Get current system activity level."""
+    try:
+        from ai.monitor.activity import get_activity_detector
+        
+        detector = get_activity_detector()
+        level = detector.compute_activity_level()
+        
+        if args.json:
+            result = {
+                "activity_level": level.value,
+                "description": {
+                    "idle": "No flows, no memory writes: 10s intervals",
+                    "low": "Occasional memory reads, single agent: 5s intervals",
+                    "medium": "Multiple agents active, memory writes: 2s intervals",
+                    "high": "Active flows, rapid operations: 1s intervals"
+                }.get(level.value, "Unknown activity level")
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            emoji_map = {
+                "idle": "😴",
+                "low": "🚶",
+                "medium": "🏃",
+                "high": "🚀"
+            }
+            emoji = emoji_map.get(level.value, "❓")
+            
+            print(f"📊 Current activity level: {emoji} {level.value.upper()}")
+            
+            descriptions = {
+                "idle": "No active flows or memory operations detected",
+                "low": "Occasional activity from single agent",
+                "medium": "Multiple agents active with memory operations",
+                "high": "High activity with active flows and rapid operations"
+            }
+            
+            print(f"   {descriptions.get(level.value, 'Unknown activity level')}")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error getting activity level: {e}")
+        return 1
+
+
+def cmd_coordination_refresh_interval(args):
+    """Get recommended refresh interval based on activity."""
+    try:
+        from ai.monitor.activity import get_activity_detector
+        
+        detector = get_activity_detector()
+        interval = detector.get_refresh_interval()
+        level = detector.compute_activity_level()
+        
+        if args.json:
+            result = {
+                "refresh_interval_seconds": interval,
+                "activity_level": level.value,
+                "recommended_usage": "Use this interval for optimal monitoring performance"
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            print(f"⏱️ Recommended refresh interval: {interval}s")
+            print(f"   Based on current activity level: {level.value}")
+            print(f"   This optimizes monitoring performance based on system activity")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error getting refresh interval: {e}")
         return 1
 
 
