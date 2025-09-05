@@ -6,11 +6,28 @@ Tests that memory truly persists across different sessions.
 import pytest
 import uuid
 import time
+import os
 from pathlib import Path
 from typing import Optional
 
-from ai.memory.firestore_store import FirestoreMemoryStore
+from ai.memory.firestore_store import FirestoreMemoryStore, FIRESTORE_AVAILABLE
 from ai.memory.intelligent_store import MemoryType
+
+# Skip all tests in this file if Firestore is not properly configured
+def has_firestore_config():
+    """Check if Firestore is configured properly by testing actual connection."""
+    if not FIRESTORE_AVAILABLE:
+        return False
+    
+    try:
+        # Try to create a FirestoreMemoryStore - it will fail if no credentials
+        test_store = FirestoreMemoryStore()
+        # Check if it actually has a working Firestore connection
+        return test_store._firestore_client is not None
+    except Exception:
+        return False
+
+pytestmark = pytest.mark.skipif(not has_firestore_config(), reason="Firestore not configured (missing credentials or emulator)")
 
 
 class TestFirestoreCrossSession:
