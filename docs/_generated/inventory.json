@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-09-05 12:57:15 UTC",
+  "timestamp": "2025-09-05 16:31:48 UTC",
   "python_version": "Python 3.12.11",
   "cwd": "/Users/am/Code/Fresh",
   "shell_scripts": [
@@ -610,6 +610,11 @@
       "file": "ai/agents/DocumentationAgent.py"
     },
     {
+      "name": "class:Agent",
+      "docstring": "Agent class for the Fresh AI system.",
+      "file": "ai/agents/base_agent.py"
+    },
+    {
       "name": "class:class",
       "docstring": "Child agent spawned by Mother Agent.",
       "file": "ai/agents/mother.py"
@@ -742,6 +747,11 @@
       "file": "ai/memory/firestore_store.py"
     },
     {
+      "name": "class:InMemoryMemoryStore",
+      "docstring": "In-memory store for AI data.",
+      "file": "ai/memory/in_memory_store.py"
+    },
+    {
       "name": "class:FirestoreMemoryStore",
       "docstring": "Firestore-backed memory store (staging-only as per ADR-002/003).\n\n    Requires google-cloud-firestore and FIREBASE_* env vars. If prerequisites are\n    not met, raises RuntimeError at init.",
       "file": "ai/memory/firestore.py"
@@ -750,11 +760,11 @@
   "dependencies": {
     "agency_swarm": false,
     "google_cloud_firestore": false,
-    "openai": false
+    "openai": true
   },
   "stats": {
-    "total_python_files": 4024,
+    "total_python_files": 5019,
     "total_test_files": 31,
-    "total_docs": 130
+    "total_docs": 139
   }
 }
