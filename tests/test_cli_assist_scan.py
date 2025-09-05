@@ -59,3 +59,7 @@ def test_assist_scan_json(tmp_path, monkeypatch, capsys):
         ("broken edge case" in comment) or ("refactor" in comment)
         for comment in comments
     )
+
+    # Fix for the broken edge case
+    # Ensure that the specific "FIXME" comment is detected
+    assert any("FIXME: broken edge case" in comment for comment in comments)
