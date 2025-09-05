@@ -24,8 +24,14 @@ class TestMotherAgent:
         assert mother.memory_store == memory_store
         assert mother.spawn_history == []
     
-    def test_run_with_basic_parameters(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_run_with_basic_parameters(self, mock_execute):
         """Test run method with basic parameters."""
+        mock_execute.return_value = {
+            "content": "Fixed the bug in module X",
+            "usage": {"total_tokens": 50}
+        }
+        
         mother = MotherAgent()
         
         result = mother.run(
@@ -41,8 +47,14 @@ class TestMotherAgent:
         assert result.output is not None
         assert result.artifacts is not None
     
-    def test_run_spawns_appropriate_agent_type(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_run_spawns_appropriate_agent_type(self, mock_execute):
         """Test that run method spawns the correct agent based on instructions."""
+        mock_execute.return_value = {
+            "content": "Fixed TypeError in utils.py line 42",
+            "usage": {"total_tokens": 75}
+        }
+        
         mother = MotherAgent()
         
         # Test spawning for bug fix (should route to Developer)
@@ -56,8 +68,15 @@ class TestMotherAgent:
         assert result.agent_type in ["Developer", "Father"]
         assert "fix" in result.instructions.lower()
     
-    def test_run_with_test_generation_task(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_run_with_test_generation_task(self, mock_execute):
         """Test spawning for test generation tasks."""
+        # Mock the API response to avoid timeout
+        mock_execute.return_value = {
+            "content": "Generated test code for authentication module",
+            "usage": {"total_tokens": 100}
+        }
+        
         mother = MotherAgent()
         
         result = mother.run(
@@ -70,8 +89,14 @@ class TestMotherAgent:
         assert result.agent_type in ["QA", "Father"]
         assert result.output_type == "tests"
     
-    def test_run_with_architecture_task(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_run_with_architecture_task(self, mock_execute):
         """Test spawning for architecture/design tasks."""
+        mock_execute.return_value = {
+            "content": "API design for user management",
+            "usage": {"total_tokens": 150}
+        }
+        
         mother = MotherAgent()
         
         result = mother.run(
@@ -84,8 +109,14 @@ class TestMotherAgent:
         assert result.agent_type in ["Architect", "Father"]
         assert result.output_type == "design"
     
-    def test_memory_persistence_on_spawn(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_memory_persistence_on_spawn(self, mock_execute):
         """Test that spawn requests are persisted to memory."""
+        mock_execute.return_value = {
+            "content": "Implemented caching layer",
+            "usage": {"total_tokens": 200}
+        }
+        
         memory_store = InMemoryMemoryStore()
         mother = MotherAgent(memory_store=memory_store)
         
@@ -104,8 +135,14 @@ class TestMotherAgent:
         assert len(mother.spawn_history) == 1
         assert mother.spawn_history[0].name == "memory_test"
     
-    def test_spawn_request_tracking(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_spawn_request_tracking(self, mock_execute):
         """Test that spawn requests are properly tracked."""
+        mock_execute.return_value = {
+            "content": "Task completed",
+            "usage": {"total_tokens": 50}
+        }
+        
         mother = MotherAgent()
         
         # Spawn multiple agents
@@ -142,8 +179,14 @@ class TestMotherAgent:
         assert result.error is not None
         assert "Invalid agent name" in result.error
     
-    def test_model_selection(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_model_selection(self, mock_execute):
         """Test different model selections."""
+        mock_execute.return_value = {
+            "content": "Simple task completed",
+            "usage": {"total_tokens": 25}
+        }
+        
         mother = MotherAgent()
         
         models = ["gpt-4", "gpt-3.5-turbo", "claude-2"]
@@ -158,8 +201,14 @@ class TestMotherAgent:
             
             assert result.model == model
     
-    def test_output_type_validation(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_output_type_validation(self, mock_execute):
         """Test output type validation and defaults."""
+        mock_execute.return_value = {
+            "content": "Task completed",
+            "usage": {"total_tokens": 30}
+        }
+        
         mother = MotherAgent()
         
         valid_types = ["code", "tests", "docs", "design", "review"]
@@ -174,9 +223,14 @@ class TestMotherAgent:
             
             assert result.output_type == output_type
     
-    def test_integration_with_father_agent(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_integration_with_father_agent(self, mock_execute):
         """Test integration with Father agent for planning."""
-        # Test without mocking for now - just verify routing
+        mock_execute.return_value = {
+            "content": "Refactoring plan for authentication system",
+            "usage": {"total_tokens": 300}
+        }
+        
         mother = MotherAgent()
         
         result = mother.run(
@@ -189,8 +243,14 @@ class TestMotherAgent:
         assert result.agent_type == "Father"
         assert result.success is True
     
-    def test_spawn_history_limit(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_spawn_history_limit(self, mock_execute):
         """Test that spawn history has a reasonable limit."""
+        mock_execute.return_value = {
+            "content": "Task completed",
+            "usage": {"total_tokens": 20}
+        }
+        
         mother = MotherAgent(max_history=5)
         
         # Spawn more than the limit
@@ -207,9 +267,15 @@ class TestMotherAgent:
         assert mother.spawn_history[0].name == "agent_5"
         assert mother.spawn_history[-1].name == "agent_9"
     
-    def test_concurrent_spawn_safety(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_concurrent_spawn_safety(self, mock_execute):
         """Test that Mother Agent handles concurrent spawns safely."""
         import threading
+        
+        mock_execute.return_value = {
+            "content": "Concurrent task completed",
+            "usage": {"total_tokens": 40}
+        }
         
         mother = MotherAgent()
         results = []
@@ -237,8 +303,14 @@ class TestMotherAgent:
         assert all(r.success for r in results)
         assert len(mother.spawn_history) == 5
     
-    def test_get_spawn_statistics(self):
+    @patch('ai.agents.mother.MotherAgent._execute_agent')
+    def test_get_spawn_statistics(self, mock_execute):
         """Test getting statistics about spawned agents."""
+        mock_execute.return_value = {
+            "content": "Task completed",
+            "usage": {"total_tokens": 35}
+        }
+        
         mother = MotherAgent()
         
         # Spawn various agents
