@@ -139,8 +139,7 @@ def _create_minimal_change(issue_number: int) -> list[Path]:
     hb_file = hb_dir / "heartbeat.py"
     if not hb_file.exists():
         hb_file.write_text(
-            """
-from __future__ import annotations
+            """from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -151,10 +150,10 @@ class Heartbeat:
 
 
 def heartbeat() -> Heartbeat:
-    """Return a minimal heartbeat signal for monitoring demos.
+    \"\"\"Return a minimal heartbeat signal for monitoring demos.
 
     This function is intentionally simple and safe.
-    """
+    \"\"\"
     return Heartbeat(ok=True, timestamp=datetime.utcnow().timestamp())
 """.lstrip(),
             encoding="utf-8",
@@ -166,8 +165,7 @@ def heartbeat() -> Heartbeat:
     test_file = test_dir / "test_heartbeat.py"
     if not test_file.exists():
         test_file.write_text(
-            """
-from ai.health.heartbeat import heartbeat
+            """from ai.health.heartbeat import heartbeat
 
 def test_heartbeat_ok():
     hb = heartbeat()
