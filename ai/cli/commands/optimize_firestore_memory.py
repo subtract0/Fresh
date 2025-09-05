@@ -20,7 +20,6 @@ def optimize_firestore(verbose: bool, config: Optional[dict]):
     
     db = firestore.client()
     
-    # Example optimization: Fetch documents in batches
     collections = db.collections()
     for collection in collections:
         docs = collection.stream()

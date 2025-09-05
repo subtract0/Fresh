@@ -109,8 +109,11 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
             # Create prompt
             prompt = self.get_implementation_prompt(job.file_path, current_code, job.description)
             
-            # Smart MotherAgent model selection: GPT-5 for planning and coding
-            models_to_try = ["gpt-5", "gpt-5-mini", "gpt-4o"]  # Remove o3, use GPT-5 first
+            # Ultra-cost-optimized with GPT-4o-mini for maximum efficiency
+            # GPT-4o-mini: ultra-cheap, fast, good for standard implementations
+            # GPT-4o: backup for complex cases
+            # GPT-5-mini: final fallback
+            models_to_try = ["gpt-4o-mini", "gpt-4o", "gpt-5-mini"]  # Maximum cost efficiency
             
             implementation = None
             successful_model = None
@@ -131,13 +134,13 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
                     
                     # Smart MotherAgent model parameters
                     if model.startswith("gpt-5"):
-                        api_params["max_completion_tokens"] = 4000  # Higher limit for GPT-5
-                        # MotherAgent smart reasoning selection
+                        api_params["max_completion_tokens"] = 2500  # Cost-controlled limit
+                        # Smart reasoning selection for cost efficiency
                         if "planning" in job.description.lower() or "strategy" in job.description.lower():
                             api_params["reasoning_effort"] = "high"  # high reasoning for planning
                         else:
                             api_params["reasoning_effort"] = "medium"  # medium for coding
-                        api_params["verbosity"] = "medium"  # More detailed for better code
+                        api_params["verbosity"] = "low"  # Concise for cost control
                     else:
                         api_params["max_tokens"] = 2500
                         api_params["temperature"] = 0.1
@@ -218,7 +221,7 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
         print(f"\n🚀 MotherAgent: Spawning {len(features)} autonomous workers in PARALLEL")
         print(f"💰 Budget limit: ${self.budget_limit}")
         print(f"👥 Max concurrent workers: {self.max_workers}")
-        print(f"🤖 Using GPT-5 with smart reasoning: high for planning, medium for coding")
+        print(f"🤖 Ultra-cost-optimized: GPT-4o-mini (ultra-cheap) → GPT-4o (backup) → GPT-5-mini (fallback)")
         print(f"⚡ TRUE PARALLEL EXECUTION - All {len(features)} workers will run simultaneously!")
         print("=" * 80)
         
@@ -316,22 +319,32 @@ async def main():
     print("🤖 MotherAgent → 10 Parallel Autonomous Workers → Real-time Implementation")
     print("=" * 80)
     
-    # Select 10 real TODO stub features for parallel implementation
+    # Select 20 real TODO stub features for parallel implementation with GPT-4o-mini
     test_features = [
-        {"file_path": "ai/cli/commands/reset_to_system_clock.py", "description": "System clock reset and time synchronization"},
-        {"file_path": "ai/cli/commands/refreshcontroller.py", "description": "Refresh controller for UI updates and data sync"},
-        {"file_path": "ai/cli/commands/analyzememoryusage.py", "description": "Memory usage analysis and optimization reporting"},
-        {"file_path": "ai/cli/commands/create_header.py", "description": "Header creation utility for documentation and files"},
-        {"file_path": "ai/cli/commands/send_message_to_parent.py", "description": "Parent process communication and message passing"},
-        {"file_path": "ai/cli/commands/get_memory_stats.py", "description": "Memory statistics retrieval and monitoring"},
-        {"file_path": "ai/cli/commands/consolidate_memories.py", "description": "Memory consolidation and optimization operations"},
-        {"file_path": "ai/cli/commands/agentactivitysimulator.py", "description": "Agent activity simulation for testing and validation"},
-        {"file_path": "ai/cli/commands/get_recent_events.py", "description": "Recent event retrieval and timeline management"},
-        {"file_path": "ai/cli/commands/optimize_firestore_memory.py", "description": "Firestore memory optimization and performance tuning"}
+        {"file_path": "ai/cli/commands/register_context.py", "description": "Context registration and management"},
+        {"file_path": "ai/cli/commands/selfdocumentingloopservice.py", "description": "Self-documenting loop service with validation"},
+        {"file_path": "ai/cli/commands/connect.py", "description": "Connection management and networking utilities"},
+        {"file_path": "ai/cli/commands/codebasemonitor.py", "description": "Codebase monitoring and change detection"},
+        {"file_path": "ai/cli/commands/get_memory_store.py", "description": "Memory store retrieval and access"},
+        {"file_path": "ai/cli/commands/costdashboard.py", "description": "Cost dashboard with analytics and reporting"},
+        {"file_path": "ai/cli/commands/write.py", "description": "Write operations with validation and logging"},
+        {"file_path": "ai/cli/commands/estimate_tokens.py", "description": "Token estimation for cost prediction"},
+        {"file_path": "ai/cli/commands/reposcanner.py", "description": "Repository scanning and analysis tools"},
+        {"file_path": "ai/cli/commands/record_execution_metrics.py", "description": "Execution metrics recording and tracking"},
+        {"file_path": "ai/cli/commands/get_usage_summary.py", "description": "Usage summary generation and reporting"},
+        {"file_path": "ai/cli/commands/track_completion.py", "description": "Completion tracking and progress monitoring"},
+        {"file_path": "ai/cli/commands/get_engine_metrics.py", "description": "Engine metrics collection and analysis"},
+        {"file_path": "ai/cli/commands/track_read.py", "description": "Read operation tracking and analytics"},
+        {"file_path": "ai/cli/commands/get_memory_analytics.py", "description": "Memory analytics and usage patterns"},
+        {"file_path": "ai/cli/commands/magiccommand.py", "description": "Magic command processor with auto-completion"},
+        {"file_path": "ai/cli/commands/create_agent_panel.py", "description": "Agent panel creation with UI components"},
+        {"file_path": "ai/cli/commands/loopnode.py", "description": "Loop node management for workflow execution"},
+        {"file_path": "ai/cli/commands/quick_cost_summary.py", "description": "Quick cost summary with real-time updates"},
+        {"file_path": "ai/cli/commands/analyze_all_files.py", "description": "Comprehensive file analysis and reporting"}
     ]
     
-    # Create orchestrator with 10 parallel workers
-    orchestrator = ParallelAutonomousOrchestrator(max_workers=10, budget_limit=5.0)
+    # Create orchestrator with 20 parallel workers for GPT-4o-mini test
+    orchestrator = ParallelAutonomousOrchestrator(max_workers=20, budget_limit=5.0)
     
     # Run parallel implementation
     report = await orchestrator.run_parallel_batch(test_features)

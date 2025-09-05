@@ -69,7 +69,6 @@ def _get_memory_usage_mb(pid: int) -> float:
     RuntimeError
         If the process cannot be inspected or psutil is unavailable.
     """
-    # Prefer psutil if available for accurate cross-platform stats
     try:
         import psutil  # type: ignore
 
@@ -79,23 +78,20 @@ def _get_memory_usage_mb(pid: int) -> float:
         mem_info = process.memory_info()
         return round(mem_info.rss / (1024 * 1024), 2)
     except ImportError:
-        # Fallback for current process only
         if pid != os.getpid():
             raise RuntimeError(
                 "psutil is required to inspect memory usage of other processes"
             )
         try:
-            import resource  # Unix only
+            import resource
         except ImportError as exc:
             raise RuntimeError(
                 "Cannot determine memory usage on this platform without psutil"
             ) from exc
         usage_kb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-        # On macOS ru_maxrss is in bytes; on Linux it is kilobytes
         try:
             sysname = os.uname().sysname  # type: ignore[attr-defined]
         except AttributeError:
-            # Shouldn't get here (resource isn't on Windows), but guard anyway
             sysname = "Linux"
         if sysname == "Darwin":
             usage_mb = usage_kb / (1024 * 1024)
@@ -103,7 +99,6 @@ def _get_memory_usage_mb(pid: int) -> float:
             usage_mb = usage_kb / 1024
         return round(usage_mb, 2)
     except Exception as exc:
-        # Wrap any unexpected exception to keep error messages consistent
         raise RuntimeError(f"Unable to retrieve memory usage: {exc}") from exc
 
 
@@ -188,7 +183,6 @@ def _generate_recommendations(memory_mb: float, threshold_mb: Optional[float], s
     else:
         base = tips_ok
 
-    # Add system context if available
     if system_info and system_info.get("total_mb", 0) > 0:
         percent_of_total = round((memory_mb / system_info["total_mb"]) * 100, 2)
         if percent_of_total >= 50:
@@ -251,7 +245,6 @@ def analyzememoryusage(
         if verbose:
             console.print("[blue]Running AnalyzeMemoryUsage command…[/blue]")
 
-        # Configuration precedence: CLI overrides config file
         cfg = _load_config(config)
         pid_final: int = int(
             pid
@@ -259,7 +252,6 @@ def analyzememoryusage(
             or os.getpid()
         )
 
-        # Allow both "threshold" and "threshold_mb" keys in config
         threshold_cfg_value = (
             cfg.get("threshold_mb")
             if "threshold_mb" in cfg
@@ -270,16 +262,13 @@ def analyzememoryusage(
             float(threshold_final_raw) if threshold_final_raw is not None else None
         )
 
-        # Validate inputs
         if pid_final <= 0:
             raise ValueError("PID must be a positive integer")
         if threshold_final is not None and threshold_final <= 0:
             raise ValueError("Threshold must be a positive number")
 
-        # Retrieve memory usage
         memory_mb = _get_memory_usage_mb(pid_final)
 
-        # System info (best-effort)
         system_info = _get_system_memory_info()
         memory_percent_of_system = None
         if system_info and system_info.get("total_mb", 0) > 0:
@@ -307,7 +296,6 @@ def analyzememoryusage(
             "system_memory": system_info,
         }
 
-        # Output formatting
         if output == "json":
             console.print_json(json.dumps(result_data, indent=2))
         elif output == "table":
@@ -342,5 +330,4 @@ def analyzememoryusage(
         ctx.exit(1)
 
 
-# Export command for CLI registration
 __all__ = ["analyzememoryusage"]

@@ -42,11 +42,9 @@ def _load_config(config_path: Optional[str]) -> Dict:
     ValueError
         If the file (or stdin) is not valid JSON or does not resolve to a dict.
     """
-    # No configuration file supplied; return empty config
     if config_path is None:
         return {}
 
-    # STDIN support
     if config_path == "-":
         try:
             raw_data = sys.stdin.read()
@@ -58,7 +56,6 @@ def _load_config(config_path: Optional[str]) -> Dict:
     else:
         path = Path(config_path)
 
-        # Validate existence and file type
         if not path.exists() or not path.is_file():
             raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
@@ -70,7 +67,6 @@ def _load_config(config_path: Optional[str]) -> Dict:
         except Exception as exc:  # pragma: no cover
             raise ValueError(f"Failed to read configuration file: {exc}") from exc
 
-    # Ensure configuration is a dictionary
     if not isinstance(config_data, dict):
         raise ValueError("Top-level JSON structure must be an object (dictionary).")
 
@@ -104,11 +100,9 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
     """
     data_dir = config.get("data_directory")
 
-    # Validate the data_directory parameter
     if data_dir is not None and not isinstance(data_dir, str):
         raise RuntimeError("`data_directory` must be a string path if provided.")
 
-    # If no directory is specified, safely skip the refresh
     if not data_dir:
         return (
             {
@@ -124,7 +118,6 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
 
     path = Path(data_dir).expanduser()
 
-    # Validate directory existence
     if not path.exists() or not path.is_dir():
         raise RuntimeError(f"data_directory does not exist or is not a directory: {data_dir}")
 
@@ -142,7 +135,6 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
     except Exception as exc:  # pragma: no cover
         raise RuntimeError(f"Failed while scanning directory: {exc}") from exc
 
-    # Update or create the .last_refreshed file
     timestamp = datetime.utcnow().isoformat(timespec="seconds") + "Z"
     last_refreshed_file = path / ".last_refreshed"
     try:
@@ -211,15 +203,12 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
         if verbose:
             console.print("[cyan]Starting RefreshController…[/cyan]")
 
-        # 1. Load configuration
         config_data = _load_config(config)
 
-        # 2. Perform refresh logic
         result_data, status = _perform_refresh(config_data, verbose=verbose)
         result_data["config_used"] = config
         result_data["verbose"] = verbose
 
-        # 3. Output results
         if output == "json":
             console.print_json(data=result_data)
         elif output == "table":
@@ -233,7 +222,6 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
             for key, value in result_data.items():
                 console.print(f"{key}: {value}")
 
-        # 4. Verbose success message
         if verbose and status == "success":
             console.print("[green]✅ RefreshController completed successfully[/green]")
         elif verbose and status == "skipped":
@@ -260,5 +248,4 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
         ctx.exit(1)
 
 
-# Export command for CLI registration
 __all__ = ["refreshcontroller"]
