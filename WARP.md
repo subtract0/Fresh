@@ -29,6 +29,10 @@ poetry run python -m ai.cli.fresh orchestrate "analyze market trends for AI tool
 # Monitor agents with interactive dashboard (WORKS)
 poetry run python -m ai.cli.fresh monitor --enhanced
 
+# Launch web-based agent control dashboard (WORKS) 🆕
+poetry run python -m ai.cli.fresh monitor --web
+./launch_dashboard.sh  # Alternative launcher
+
 # Autonomous loop control (WORKS)
 poetry run python -m ai.cli.fresh autonomous-status
 poetry run python -m ai.cli.fresh autonomous-cycle

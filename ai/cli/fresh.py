@@ -209,7 +209,16 @@ def cmd_orchestrate(args):
 
 def cmd_monitor(args):
     """Monitor command with enhanced interactive option."""
-    if args.enhanced:
+    if hasattr(args, 'web') and args.web:
+        # Run web dashboard
+        from ai.interface.web_dashboard import start_dashboard
+        try:
+            port = getattr(args, 'port', 8080)
+            start_dashboard(port=port, open_browser=not getattr(args, 'no_browser', False))
+        except KeyboardInterrupt:
+            print("\n👋 Web dashboard stopped")
+        return 0
+    elif args.enhanced:
         # Run enhanced interactive monitor
         from ai.cli.enhanced_monitor import run_enhanced_monitor
         import asyncio
@@ -1081,6 +1090,9 @@ def main():
     monitor_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles')
     monitor_parser.add_argument('--enhanced', action='store_true', help='Use enhanced interactive monitor')
     monitor_parser.add_argument('--simple', action='store_true', help='Use simple input mode for enhanced monitor')
+    monitor_parser.add_argument('--web', action='store_true', help='Launch web-based agent control dashboard')
+    monitor_parser.add_argument('--port', type=int, default=8080, help='Port for web dashboard (default: 8080)')
+    monitor_parser.add_argument('--no-browser', action='store_true', help='Don\'t open browser automatically for web dashboard')
     monitor_parser.set_defaults(func=cmd_monitor)
 
     # MCP command group
