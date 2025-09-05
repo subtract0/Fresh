@@ -47,7 +47,7 @@ def analyze_system_efficiency():
     # 1. Find unhooked features and integrations
     try:
         result = subprocess.run([
-            'grep', '-r', '--include=*.py', '-l', 'TODO.*hook\|TODO.*integrate\|TODO.*connect', '.'
+            'grep', '-r', '--include=*.py', '-l', 'TODO.*hook\\|TODO.*integrate\\|TODO.*connect', '.'
         ], capture_output=True, text=True, cwd=Path(__file__).parent.parent)
         
         for file_path in result.stdout.strip().split('\n')[:10]:
@@ -59,7 +59,7 @@ def analyze_system_efficiency():
     # 2. Find inefficient patterns that slow autonomous agents
     try:
         result = subprocess.run([
-            'grep', '-r', '--include=*.py', '-l', 'pass\s*#.*TODO\|raise NotImplementedError\|FIXME', '.'
+            'grep', '-r', '--include=*.py', '-l', 'pass\\s*#.*TODO\\|raise NotImplementedError\\|FIXME', '.'
         ], capture_output=True, text=True, cwd=Path(__file__).parent.parent)
         
         for file_path in result.stdout.strip().split('\n')[:15]:
@@ -77,7 +77,7 @@ def analyze_system_efficiency():
     # 4. Find agent blockers - things that prevent autonomous development
     try:
         result = subprocess.run([
-            'grep', '-r', '--include=*.py', '-l', 'manual\|human.*required\|TODO.*agent', '.'
+            'grep', '-r', '--include=*.py', '-l', 'manual\\|human.*required\\|TODO.*agent', '.'
         ], capture_output=True, text=True, cwd=Path(__file__).parent.parent)
         
         for file_path in result.stdout.strip().split('\n')[:10]:
