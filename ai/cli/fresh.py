@@ -1193,6 +1193,73 @@ def main():
     monitor_parser.add_argument('--no-browser', action='store_true', help='Don\'t open browser automatically for web dashboard')
     monitor_parser.set_defaults(func=cmd_monitor)
 
+    # Memory management command group
+    memory_parser = subparsers.add_parser('memory', help='Memory management and analytics')
+    memory_sub = memory_parser.add_subparsers(dest='memory_cmd', help='Memory management commands')
+    
+    # Memory write command
+    memory_write = memory_sub.add_parser('write', help='Store content in memory with tags')
+    memory_write.add_argument('content', help='Content to store in memory')
+    memory_write.add_argument('--tags', help='Comma-separated tags for classification')
+    memory_write.add_argument('--importance', type=float, default=0.5, help='Importance score (0.0-1.0)')
+    memory_write.add_argument('--json', action='store_true', help='Output result as JSON')
+    
+    # Memory search command
+    memory_search = memory_sub.add_parser('search', help='Search memories by query or keywords')
+    memory_search.add_argument('query', help='Search query or keywords')
+    memory_search.add_argument('--limit', type=int, default=10, help='Max results to return')
+    memory_search.add_argument('--json', action='store_true', help='Output results as JSON')
+    memory_search.add_argument('--type', help='Filter by memory type (KNOWLEDGE, TASK, GOAL, etc.)')
+    
+    # Memory analytics command
+    memory_analytics = memory_sub.add_parser('analytics', help='Get memory usage analytics')
+    memory_analytics.add_argument('--json', action='store_true', help='Output analytics as JSON')
+    
+    # Memory optimize command
+    memory_optimize = memory_sub.add_parser('optimize', help='Optimize memory by removing low-importance items')
+    memory_optimize.add_argument('--dry-run', action='store_true', help='Show what would be removed without actually removing')
+    memory_optimize.add_argument('--threshold', type=float, default=0.3, help='Importance threshold for removal (0.0-1.0)')
+    memory_optimize.add_argument('--json', action='store_true', help='Output results as JSON')
+    
+    # Memory backup command
+    memory_backup = memory_sub.add_parser('backup', help='Backup all memories to JSON file')
+    memory_backup.add_argument('output_path', help='Output path for backup file')
+    memory_backup.add_argument('--compress', action='store_true', help='Compress backup file')
+    
+    # Memory smart-write command (enhanced tool)
+    memory_smart_write = memory_sub.add_parser('smart-write', help='Store content with automatic classification')
+    memory_smart_write.add_argument('content', help='Content to store')
+    memory_smart_write.add_argument('--auto-classify', action='store_true', help='Automatically classify content type')
+    memory_smart_write.add_argument('--json', action='store_true', help='Output result as JSON')
+    
+    # Memory semantic-search command (enhanced tool)
+    memory_semantic_search = memory_sub.add_parser('semantic-search', help='Search memories with semantic similarity')
+    memory_semantic_search.add_argument('query', help='Semantic search query')
+    memory_semantic_search.add_argument('--limit', type=int, default=5, help='Max results to return')
+    memory_semantic_search.add_argument('--json', action='store_true', help='Output results as JSON')
+    
+    def cmd_memory(args):
+        """Memory command dispatcher."""
+        if args.memory_cmd == 'write':
+            return cmd_memory_write(args)
+        elif args.memory_cmd == 'search':
+            return cmd_memory_search(args)
+        elif args.memory_cmd == 'analytics':
+            return cmd_memory_analytics(args)
+        elif args.memory_cmd == 'optimize':
+            return cmd_memory_optimize(args)
+        elif args.memory_cmd == 'backup':
+            return cmd_memory_backup(args)
+        elif args.memory_cmd == 'smart-write':
+            return cmd_memory_smart_write(args)
+        elif args.memory_cmd == 'semantic-search':
+            return cmd_memory_semantic_search(args)
+        else:
+            print("Usage: fresh memory {write|search|analytics|optimize|backup|smart-write|semantic-search}")
+            return 1
+    
+    memory_parser.set_defaults(func=cmd_memory)
+    
     # Enhanced Dashboard command
     dashboard_parser = subparsers.add_parser('dashboard', help='Launch enhanced conversational Mother Agent dashboard')
     dashboard_parser.add_argument('--port', type=int, default=8080, help='Port to run dashboard on (default: 8080)')
@@ -1410,5 +1477,280 @@ def main():
         sys.exit(1)
 
 
-if __name__ == '__main__':
-    main()
+def cmd_memory_write(args):
+    """Write content to memory store."""
+    try:
+        from ai.memory.store import get_store
+        
+        store = get_store()
+        tags = args.tags.split(',') if args.tags else []
+        
+        # Store the memory (basic store doesn't support importance)
+        item = store.write(
+            content=args.content,
+            tags=tags
+        )
+        
+        if args.json:
+            result = {
+                "success": True,
+                "memory_id": item.id,
+                "content": args.content,
+                "tags": tags,
+                "importance": args.importance
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            print(f"✅ Memory stored with ID: {item.id}")
+            print(f"   Content: {args.content[:50]}{'...' if len(args.content) > 50 else ''}")
+            print(f"   Tags: {tags}")
+            print(f"   Importance: {args.importance}")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error storing memory: {e}")
+        return 1
+
+
+def cmd_memory_search(args):
+    """Search memories by query."""
+    try:
+        from ai.memory.store import get_store
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        store = get_store()
+        
+        # Use intelligent search if available
+        if isinstance(store, IntelligentMemoryStore):
+            if hasattr(store, 'search_by_keywords'):
+                memories = store.search_by_keywords(args.query, limit=args.limit)
+            else:
+                memories = store.query(tags=args.query.split(), limit=args.limit)
+        else:
+            memories = store.query(tags=args.query.split(), limit=args.limit)
+        
+        if args.json:
+            result = {
+                "query": args.query,
+                "total_results": len(memories),
+                "memories": []
+            }
+            for mem in memories:
+                if hasattr(mem, 'to_dict'):
+                    result["memories"].append(mem.to_dict())
+                else:
+                    result["memories"].append({
+                        "id": mem.id,
+                        "content": mem.content,
+                        "tags": getattr(mem, 'tags', []),
+                        "timestamp": getattr(mem, 'timestamp', None)
+                    })
+            print(json.dumps(result, indent=2, default=str))
+        else:
+            print(f"🔍 Found {len(memories)} memories for query: '{args.query}'")
+            print()
+            for i, mem in enumerate(memories, 1):
+                print(f"{i}. [{mem.id}] {mem.content[:80]}{'...' if len(mem.content) > 80 else ''}")
+                if hasattr(mem, 'tags') and mem.tags:
+                    print(f"   Tags: {mem.tags}")
+                if hasattr(mem, 'importance_score'):
+                    print(f"   Importance: {mem.importance_score:.2f}")
+                print()
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error searching memories: {e}")
+        return 1
+
+
+def cmd_memory_analytics(args):
+    """Get memory analytics."""
+    try:
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        # Try to get intelligent store for analytics
+        try:
+            store = IntelligentMemoryStore()
+        except:
+            from ai.memory.store import get_store
+            store = get_store()
+        
+        if hasattr(store, 'get_memory_analytics'):
+            analytics = store.get_memory_analytics()
+        else:
+            # Basic analytics for regular store
+            memories = store.query(limit=1000)  # Get a sample
+            analytics = {
+                "total_memories": len(memories),
+                "memory_types": {"GENERAL": len(memories)},
+                "average_importance": 0.5
+            }
+        
+        if args.json:
+            print(json.dumps(analytics, indent=2))
+        else:
+            print("📊 Memory Analytics")
+            print("=" * 20)
+            print(f"Total Memories: {analytics.get('total_memories', 0)}")
+            print(f"Average Importance: {analytics.get('average_importance', 0):.2f}")
+            
+            memory_types = analytics.get('memory_types', {})
+            if memory_types:
+                print("\nMemory Types:")
+                for mem_type, count in memory_types.items():
+                    print(f"  {mem_type}: {count}")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error getting analytics: {e}")
+        return 1
+
+
+def cmd_memory_optimize(args):
+    """Optimize memory by removing low-importance items."""
+    try:
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        # Try to get intelligent store for optimization
+        try:
+            store = IntelligentMemoryStore()
+        except:
+            print("⚠️  Optimization requires IntelligentMemoryStore")
+            return 1
+        
+        if hasattr(store, 'optimize_memory'):
+            # Use built-in optimization
+            result = store.optimize_memory(dry_run=args.dry_run, threshold=args.threshold)
+        else:
+            print("⚠️  Memory optimization not available for this store type")
+            return 1
+        
+        if args.json:
+            print(json.dumps(result, indent=2))
+        else:
+            action = "Would remove" if args.dry_run else "Removed"
+            print(f"🧹 Memory Optimization {'(Dry Run)' if args.dry_run else ''}")
+            print("=" * 30)
+            print(f"{action}: {result.get('removed_count', 0)} memories")
+            print(f"Remaining: {result.get('remaining_count', 0)} memories")
+            if 'space_saved_mb' in result:
+                print(f"Space saved: {result['space_saved_mb']:.1f} MB")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error optimizing memory: {e}")
+        return 1
+
+
+def cmd_memory_backup(args):
+    """Backup memories to JSON file."""
+    try:
+        from ai.memory.store import get_store
+        import gzip
+        
+        store = get_store()
+        memories = store.query(limit=10000)  # Get all memories
+        
+        # Prepare backup data
+        backup_data = {
+            "backup_timestamp": datetime.now().isoformat(),
+            "total_memories": len(memories),
+            "memories": []
+        }
+        
+        for mem in memories:
+            if hasattr(mem, 'to_dict'):
+                backup_data["memories"].append(mem.to_dict())
+            else:
+                backup_data["memories"].append({
+                    "id": mem.id,
+                    "content": mem.content,
+                    "tags": getattr(mem, 'tags', []),
+                    "timestamp": getattr(mem, 'timestamp', None),
+                    "importance": getattr(mem, 'importance', 0.5)
+                })
+        
+        # Write backup file
+        backup_json = json.dumps(backup_data, indent=2, default=str)
+        
+        if args.compress:
+            with gzip.open(args.output_path + '.gz', 'wt', encoding='utf-8') as f:
+                f.write(backup_json)
+            output_file = args.output_path + '.gz'
+        else:
+            with open(args.output_path, 'w', encoding='utf-8') as f:
+                f.write(backup_json)
+            output_file = args.output_path
+        
+        print(f"✅ Memory backup completed")
+        print(f"   File: {output_file}")
+        print(f"   Memories: {len(memories)}")
+        print(f"   Size: {len(backup_json) / 1024:.1f} KB")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error creating backup: {e}")
+        return 1
+
+
+def cmd_memory_smart_write(args):
+    """Smart write using enhanced memory tools."""
+    try:
+        from ai.tools.enhanced_memory_tools import SmartWriteMemory
+        
+        tool = SmartWriteMemory()
+        result = tool.run(
+            content=args.content,
+            auto_classify=args.auto_classify
+        )
+        
+        if args.json:
+            print(json.dumps({"result": result}, indent=2))
+        else:
+            print(f"🧠 {result}")
+        
+        return 0
+    except ImportError:
+        print("❌ SmartWriteMemory tool not available")
+        return 1
+    except Exception as e:
+        print(f"❌ Error with smart write: {e}")
+        return 1
+
+
+def cmd_memory_semantic_search(args):
+    """Semantic search using enhanced memory tools."""
+    try:
+        from ai.tools.enhanced_memory_tools import SemanticSearchMemory
+        
+        tool = SemanticSearchMemory()
+        results = tool.run(
+            query=args.query,
+            limit=args.limit
+        )
+        
+        if args.json:
+            print(json.dumps({"results": results}, indent=2))
+        else:
+            print(f"🔍 Semantic search results for: '{args.query}'")
+            print()
+            for i, result in enumerate(results[:args.limit], 1):
+                if isinstance(result, dict):
+                    content = result.get('content', str(result))
+                    score = result.get('relevance_score', 0)
+                    print(f"{i}. [Score: {score:.2f}] {content[:80]}{'...' if len(content) > 80 else ''}")
+                else:
+                    print(f"{i}. {str(result)[:80]}{'...' if len(str(result)) > 80 else ''}")
+                print()
+        
+        return 0
+    except ImportError:
+        print("❌ SemanticSearchMemory tool not available")
+        return 1
+    except Exception as e:
+        print(f"❌ Error with semantic search: {e}")
+        return 1
+
+
+if __name__ == "__main__":
+    exit(main())
