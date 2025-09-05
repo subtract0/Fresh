@@ -168,7 +168,7 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
     )
 
 
-@click.command()
+@click.command(help="Refresh local UI/data assets and update a .last_refreshed timestamp based on a JSON configuration.")
 @click.option(
     "--verbose",
     "-v",
@@ -180,10 +180,12 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
     "-o",
     type=click.Choice(["json", "table", "plain"]),
     default="table",
+    show_default=True,
     help="Output format: json, table, or plain text",
 )
 @click.option(
     "--config",
+    "-c",
     type=str,
     help="Path to JSON configuration file, or '-' to read from stdin",
 )
@@ -219,7 +221,7 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
 
         # 3. Output results
         if output == "json":
-            console.print_json(json.dumps(result_data, indent=2))
+            console.print_json(data=result_data)
         elif output == "table":
             table = Table(title="RefreshController Results", show_header=True, header_style="bold cyan")
             table.add_column("Property", style="cyan", no_wrap=True)
@@ -236,6 +238,8 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
             console.print("[green]✅ RefreshController completed successfully[/green]")
         elif verbose and status == "skipped":
             console.print("[yellow]ℹ️  RefreshController skipped (no action taken)[/yellow]")
+
+        return result_data
     except (FileNotFoundError, ValueError) as cfg_err:
         console.print(f"[red]Configuration Error: {cfg_err}[/red]")
         if verbose:

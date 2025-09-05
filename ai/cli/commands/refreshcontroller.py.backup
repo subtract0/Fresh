@@ -17,15 +17,18 @@ console = Console()
 
 def _load_config(config_path: Optional[str]) -> Dict:
     """
-    Load configuration from the provided path.
+    Load configuration from the provided path or stdin.
 
     The function currently supports JSON configuration files.
     If no path is supplied, an empty dictionary is returned.
 
+    A path of "-" will cause the function to read JSON from stdin,
+    allowing seamless integration with command chaining.
+
     Parameters
     ----------
     config_path : Optional[str]
-        Path to the configuration file.
+        Path to the configuration file or "-" for stdin.
 
     Returns
     -------
@@ -34,32 +37,53 @@ def _load_config(config_path: Optional[str]) -> Dict:
 
     Raises
     ------
+    FileNotFoundError
+        If the config file path is provided but does not exist.
     ValueError
-        If the config file exists but cannot be parsed.
+        If the file (or stdin) is not valid JSON or does not resolve to a dict.
     """
+    # No configuration file supplied; return empty config
     if config_path is None:
         return {}
 
-    path = Path(config_path)
-    if not path.exists() or not path.is_file():
-        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    # STDIN support
+    if config_path == "-":
+        try:
+            raw_data = sys.stdin.read()
+            if not raw_data.strip():
+                return {}
+            config_data = json.loads(raw_data)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"Configuration data from stdin is not valid JSON: {exc}") from exc
+    else:
+        path = Path(config_path)
 
-    try:
-        with path.open("r", encoding="utf-8") as fp:
-            return json.load(fp)
-    except json.JSONDecodeError as exc:
-        raise ValueError(f"Configuration file is not valid JSON: {exc}") from exc
-    except Exception as exc:
-        raise ValueError(f"Failed to read configuration file: {exc}") from exc
+        # Validate existence and file type
+        if not path.exists() or not path.is_file():
+            raise FileNotFoundError(f"Configuration file not found: {config_path}")
+
+        try:
+            with path.open("r", encoding="utf-8") as fp:
+                config_data = json.load(fp)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"Configuration file is not valid JSON: {exc}") from exc
+        except Exception as exc:  # pragma: no cover
+            raise ValueError(f"Failed to read configuration file: {exc}") from exc
+
+    # Ensure configuration is a dictionary
+    if not isinstance(config_data, dict):
+        raise ValueError("Top-level JSON structure must be an object (dictionary).")
+
+    return config_data
 
 
 def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
     """
     Perform the refresh action based on the provided configuration.
 
-    The refresh process currently scans a directory (if provided),
-    gathers simple statistics, and writes/updates a `.last_refreshed`
-    file containing the current timestamp.
+    The refresh process scans a directory (if provided), gathers simple
+    statistics, and writes/updates a `.last_refreshed` file containing the
+    current UTC timestamp.
 
     Parameters
     ----------
@@ -79,6 +103,12 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
         For unexpected errors during refresh.
     """
     data_dir = config.get("data_directory")
+
+    # Validate the data_directory parameter
+    if data_dir is not None and not isinstance(data_dir, str):
+        raise RuntimeError("`data_directory` must be a string path if provided.")
+
+    # If no directory is specified, safely skip the refresh
     if not data_dir:
         return (
             {
@@ -92,7 +122,9 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
             "skipped",
         )
 
-    path = Path(data_dir)
+    path = Path(data_dir).expanduser()
+
+    # Validate directory existence
     if not path.exists() or not path.is_dir():
         raise RuntimeError(f"data_directory does not exist or is not a directory: {data_dir}")
 
@@ -107,15 +139,15 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
                 file_count += 1
             elif p.is_dir():
                 dir_count += 1
-    except Exception as exc:
+    except Exception as exc:  # pragma: no cover
         raise RuntimeError(f"Failed while scanning directory: {exc}") from exc
 
     # Update or create the .last_refreshed file
-    timestamp = datetime.utcnow().isoformat() + "Z"
+    timestamp = datetime.utcnow().isoformat(timespec="seconds") + "Z"
     last_refreshed_file = path / ".last_refreshed"
     try:
         last_refreshed_file.write_text(timestamp, encoding="utf-8")
-    except Exception as exc:
+    except Exception as exc:  # pragma: no cover
         raise RuntimeError(f"Failed to write .last_refreshed file: {exc}") from exc
 
     message = (
@@ -148,12 +180,12 @@ def _perform_refresh(config: Dict, verbose: bool = False) -> Tuple[Dict, str]:
     "-o",
     type=click.Choice(["json", "table", "plain"]),
     default="table",
-    help="Output format",
+    help="Output format: json, table, or plain text",
 )
 @click.option(
     "--config",
-    type=click.Path(exists=True, dir_okay=False, path_type=str),
-    help="Path to JSON configuration file",
+    type=str,
+    help="Path to JSON configuration file, or '-' to read from stdin",
 )
 @click.pass_context
 def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
@@ -164,6 +196,14 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
     configuration file. If a `data_directory` key is present in the JSON
     configuration, the directory is scanned for statistics and a timestamp
     file `.last_refreshed` is updated to mark the sync time.
+
+    Examples
+    --------
+    Refresh a directory using a config file:
+        $ fresh-ai refreshcontroller --config ./my_config.json
+
+    Pipe JSON config via stdin:
+        $ echo '{"data_directory": "./assets"}' | fresh-ai refreshcontroller -c -
     """
     try:
         if verbose:
@@ -181,7 +221,7 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
         if output == "json":
             console.print_json(json.dumps(result_data, indent=2))
         elif output == "table":
-            table = Table(title="RefreshController Results")
+            table = Table(title="RefreshController Results", show_header=True, header_style="bold cyan")
             table.add_column("Property", style="cyan", no_wrap=True)
             table.add_column("Value", style="magenta")
             for key, value in result_data.items():
@@ -199,12 +239,12 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
     except (FileNotFoundError, ValueError) as cfg_err:
         console.print(f"[red]Configuration Error: {cfg_err}[/red]")
         if verbose:
-            console.print_exception()
+            console.print_exception(max_frames=5)
         ctx.exit(2)
     except RuntimeError as run_err:
         console.print(f"[red]Runtime Error: {run_err}[/red]")
         if verbose:
-            console.print_exception()
+            console.print_exception(max_frames=5)
         ctx.exit(3)
     except KeyboardInterrupt:
         console.print("\n[red]Operation cancelled by user.[/red]")
@@ -212,7 +252,7 @@ def refreshcontroller(ctx, verbose: bool, output: str, config: Optional[str]):
     except Exception as exc:  # Catch-all for unexpected errors
         console.print(f"[red]❌ Unexpected error: {exc}[/red]")
         if verbose:
-            console.print_exception()
+            console.print_exception(max_frames=5)
         ctx.exit(1)
 
 

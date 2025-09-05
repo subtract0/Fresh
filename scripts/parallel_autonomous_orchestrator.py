@@ -13,6 +13,7 @@ from datetime import datetime
 from typing import List, Dict, Any, Optional
 import concurrent.futures
 from dataclasses import dataclass, asdict
+from concurrent.futures import ThreadPoolExecutor
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -72,33 +73,22 @@ class ParallelAutonomousOrchestrator:
     
     def get_implementation_prompt(self, file_path: str, current_code: str, feature_description: str) -> str:
         """Create implementation prompt for MotherAgent spawned worker"""
-        return f"""You are a MotherAgent spawned autonomous worker implementing features in the Fresh AI Agent System.
+        return f"""MotherAgent Task: Implement {feature_description}
 
-TASK: Implement the feature in {file_path}
-DESCRIPTION: {feature_description}
+File: {file_path}
 
-CURRENT STUB CODE:
-```python
+Current code:
 {current_code}
-```
 
-REQUIREMENTS (MotherAgent Instructions):
-1. Replace ALL TODO comments with working implementations
-2. Maintain existing FastAPI/Click patterns and signatures
-3. Add comprehensive error handling with try/except blocks
-4. Keep all existing imports and class/function names
-5. Add proper docstrings for new functions
-6. Make the code production-ready and functional
-7. Follow the existing project patterns visible in the code
-8. For API endpoints: return proper JSON responses
-9. For CLI commands: add proper Click decorators and help text
-10. Add input validation where appropriate
+Instructions:
+- Replace ALL TODO comments with working code
+- Keep existing imports, classes, and function signatures
+- Add proper error handling and validation
+- Make it production-ready and functional
+- For CLI: add proper Click decorators and help
+- For API: return proper JSON responses
 
-RESPONSE FORMAT:
-Return ONLY the complete, functional Python code. No explanations, no markdown formatting, just the working code that can be directly written to the file.
-
-The implementation should be professional, robust, and ready for production use.
-This is a parallel job spawned by MotherAgent for autonomous implementation."""
+IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
 
     async def implement_feature_async(self, job: ParallelJob) -> ParallelJob:
         """Async implementation of a single feature"""
@@ -119,15 +109,16 @@ This is a parallel job spawned by MotherAgent for autonomous implementation."""
             # Create prompt
             prompt = self.get_implementation_prompt(job.file_path, current_code, job.description)
             
-            # Try models in parallel-optimized order
-            models_to_try = ["o3", "gpt-5", "gpt-5-mini", "gpt-4o"]
+            # Smart MotherAgent model selection: GPT-5 for planning and coding
+            models_to_try = ["gpt-5", "gpt-5-mini", "gpt-4o"]  # Remove o3, use GPT-5 first
             
             implementation = None
             successful_model = None
             
             for model in models_to_try:
                 try:
-                    print(f"🤖 Job {job.id}: Trying model {model}")
+                    reasoning = "HIGH" if "planning" in job.description.lower() or "strategy" in job.description.lower() else "MEDIUM"
+                    print(f"🤖 Job {job.id}: Using {model} (reasoning_effort={reasoning.lower()}) - {job.description[:50]}...")
                     
                     # Prepare API parameters
                     api_params = {
@@ -138,22 +129,27 @@ This is a parallel job spawned by MotherAgent for autonomous implementation."""
                         ]
                     }
                     
-                    # Model-specific parameters
-                    if model.startswith("o3") or model.startswith("o1"):
-                        api_params["max_completion_tokens"] = 2500
-                        api_params["messages"][0]["role"] = "developer"
-                    elif model.startswith("gpt-5"):
-                        api_params["max_completion_tokens"] = 2500
-                        # GPT-5 uses reasoning_effort and verbosity for control
-                        api_params["reasoning_effort"] = "medium"  # production level reasoning
-                        api_params["verbosity"] = "low"  # concise final answer
+                    # Smart MotherAgent model parameters
+                    if model.startswith("gpt-5"):
+                        api_params["max_completion_tokens"] = 4000  # Higher limit for GPT-5
+                        # MotherAgent smart reasoning selection
+                        if "planning" in job.description.lower() or "strategy" in job.description.lower():
+                            api_params["reasoning_effort"] = "high"  # high reasoning for planning
+                        else:
+                            api_params["reasoning_effort"] = "medium"  # medium for coding
+                        api_params["verbosity"] = "medium"  # More detailed for better code
                     else:
                         api_params["max_tokens"] = 2500
                         api_params["temperature"] = 0.1
                         api_params["timeout"] = 30
                     
-                    # Make API call
-                    response = self.client.chat.completions.create(**api_params)
+                    # Make API call using thread pool for true concurrency
+                    loop = asyncio.get_event_loop()
+                    with ThreadPoolExecutor(max_workers=1) as executor:
+                        response = await loop.run_in_executor(
+                            executor, 
+                            lambda: self.client.chat.completions.create(**api_params)
+                        )
                     content = response.choices[0].message.content
                     
                     # Clean up markdown formatting
@@ -219,9 +215,11 @@ This is a parallel job spawned by MotherAgent for autonomous implementation."""
     
     async def run_parallel_batch(self, features: List[Dict]) -> Dict:
         """Run batch of features in parallel using MotherAgent orchestration"""
-        print(f"\n🚀 MotherAgent: Spawning {len(features)} autonomous workers in parallel")
+        print(f"\n🚀 MotherAgent: Spawning {len(features)} autonomous workers in PARALLEL")
         print(f"💰 Budget limit: ${self.budget_limit}")
         print(f"👥 Max concurrent workers: {self.max_workers}")
+        print(f"🤖 Using GPT-5 with smart reasoning: high for planning, medium for coding")
+        print(f"⚡ TRUE PARALLEL EXECUTION - All {len(features)} workers will run simultaneously!")
         print("=" * 80)
         
         # Create jobs
@@ -246,8 +244,11 @@ This is a parallel job spawned by MotherAgent for autonomous implementation."""
         # Start progress monitoring
         progress_task = asyncio.create_task(self.monitor_progress())
         
-        # Execute all jobs in parallel
+        # Execute all jobs in TRUE PARALLEL using asyncio.gather
+        print(f"🚀 Launching {len(self.jobs)} workers in PARALLEL...")
         tasks = [run_with_semaphore(job) for job in self.jobs]
+        
+        # This is the key: asyncio.gather runs ALL tasks concurrently
         completed_jobs = await asyncio.gather(*tasks, return_exceptions=True)
         
         # Stop progress monitoring

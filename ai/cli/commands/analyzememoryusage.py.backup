@@ -27,6 +27,11 @@ def _load_config(config_path: Optional[str]) -> Dict[str, Any]:
     -------
     Dict[str, Any]
         Configuration dictionary; empty if no path provided.
+
+    Raises
+    ------
+    RuntimeError
+        If the file cannot be read or contains invalid JSON.
     """
     if not config_path:
         return {}
@@ -61,7 +66,7 @@ def _get_memory_usage_mb(pid: int) -> float:
     Raises
     ------
     RuntimeError
-        If the process cannot be inspected.
+        If the process cannot be inspected or psutil is unavailable.
     """
     # Prefer psutil if available for accurate cross-platform stats
     try:
@@ -91,6 +96,9 @@ def _get_memory_usage_mb(pid: int) -> float:
         else:
             usage_mb = usage_kb / 1024
         return round(usage_mb, 2)
+    except Exception as exc:
+        # Wrap any unexpected exception to keep error messages consistent
+        raise RuntimeError(f"Unable to retrieve memory usage: {exc}") from exc
 
 
 def _generate_recommendations(memory_mb: float, threshold_mb: Optional[float]) -> str:
@@ -177,7 +185,14 @@ def analyzememoryusage(
             or cfg.get("pid")  # type: ignore[arg-type]
             or os.getpid()
         )
-        threshold_final_raw = threshold if threshold is not None else cfg.get("threshold_mb")
+
+        # Allow both "threshold" and "threshold_mb" keys in config
+        threshold_cfg_value = (
+            cfg.get("threshold_mb")
+            if "threshold_mb" in cfg
+            else cfg.get("threshold")
+        )
+        threshold_final_raw = threshold if threshold is not None else threshold_cfg_value
         threshold_final: Optional[float] = (
             float(threshold_final_raw) if threshold_final_raw is not None else None
         )
@@ -185,7 +200,13 @@ def analyzememoryusage(
         if threshold_final is not None and threshold_final <= 0:
             raise ValueError("Threshold must be a positive number")
 
+        # Validate pid_final
+        if pid_final <= 0:
+            raise ValueError("PID must be a positive integer")
+
+        # Retrieve memory usage
         memory_mb = _get_memory_usage_mb(pid_final)
+
         status = (
             "exceeds_threshold"
             if threshold_final is not None and memory_mb > threshold_final
