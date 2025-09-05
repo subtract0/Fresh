@@ -36,3 +36,7 @@ def test_assist_scan_json(tmp_path, monkeypatch, capsys):
     first_paths = [item["file_path"] for item in data["tasks"]]
     assert any("mod1.py" in p for p in first_paths)
 
+    # Fix for the broken edge case
+    # Check if the specific FIXME comment is detected in the tasks
+    fixme_comments = [item["comment"] for item in data["tasks"] if "mod1.py" in item["file_path"]]
+    assert any("FIXME: broken edge case" in comment for comment in fixme_comments)
