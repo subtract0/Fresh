@@ -73,14 +73,14 @@ class PresetTemplates:
             "title": "📚 Documentation + Business Cases Analysis",
             "description": "Fix documentation then generate prioritized business cases based on earning potential",
             "prompt": """Can you make a team that will fix the whole documentation of the project and then when all is up to date and state of the art, conclusive and complete while being simple and readable, optimized for autonomous development: create and sort business cases based on their earning-potential (based on this codebase), prioritize the ones that are completely digital and passively generating solid income with little or no risk and little capital investment and biggest upside in value-creation for humans""",
-            "suggested_budget": "under_$1000",
+            "suggested_budget": "under_$10",
             "suggested_timeline": "within_week"
         },
         "market_research": {
             "title": "🔍 Comprehensive Market Research",
             "description": "Deep market analysis with competitor assessment and opportunity identification",
             "prompt": """Research the current market landscape for AI development tools and autonomous coding systems. Analyze top competitors, identify market gaps, assess technology trends, and provide strategic recommendations for positioning our Fresh AI system. Include pricing analysis, feature comparison, and market size estimation.""",
-            "suggested_budget": "under_$500",
+            "suggested_budget": "under_$5",
             "suggested_timeline": "same_day"
         },
         "tech_assessment": {
@@ -261,7 +261,7 @@ Starting orchestration now..."""
                 
                 results = await mother.orchestrate(
                     command=task.prompt,
-                    budget="under_$1000",
+                    budget="under_$10",
                     timeline="same_day"
                 )
                 
@@ -1139,9 +1139,9 @@ RESULTS:
                 <div class="form-group">
                     <label class="form-label">Budget Constraint:</label>
                     <select class="form-control" id="modal-budget">
-                        <option value="under_$500">Under $500</option>
-                        <option value="under_$1000">Under $1000</option>
-                        <option value="under_$2000">Under $2000</option>
+                        <option value="under_$5">Under $5</option>
+                        <option value="under_$10">Under $10</option>
+                        <option value="under_$20">Under $20</option>
                         <option value="no_limit">No Limit</option>
                     </select>
                 </div>
