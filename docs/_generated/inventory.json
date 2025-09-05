@@ -1,23 +1,29 @@
 {
-  "timestamp": "2025-09-04 13:29:25 UTC",
+  "timestamp": "2025-09-05 01:38:26 UTC",
   "python_version": "Python 3.12.11",
   "cwd": "/Users/am/Code/Fresh",
   "shell_scripts": [
     {
+      "name": "setup-firestore.sh",
+      "path": "scripts/setup-firestore.sh",
+      "executable": true,
+      "description": "Setup Firestore emulator for local development"
+    },
+    {
       "name": "mvp.sh",
       "path": "scripts/mvp.sh",
-      "executable": false,
+      "executable": true,
       "description": "Minimal MVP runner: prints JSON-like summary and release notes"
     },
     {
       "name": "run-tests.sh",
       "path": "scripts/run-tests.sh",
-      "executable": false
+      "executable": true
     },
     {
       "name": "check-tests-changed.sh",
       "path": "scripts/check-tests-changed.sh",
-      "executable": false
+      "executable": true
     },
     {
       "name": "mcp-github.sh",
@@ -34,7 +40,7 @@
     {
       "name": "monitor.sh",
       "path": "scripts/monitor.sh",
-      "executable": false
+      "executable": true
     },
     {
       "name": "deploy.sh",
@@ -45,7 +51,7 @@
     {
       "name": "dev_check.sh",
       "path": "scripts/dev_check.sh",
-      "executable": false,
+      "executable": true,
       "description": "dev:check \u2014 run quick quality checks locally"
     },
     {
@@ -73,9 +79,64 @@
       "docstring": "Spawn an agent for a specific task.\n    \n    Args:\n        args: Parsed command-line arguments"
     },
     {
+      "command": "orchestrate",
+      "function": "cmd_orchestrate",
+      "docstring": "Orchestrate complex multi-agent research and analysis.\n    \n    Args:\n        args: Parsed command-line arguments"
+    },
+    {
+      "command": "monitor",
+      "function": "cmd_monitor",
+      "docstring": "Monitor command with enhanced interactive option."
+    },
+    {
       "command": "run",
       "function": "cmd_run",
       "docstring": "Run autonomous development loop.\n    \n    Args:\n        args: Parsed command-line arguments"
+    },
+    {
+      "command": "autonomous-status",
+      "function": "cmd_autonomous_status",
+      "docstring": "Show autonomous loop status."
+    },
+    {
+      "command": "autonomous-cycle",
+      "function": "cmd_autonomous_cycle",
+      "docstring": "Run single autonomous improvement cycle."
+    },
+    {
+      "command": "autonomous-start",
+      "function": "cmd_autonomous_start",
+      "docstring": "Start continuous autonomous loop."
+    },
+    {
+      "command": "autonomous-stop",
+      "function": "cmd_autonomous_stop",
+      "docstring": "Stop continuous autonomous loop."
+    },
+    {
+      "command": "autonomous-emergency-stop",
+      "function": "cmd_autonomous_emergency_stop",
+      "docstring": "Activate emergency stop."
+    },
+    {
+      "command": "autonomous-clear-emergency",
+      "function": "cmd_autonomous_clear_emergency",
+      "docstring": "Clear emergency stop."
+    },
+    {
+      "command": "feature-inventory",
+      "function": "cmd_feature_inventory",
+      "docstring": "Run feature inventory to identify unhooked features and quality issues."
+    },
+    {
+      "command": "feature-validate",
+      "function": "cmd_feature_validate",
+      "docstring": "Validate that all features meet quality standards."
+    },
+    {
+      "command": "feature-hook-missing",
+      "function": "cmd_feature_hook_missing",
+      "docstring": "Hook up features that are implemented but not accessible."
     }
   ],
   "tests": {
@@ -101,6 +162,15 @@
       "test_normalize_tag_variants",
       "test_intent_normalizer_deduplicates_and_orders"
     ],
+    "tests/test_docs_alignment.py": [
+      "test_warp_md_accuracy",
+      "test_readme_has_status_reference",
+      "test_no_broken_claims_in_docs",
+      "test_inventory_json_exists",
+      "test_cli_commands_documented",
+      "test_executable_scripts_marked_correctly",
+      "test_feature_status_is_current"
+    ],
     "tests/test_release_notes.py": [
       "test_generate_release_notes_basic",
       "test_generate_release_notes_tag_filter"
@@ -111,6 +181,14 @@
     "tests/test_monitor_event_bus.py": [
       "test_bus_append_and_read",
       "test_detector_reads_persisted_events"
+    ],
+    "tests/test_rule_consolidation.py": [
+      "test_consolidated_rules_file_exists",
+      "test_validation_script_passes",
+      "test_no_rule_regression",
+      "test_consolidation_efficiency",
+      "test_precedence_order_maintained",
+      "test_no_duplicate_requirements"
     ],
     "tests/test_dod_checker.py": [
       "test_extract_adr_refs_finds_unique_refs"
@@ -300,7 +378,7 @@
     {
       "name": "issue-to-pr.yml",
       "path": ".github/workflows/issue-to-pr.yml",
-      "workflow_name": "Issue to PR (Autonomous Intake)",
+      "workflow_name": "Issue to PR (Disabled)",
       "runs_tests": false
     },
     {
@@ -312,7 +390,7 @@
     {
       "name": "weekly-autonomous-scan.yml",
       "path": ".github/workflows/weekly-autonomous-scan.yml",
-      "workflow_name": "Weekly Autonomous Scan",
+      "workflow_name": "Weekly Scan (Manual)",
       "runs_tests": false
     },
     {
@@ -324,13 +402,14 @@
     {
       "name": "docs-alignment.yml",
       "path": ".github/workflows/docs-alignment.yml",
+      "workflow_name": "docs-alignment (Disabled)",
       "runs_tests": false
     },
     {
       "name": "integration-tests.yml",
       "path": ".github/workflows/integration-tests.yml",
-      "workflow_name": "Integration Tests (manual)",
-      "runs_tests": true
+      "workflow_name": "integration-tests (Disabled)",
+      "runs_tests": false
     },
     {
       "name": "adr-check.yml",
@@ -353,11 +432,36 @@
     {
       "name": "autonomy-planning.yml",
       "path": ".github/workflows/autonomy-planning.yml",
-      "workflow_name": "Daily Autonomous Planning",
+      "workflow_name": "Autonomy Planning (Disabled)",
       "runs_tests": false
     }
   ],
   "agents": [
+    {
+      "name": "class:TaskComplexity",
+      "docstring": "Task complexity levels for orchestration planning.",
+      "file": "ai/agents/enhanced_mother.py"
+    },
+    {
+      "name": "class:class",
+      "docstring": "Represents a clarification question for ambiguous tasks.",
+      "file": "ai/agents/enhanced_mother.py"
+    },
+    {
+      "name": "class:class",
+      "docstring": "Represents a complex task broken down into specialized subtasks.",
+      "file": "ai/agents/enhanced_mother.py"
+    },
+    {
+      "name": "class:class",
+      "docstring": "Results from orchestrated agent team execution.",
+      "file": "ai/agents/enhanced_mother.py"
+    },
+    {
+      "name": "class:EnhancedMotherAgent",
+      "docstring": "Enhanced Mother Agent with sophisticated orchestration capabilities.",
+      "file": "ai/agents/enhanced_mother.py"
+    },
     {
       "name": "class:Agent",
       "docstring": "",
@@ -395,6 +499,11 @@
     },
     {
       "name": "class:class",
+      "docstring": "Child agent spawned by Mother Agent.",
+      "file": "ai/agents/mother.py"
+    },
+    {
+      "name": "class:class",
       "docstring": "Request to spawn a new agent.",
       "file": "ai/agents/mother.py"
     },
@@ -407,6 +516,41 @@
       "name": "class:MotherAgent",
       "docstring": "Mother Agent that spawns and manages child agents.\n    \n    This agent implements the core spawning interface for creating\n    specialized agents based on task requirements. It maintains\n    history of spawned agents and persists context to memory.",
       "file": "ai/agents/mother.py"
+    },
+    {
+      "name": "class:Agent",
+      "docstring": "",
+      "file": "ai/agents/research_agents.py"
+    },
+    {
+      "name": "class:IntelligentMemoryStore",
+      "docstring": "",
+      "file": "ai/agents/research_agents.py"
+    },
+    {
+      "name": "class:MemoryType",
+      "docstring": "",
+      "file": "ai/agents/research_agents.py"
+    },
+    {
+      "name": "class:class",
+      "docstring": "Result from a research agent operation.",
+      "file": "ai/agents/research_agents.py"
+    },
+    {
+      "name": "class:MarketResearchAgent",
+      "docstring": "Agent specialized in market research using EXA web search.",
+      "file": "ai/agents/research_agents.py"
+    },
+    {
+      "name": "class:TechnicalAssessmentAgent",
+      "docstring": "Agent specialized in technical feasibility assessment.",
+      "file": "ai/agents/research_agents.py"
+    },
+    {
+      "name": "class:OpportunityScoringAgent",
+      "docstring": "Agent specialized in scoring and ranking business opportunities.",
+      "file": "ai/agents/research_agents.py"
     },
     {
       "name": "class:AppType",
@@ -497,8 +641,8 @@
     "openai": true
   },
   "stats": {
-    "total_python_files": 3997,
-    "total_test_files": 28,
-    "total_docs": 90
+    "total_python_files": 4033,
+    "total_test_files": 30,
+    "total_docs": 120
   }
 }
