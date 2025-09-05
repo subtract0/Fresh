@@ -39,7 +39,7 @@ from ai.execution.monitor import (
     AgentExecution, get_execution_monitor
 )
 from ai.monitor.cost_tracker import get_cost_tracker, CostTracker
-from ai.monitor.openai_tracker import get_openai_tracker, OpenAIUsageTracker
+from ai.monitor.openai_tracker import OpenAIUsageTracker
 from ai.memory.store import get_store
 from ai.tools.memory_tools import WriteMemory, ReadMemoryContext
 from ai.autonomous.safety import SafetyController, SafetyCheckpoint
@@ -141,7 +141,7 @@ class BatchImplementationOrchestrator:
         self.progress_callbacks: List[Callable] = []
         
         # OpenAI integration
-        self.openai_tracker = get_openai_tracker()
+        self.openai_tracker = OpenAIUsageTracker()
         self.mother_agent: Optional[EnhancedMotherAgent] = None
         
     async def initialize(self):
@@ -509,11 +509,21 @@ class BatchImplementationOrchestrator:
             
             # Extract cost and token information
             tokens_used = agent_result.get('tokens_used', 0)
-            cost_usd = self.openai_tracker.estimate_cost_for_completion(
-                model=self.config.openai_model,
-                prompt_tokens=tokens_used // 2,  # Rough estimate
-                completion_tokens=tokens_used // 2
-            )
+            # Use cost tracker for cost estimation
+            if tokens_used > 0:
+                self.cost_tracker.record_usage(
+                    service="openai",
+                    operation="completion", 
+                    quantity=tokens_used // 2,  # Input tokens estimate
+                    model=self.config.openai_model
+                )
+                self.cost_tracker.record_usage(
+                    service="openai",
+                    operation="completion",
+                    quantity=tokens_used // 2,  # Output tokens estimate  
+                    model=f"{self.config.openai_model}-output"
+                )
+            cost_usd = tokens_used * 0.001  # Rough cost estimation
             
             return {
                 "success": agent_result.get('success', False),
