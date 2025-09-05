@@ -1142,6 +1142,47 @@ def main():
     
     dashboard_parser.set_defaults(func=cmd_dashboard)
 
+    # Telegram Bot command
+    telegram_parser = subparsers.add_parser('telegram', help='Launch Telegram bot interface for agent requests')
+    telegram_parser.add_argument('--token', help='Telegram bot token (or set TELEGRAM_BOT_TOKEN env var)')
+    telegram_parser.add_argument('--polling', action='store_true', default=True, help='Use polling instead of webhooks')
+    
+    def cmd_telegram(args):
+        """Launch the Telegram bot interface."""
+        try:
+            from ai.interface.telegram_bot import FreshTelegramBot
+            import asyncio
+            
+            # Get token from args or environment
+            token = args.token or os.getenv('TELEGRAM_BOT_TOKEN')
+            if not token:
+                print("❌ Telegram bot token required")
+                print("   Set TELEGRAM_BOT_TOKEN environment variable or use --token")
+                print("   Get token from @BotFather on Telegram")
+                return 1
+            
+            print(f"🤖 Starting Fresh Telegram Bot...")
+            print(f"   Mode: {'Polling' if args.polling else 'Webhook'}")
+            print(f"   Press Ctrl+C to stop")
+            
+            # Create and run bot
+            bot = FreshTelegramBot(token)
+            asyncio.run(bot.run_polling())
+            return 0
+            
+        except KeyboardInterrupt:
+            print("\n👋 Telegram bot stopped")
+            return 0
+        except ImportError as e:
+            print(f"❌ Telegram bot not available: {e}")
+            print("   Install requirements: pip install python-telegram-bot")
+            return 1
+        except Exception as e:
+            print(f"❌ Telegram bot failed to start: {e}")
+            return 1
+    
+    telegram_parser.set_defaults(func=cmd_telegram)
+
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
     mcp_sub = mcp_parser.add_subparsers(dest='mcp_cmd', help='MCP subcommands')
