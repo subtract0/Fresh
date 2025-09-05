@@ -1,3 +1,35 @@
+"""
+@file store.py
+@description Core memory store interfaces and base implementation for Fresh AI persistent memory system.
+
+@connections
+- imports: dataclasses for MemoryItem, typing for interfaces, ai.utils.clock for timestamps
+- exports: MemoryStore abstract class, InMemoryMemoryStore implementation, MemoryItem data class
+- implements: Abstract MemoryStore interface with write/query operations
+
+@usage
+# Get the current memory store (auto-creates InMemoryMemoryStore if none set)
+store = get_store()
+
+# Write memory with tags
+memory = store.write(content="Goal: implement user auth", tags=["goal", "auth"])
+
+# Query memories by tags and limit
+recent_auth = store.query(tags=["auth"], limit=10)
+
+@notes
+- Global store pointer allows tools to access memory without explicit injection
+- InMemoryMemoryStore is ephemeral (lost on restart) - use FirestoreMemoryStore for persistence
+- MemoryItem uses timezone-aware timestamps for consistency across deployments
+- Query results are ordered newest first for better context relevance
+
+@see
+- intelligent_store.py - Enhanced memory with auto-classification
+- firestore_store.py - Persistent cross-session memory
+- docs/MEMORY_SYSTEM.md#memory-stores - Architecture overview
+
+@since v0.1.0
+"""
 from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
