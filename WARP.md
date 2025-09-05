@@ -22,6 +22,25 @@ poetry run python -m ai.cli.fresh spawn "Fix the bug in auth module"
 
 # Run autonomous development loop (WORKS)
 poetry run python -m ai.cli.fresh run --once
+
+# Orchestrate complex multi-agent research (WORKS)
+poetry run python -m ai.cli.fresh orchestrate "analyze market trends for AI tools"
+
+# Monitor agents with interactive dashboard (WORKS)
+poetry run python -m ai.cli.fresh monitor --enhanced
+
+# Autonomous loop control (WORKS)
+poetry run python -m ai.cli.fresh autonomous-status
+poetry run python -m ai.cli.fresh autonomous-cycle
+poetry run python -m ai.cli.fresh autonomous-start
+poetry run python -m ai.cli.fresh autonomous-stop
+poetry run python -m ai.cli.fresh autonomous-emergency-stop
+poetry run python -m ai.cli.fresh autonomous-clear-emergency
+
+# Feature management and self-documenting loop (WORKS)
+poetry run python -m ai.cli.fresh feature-inventory
+poetry run python -m ai.cli.fresh feature-validate
+poetry run python -m ai.cli.fresh feature-hook-missing
 ```
 
 #### Shell Scripts (Ready to Use)
