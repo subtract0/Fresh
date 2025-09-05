@@ -966,7 +966,10 @@ def main():
             dashboard=True,
             max_tasks=args.max_tasks,
             interval=args.interval,
-            dry_run=False
+            dry_run=False,
+            once=False,
+            stop_after=0,
+            offline=False
         ))
     )
 
