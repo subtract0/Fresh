@@ -211,6 +211,38 @@ class MemoryStore(ABC):
 
 ---
 
+## 📦 Dependencies
+
+### Core Dependencies
+- `dataclasses` - Memory entry data structures
+- `datetime` - Timestamp handling
+- `uuid` - Unique identifier generation
+- `typing` - Type hints and annotations
+
+### Optional Dependencies
+- `firebase-admin` - Firestore memory store backend
+- `google-cloud-firestore` - Direct Firestore client (alternative)
+
+### Installation
+```bash
+# Core memory system (no external dependencies)
+poetry install --no-root
+
+# With Firestore support
+poetry install --no-root --extras firestore
+# OR: pip install firebase-admin
+```
+
+### Environment Setup
+For Firestore memory store:
+```bash
+export FIREBASE_PROJECT_ID="your-project-id"
+export FIREBASE_CLIENT_EMAIL="service-account@project.iam.gserviceaccount.com"
+export FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+```
+
+---
+
 ## 🔗 Related Documentation
 
 - **[Tool Reference](../../docs/TOOLS.md#memory-context-tools)** - Memory tool API and usage

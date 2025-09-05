@@ -66,7 +66,7 @@ poetry run python -m ai.cli.fresh run --once     # Dev cycle
 ### 🏗️ Architecture
 | Document | Focus | Cross-References |
 |----------|-------|------------------|
-| **[ADR-004: Persistent Memory](.cursor/rules/ADR-004.md)** | Architecture decision (✅ IMPLEMENTED) | [Memory System](docs/MEMORY_SYSTEM.md), [Enhanced Agents](docs/ENHANCED_AGENTS.md) |
+| **[ADR-004: Persistent Memory](/.cursor/rules/ADR-004.md)** | Architecture decision (✅ IMPLEMENTED) | [Memory System](docs/MEMORY_SYSTEM.md), [Enhanced Agents](docs/ENHANCED_AGENTS.md) |
 | **[Memory Store Implementations](docs/MEMORY_SYSTEM.md#memory-store-implementations)** | Storage layer architecture | [API Reference](docs/API_REFERENCE.md#memory-store-apis) |
 | **[Agent Memory Integration](docs/ENHANCED_AGENTS.md#memory-integration)** | Agent-memory workflows | [Agent Development](docs/AGENT_DEVELOPMENT.md#memory-driven-development-practices) |
 
@@ -435,7 +435,7 @@ PY
 3. **[Memory System Guide](docs/MEMORY_SYSTEM.md#memory-store-implementations)** - Storage configuration
 
 ### 🏗️ For Architects
-1. **[ADR-004: Persistent Memory](.cursor/rules/ADR-004.md)** - Architecture decisions
+1. **[ADR-004: Persistent Memory](/.cursor/rules/ADR-004.md)** - Architecture decisions
 2. **[Memory System Architecture](docs/MEMORY_SYSTEM.md#architecture-overview)** - System design
 3. **[Enhanced Agent Architecture](docs/ENHANCED_AGENTS.md#architecture-overview)** - Agent design patterns
 
@@ -451,7 +451,7 @@ PY
 - **[Deployment and Operations](docs/DEPLOYMENT.md)** - Production deployment guide
 
 ### 🏗️ Architecture Decisions
-- **[ADR-004: Persistent Agent Memory](.cursor/rules/ADR-004.md)** - ✅ IMPLEMENTED
+- **[ADR-004: Persistent Agent Memory](/.cursor/rules/ADR-004.md)** - ✅ IMPLEMENTED
 
 ### 🧪 Testing and Examples
 - **[Intelligent Memory Tests](tests/test_intelligent_memory.py)** - 16 comprehensive tests

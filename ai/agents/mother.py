@@ -12,6 +12,7 @@ Cross-references:
 from __future__ import annotations
 import time
 import threading
+import subprocess
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict, List, Optional, Any
@@ -21,6 +22,8 @@ from ai.memory.store import get_store, InMemoryMemoryStore
 from ai.memory.intelligent_store import IntelligentMemoryStore, MemoryType
 from ai.tools.memory_tools import WriteMemory
 from ai.agents.enhanced_agents import EnhancedDeveloper, EnhancedArchitect, EnhancedQA
+from ai.agents.senior_reviewer import SeniorReviewer, ReviewDecision
+from ai.integration.github_pr import GitHubPRIntegration
 from ai.utils.settings import is_offline, TIMEOUT_SECONDS
 import os
 import uuid
@@ -715,18 +718,18 @@ Output Type: {request.output_type}
             }
     
     def _get_model_name(self, model: str) -> str:
-        """Map friendly model names to OpenAI model names, preferring GPT-5."""
+        """Map friendly model names to OpenAI model names."""
         model_mapping = {
-            "gpt-5": "gpt-5",  # GPT-5 when available
-            "gpt-4": "gpt-5",  # Upgrade GPT-4 requests to GPT-5
-            "gpt-4o": "gpt-5",  # Upgrade GPT-4o requests to GPT-5
+            "gpt-5": "gpt-4o",  # GPT-5 not ready yet, use GPT-4o
+            "gpt-4": "gpt-4o",  # Upgrade GPT-4 requests to GPT-4o
+            "gpt-4o": "gpt-4o",  # Keep GPT-4o
             "gpt-4-mini": "gpt-4o-mini",  # Keep mini versions
             "gpt-4o-mini": "gpt-4o-mini",
             "gpt-3.5": "gpt-3.5-turbo",
             "gpt-3.5-turbo": "gpt-3.5-turbo"
         }
-        # Try GPT-5 first, fallback to GPT-4o if not available
-        preferred_model = model_mapping.get(model, "gpt-5")
+        # Default to GPT-4o for stability
+        preferred_model = model_mapping.get(model, "gpt-4o")
         return preferred_model
     
     def _commit_changes(
