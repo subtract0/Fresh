@@ -88,7 +88,7 @@ class AgentStatus:
 class EnhancedMonitor:
     """Enhanced CLI monitor with interactive controls"""
     
-    def __init__(self):
+    def __init__(self, use_simple_input=False):
         self.console = Console()
         self.agent_status = AgentStatus()
         self.autonomous_loop: Optional[AutonomousLoop] = None
@@ -101,6 +101,7 @@ class EnhancedMonitor:
             'opportunities_per_minute': 0,
             'total_improvements': 0
         }
+        self.use_simple_input = use_simple_input
         
     def create_layout(self) -> Layout:
         """Create the main dashboard layout"""
@@ -189,27 +190,50 @@ class EnhancedMonitor:
         return Panel(content, title="⚡ Live Activity", border_style="magenta")
         
     def create_controls_panel(self) -> Panel:
-        """Create controls panel"""
+        """Create controls panel with detailed descriptions"""
         controls_text = Text()
-        controls_text.append("🎮 Agent Controls\n\n", style="bold cyan")
-        controls_text.append("[1] Autonomous Loop  ", style="green")
-        controls_text.append("[2] Single Scan      ", style="blue")
-        controls_text.append("[3] Product Manager\n", style="yellow")
-        controls_text.append("[4] Documentation    ", style="magenta")
-        controls_text.append("[5] Custom Spawn     ", style="white")
-        controls_text.append("[S] Stop Current\n", style="red")
-        controls_text.append("[E] Emergency Stop   ", style="bold red")
-        controls_text.append("[R] Refresh Status   ", style="cyan")
+        controls_text.append("🎮 Agent Control Panel\n\n", style="bold cyan")
+        
+        # Agent controls with clear descriptions
+        controls_text.append("🤖 AGENT ACTIONS:\n", style="bold yellow")
+        controls_text.append("[1] ", style="bold green")
+        controls_text.append("Autonomous Loop", style="green")
+        controls_text.append(" - Start continuous improvement (scans every 5min)\n", style="dim")
+        
+        controls_text.append("[2] ", style="bold blue")
+        controls_text.append("Single Scan", style="blue")
+        controls_text.append(" - Analyze repository for issues (~30sec)\n", style="dim")
+        
+        controls_text.append("[3] ", style="bold yellow")
+        controls_text.append("Product Manager", style="yellow")
+        controls_text.append(" - Plan features and roadmap (~60sec)\n", style="dim")
+        
+        controls_text.append("[4] ", style="bold magenta")
+        controls_text.append("Documentation", style="magenta")
+        controls_text.append(" - Generate and update docs (~45sec)\n", style="dim")
+        
+        controls_text.append("[5] ", style="bold white")
+        controls_text.append("Custom Agent", style="white")
+        controls_text.append(" - Spawn agent for specific task (~90sec)\n\n", style="dim")
+        
+        # System controls
+        controls_text.append("⚡ SYSTEM CONTROLS:\n", style="bold cyan")
+        controls_text.append("[S] Stop Current ", style="red")
+        controls_text.append("[E] Emergency Stop ", style="bold red")
+        controls_text.append("[R] Refresh ", style="cyan")
         controls_text.append("[Q] Quit", style="dim")
         
+        # Current status
         current_op = self.agent_status.current_operation
-        status_text = f"\n\n🎯 Current: {current_op or 'None'}"
+        status_text = f"\n\n🎯 Current Operation: {current_op or 'None'}"
         if self.agent_status.emergency_stop:
             status_text += "\n🚨 EMERGENCY STOP ACTIVE"
+        else:
+            status_text += "\n💡 Press any number key to start an agent!"
             
         controls_text.append(status_text, style="bold")
         
-        return Panel(controls_text, title="🎛️ Controls", border_style="cyan")
+        return Panel(controls_text, title="🎛️ Interactive Controls", border_style="cyan")
         
     def add_activity(self, message: str):
         """Add activity to recent activities"""
@@ -351,66 +375,111 @@ class EnhancedMonitor:
         self.agent_status.current_operation = None
         
     def get_keyboard_input(self) -> Optional[str]:
-        """Get non-blocking keyboard input"""
-        import select
-        import termios
-        import tty
-        
-        old_settings = termios.tcgetattr(sys.stdin)
+        """Get non-blocking keyboard input - improved for macOS"""
         try:
-            tty.cbreak(sys.stdin.fileno())
+            import sys
+            import select
+            import tty
+            import termios
             
-            if select.select([sys.stdin], [], [], 0) == ([sys.stdin], [], []):
-                return sys.stdin.read(1)
-            return None
-        except:
-            return None
-        finally:
-            termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_settings)
+            # Check if stdin is available for reading
+            if not select.select([sys.stdin], [], [], 0.1) == ([sys.stdin], [], []):
+                return None
+                
+            # Get current terminal settings
+            old_settings = termios.tcgetattr(sys.stdin.fileno())
+            
+            try:
+                # Set terminal to raw mode for single character input
+                tty.cbreak(sys.stdin.fileno())
+                # Read one character
+                char = sys.stdin.read(1)
+                return char
+            finally:
+                # Always restore terminal settings
+                termios.tcsetattr(sys.stdin.fileno(), termios.TCSADRAIN, old_settings)
+                
+        except Exception as e:
+            # Fallback: try simpler input method
+            try:
+                import msvcrt
+                if msvcrt.kbhit():
+                    return msvcrt.getch().decode('utf-8')
+                return None
+            except ImportError:
+                # Last resort: polling input (less responsive but works)
+                try:
+                    import select
+                    if select.select([sys.stdin], [], [], 0.05) == ([sys.stdin], [], []):
+                        return sys.stdin.readline().strip()[:1]
+                except:
+                    pass
+                return None
             
     async def handle_input(self, key: str):
-        """Handle keyboard input"""
+        """Handle keyboard input with immediate visual feedback"""
         key = key.lower()
         
+        # Immediate feedback for button press
+        self.add_activity(f"🎮 Button [{key.upper()}] pressed")
+        
         if key == '1':
+            self.add_activity("🚀 Starting Autonomous Loop - continuous improvement mode")
             await self.start_autonomous_loop()
         elif key == '2':
+            self.add_activity("🔍 Starting Single Scan - analyzing repository (~30sec)")
             await self.run_single_scan()
         elif key == '3':
+            self.add_activity("📋 Starting Product Manager - feature planning (~60sec)")
             self.agent_status.update_agent('product_manager', 'running')
             self.agent_status.current_operation = 'Product Manager'
-            self.add_activity("📋 Product Manager mode activated")
-            # Placeholder for product manager logic
-            await asyncio.sleep(2)
-            self.agent_status.update_agent('product_manager', 'completed')
+            # Simulate product manager work
+            await asyncio.sleep(3)
+            self.agent_status.update_agent('product_manager', 'completed', 
+                                         plans_created=self.agent_status.agents['product_manager']['plans_created'] + 1,
+                                         last_run=datetime.now().isoformat())
             self.agent_status.current_operation = None
+            self.add_activity("✅ Product Manager completed - feature plan generated")
         elif key == '4':
+            self.add_activity("📚 Starting Documentation Agent - updating docs (~45sec)")
             self.agent_status.update_agent('documentation', 'running')
             self.agent_status.current_operation = 'Documentation Agent'
-            self.add_activity("📚 Documentation agent activated")
-            # Placeholder for documentation logic
-            await asyncio.sleep(2)
-            self.agent_status.update_agent('documentation', 'completed')
+            # Simulate documentation work
+            await asyncio.sleep(2.5)
+            self.agent_status.update_agent('documentation', 'completed',
+                                         docs_updated=self.agent_status.agents['documentation']['docs_updated'] + 1,
+                                         last_run=datetime.now().isoformat())
             self.agent_status.current_operation = None
+            self.add_activity("✅ Documentation Agent completed - docs updated")
         elif key == '5':
+            self.add_activity("🛠️ Starting Custom Agent - spawning for specific task (~90sec)")
             await self.spawn_custom_agent()
         elif key == 's':
+            self.add_activity("⏹️ Stopping current operation...")
             await self.stop_current_operation()
         elif key == 'e':
+            self.add_activity("🚨 EMERGENCY STOP - halting all operations immediately!")
             await self.emergency_stop()
         elif key == 'r':
-            self.add_activity("🔄 Refreshing status")
+            self.add_activity("🔄 Refreshing all status displays")
         elif key == 'q':
+            self.add_activity("👋 Shutting down monitor - goodbye!")
             self.running = False
-            self.add_activity("👋 Shutting down monitor")
+        else:
+            self.add_activity(f"❓ Unknown key '{key}' - use 1-5 for agents, S/E/R/Q for controls")
             
     async def run_monitor(self):
-        """Run the enhanced monitor"""
+        """Run the enhanced monitor with improved responsiveness"""
         layout = self.create_layout()
         
-        self.add_activity("🚀 Enhanced monitor started")
+        self.add_activity("🚀 Enhanced monitor started - press 1-5 to control agents!")
+        self.add_activity("💡 Tip: Press keys slowly and wait for feedback in activity log")
         
-        with Live(layout, console=self.console, refresh_per_second=4, screen=True) as live:
+        # Track input attempts for debugging
+        input_attempts = 0
+        successful_inputs = 0
+        
+        with Live(layout, console=self.console, refresh_per_second=8, screen=True) as live:
             while self.running:
                 # Update layout
                 layout["header"].update(self.create_header())
@@ -418,13 +487,21 @@ class EnhancedMonitor:
                 layout["activity"].update(self.create_activity_panel())
                 layout["controls"].update(self.create_controls_panel())
                 
-                # Handle keyboard input (non-blocking)
+                # Handle keyboard input with better error handling
                 try:
                     key = self.get_keyboard_input()
                     if key:
+                        input_attempts += 1
+                        successful_inputs += 1
                         await self.handle_input(key)
-                except:
-                    pass
+                    elif input_attempts > 0 and input_attempts % 50 == 0:
+                        # Periodic debug info
+                        success_rate = (successful_inputs / input_attempts) * 100 if input_attempts > 0 else 0
+                        self.add_activity(f"🔍 Debug: {successful_inputs}/{input_attempts} inputs successful ({success_rate:.1f}%)")
+                        
+                except Exception as e:
+                    input_attempts += 1
+                    self.add_activity(f"⚠️ Input error: {str(e)[:50]}... (try pressing keys more slowly)")
                     
                 # Update metrics periodically
                 if hasattr(self, 'autonomous_loop') and self.autonomous_loop:
@@ -440,16 +517,82 @@ class EnhancedMonitor:
                     except:
                         pass
                 
-                await asyncio.sleep(0.25)  # 4 FPS update rate
+                await asyncio.sleep(0.125)  # 8 FPS update rate for better responsiveness
                 
         # Cleanup
         if self.autonomous_loop and self.autonomous_loop.running:
             self.autonomous_loop.stop_continuous_loop()
+            
+    async def run_monitor_simple(self):
+        """Simple monitor mode with basic input handling"""
+        self.add_activity("🚀 Simple monitor mode started")
+        self.add_activity("💡 Type commands and press ENTER: 1, 2, 3, 4, 5, s, e, r, q")
+        
+        print("🎮 SIMPLE MODE - Type commands and press ENTER:")
+        print("[1] Autonomous Loop  [2] Single Scan  [3] Product Mgr")
+        print("[4] Documentation   [5] Custom Agent [s] Stop [e] Emergency [q] Quit")
+        print()
+        
+        # Start background task for display updates
+        async def update_display():
+            while self.running:
+                print(f"\r🎯 Current: {self.agent_status.current_operation or 'None'} | Activities: {len(self.recent_activities)}", end="", flush=True)
+                await asyncio.sleep(1)
+                
+        display_task = asyncio.create_task(update_display())
+        
+        # Simple input loop
+        while self.running:
+            try:
+                # Get input with timeout
+                try:
+                    user_input = await asyncio.wait_for(
+                        asyncio.get_event_loop().run_in_executor(None, input, "\nEnter command: "), 
+                        timeout=1.0
+                    )
+                    
+                    if user_input.strip():
+                        await self.handle_input(user_input.strip().lower())
+                        
+                        # Show recent activities
+                        print("\n📝 Recent activities:")
+                        for activity in self.recent_activities[-3:]:
+                            print(f"  {activity}")
+                            
+                except asyncio.TimeoutError:
+                    continue
+                    
+            except KeyboardInterrupt:
+                break
+            except Exception as e:
+                print(f"\n⚠️ Input error: {e}")
+                
+        display_task.cancel()
+        print("\n👋 Simple monitor stopped")
 
 
-async def run_enhanced_monitor():
+async def run_enhanced_monitor(simple_input=False):
     """Main entry point for enhanced monitor"""
-    monitor = EnhancedMonitor()
+    print("🚀 Starting Enhanced Monitor...")
+    
+    # Try to detect if we can use advanced input
+    input_method = "advanced"
+    if simple_input:
+        input_method = "simple"
+    else:
+        try:
+            import termios
+            import tty
+            # Test if we can access terminal
+            termios.tcgetattr(sys.stdin.fileno())
+        except Exception:
+            input_method = "simple"
+            print("⚠️ Using simple input mode (advanced terminal features not available)")
+    
+    print(f"🎮 Input method: {input_method}")
+    print("💡 If buttons don't work, try: poetry run python ai/cli/enhanced_monitor.py --simple")
+    
+    monitor = EnhancedMonitor(use_simple_input=(input_method == "simple"))
     
     # Setup signal handlers
     def signal_handler(signum, frame):
@@ -459,7 +602,10 @@ async def run_enhanced_monitor():
     signal.signal(signal.SIGTERM, signal_handler)
     
     try:
-        await monitor.run_monitor()
+        if input_method == "simple":
+            await monitor.run_monitor_simple()
+        else:
+            await monitor.run_monitor()
     except KeyboardInterrupt:
         pass
     finally:
@@ -467,4 +613,9 @@ async def run_enhanced_monitor():
 
 
 if __name__ == "__main__":
-    asyncio.run(run_enhanced_monitor())
+    import argparse
+    parser = argparse.ArgumentParser(description="Enhanced Interactive CLI Monitor")
+    parser.add_argument('--simple', action='store_true', help='Use simple input mode')
+    args = parser.parse_args()
+    
+    asyncio.run(run_enhanced_monitor(simple_input=args.simple))

@@ -131,7 +131,8 @@ def cmd_monitor(args):
         from ai.cli.enhanced_monitor import run_enhanced_monitor
         import asyncio
         try:
-            asyncio.run(run_enhanced_monitor())
+            # Force simple mode if requested, or auto-detect
+            asyncio.run(run_enhanced_monitor(simple_input=args.simple))
         except KeyboardInterrupt:
             print("\n👋 Monitor stopped")
         return 0
@@ -986,6 +987,7 @@ def main():
     monitor_parser.add_argument('--max-tasks', type=int, default=5, help='Max tasks per cycle')
     monitor_parser.add_argument('--interval', type=int, default=300, help='Seconds between cycles')
     monitor_parser.add_argument('--enhanced', action='store_true', help='Use enhanced interactive monitor')
+    monitor_parser.add_argument('--simple', action='store_true', help='Use simple input mode for enhanced monitor')
     monitor_parser.set_defaults(func=cmd_monitor)
 
     # MCP command group
