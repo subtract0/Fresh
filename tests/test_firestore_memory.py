@@ -112,7 +112,8 @@ class TestFirestoreMemoryStore:
             # Verify Firestore was called
             mock_client.collection.assert_called_with("agent_memories")
             mock_collection.document.assert_called_with(item.id)
-            mock_doc.set.assert_called_once()
+            # Two calls: one for connection ping test, one for actual write
+            assert mock_doc.set.call_count == 2
     
     def test_local_cache_management(self):
         """Test local cache size management."""

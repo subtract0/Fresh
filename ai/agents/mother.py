@@ -151,7 +151,7 @@ class ChildAgent:
             "approach": solution.get("approach"),
             "confidence": solution.get("confidence"),
             "quality_score": validation.get("quality_score"),
-            "files_changed": [],  # Would be populated with actual file changes
+            "files_changed": solution.get("files_changed", []),  # Use files_changed from solution
             "agent_id": self.id
         }
     
