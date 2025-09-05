@@ -54,5 +54,5 @@ if [[ ! -d ".venv" ]] || [[ ! -f "poetry.lock" ]]; then
     poetry install --no-dev
 fi
 
-# Launch the dashboard
-poetry run python ai/interface/web_dashboard.py --port "$PORT"
+# Launch the dashboard with correct Python path
+PYTHONPATH="$(pwd)" poetry run python ai/interface/web_dashboard.py --port "$PORT"

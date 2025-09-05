@@ -219,22 +219,29 @@ class MarketResearchAgent:
         print(f"   🌐 EXA Search: {query[:60]}...")
         
         try:
-            # Try to import and use MCP tools for real EXA search
-            import sys
-            from pathlib import Path
-            sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+            # Try to use MCP tools for real EXA search
+            from ai.tools.mcp_client import CallMCPTool
             
-            # Import Fresh CLI to use MCP functionality
-            from ai.cli.fresh import call_mcp_tool
+            # Create MCP tool for EXA search
+            mcp_tool = CallMCPTool(
+                server="research",
+                tool="web_search_exa",
+                args={
+                    "query": query,
+                    "numResults": num_results
+                }
+            )
             
-            # Make real EXA search call
-            result = call_mcp_tool("web_search_exa", {
-                "query": query,
-                "numResults": num_results
-            })
+            # Execute the MCP call
+            mcp_result = mcp_tool.run()
             
-            print(f"   ✅ Real EXA search completed: {len(result.get('results', []))} results")
-            return result
+            # Check if we got a mock result (MCP not configured) or real result
+            if "Mock result" in str(mcp_result.get("result", "")):
+                print(f"   ⚠️ MCP not configured, using simulation")
+                raise Exception("MCP simulation mode")
+            else:
+                print(f"   ✅ Real EXA search completed via MCP")
+                return mcp_result.get("result", {})
             
         except Exception as e:
             print(f"   ⚠️ EXA search failed, using simulation: {e}")
@@ -259,16 +266,29 @@ class MarketResearchAgent:
         print(f"   🏢 Researching: {company_name}")
         
         try:
-            # Try to make real company research call via MCP
-            from ai.cli.fresh import call_mcp_tool
+            # Try to use MCP tools for real company research
+            from ai.tools.mcp_client import CallMCPTool
             
-            result = call_mcp_tool("company_research_exa", {
-                "companyName": company_name,
-                "numResults": 3
-            })
+            # Create MCP tool for company research
+            mcp_tool = CallMCPTool(
+                server="research",
+                tool="company_research_exa",
+                args={
+                    "companyName": company_name,
+                    "numResults": 3
+                }
+            )
             
-            print(f"   ✅ Real company research completed for {company_name}")
-            return result
+            # Execute the MCP call
+            mcp_result = mcp_tool.run()
+            
+            # Check if we got a mock result (MCP not configured) or real result
+            if "Mock result" in str(mcp_result.get("result", "")):
+                print(f"   ⚠️ MCP not configured, using simulation")
+                raise Exception("MCP simulation mode")
+            else:
+                print(f"   ✅ Real company research completed for {company_name}")
+                return mcp_result.get("result", {})
             
         except Exception as e:
             print(f"   ⚠️ Company research failed, using simulation: {e}")

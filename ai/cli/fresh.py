@@ -210,11 +210,34 @@ def cmd_orchestrate(args):
 def cmd_monitor(args):
     """Monitor command with enhanced interactive option."""
     if hasattr(args, 'web') and args.web:
-        # Run web dashboard
-        from ai.interface.web_dashboard import start_dashboard
+        # Run web dashboard with proper Python path
+        import subprocess
+        import sys
+        from pathlib import Path
+        
         try:
             port = getattr(args, 'port', 8080)
-            start_dashboard(port=port, open_browser=not getattr(args, 'no_browser', False))
+            no_browser = getattr(args, 'no_browser', False)
+            
+            # Set up environment with correct PYTHONPATH
+            env = os.environ.copy()
+            env['PYTHONPATH'] = str(Path.cwd())
+            
+            # Build command
+            cmd = [
+                sys.executable, 
+                'ai/interface/web_dashboard.py',
+                '--port', str(port)
+            ]
+            if no_browser:
+                cmd.append('--no-browser')
+            
+            print(f"🚀 Starting web dashboard on port {port}...")
+            print(f"📊 Open your browser to: http://localhost:{port}")
+            
+            # Run the dashboard
+            subprocess.run(cmd, env=env, cwd=Path.cwd())
+            
         except KeyboardInterrupt:
             print("\n👋 Web dashboard stopped")
         return 0

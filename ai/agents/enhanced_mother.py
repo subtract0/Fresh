@@ -410,12 +410,137 @@ class EnhancedMotherAgent(MotherAgent):
         phase_tasks: List[Dict[str, Any]], 
         constraints: Optional[Dict[str, Any]]
     ) -> Dict[str, Any]:
-        """Execute a phase of tasks (can be run in parallel)."""
+        """Execute a phase of tasks in parallel for optimal performance."""
         
         phase_results = {}
         
-        # For now, execute sequentially (in production, could be parallel)
-        for task in phase_tasks:
+        # Execute tasks in parallel within the same phase
+        if len(phase_tasks) > 1:
+            print(f"   ⚡ Running {len(phase_tasks)} agents in parallel")
+            # Run tasks concurrently
+            concurrent_tasks = []
+            for task in phase_tasks:
+                concurrent_tasks.append(self._execute_single_task(task, constraints))
+            
+            # Wait for all tasks to complete
+            task_results = await asyncio.gather(*concurrent_tasks, return_exceptions=True)
+            
+            # Process results
+            for i, (task, result) in enumerate(zip(phase_tasks, task_results)):
+                task_id = task["id"]
+                if isinstance(result, Exception):
+                    phase_results[task_id] = {
+                        "agent_type": task["agent_type"],
+                        "error": str(result),
+                        "success": False
+                    }
+                    print(f"   💥 {task['agent_type']} failed in parallel: {result}")
+                else:
+                    phase_results[task_id] = result
+        else:
+            # Single task - execute directly
+            task = phase_tasks[0]
+            result = await self._execute_single_task(task, constraints)
+            phase_results[task["id"]] = result
+        
+        return phase_results
+    
+    async def _execute_single_task(
+        self,
+        task: Dict[str, Any],
+        constraints: Optional[Dict[str, Any]]
+    ) -> Dict[str, Any]:
+        """Execute a single task with full error handling."""
+        task_id = task["id"]
+        agent_type = task["agent_type"]
+        description = task["description"]
+        
+        print(f"   🤖 Spawning {agent_type} for: {description[:60]}...")
+        
+        try:
+            # Determine model based on agent type and task complexity
+            model = "gpt-4o-mini" if task.get("priority", 1) <= 3 else "gpt-4o"
+            
+            # Create detailed context for specialized agent with role clarity
+            role_context = {
+                "MarketResearcher": "You are a Market Research Specialist with expertise in analyzing market trends, competitor landscapes, and identifying business opportunities. You are NOT a developer or code agent.",
+                "TechnicalAssessor": "You are a Technical Assessment Specialist focused on evaluating technical feasibility, codebase capabilities, and implementation complexity. You analyze systems and provide technical recommendations.",
+                "BusinessAnalyst": "You are a Business Intelligence Analyst specializing in identifying market opportunities, business model analysis, and strategic recommendations.",
+                "OpportunityScorer": "You are an Opportunity Evaluation Specialist who scores and ranks business opportunities using multiple criteria including market potential, technical feasibility, and risk assessment.",
+                "DeploymentStrategist": "You are a Deployment Strategy Expert who creates go-to-market plans, deployment strategies, and implementation roadmaps for business opportunities."
+            }
+            
+            agent_role = role_context.get(agent_type, f"You are a {agent_type} specialist")
+            
+            context_instructions = f"""
+{agent_role}
+
+**IMPORTANT**: You are operating in your specialized role as {agent_type}, not as a general developer or code agent.
+
+**Your specific task**: {description}
+
+**Context**: This is part of a comprehensive business intelligence and market research analysis for autonomous software deployment opportunities.
+
+**Your specialized expertise**: Focus on your domain of {agent_type.lower().replace('agent', '')} analysis.
+
+**Expected deliverable**: {task.get('output_type', 'analysis').replace('_', ' ').title()}
+
+**Instructions**: 
+- Stay in your specialist role
+- Provide data-driven insights
+- Give concrete, actionable recommendations
+- Use your domain expertise to analyze the request
+- Do not defer to being a "developer" - you are a business intelligence specialist
+
+Deliver professional analysis in your area of specialization.
+"""
+            
+            # Add timeout handling for agent execution
+            timeout_seconds = 120  # 2 minutes per agent
+            
+            # Spawn specialized agent with timeout protection
+            result = await asyncio.wait_for(
+                self._run_agent_async(
+                    name=f"{agent_type}_{task_id}",
+                    instructions=context_instructions,
+                    model=model,
+                    output_type=task.get("output_type", "analysis")
+                ),
+                timeout=timeout_seconds
+            )
+            
+            if result.success:
+                return {
+                    "agent_type": agent_type,
+                    "output": result.output,
+                    "artifacts": result.artifacts,
+                    "success": True
+                }
+                print(f"   ✅ {agent_type} completed successfully")
+            else:
+                return {
+                    "agent_type": agent_type,
+                    "error": result.error,
+                    "success": False
+                }
+                print(f"   ❌ {agent_type} failed: {result.error}")
+                
+        except asyncio.TimeoutError:
+            timeout_msg = f"Agent {agent_type} timed out after {timeout_seconds}s"
+            print(f"   ⏰ {agent_type} timed out - continuing with other agents")
+            return {
+                "agent_type": agent_type,
+                "error": timeout_msg,
+                "success": False
+            }
+            
+        except Exception as e:
+            print(f"   💥 {agent_type} crashed: {e}")
+            return {
+                "agent_type": agent_type,
+                "error": str(e),
+                "success": False
+            }
             task_id = task["id"]
             agent_type = task["agent_type"]
             description = task["description"]
@@ -426,21 +551,38 @@ class EnhancedMotherAgent(MotherAgent):
                 # Determine model based on agent type and task complexity
                 model = "gpt-4o-mini" if task.get("priority", 1) <= 3 else "gpt-4o"
                 
-                # Create detailed context for specialized agent
+                # Create detailed context for specialized agent with role clarity
+                role_context = {
+                    "MarketResearcher": "You are a Market Research Specialist with expertise in analyzing market trends, competitor landscapes, and identifying business opportunities. You are NOT a developer or code agent.",
+                    "TechnicalAssessor": "You are a Technical Assessment Specialist focused on evaluating technical feasibility, codebase capabilities, and implementation complexity. You analyze systems and provide technical recommendations.",
+                    "BusinessAnalyst": "You are a Business Intelligence Analyst specializing in identifying market opportunities, business model analysis, and strategic recommendations.",
+                    "OpportunityScorer": "You are an Opportunity Evaluation Specialist who scores and ranks business opportunities using multiple criteria including market potential, technical feasibility, and risk assessment.",
+                    "DeploymentStrategist": "You are a Deployment Strategy Expert who creates go-to-market plans, deployment strategies, and implementation roadmaps for business opportunities."
+                }
+                
+                agent_role = role_context.get(agent_type, f"You are a {agent_type} specialist")
+                
                 context_instructions = f"""
-You are a {agent_type} specialist working as part of an orchestrated research team.
+{agent_role}
+
+**IMPORTANT**: You are operating in your specialized role as {agent_type}, not as a general developer or code agent.
 
 **Your specific task**: {description}
 
-**Context**: You are analyzing opportunities for autonomous software deployment and business intelligence.
-This is part of a larger market research and opportunity analysis project.
+**Context**: This is part of a comprehensive business intelligence and market research analysis for autonomous software deployment opportunities.
 
-**Your role**: Provide professional {task.get('output_type', 'analysis')} based on your specialization.
-Focus on actionable insights and concrete recommendations.
+**Your specialized expertise**: Focus on your domain of {agent_type.lower().replace('agent', '')} analysis.
 
 **Expected deliverable**: {task.get('output_type', 'analysis').replace('_', ' ').title()}
 
-Be specific, data-driven, and provide concrete next steps where applicable.
+**Instructions**: 
+- Stay in your specialist role
+- Provide data-driven insights
+- Give concrete, actionable recommendations
+- Use your domain expertise to analyze the request
+- Do not defer to being a "developer" - you are a business intelligence specialist
+
+Deliver professional analysis in your area of specialization.
 """
                 
                 # Add timeout handling for agent execution
