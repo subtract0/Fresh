@@ -1650,6 +1650,7 @@ RESULTS:
 def start_enhanced_dashboard(port: int = 8080, open_browser: bool = True):
     """Start the enhanced dashboard server"""
     server = HTTPServer(('localhost', port), EnhancedDashboardHandler)
+    shutdown_event = threading.Event()
     
     print(f"""
 🚀 Enhanced Fresh AI Dashboard Starting...
@@ -1678,18 +1679,30 @@ Press Ctrl+C to stop the dashboard
     
     def signal_handler(signum, frame):
         print("\n🛑 Enhanced Dashboard shutting down...")
-        server.shutdown()
+        shutdown_event.set()  # Signal the shutdown
+        server.shutdown()  # Stop accepting new requests
+        server.server_close()  # Close the server socket
+        print("✅ Enhanced Dashboard stopped.")
         sys.exit(0)
     
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
     
+    # Start server in a separate thread to allow signal handling
+    server_thread = threading.Thread(target=server.serve_forever, daemon=True)
+    server_thread.start()
+    
     try:
-        server.serve_forever()
-    except Exception as e:
-        print(f"Server error: {e}")
+        # Main thread waits for shutdown event or keyboard interrupt
+        while not shutdown_event.is_set():
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        print("\n🛑 Enhanced Dashboard shutting down...")
     finally:
+        shutdown_event.set()
         server.shutdown()
+        server.server_close()
+        print("✅ Enhanced Dashboard stopped.")
 
 
 if __name__ == '__main__':
