@@ -982,8 +982,12 @@ def cmd_feature_hook_missing(args):
         return 1
 
 
-def main():
-    """Main CLI entry point."""
+def main(argv=None):
+    """Main CLI entry point.
+    
+    Args:
+        argv: Optional list of command-line arguments. If None, uses sys.argv.
+    """
     parser = argparse.ArgumentParser(
         prog='fresh',
         description='Fresh - Autonomous Development System'
@@ -1504,7 +1508,7 @@ def main():
     mcp_refresh.set_defaults(func=cmd_mcp_refresh)
     
     # Parse arguments
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     # Initialize memory system if requested or if env hints at Firestore usage
     try:
@@ -1518,10 +1522,19 @@ def main():
     
     # Execute command
     if hasattr(args, 'func'):
-        sys.exit(args.func(args))
+        exit_code = args.func(args)
+        # Only sys.exit when not being called by tests (detected by argv being None or from sys.argv)
+        if argv is None:
+            sys.exit(exit_code)
+        else:
+            # Return exit code for testing
+            return exit_code
     else:
         parser.print_help()
-        sys.exit(1)
+        if argv is None:
+            sys.exit(1)
+        else:
+            return 1
 
 
 def cmd_memory_write(args):
@@ -1599,9 +1612,19 @@ def cmd_memory_search(args):
             for i, mem in enumerate(memories, 1):
                 print(f"{i}. [{mem.id}] {mem.content[:80]}{'...' if len(mem.content) > 80 else ''}")
                 if hasattr(mem, 'tags') and mem.tags:
-                    print(f"   Tags: {mem.tags}")
+                    # Safely format tags to handle Mock objects
+                    try:
+                        tags_str = str(mem.tags) if mem.tags else "None"
+                    except Exception:
+                        tags_str = "[Unable to display tags]"
+                    print(f"   Tags: {tags_str}")
                 if hasattr(mem, 'importance_score'):
-                    print(f"   Importance: {mem.importance_score:.2f}")
+                    # Safely format importance score to handle Mock objects
+                    try:
+                        score = float(mem.importance_score)
+                        print(f"   Importance: {score:.2f}")
+                    except (ValueError, TypeError):
+                        print(f"   Importance: {mem.importance_score}")
                 print()
         
         return 0

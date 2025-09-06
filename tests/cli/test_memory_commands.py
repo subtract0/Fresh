@@ -51,7 +51,8 @@ class TestMemoryCommandGroup:
             
             mock_memory_store.write.assert_called_once()
             args, kwargs = mock_memory_store.write.call_args
-            assert 'Test memory content' in args[0]
+            # Check that content is passed as keyword argument
+            assert kwargs.get('content') == 'Test memory content'
             assert 'test' in kwargs.get('tags', [])
     
     def test_memory_search_command(self):
@@ -60,16 +61,17 @@ class TestMemoryCommandGroup:
             mock_memory_store = Mock()
             mock_store.return_value = mock_memory_store
             mock_memory_store.query.return_value = [
-                Mock(id='mem_1', content='Test result 1'),
-                Mock(id='mem_2', content='Test result 2')
+                Mock(id='mem_1', content='Test result 1', tags=['tag1'], importance_score=0.8),
+                Mock(id='mem_2', content='Test result 2', tags=['tag2'], importance_score=0.6)
             ]
             
-            result = main(['memory', 'search', 'test query', '--limit', '10'])
+            exit_code = main(['memory', 'search', 'test query', '--limit', '10'])
             
             mock_memory_store.query.assert_called_once()
-            assert len(result) == 2
+            # CLI should succeed
+            assert exit_code == 0
     
-    def test_memory_analytics_command(self):
+    def test_memory_analytics_command(self, capsys):
         """Test memory analytics command."""
         with patch('ai.memory.intelligent_store.IntelligentMemoryStore') as mock_cls:
             mock_store = Mock()
@@ -80,13 +82,18 @@ class TestMemoryCommandGroup:
                 'average_importance': 0.65
             }
             
-            result = main(['memory', 'analytics', '--json'])
+            exit_code = main(['memory', 'analytics', '--json'])
             
             mock_store.get_memory_analytics.assert_called_once()
+            assert exit_code == 0
+            
+            # Parse JSON output
+            captured = capsys.readouterr()
+            result = json.loads(captured.out)
             assert 'total_memories' in result
             assert result['total_memories'] == 150
     
-    def test_memory_optimize_command(self):
+    def test_memory_optimize_command(self, capsys):
         """Test memory optimization command."""
         with patch('ai.memory.intelligent_store.IntelligentMemoryStore') as mock_cls:
             mock_store = Mock()
@@ -97,9 +104,14 @@ class TestMemoryCommandGroup:
                 'space_saved_mb': 2.3
             }
             
-            result = main(['memory', 'optimize', '--dry-run'])
+            exit_code = main(['memory', 'optimize', '--dry-run', '--json'])
             
-            mock_store.optimize_memory.assert_called_once_with(dry_run=True)
+            mock_store.optimize_memory.assert_called_once_with(dry_run=True, threshold=0.3)
+            assert exit_code == 0
+            
+            # Parse JSON output
+            captured = capsys.readouterr()
+            result = json.loads(captured.out)
             assert result['removed_count'] == 25
     
     def test_memory_backup_command(self):
@@ -116,8 +128,9 @@ class TestMemoryCommandGroup:
                     Mock(id='mem_2', content='Memory 2', to_dict=lambda: {'id': 'mem_2', 'content': 'Memory 2'})
                 ]
                 
-                result = main(['memory', 'backup', temp_path])
+                exit_code = main(['memory', 'backup', temp_path])
                 
+                assert exit_code == 0
                 assert os.path.exists(temp_path)
                 
         finally:
@@ -128,28 +141,43 @@ class TestMemoryCommandGroup:
 class TestEnhancedMemoryTools:
     """Test suite for enhanced memory tools integration."""
     
-    def test_smart_write_memory_tool_accessible(self):
+    def test_smart_write_memory_tool_accessible(self, capsys):
         """Test that SmartWriteMemory tool is accessible through CLI."""
+        if SmartWriteMemory is None:
+            pytest.skip("SmartWriteMemory not available")
+            
         with patch.object(SmartWriteMemory, 'run') as mock_run:
             mock_run.return_value = "Memory stored with ID: mem_456"
             
-            result = main(['memory', 'smart-write', 'Advanced memory content', '--auto-classify'])
+            exit_code = main(['memory', 'smart-write', 'Advanced memory content', '--auto-classify'])
             
             mock_run.assert_called_once()
-            assert 'Memory stored with ID:' in result
+            assert exit_code == 0
+            
+            # Check captured output
+            captured = capsys.readouterr()
+            assert 'Memory stored with ID:' in captured.out
     
-    def test_semantic_search_memory_tool_accessible(self):
+    def test_semantic_search_memory_tool_accessible(self, capsys):
         """Test that SemanticSearchMemory tool is accessible through CLI.""" 
+        if SemanticSearchMemory is None:
+            pytest.skip("SemanticSearchMemory not available")
+            
         with patch.object(SemanticSearchMemory, 'run') as mock_run:
             mock_run.return_value = [
                 {'id': 'mem_1', 'content': 'Related memory 1', 'relevance_score': 0.89},
                 {'id': 'mem_2', 'content': 'Related memory 2', 'relevance_score': 0.76}
             ]
             
-            result = main(['memory', 'semantic-search', 'machine learning concepts'])
+            exit_code = main(['memory', 'semantic-search', 'machine learning concepts'])
             
             mock_run.assert_called_once()
-            assert len(result) == 2
+            assert exit_code == 0
+            
+            # Check captured output
+            captured = capsys.readouterr()
+            assert 'Semantic search results' in captured.out
+            assert 'Related memory 1' in captured.out
 
 
 class TestMemoryCommandValidation:

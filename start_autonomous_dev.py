@@ -86,11 +86,11 @@ def create_quick_autonomous_workflow():
                    .add_start("start")
                    
                    # Spawn specialized agents
-                   .spawn_agent("EnhancedArchitect", 
+                   .spawn_agent("Architect", 
                                role="API Architect",
                                instructions="Design a clean REST API with FastAPI, SQLAlchemy, and comprehensive validation")
                    
-                   .spawn_agent("EnhancedDeveloper",
+                   .spawn_agent("Developer",
                                role="Full-Stack Developer", 
                                instructions="Implement the complete API with all CRUD operations, error handling, and database integration")
                    
