@@ -21,7 +21,7 @@ from collections import defaultdict
 from ai.memory.store import get_store, InMemoryMemoryStore
 from ai.memory.intelligent_store import IntelligentMemoryStore, MemoryType
 from ai.tools.memory_tools import WriteMemory
-from ai.agents.enhanced_agents import EnhancedDeveloper, EnhancedArchitect, EnhancedQA
+from ai.agents.agents import get_agent
 from ai.agents.senior_reviewer import SeniorReviewer, ReviewDecision
 from ai.integration.github_pr import GitHubPRIntegration
 from ai.utils.settings import is_offline, TIMEOUT_SECONDS

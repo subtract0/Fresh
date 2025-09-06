@@ -10,12 +10,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 import asyncio
 
-from ai.loop.dev_loop import (
-    DevLoop,
-    run_development_cycle,
-    run_continuous_loop,
-    process_task
-)
+from ai.loop.dev_loop import DevLoop
 from ai.loop.repo_scanner import Task, TaskType
 from ai.agents.mother import AgentResult
 
@@ -89,7 +84,7 @@ class TestDevLoop:
                 output="Bug fixed"
             )
             
-            result = loop.process_task(task)
+            result = asyncio.run(loop.process_task(task))
         
         assert result.success is True
         assert result.output == "Bug fixed"
@@ -182,7 +177,7 @@ class TestDevLoop:
                 error="Agent failed"
             )
             
-            result = loop.process_task(task)
+            result = asyncio.run(loop.process_task(task))
         
         assert result.success is False
         assert result.error == "Agent failed"

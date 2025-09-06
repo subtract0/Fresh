@@ -483,7 +483,7 @@ report_status("memory_consolidation", "running", {
 ### Agent System Integration  
 ```python
 # Agent performance automatically monitored
-from ai.agents.enhanced_agents import EnhancedDeveloper
+from ai.agents.agents import EnhancedDeveloper
 from ai.monitor.activity import track_agent_activity
 
 # Agent activities are automatically tracked

@@ -1,0 +1,3555 @@
+version: '1.0'
+generated_at: '2025-09-05T14:21:32.438395'
+summary:
+  total_features: 0
+  target_hookup_count: 440
+  batches: 9
+  estimated_time: 110.0 hours
+batches:
+- batch_id: 1
+  features:
+  - name: AgentConfig
+    interface: both
+    cli_command: AgentConfig
+    api_endpoint: POST /api/v1/AgentConfig
+    file_path: ai/interface/deploy_agents.py
+    function_name: null
+    test_path: tests/api/test_AgentConfig.py
+    priority_score: 78
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: ai/interface/deploy_agents.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 78
+  - name: create_default_config
+    interface: both
+    cli_command: create default config
+    api_endpoint: POST /api/v1/default-config
+    file_path: ai/interface/deploy_agents.py
+    function_name: create_default_config
+    test_path: tests/api/test_create_default_config.py
+    priority_score: 78
+  - name: save_config
+    interface: both
+    cli_command: save config
+    api_endpoint: POST /api/v1/save-config
+    file_path: ai/interface/deploy_agents.py
+    function_name: save_config
+    test_path: tests/api/test_save_config.py
+    priority_score: 78
+  - name: load_config
+    interface: both
+    cli_command: load config
+    api_endpoint: POST /api/v1/load-config
+    file_path: ai/interface/deploy_agents.py
+    function_name: load_config
+    test_path: tests/api/test_load_config.py
+    priority_score: 78
+  - name: deploy_swarm
+    interface: both
+    cli_command: deploy swarm
+    api_endpoint: POST /api/v1/deploy-swarm
+    file_path: ai/interface/deploy_agents.py
+    function_name: deploy_swarm
+    test_path: tests/api/test_deploy_swarm.py
+    priority_score: 78
+  - name: SmartWriteMemory
+    interface: both
+    cli_command: SmartWriteMemory
+    api_endpoint: POST /api/v1/SmartWriteMemory
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_SmartWriteMemory.py
+    priority_score: 78
+  - name: SemanticSearchMemory
+    interface: both
+    cli_command: SemanticSearchMemory
+    api_endpoint: POST /api/v1/SemanticSearchMemory
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_SemanticSearchMemory.py
+    priority_score: 78
+  - name: GetMemoryByType
+    interface: both
+    cli_command: GetMemoryByType
+    api_endpoint: POST /api/v1/GetMemoryByType
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_GetMemoryByType.py
+    priority_score: 78
+  - name: GetRelatedMemories
+    interface: both
+    cli_command: GetRelatedMemories
+    api_endpoint: POST /api/v1/GetRelatedMemories
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_GetRelatedMemories.py
+    priority_score: 78
+  - name: AnalyzeMemoryUsage
+    interface: both
+    cli_command: AnalyzeMemoryUsage
+    api_endpoint: POST /api/v1/AnalyzeMemoryUsage
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_AnalyzeMemoryUsage.py
+    priority_score: 78
+  - name: OptimizeMemoryStore
+    interface: both
+    cli_command: OptimizeMemoryStore
+    api_endpoint: POST /api/v1/OptimizeMemoryStore
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_OptimizeMemoryStore.py
+    priority_score: 78
+  - name: BaseTool
+    interface: both
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/enhanced_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_BaseTool.py
+    priority_score: 78
+  - name: WriteMemory
+    interface: both
+    cli_command: WriteMemory
+    api_endpoint: POST /api/v1/WriteMemory
+    file_path: ai/tools/memory_tools.py
+    function_name: null
+    test_path: tests/api/test_WriteMemory.py
+    priority_score: 78
+  - name: ReadMemoryContext
+    interface: both
+    cli_command: ReadMemoryContext
+    api_endpoint: POST /api/v1/ReadMemoryContext
+    file_path: ai/tools/memory_tools.py
+    function_name: null
+    test_path: tests/api/test_ReadMemoryContext.py
+    priority_score: 78
+  - name: BaseTool
+    interface: both
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/memory_tools.py
+    function_name: null
+    test_path: tests/api/test_BaseTool.py
+    priority_score: 78
+  - name: BackupMemoryStore
+    interface: both
+    cli_command: BackupMemoryStore
+    api_endpoint: POST /api/v1/BackupMemoryStore
+    file_path: ai/tools/production_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_BackupMemoryStore.py
+    priority_score: 78
+  - name: RestoreMemoryStore
+    interface: both
+    cli_command: RestoreMemoryStore
+    api_endpoint: POST /api/v1/RestoreMemoryStore
+    file_path: ai/tools/production_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_RestoreMemoryStore.py
+    priority_score: 78
+  - name: SyncFirestoreMemory
+    interface: both
+    cli_command: SyncFirestoreMemory
+    api_endpoint: POST /api/v1/SyncFirestoreMemory
+    file_path: ai/tools/production_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_SyncFirestoreMemory.py
+    priority_score: 78
+  - name: OptimizeFirestoreMemory
+    interface: both
+    cli_command: OptimizeFirestoreMemory
+    api_endpoint: POST /api/v1/OptimizeFirestoreMemory
+    file_path: ai/tools/production_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_OptimizeFirestoreMemory.py
+    priority_score: 78
+  - name: PersistentMemorySearch
+    interface: both
+    cli_command: PersistentMemorySearch
+    api_endpoint: POST /api/v1/PersistentMemorySearch
+    file_path: ai/tools/persistent_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_PersistentMemorySearch.py
+    priority_score: 78
+  - name: MemoryConsolidation
+    interface: both
+    cli_command: MemoryConsolidation
+    api_endpoint: POST /api/v1/MemoryConsolidation
+    file_path: ai/tools/persistent_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_MemoryConsolidation.py
+    priority_score: 78
+  - name: CrossSessionAnalytics
+    interface: both
+    cli_command: CrossSessionAnalytics
+    api_endpoint: POST /api/v1/CrossSessionAnalytics
+    file_path: ai/tools/persistent_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_CrossSessionAnalytics.py
+    priority_score: 78
+  - name: MemoryLearningPatterns
+    interface: both
+    cli_command: MemoryLearningPatterns
+    api_endpoint: POST /api/v1/MemoryLearningPatterns
+    file_path: ai/tools/persistent_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_MemoryLearningPatterns.py
+    priority_score: 78
+  - name: MemorySync
+    interface: both
+    cli_command: MemorySync
+    api_endpoint: POST /api/v1/MemorySync
+    file_path: ai/tools/persistent_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_MemorySync.py
+    priority_score: 78
+  - name: BaseTool
+    interface: both
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/persistent_memory_tools.py
+    function_name: null
+    test_path: tests/api/test_BaseTool.py
+    priority_score: 78
+  - name: RefreshController
+    interface: both
+    cli_command: RefreshController
+    api_endpoint: POST /api/v1/RefreshController
+    file_path: ai/monitor/adaptive_ui.py
+    function_name: null
+    test_path: tests/api/test_RefreshController.py
+    priority_score: 78
+  - name: AdaptiveMonitorUI
+    interface: cli
+    cli_command: AdaptiveMonitorUI
+    api_endpoint: POST /api/v1/AdaptiveMonitorUI
+    file_path: ai/monitor/adaptive_ui.py
+    function_name: null
+    test_path: tests/cli/test_AdaptiveMonitorUI.py
+    priority_score: 78
+  - name: get_current_interval
+    interface: both
+    cli_command: current interval
+    api_endpoint: GET /api/v1/current-interval
+    file_path: ai/monitor/adaptive_ui.py
+    function_name: get_current_interval
+    test_path: tests/api/test_get_current_interval.py
+    priority_score: 78
+  - name: update_display
+    interface: both
+    cli_command: update display
+    api_endpoint: PUT /api/v1/display
+    file_path: ai/monitor/adaptive_ui.py
+    function_name: update_display
+    test_path: tests/api/test_update_display.py
+    priority_score: 78
+  - name: start_live_display
+    interface: both
+    cli_command: start live display
+    api_endpoint: POST /api/v1/start-live-display
+    file_path: ai/monitor/adaptive_ui.py
+    function_name: start_live_display
+    test_path: tests/api/test_start_live_display.py
+    priority_score: 78
+  - name: TokenCounter
+    interface: both
+    cli_command: TokenCounter
+    api_endpoint: POST /api/v1/TokenCounter
+    file_path: ai/monitor/openai_tracker.py
+    function_name: null
+    test_path: tests/api/test_TokenCounter.py
+    priority_score: 78
+  - name: OpenAIUsageTracker
+    interface: both
+    cli_command: OpenAIUsageTracker
+    api_endpoint: POST /api/v1/OpenAIUsageTracker
+    file_path: ai/monitor/openai_tracker.py
+    function_name: null
+    test_path: tests/api/test_OpenAIUsageTracker.py
+    priority_score: 78
+  - name: track_openai_call
+    interface: both
+    cli_command: track openai call
+    api_endpoint: POST /api/v1/track-openai-call
+    file_path: ai/monitor/openai_tracker.py
+    function_name: track_openai_call
+    test_path: tests/api/test_track_openai_call.py
+    priority_score: 78
+  - name: TrackedOpenAIClient
+    interface: cli
+    cli_command: TrackedOpenAIClient
+    api_endpoint: POST /api/v1/TrackedOpenAIClient
+    file_path: ai/monitor/openai_tracker.py
+    function_name: null
+    test_path: tests/cli/test_TrackedOpenAIClient.py
+    priority_score: 78
+  - name: TrackedChatCompletions
+    interface: both
+    cli_command: TrackedChatCompletions
+    api_endpoint: POST /api/v1/TrackedChatCompletions
+    file_path: ai/monitor/openai_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedChatCompletions.py
+    priority_score: 78
+  - name: TrackedEmbeddings
+    interface: both
+    cli_command: TrackedEmbeddings
+    api_endpoint: POST /api/v1/TrackedEmbeddings
+    file_path: ai/monitor/openai_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedEmbeddings.py
+    priority_score: 78
+  - name: track_completion_usage
+    interface: both
+    cli_command: track completion usage
+    api_endpoint: POST /api/v1/track-completion-usage
+    file_path: ai/monitor/openai_tracker.py
+    function_name: track_completion_usage
+    test_path: tests/api/test_track_completion_usage.py
+    priority_score: 78
+  - name: track_embedding_usage
+    interface: both
+    cli_command: track embedding usage
+    api_endpoint: POST /api/v1/track-embedding-usage
+    file_path: ai/monitor/openai_tracker.py
+    function_name: track_embedding_usage
+    test_path: tests/api/test_track_embedding_usage.py
+    priority_score: 78
+  - name: estimate_tokens
+    interface: both
+    cli_command: estimate tokens
+    api_endpoint: POST /api/v1/estimate-tokens
+    file_path: ai/monitor/openai_tracker.py
+    function_name: estimate_tokens
+    test_path: tests/api/test_estimate_tokens.py
+    priority_score: 78
+  - name: count_messages_tokens
+    interface: both
+    cli_command: count messages tokens
+    api_endpoint: POST /api/v1/count-messages-tokens
+    file_path: ai/monitor/openai_tracker.py
+    function_name: count_messages_tokens
+    test_path: tests/api/test_count_messages_tokens.py
+    priority_score: 78
+  - name: track_completion
+    interface: both
+    cli_command: track completion
+    api_endpoint: POST /api/v1/track-completion
+    file_path: ai/monitor/openai_tracker.py
+    function_name: track_completion
+    test_path: tests/api/test_track_completion.py
+    priority_score: 78
+  - name: track_embedding
+    interface: both
+    cli_command: track embedding
+    api_endpoint: POST /api/v1/track-embedding
+    file_path: ai/monitor/openai_tracker.py
+    function_name: track_embedding
+    test_path: tests/api/test_track_embedding.py
+    priority_score: 78
+  - name: create
+    interface: both
+    cli_command: create
+    api_endpoint: POST /api/v1/create
+    file_path: ai/monitor/openai_tracker.py
+    function_name: create
+    test_path: tests/api/test_create.py
+    priority_score: 78
+  - name: create
+    interface: both
+    cli_command: create
+    api_endpoint: POST /api/v1/create
+    file_path: ai/monitor/openai_tracker.py
+    function_name: create
+    test_path: tests/api/test_create.py
+    priority_score: 78
+  - name: wrapper
+    interface: both
+    cli_command: wrapper
+    api_endpoint: POST /api/v1/wrapper
+    file_path: ai/monitor/openai_tracker.py
+    function_name: wrapper
+    test_path: tests/api/test_wrapper.py
+    priority_score: 78
+  - name: wrapper
+    interface: both
+    cli_command: wrapper
+    api_endpoint: POST /api/v1/wrapper
+    file_path: ai/monitor/openai_tracker.py
+    function_name: wrapper
+    test_path: tests/api/test_wrapper.py
+    priority_score: 78
+  - name: CostTracker
+    interface: both
+    cli_command: CostTracker
+    api_endpoint: POST /api/v1/CostTracker
+    file_path: ai/monitor/cost_tracker.py
+    function_name: null
+    test_path: tests/api/test_CostTracker.py
+    priority_score: 78
+  - name: get_cost_tracker
+    interface: both
+    cli_command: cost tracker
+    api_endpoint: GET /api/v1/cost-tracker
+    file_path: ai/monitor/cost_tracker.py
+    function_name: get_cost_tracker
+    test_path: tests/api/test_get_cost_tracker.py
+    priority_score: 78
+  - name: record_usage
+    interface: both
+    cli_command: record usage
+    api_endpoint: POST /api/v1/record-usage
+    file_path: ai/monitor/cost_tracker.py
+    function_name: record_usage
+    test_path: tests/api/test_record_usage.py
+    priority_score: 78
+  estimated_time_hours: 12.5
+- batch_id: 2
+  features:
+  - name: get_usage_summary
+    interface: both
+    cli_command: usage summary
+    api_endpoint: GET /api/v1/usage-summary
+    file_path: ai/monitor/cost_tracker.py
+    function_name: get_usage_summary
+    test_path: tests/api/test_get_usage_summary.py
+    priority_score: 78
+  - name: get_monthly_usage
+    interface: both
+    cli_command: monthly usage
+    api_endpoint: GET /api/v1/monthly-usage
+    file_path: ai/monitor/cost_tracker.py
+    function_name: get_monthly_usage
+    test_path: tests/api/test_get_monthly_usage.py
+    priority_score: 78
+  - name: add_budget_alert
+    interface: both
+    cli_command: add budalert
+    api_endpoint: POST /api/v1/budget-alert
+    file_path: ai/monitor/cost_tracker.py
+    function_name: add_budget_alert
+    test_path: tests/api/test_add_budget_alert.py
+    priority_score: 78
+  - name: get_optimization_suggestions
+    interface: both
+    cli_command: optimization suggestions
+    api_endpoint: GET /api/v1/optimization-suggestions
+    file_path: ai/monitor/cost_tracker.py
+    function_name: get_optimization_suggestions
+    test_path: tests/api/test_get_optimization_suggestions.py
+    priority_score: 78
+  - name: export_usage_report
+    interface: both
+    cli_command: export usage report
+    api_endpoint: POST /api/v1/export-usage-report
+    file_path: ai/monitor/cost_tracker.py
+    function_name: export_usage_report
+    test_path: tests/api/test_export_usage_report.py
+    priority_score: 78
+  - name: AgentMetrics
+    interface: both
+    cli_command: AgentMetrics
+    api_endpoint: POST /api/v1/AgentMetrics
+    file_path: ai/monitor/activity.py
+    function_name: null
+    test_path: tests/api/test_AgentMetrics.py
+    priority_score: 78
+  - name: ActivityDetection
+    interface: both
+    cli_command: ActivityDetection
+    api_endpoint: POST /api/v1/ActivityDetection
+    file_path: ai/monitor/activity.py
+    function_name: null
+    test_path: tests/api/test_ActivityDetection.py
+    priority_score: 78
+  - name: get_activity_detector
+    interface: both
+    cli_command: activity detector
+    api_endpoint: GET /api/v1/activity-detector
+    file_path: ai/monitor/activity.py
+    function_name: get_activity_detector
+    test_path: tests/api/test_get_activity_detector.py
+    priority_score: 78
+  - name: record_memory_operation
+    interface: both
+    cli_command: memory record  operation
+    api_endpoint: POST /api/v1/record-memory-operation
+    file_path: ai/monitor/activity.py
+    function_name: record_memory_operation
+    test_path: tests/api/test_record_memory_operation.py
+    priority_score: 78
+  - name: record_agent_activity
+    interface: both
+    cli_command: agent record  activity
+    api_endpoint: POST /api/v1/record-agent-activity
+    file_path: ai/monitor/activity.py
+    function_name: record_agent_activity
+    test_path: tests/api/test_record_agent_activity.py
+    priority_score: 78
+  - name: record_flow_activity
+    interface: both
+    cli_command: record flow activity
+    api_endpoint: POST /api/v1/record-flow-activity
+    file_path: ai/monitor/activity.py
+    function_name: record_flow_activity
+    test_path: tests/api/test_record_flow_activity.py
+    priority_score: 78
+  - name: record_event
+    interface: both
+    cli_command: record event
+    api_endpoint: POST /api/v1/record-event
+    file_path: ai/monitor/activity.py
+    function_name: record_event
+    test_path: tests/api/test_record_event.py
+    priority_score: 78
+  - name: compute_activity_level
+    interface: both
+    cli_command: compute activity level
+    api_endpoint: POST /api/v1/compute-activity-level
+    file_path: ai/monitor/activity.py
+    function_name: compute_activity_level
+    test_path: tests/api/test_compute_activity_level.py
+    priority_score: 78
+  - name: get_refresh_interval
+    interface: both
+    cli_command: refresh interval
+    api_endpoint: GET /api/v1/refresh-interval
+    file_path: ai/monitor/activity.py
+    function_name: get_refresh_interval
+    test_path: tests/api/test_get_refresh_interval.py
+    priority_score: 78
+  - name: get_recent_events
+    interface: both
+    cli_command: recent events
+    api_endpoint: GET /api/v1/recent-events
+    file_path: ai/monitor/activity.py
+    function_name: get_recent_events
+    test_path: tests/api/test_get_recent_events.py
+    priority_score: 78
+  - name: CostDashboard
+    interface: both
+    cli_command: CostDashboard
+    api_endpoint: POST /api/v1/CostDashboard
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: null
+    test_path: tests/api/test_CostDashboard.py
+    priority_score: 78
+  - name: run_cost_dashboard
+    interface: both
+    cli_command: run cost dashboard
+    api_endpoint: POST /api/v1/run-cost-dashboard
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: run_cost_dashboard
+    test_path: tests/api/test_run_cost_dashboard.py
+    priority_score: 78
+  - name: quick_cost_summary
+    interface: both
+    cli_command: quick cost summary
+    api_endpoint: POST /api/v1/quick-cost-summary
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: quick_cost_summary
+    test_path: tests/api/test_quick_cost_summary.py
+    priority_score: 78
+  - name: create_layout
+    interface: both
+    cli_command: create layout
+    api_endpoint: POST /api/v1/layout
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_layout
+    test_path: tests/api/test_create_layout.py
+    priority_score: 78
+  - name: create_header
+    interface: both
+    cli_command: create header
+    api_endpoint: POST /api/v1/header
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_header
+    test_path: tests/api/test_create_header.py
+    priority_score: 78
+  - name: create_optimization_panel
+    interface: both
+    cli_command: create optimization panel
+    api_endpoint: POST /api/v1/optimization-panel
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_optimization_panel
+    test_path: tests/api/test_create_optimization_panel.py
+    priority_score: 78
+  - name: create_controls_panel
+    interface: both
+    cli_command: create controls panel
+    api_endpoint: POST /api/v1/controls-panel
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_controls_panel
+    test_path: tests/api/test_create_controls_panel.py
+    priority_score: 78
+  - name: create_footer
+    interface: both
+    cli_command: create footer
+    api_endpoint: POST /api/v1/footer
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_footer
+    test_path: tests/api/test_create_footer.py
+    priority_score: 78
+  - name: show_budget_management
+    interface: both
+    cli_command: show budmanagement
+    api_endpoint: POST /api/v1/show-budget-management
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: show_budget_management
+    test_path: tests/api/test_show_budget_management.py
+    priority_score: 78
+  - name: export_report
+    interface: both
+    cli_command: export report
+    api_endpoint: POST /api/v1/export-report
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: export_report
+    test_path: tests/api/test_export_report.py
+    priority_score: 78
+  - name: show_detailed_usage
+    interface: both
+    cli_command: show detailed usage
+    api_endpoint: POST /api/v1/show-detailed-usage
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: show_detailed_usage
+    test_path: tests/api/test_show_detailed_usage.py
+    priority_score: 78
+  - name: PersistentEventBus
+    interface: both
+    cli_command: PersistentEventBus
+    api_endpoint: POST /api/v1/PersistentEventBus
+    file_path: ai/monitor/event_bus.py
+    function_name: null
+    test_path: tests/api/test_PersistentEventBus.py
+    priority_score: 78
+  - name: get_bus
+    interface: both
+    cli_command: bus
+    api_endpoint: GET /api/v1/bus
+    file_path: ai/monitor/event_bus.py
+    function_name: get_bus
+    test_path: tests/api/test_get_bus.py
+    priority_score: 78
+  - name: FirestoreUsageTracker
+    interface: both
+    cli_command: FirestoreUsageTracker
+    api_endpoint: POST /api/v1/FirestoreUsageTracker
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_FirestoreUsageTracker.py
+    priority_score: 78
+  - name: TrackedFirestoreClient
+    interface: cli
+    cli_command: TrackedFirestoreClient
+    api_endpoint: POST /api/v1/TrackedFirestoreClient
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/cli/test_TrackedFirestoreClient.py
+    priority_score: 78
+  - name: TrackedCollectionReference
+    interface: both
+    cli_command: TrackedCollectionReference
+    api_endpoint: POST /api/v1/TrackedCollectionReference
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedCollectionReference.py
+    priority_score: 78
+  - name: TrackedDocumentReference
+    interface: both
+    cli_command: TrackedDocumentReference
+    api_endpoint: POST /api/v1/TrackedDocumentReference
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedDocumentReference.py
+    priority_score: 78
+  - name: TrackedQuery
+    interface: both
+    cli_command: TrackedQuery
+    api_endpoint: POST /api/v1/TrackedQuery
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedQuery.py
+    priority_score: 78
+  - name: TrackedQuerySnapshot
+    interface: both
+    cli_command: TrackedQuerySnapshot
+    api_endpoint: POST /api/v1/TrackedQuerySnapshot
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedQuerySnapshot.py
+    priority_score: 78
+  - name: TrackedDocumentSnapshot
+    interface: both
+    cli_command: TrackedDocumentSnapshot
+    api_endpoint: POST /api/v1/TrackedDocumentSnapshot
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedDocumentSnapshot.py
+    priority_score: 78
+  - name: TrackedWriteBatch
+    interface: both
+    cli_command: TrackedWriteBatch
+    api_endpoint: POST /api/v1/TrackedWriteBatch
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: null
+    test_path: tests/api/test_TrackedWriteBatch.py
+    priority_score: 78
+  - name: wrap_firestore_client
+    interface: cli
+    cli_command: wrap firestore client
+    api_endpoint: POST /api/v1/wrap-firestore-client
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: wrap_firestore_client
+    test_path: tests/cli/test_wrap_firestore_client.py
+    priority_score: 78
+  - name: track_read
+    interface: both
+    cli_command: track read
+    api_endpoint: POST /api/v1/track-read
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: track_read
+    test_path: tests/api/test_track_read.py
+    priority_score: 78
+  - name: track_write
+    interface: both
+    cli_command: track write
+    api_endpoint: POST /api/v1/track-write
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: track_write
+    test_path: tests/api/test_track_write.py
+    priority_score: 78
+  - name: track_delete
+    interface: both
+    cli_command: track delete
+    api_endpoint: POST /api/v1/track-delete
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: track_delete
+    test_path: tests/api/test_track_delete.py
+    priority_score: 78
+  - name: document
+    interface: both
+    cli_command: document
+    api_endpoint: POST /api/v1/document
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: document
+    test_path: tests/api/test_document.py
+    priority_score: 78
+  - name: batch
+    interface: both
+    cli_command: batch
+    api_endpoint: POST /api/v1/batch
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: batch
+    test_path: tests/api/test_batch.py
+    priority_score: 78
+  - name: get
+    interface: both
+    cli_command: get
+    api_endpoint: POST /api/v1/get
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: get
+    test_path: tests/api/test_get.py
+    priority_score: 78
+  - name: stream
+    interface: both
+    cli_command: stream
+    api_endpoint: POST /api/v1/stream
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: stream
+    test_path: tests/api/test_stream.py
+    priority_score: 78
+  - name: add
+    interface: both
+    cli_command: add
+    api_endpoint: POST /api/v1/add
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: add
+    test_path: tests/api/test_add.py
+    priority_score: 78
+  - name: document
+    interface: both
+    cli_command: document
+    api_endpoint: POST /api/v1/document
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: document
+    test_path: tests/api/test_document.py
+    priority_score: 78
+  - name: where
+    interface: both
+    cli_command: where
+    api_endpoint: POST /api/v1/where
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: where
+    test_path: tests/api/test_where.py
+    priority_score: 78
+  - name: order_by
+    interface: both
+    cli_command: order by
+    api_endpoint: POST /api/v1/order-by
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: order_by
+    test_path: tests/api/test_order_by.py
+    priority_score: 78
+  - name: limit
+    interface: both
+    cli_command: limit
+    api_endpoint: POST /api/v1/limit
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: limit
+    test_path: tests/api/test_limit.py
+    priority_score: 78
+  - name: get
+    interface: both
+    cli_command: get
+    api_endpoint: POST /api/v1/get
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: get
+    test_path: tests/api/test_get.py
+    priority_score: 78
+  estimated_time_hours: 12.5
+- batch_id: 3
+  features:
+  - name: set
+    interface: both
+    cli_command: set
+    api_endpoint: POST /api/v1/set
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: set
+    test_path: tests/api/test_set.py
+    priority_score: 78
+  - name: update
+    interface: both
+    cli_command: update
+    api_endpoint: POST /api/v1/update
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: update
+    test_path: tests/api/test_update.py
+    priority_score: 78
+  - name: delete
+    interface: both
+    cli_command: delete
+    api_endpoint: POST /api/v1/delete
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: delete
+    test_path: tests/api/test_delete.py
+    priority_score: 78
+  - name: collection
+    interface: both
+    cli_command: collection
+    api_endpoint: POST /api/v1/collection
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: collection
+    test_path: tests/api/test_collection.py
+    priority_score: 78
+  - name: get
+    interface: both
+    cli_command: get
+    api_endpoint: POST /api/v1/get
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: get
+    test_path: tests/api/test_get.py
+    priority_score: 78
+  - name: stream
+    interface: both
+    cli_command: stream
+    api_endpoint: POST /api/v1/stream
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: stream
+    test_path: tests/api/test_stream.py
+    priority_score: 78
+  - name: where
+    interface: both
+    cli_command: where
+    api_endpoint: POST /api/v1/where
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: where
+    test_path: tests/api/test_where.py
+    priority_score: 78
+  - name: order_by
+    interface: both
+    cli_command: order by
+    api_endpoint: POST /api/v1/order-by
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: order_by
+    test_path: tests/api/test_order_by.py
+    priority_score: 78
+  - name: limit
+    interface: both
+    cli_command: limit
+    api_endpoint: POST /api/v1/limit
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: limit
+    test_path: tests/api/test_limit.py
+    priority_score: 78
+  - name: set
+    interface: both
+    cli_command: set
+    api_endpoint: POST /api/v1/set
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: set
+    test_path: tests/api/test_set.py
+    priority_score: 78
+  - name: update
+    interface: both
+    cli_command: update
+    api_endpoint: POST /api/v1/update
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: update
+    test_path: tests/api/test_update.py
+    priority_score: 78
+  - name: delete
+    interface: both
+    cli_command: delete
+    api_endpoint: POST /api/v1/delete
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: delete
+    test_path: tests/api/test_delete.py
+    priority_score: 78
+  - name: commit
+    interface: both
+    cli_command: commit
+    api_endpoint: POST /api/v1/commit
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: commit
+    test_path: tests/api/test_commit.py
+    priority_score: 78
+  - name: CostOptimizer
+    interface: both
+    cli_command: CostOptimizer
+    api_endpoint: POST /api/v1/CostOptimizer
+    file_path: ai/monitor/cost_optimizer.py
+    function_name: null
+    test_path: tests/api/test_CostOptimizer.py
+    priority_score: 78
+  - name: quick_optimization_report
+    interface: both
+    cli_command: quick optimization report
+    api_endpoint: POST /api/v1/quick-optimization-report
+    file_path: ai/monitor/cost_optimizer.py
+    function_name: quick_optimization_report
+    test_path: tests/api/test_quick_optimization_report.py
+    priority_score: 78
+  - name: analyze_usage_patterns
+    interface: both
+    cli_command: analyze usage patterns
+    api_endpoint: POST /api/v1/analyze-usage-patterns
+    file_path: ai/monitor/cost_optimizer.py
+    function_name: analyze_usage_patterns
+    test_path: tests/api/test_analyze_usage_patterns.py
+    priority_score: 78
+  - name: generate_recommendations
+    interface: both
+    cli_command: generate recommendations
+    api_endpoint: POST /api/v1/generate-recommendations
+    file_path: ai/monitor/cost_optimizer.py
+    function_name: generate_recommendations
+    test_path: tests/api/test_generate_recommendations.py
+    priority_score: 78
+  - name: forecast_monthly_cost
+    interface: both
+    cli_command: forecast monthly cost
+    api_endpoint: POST /api/v1/forecast-monthly-cost
+    file_path: ai/monitor/cost_optimizer.py
+    function_name: forecast_monthly_cost
+    test_path: tests/api/test_forecast_monthly_cost.py
+    priority_score: 78
+  - name: MonitorStatus
+    interface: both
+    cli_command: MonitorStatus
+    api_endpoint: POST /api/v1/MonitorStatus
+    file_path: ai/monitor/status.py
+    function_name: null
+    test_path: tests/api/test_MonitorStatus.py
+    priority_score: 78
+  - name: get_status
+    interface: both
+    cli_command: status
+    api_endpoint: GET /api/v1/status
+    file_path: ai/monitor/status.py
+    function_name: get_status
+    test_path: tests/api/test_get_status.py
+    priority_score: 78
+  - name: EnhancedFirestoreMemoryStore
+    interface: both
+    cli_command: EnhancedFirestoreMemoryStore
+    api_endpoint: POST /api/v1/EnhancedFirestoreMemoryStore
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: null
+    test_path: tests/api/test_EnhancedFirestoreMemoryStore.py
+    priority_score: 78
+  - name: write
+    interface: both
+    cli_command: write
+    api_endpoint: POST /api/v1/write
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: write
+    test_path: tests/api/test_write.py
+    priority_score: 78
+  - name: restore_memories
+    interface: both
+    cli_command: restore memories
+    api_endpoint: POST /api/v1/restore-memories
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: restore_memories
+    test_path: tests/api/test_restore_memories.py
+    priority_score: 78
+  - name: get_production_analytics
+    interface: both
+    cli_command: production analytics
+    api_endpoint: GET /api/v1/production-analytics
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: get_production_analytics
+    test_path: tests/api/test_get_production_analytics.py
+    priority_score: 78
+  - name: sync_with_firestore
+    interface: both
+    cli_command: sync with firestore
+    api_endpoint: POST /api/v1/sync-with-firestore
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: sync_with_firestore
+    test_path: tests/api/test_sync_with_firestore.py
+    priority_score: 78
+  - name: optimize_firestore_memory
+    interface: both
+    cli_command: memory optimize firestore
+    api_endpoint: POST /api/v1/optimize-firestore-memory
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: optimize_firestore_memory
+    test_path: tests/api/test_optimize_firestore_memory.py
+    priority_score: 78
+  - name: write_operation
+    interface: both
+    cli_command: write operation
+    api_endpoint: POST /api/v1/write-operation
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: write_operation
+    test_path: tests/api/test_write_operation.py
+    priority_score: 78
+  - name: delete_operation
+    interface: both
+    cli_command: delete operation
+    api_endpoint: DELETE /api/v1/operation
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: delete_operation
+    test_path: tests/api/test_delete_operation.py
+    priority_score: 78
+  - name: get_firestore_stats
+    interface: both
+    cli_command: firestore stats
+    api_endpoint: GET /api/v1/firestore-stats
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: get_firestore_stats
+    test_path: tests/api/test_get_firestore_stats.py
+    priority_score: 78
+  - name: get_firestore_memories
+    interface: both
+    cli_command: firestore memories
+    api_endpoint: GET /api/v1/firestore-memories
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: get_firestore_memories
+    test_path: tests/api/test_get_firestore_memories.py
+    priority_score: 78
+  - name: restore_operation
+    interface: both
+    cli_command: restore operation
+    api_endpoint: POST /api/v1/restore-operation
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: restore_operation
+    test_path: tests/api/test_restore_operation.py
+    priority_score: 78
+  - name: sync_to_firestore
+    interface: both
+    cli_command: sync to firestore
+    api_endpoint: POST /api/v1/sync-to-firestore
+    file_path: ai/memory/enhanced_firestore.py
+    function_name: sync_to_firestore
+    test_path: tests/api/test_sync_to_firestore.py
+    priority_score: 78
+  - name: set_memory_store
+    interface: both
+    cli_command: memory store
+    api_endpoint: POST /api/v1/set-memory-store
+    file_path: ai/memory/store.py
+    function_name: set_memory_store
+    test_path: tests/api/test_set_memory_store.py
+    priority_score: 78
+  - name: get_store
+    interface: both
+    cli_command: store
+    api_endpoint: GET /api/v1/store
+    file_path: ai/memory/store.py
+    function_name: get_store
+    test_path: tests/api/test_get_store.py
+    priority_score: 78
+  - name: render_context
+    interface: both
+    cli_command: render context
+    api_endpoint: POST /api/v1/render-context
+    file_path: ai/memory/store.py
+    function_name: render_context
+    test_path: tests/api/test_render_context.py
+    priority_score: 78
+  - name: MemoryItem
+    interface: both
+    cli_command: MemoryItem
+    api_endpoint: POST /api/v1/MemoryItem
+    file_path: ai/memory/store.py
+    function_name: null
+    test_path: tests/api/test_MemoryItem.py
+    priority_score: 78
+  - name: MemoryStore
+    interface: both
+    cli_command: MemoryStore
+    api_endpoint: POST /api/v1/MemoryStore
+    file_path: ai/memory/store.py
+    function_name: null
+    test_path: tests/api/test_MemoryStore.py
+    priority_score: 78
+  - name: InMemoryMemoryStore
+    interface: both
+    cli_command: InMemoryMemoryStore
+    api_endpoint: POST /api/v1/InMemoryMemoryStore
+    file_path: ai/memory/store.py
+    function_name: null
+    test_path: tests/api/test_InMemoryMemoryStore.py
+    priority_score: 78
+  - name: write
+    interface: both
+    cli_command: write
+    api_endpoint: POST /api/v1/write
+    file_path: ai/memory/store.py
+    function_name: write
+    test_path: tests/api/test_write.py
+    priority_score: 78
+  - name: query
+    interface: both
+    cli_command: query
+    api_endpoint: POST /api/v1/query
+    file_path: ai/memory/store.py
+    function_name: query
+    test_path: tests/api/test_query.py
+    priority_score: 78
+  - name: MemoryType
+    interface: both
+    cli_command: MemoryType
+    api_endpoint: POST /api/v1/MemoryType
+    file_path: ai/memory/intelligent_store.py
+    function_name: null
+    test_path: tests/api/test_MemoryType.py
+    priority_score: 78
+  - name: EnhancedMemoryItem
+    interface: both
+    cli_command: EnhancedMemoryItem
+    api_endpoint: POST /api/v1/EnhancedMemoryItem
+    file_path: ai/memory/intelligent_store.py
+    function_name: null
+    test_path: tests/api/test_EnhancedMemoryItem.py
+    priority_score: 78
+  - name: write
+    interface: both
+    cli_command: write
+    api_endpoint: POST /api/v1/write
+    file_path: ai/memory/intelligent_store.py
+    function_name: write
+    test_path: tests/api/test_write.py
+    priority_score: 78
+  - name: query
+    interface: both
+    cli_command: query
+    api_endpoint: POST /api/v1/query
+    file_path: ai/memory/intelligent_store.py
+    function_name: query
+    test_path: tests/api/test_query.py
+    priority_score: 78
+  - name: search_by_keywords
+    interface: both
+    cli_command: search by keywords
+    api_endpoint: POST /api/v1/search-by-keywords
+    file_path: ai/memory/intelligent_store.py
+    function_name: search_by_keywords
+    test_path: tests/api/test_search_by_keywords.py
+    priority_score: 78
+  - name: search_by_type
+    interface: both
+    cli_command: search by type
+    api_endpoint: POST /api/v1/search-by-type
+    file_path: ai/memory/intelligent_store.py
+    function_name: search_by_type
+    test_path: tests/api/test_search_by_type.py
+    priority_score: 78
+  - name: get_related_memories
+    interface: both
+    cli_command: related memories
+    api_endpoint: GET /api/v1/related-memories
+    file_path: ai/memory/intelligent_store.py
+    function_name: get_related_memories
+    test_path: tests/api/test_get_related_memories.py
+    priority_score: 78
+  - name: get_by_id
+    interface: both
+    cli_command: by id
+    api_endpoint: GET /api/v1/by-id
+    file_path: ai/memory/intelligent_store.py
+    function_name: get_by_id
+    test_path: tests/api/test_get_by_id.py
+    priority_score: 78
+  - name: get_memory_analytics
+    interface: both
+    cli_command: memory analytics
+    api_endpoint: GET /api/v1/memory-analytics
+    file_path: ai/memory/intelligent_store.py
+    function_name: get_memory_analytics
+    test_path: tests/api/test_get_memory_analytics.py
+    priority_score: 78
+  - name: optimize_memory
+    interface: both
+    cli_command: memory optimize
+    api_endpoint: POST /api/v1/optimize-memory
+    file_path: ai/memory/intelligent_store.py
+    function_name: optimize_memory
+    test_path: tests/api/test_optimize_memory.py
+    priority_score: 78
+  estimated_time_hours: 12.5
+- batch_id: 4
+  features:
+  - name: FirestoreMemoryStore
+    interface: both
+    cli_command: FirestoreMemoryStore
+    api_endpoint: POST /api/v1/FirestoreMemoryStore
+    file_path: ai/memory/firestore_store.py
+    function_name: null
+    test_path: tests/api/test_FirestoreMemoryStore.py
+    priority_score: 78
+  - name: write
+    interface: both
+    cli_command: write
+    api_endpoint: POST /api/v1/write
+    file_path: ai/memory/firestore_store.py
+    function_name: write
+    test_path: tests/api/test_write.py
+    priority_score: 78
+  - name: consolidate_memories
+    interface: both
+    cli_command: consolidate memories
+    api_endpoint: POST /api/v1/consolidate-memories
+    file_path: ai/memory/firestore_store.py
+    function_name: consolidate_memories
+    test_path: tests/api/test_consolidate_memories.py
+    priority_score: 78
+  - name: search_firestore
+    interface: both
+    cli_command: search firestore
+    api_endpoint: POST /api/v1/search-firestore
+    file_path: ai/memory/firestore_store.py
+    function_name: search_firestore
+    test_path: tests/api/test_search_firestore.py
+    priority_score: 78
+  - name: get_memory_stats
+    interface: both
+    cli_command: memory stats
+    api_endpoint: GET /api/v1/memory-stats
+    file_path: ai/memory/firestore_store.py
+    function_name: get_memory_stats
+    test_path: tests/api/test_get_memory_stats.py
+    priority_score: 78
+  - name: force_sync
+    interface: both
+    cli_command: force sync
+    api_endpoint: POST /api/v1/force-sync
+    file_path: ai/memory/firestore_store.py
+    function_name: force_sync
+    test_path: tests/api/test_force_sync.py
+    priority_score: 78
+  - name: FirestoreMemoryStore
+    interface: both
+    cli_command: FirestoreMemoryStore
+    api_endpoint: POST /api/v1/FirestoreMemoryStore
+    file_path: ai/memory/firestore.py
+    function_name: null
+    test_path: tests/api/test_FirestoreMemoryStore.py
+    priority_score: 78
+  - name: write
+    interface: both
+    cli_command: write
+    api_endpoint: POST /api/v1/write
+    file_path: ai/memory/firestore.py
+    function_name: write
+    test_path: tests/api/test_write.py
+    priority_score: 78
+  - name: query
+    interface: both
+    cli_command: query
+    api_endpoint: POST /api/v1/query
+    file_path: ai/memory/firestore.py
+    function_name: query
+    test_path: tests/api/test_query.py
+    priority_score: 78
+  - name: get_orchestration_statistics
+    interface: both
+    cli_command: orchestration statistics
+    api_endpoint: GET /api/v1/orchestration-statistics
+    file_path: ai/agents/enhanced_mother.py
+    function_name: get_orchestration_statistics
+    test_path: tests/api/test_get_orchestration_statistics.py
+    priority_score: 78
+  - name: run_sync_agent
+    interface: both
+    cli_command: agent run sync
+    api_endpoint: POST /api/v1/run-sync-agent
+    file_path: ai/agents/enhanced_mother.py
+    function_name: run_sync_agent
+    test_path: tests/api/test_run_sync_agent.py
+    priority_score: 78
+  - name: create_enhanced_agents
+    interface: both
+    cli_command: agent create enhanced s
+    api_endpoint: POST /api/v1/enhanced-agents
+    file_path: ai/agents/enhanced_agents.py
+    function_name: create_enhanced_agents
+    test_path: tests/api/test_create_enhanced_agents.py
+    priority_score: 78
+  - name: get_agent
+    interface: both
+    cli_command: 'agent '
+    api_endpoint: GET /api/v1/agent
+    file_path: ai/agents/enhanced_agents.py
+    function_name: get_agent
+    test_path: tests/api/test_get_agent.py
+    priority_score: 78
+  - name: Agent
+    interface: both
+    cli_command: Agent
+    api_endpoint: POST /api/v1/Agent
+    file_path: ai/agents/enhanced_agents.py
+    function_name: null
+    test_path: tests/api/test_Agent.py
+    priority_score: 78
+  - name: DummyTool
+    interface: both
+    cli_command: DummyTool
+    api_endpoint: POST /api/v1/DummyTool
+    file_path: ai/agents/enhanced_agents.py
+    function_name: null
+    test_path: tests/api/test_DummyTool.py
+    priority_score: 78
+  - name: Agent
+    interface: both
+    cli_command: Agent
+    api_endpoint: POST /api/v1/Agent
+    file_path: ai/agents/DocumentationAgent.py
+    function_name: null
+    test_path: tests/api/test_Agent.py
+    priority_score: 78
+  - name: ChildAgent
+    interface: both
+    cli_command: ChildAgent
+    api_endpoint: POST /api/v1/ChildAgent
+    file_path: ai/agents/mother.py
+    function_name: null
+    test_path: tests/api/test_ChildAgent.py
+    priority_score: 78
+  - name: AgentResult
+    interface: both
+    cli_command: AgentResult
+    api_endpoint: POST /api/v1/AgentResult
+    file_path: ai/agents/mother.py
+    function_name: null
+    test_path: tests/api/test_AgentResult.py
+    priority_score: 78
+  - name: execute
+    interface: both
+    cli_command: execute
+    api_endpoint: POST /api/v1/execute
+    file_path: ai/agents/mother.py
+    function_name: execute
+    test_path: tests/api/test_execute.py
+    priority_score: 78
+  - name: get_active_agents
+    interface: both
+    cli_command: agent active s
+    api_endpoint: GET /api/v1/active-agents
+    file_path: ai/agents/mother.py
+    function_name: get_active_agents
+    test_path: tests/api/test_get_active_agents.py
+    priority_score: 78
+  - name: cleanup_completed_agents
+    interface: both
+    cli_command: agent cleanup completed s
+    api_endpoint: POST /api/v1/cleanup-completed-agents
+    file_path: ai/agents/mother.py
+    function_name: cleanup_completed_agents
+    test_path: tests/api/test_cleanup_completed_agents.py
+    priority_score: 78
+  - name: scan_for_issues
+    interface: both
+    cli_command: scan for issues
+    api_endpoint: POST /api/v1/scan-for-issues
+    file_path: ai/agents/mother.py
+    function_name: scan_for_issues
+    test_path: tests/api/test_scan_for_issues.py
+    priority_score: 78
+  - name: MarketResearchAgent
+    interface: api
+    cli_command: MarketResearchAgent
+    api_endpoint: POST /api/v1/MarketResearchAgent
+    file_path: ai/agents/research_agents.py
+    function_name: null
+    test_path: tests/api/test_MarketResearchAgent.py
+    priority_score: 78
+  - name: TechnicalAssessmentAgent
+    interface: both
+    cli_command: TechnicalAssessmentAgent
+    api_endpoint: POST /api/v1/TechnicalAssessmentAgent
+    file_path: ai/agents/research_agents.py
+    function_name: null
+    test_path: tests/api/test_TechnicalAssessmentAgent.py
+    priority_score: 78
+  - name: OpportunityScoringAgent
+    interface: both
+    cli_command: OpportunityScoringAgent
+    api_endpoint: POST /api/v1/OpportunityScoringAgent
+    file_path: ai/agents/research_agents.py
+    function_name: null
+    test_path: tests/api/test_OpportunityScoringAgent.py
+    priority_score: 78
+  - name: Agent
+    interface: both
+    cli_command: Agent
+    api_endpoint: POST /api/v1/Agent
+    file_path: ai/agents/research_agents.py
+    function_name: null
+    test_path: tests/api/test_Agent.py
+    priority_score: 78
+  - name: MemoryType
+    interface: both
+    cli_command: MemoryType
+    api_endpoint: POST /api/v1/MemoryType
+    file_path: ai/agents/research_agents.py
+    function_name: null
+    test_path: tests/api/test_MemoryType.py
+    priority_score: 78
+  - name: AppGenesisAgent
+    interface: both
+    cli_command: AppGenesisAgent
+    api_endpoint: POST /api/v1/AppGenesisAgent
+    file_path: ai/agents/app_genesis.py
+    function_name: null
+    test_path: tests/api/test_AppGenesisAgent.py
+    priority_score: 78
+  - name: get_development_status
+    interface: both
+    cli_command: development status
+    api_endpoint: GET /api/v1/development-status
+    file_path: ai/agents/app_genesis.py
+    function_name: get_development_status
+    test_path: tests/api/test_get_development_status.py
+    priority_score: 78
+  - name: SeniorReviewer
+    interface: both
+    cli_command: SeniorReviewer
+    api_endpoint: POST /api/v1/SeniorReviewer
+    file_path: ai/agents/senior_reviewer.py
+    function_name: null
+    test_path: tests/api/test_SeniorReviewer.py
+    priority_score: 78
+  - name: review_changes
+    interface: both
+    cli_command: review changes
+    api_endpoint: POST /api/v1/review-changes
+    file_path: ai/agents/senior_reviewer.py
+    function_name: review_changes
+    test_path: tests/api/test_review_changes.py
+    priority_score: 78
+  - name: AgentStatus
+    interface: both
+    cli_command: AgentStatus
+    api_endpoint: POST /api/v1/AgentStatus
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: null
+    test_path: tests/api/test_AgentStatus.py
+    priority_score: 78
+  - name: EnhancedMonitor
+    interface: cli
+    cli_command: EnhancedMonitor
+    api_endpoint: POST /api/v1/EnhancedMonitor
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: null
+    test_path: tests/cli/test_EnhancedMonitor.py
+    priority_score: 78
+  - name: update_agent
+    interface: both
+    cli_command: agent update
+    api_endpoint: PUT /api/v1/agent
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: update_agent
+    test_path: tests/api/test_update_agent.py
+    priority_score: 78
+  - name: get_status_emoji
+    interface: both
+    cli_command: status emoji
+    api_endpoint: GET /api/v1/status-emoji
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: get_status_emoji
+    test_path: tests/api/test_get_status_emoji.py
+    priority_score: 78
+  - name: create_layout
+    interface: both
+    cli_command: create layout
+    api_endpoint: POST /api/v1/layout
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: create_layout
+    test_path: tests/api/test_create_layout.py
+    priority_score: 78
+  - name: create_header
+    interface: both
+    cli_command: create header
+    api_endpoint: POST /api/v1/header
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: create_header
+    test_path: tests/api/test_create_header.py
+    priority_score: 78
+  - name: create_agent_panel
+    interface: both
+    cli_command: agent create  panel
+    api_endpoint: POST /api/v1/agent-panel
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: create_agent_panel
+    test_path: tests/api/test_create_agent_panel.py
+    priority_score: 78
+  - name: create_activity_panel
+    interface: both
+    cli_command: create activity panel
+    api_endpoint: POST /api/v1/activity-panel
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: create_activity_panel
+    test_path: tests/api/test_create_activity_panel.py
+    priority_score: 78
+  - name: create_controls_panel
+    interface: both
+    cli_command: create controls panel
+    api_endpoint: POST /api/v1/controls-panel
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: create_controls_panel
+    test_path: tests/api/test_create_controls_panel.py
+    priority_score: 78
+  - name: add_activity
+    interface: both
+    cli_command: add activity
+    api_endpoint: POST /api/v1/activity
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: add_activity
+    test_path: tests/api/test_add_activity.py
+    priority_score: 78
+  - name: infer_directory_purpose
+    interface: both
+    cli_command: infer directory purpose
+    api_endpoint: POST /api/v1/infer-directory-purpose
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: infer_directory_purpose
+    test_path: tests/api/test_infer_directory_purpose.py
+    priority_score: 78
+  - name: infer_file_purpose
+    interface: both
+    cli_command: infer file purpose
+    api_endpoint: POST /api/v1/infer-file-purpose
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: infer_file_purpose
+    test_path: tests/api/test_infer_file_purpose.py
+    priority_score: 78
+  - name: run_loop
+    interface: both
+    cli_command: run loop
+    api_endpoint: POST /api/v1/run-loop
+    file_path: ai/cli/enhanced_monitor.py
+    function_name: run_loop
+    test_path: tests/api/test_run_loop.py
+    priority_score: 78
+  - name: cmd_spawn
+    interface: both
+    cli_command: cmd spawn
+    api_endpoint: POST /api/v1/cmd-spawn
+    file_path: ai/cli/fresh.py
+    function_name: cmd_spawn
+    test_path: tests/api/test_cmd_spawn.py
+    priority_score: 78
+  - name: cmd_orchestrate
+    interface: both
+    cli_command: cmd orchestrate
+    api_endpoint: POST /api/v1/cmd-orchestrate
+    file_path: ai/cli/fresh.py
+    function_name: cmd_orchestrate
+    test_path: tests/api/test_cmd_orchestrate.py
+    priority_score: 78
+  - name: cmd_monitor
+    interface: cli
+    cli_command: monitor cmd
+    api_endpoint: POST /api/v1/cmd-monitor
+    file_path: ai/cli/fresh.py
+    function_name: cmd_monitor
+    test_path: tests/cli/test_cmd_monitor.py
+    priority_score: 78
+  - name: memory
+    interface: both
+    cli_command: 'memory '
+    api_endpoint: POST /api/v1/memory
+    file_path: ai/cli/magic_cli.py
+    function_name: memory
+    test_path: tests/api/test_memory.py
+    priority_score: 78
+  - name: MemoryIntegrationConfig
+    interface: both
+    cli_command: MemoryIntegrationConfig
+    api_endpoint: POST /api/v1/MemoryIntegrationConfig
+    file_path: ai/system/memory_integration.py
+    function_name: null
+    test_path: tests/api/test_MemoryIntegrationConfig.py
+    priority_score: 78
+  - name: get_memory_store
+    interface: both
+    cli_command: memory store
+    api_endpoint: GET /api/v1/memory-store
+    file_path: ai/system/memory_integration.py
+    function_name: get_memory_store
+    test_path: tests/api/test_get_memory_store.py
+    priority_score: 78
+  estimated_time_hours: 12.5
+- batch_id: 5
+  features:
+  - name: AgentExecution
+    interface: both
+    cli_command: AgentExecution
+    api_endpoint: POST /api/v1/AgentExecution
+    file_path: ai/execution/monitor.py
+    function_name: null
+    test_path: tests/api/test_AgentExecution.py
+    priority_score: 78
+  - name: AgentExecutionMonitor
+    interface: both
+    cli_command: AgentExecutionMonitor
+    api_endpoint: POST /api/v1/AgentExecutionMonitor
+    file_path: ai/execution/monitor.py
+    function_name: null
+    test_path: tests/api/test_AgentExecutionMonitor.py
+    priority_score: 78
+  - name: get_execution_monitor
+    interface: both
+    cli_command: monitor execution
+    api_endpoint: GET /api/v1/execution-monitor
+    file_path: ai/execution/monitor.py
+    function_name: get_execution_monitor
+    test_path: tests/api/test_get_execution_monitor.py
+    priority_score: 78
+  - name: CodebaseMonitor
+    interface: both
+    cli_command: CodebaseMonitor
+    api_endpoint: POST /api/v1/CodebaseMonitor
+    file_path: ai/autonomous/monitor.py
+    function_name: null
+    test_path: tests/api/test_CodebaseMonitor.py
+    priority_score: 78
+  - name: comprehensive_scan
+    interface: both
+    cli_command: comprehensive scan
+    api_endpoint: POST /api/v1/comprehensive-scan
+    file_path: ai/autonomous/monitor.py
+    function_name: comprehensive_scan
+    test_path: tests/api/test_comprehensive_scan.py
+    priority_score: 78
+  - name: analyze_patterns
+    interface: both
+    cli_command: analyze patterns
+    api_endpoint: POST /api/v1/analyze-patterns
+    file_path: ai/autonomous/monitor.py
+    function_name: analyze_patterns
+    test_path: tests/api/test_analyze_patterns.py
+    priority_score: 78
+  - name: detect_regressions
+    interface: both
+    cli_command: detect regressions
+    api_endpoint: POST /api/v1/detect-regressions
+    file_path: ai/autonomous/monitor.py
+    function_name: detect_regressions
+    test_path: tests/api/test_detect_regressions.py
+    priority_score: 78
+  - name: simulate_agent_activity
+    interface: both
+    cli_command: agent simulate  activity
+    api_endpoint: POST /api/v1/simulate-agent-activity
+    file_path: scripts/demo-adaptive-monitor.py
+    function_name: simulate_agent_activity
+    test_path: tests/api/test_simulate_agent_activity.py
+    priority_score: 78
+  - name: demo_static_display
+    interface: both
+    cli_command: demo static display
+    api_endpoint: POST /api/v1/demo-static-display
+    file_path: scripts/demo-adaptive-monitor.py
+    function_name: demo_static_display
+    test_path: tests/api/test_demo_static_display.py
+    priority_score: 78
+  - name: demo_live_monitoring
+    interface: both
+    cli_command: monitor demo live ing
+    api_endpoint: POST /api/v1/demo-live-monitoring
+    file_path: scripts/demo-adaptive-monitor.py
+    function_name: demo_live_monitoring
+    test_path: tests/api/test_demo_live_monitoring.py
+    priority_score: 78
+  - name: main
+    interface: both
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/demo-adaptive-monitor.py
+    function_name: main
+    test_path: tests/api/test_main.py
+    priority_score: 78
+  - name: MonitoringValidator
+    interface: both
+    cli_command: MonitoringValidator
+    api_endpoint: POST /api/v1/MonitoringValidator
+    file_path: scripts/validate-monitoring.py
+    function_name: null
+    test_path: tests/api/test_MonitoringValidator.py
+    priority_score: 78
+  - name: main
+    interface: both
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/validate-monitoring.py
+    function_name: main
+    test_path: tests/api/test_main.py
+    priority_score: 78
+  - name: clear_activity
+    interface: both
+    cli_command: clear activity
+    api_endpoint: POST /api/v1/clear-activity
+    file_path: scripts/validate-monitoring.py
+    function_name: clear_activity
+    test_path: tests/api/test_clear_activity.py
+    priority_score: 78
+  - name: run_stress_test
+    interface: both
+    cli_command: run stress test
+    api_endpoint: POST /api/v1/run-stress-test
+    file_path: scripts/validate-monitoring.py
+    function_name: run_stress_test
+    test_path: tests/api/test_run_stress_test.py
+    priority_score: 78
+  - name: run_all_tests
+    interface: both
+    cli_command: run all tests
+    api_endpoint: POST /api/v1/run-all-tests
+    file_path: scripts/validate-monitoring.py
+    function_name: run_all_tests
+    test_path: tests/api/test_run_all_tests.py
+    priority_score: 78
+  - name: print_section
+    interface: both
+    cli_command: print section
+    api_endpoint: POST /api/v1/print-section
+    file_path: scripts/demo-persistent-memory.py
+    function_name: print_section
+    test_path: tests/api/test_print_section.py
+    priority_score: 78
+  - name: simulate_agent_activity
+    interface: both
+    cli_command: agent simulate  activity
+    api_endpoint: POST /api/v1/simulate-agent-activity
+    file_path: scripts/demo-persistent-memory.py
+    function_name: simulate_agent_activity
+    test_path: tests/api/test_simulate_agent_activity.py
+    priority_score: 78
+  - name: demonstrate_search_capabilities
+    interface: both
+    cli_command: demonstrate search capabilities
+    api_endpoint: POST /api/v1/demonstrate-search-capabilities
+    file_path: scripts/demo-persistent-memory.py
+    function_name: demonstrate_search_capabilities
+    test_path: tests/api/test_demonstrate_search_capabilities.py
+    priority_score: 78
+  - name: demonstrate_analytics
+    interface: both
+    cli_command: demonstrate analytics
+    api_endpoint: POST /api/v1/demonstrate-analytics
+    file_path: scripts/demo-persistent-memory.py
+    function_name: demonstrate_analytics
+    test_path: tests/api/test_demonstrate_analytics.py
+    priority_score: 78
+  - name: demonstrate_consolidation
+    interface: both
+    cli_command: demonstrate consolidation
+    api_endpoint: POST /api/v1/demonstrate-consolidation
+    file_path: scripts/demo-persistent-memory.py
+    function_name: demonstrate_consolidation
+    test_path: tests/api/test_demonstrate_consolidation.py
+    priority_score: 78
+  - name: demonstrate_sync
+    interface: both
+    cli_command: demonstrate sync
+    api_endpoint: POST /api/v1/demonstrate-sync
+    file_path: scripts/demo-persistent-memory.py
+    function_name: demonstrate_sync
+    test_path: tests/api/test_demonstrate_sync.py
+    priority_score: 78
+  - name: main
+    interface: both
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/demo-persistent-memory.py
+    function_name: main
+    test_path: tests/api/test_main.py
+    priority_score: 78
+  - name: run_demo
+    interface: both
+    cli_command: run demo
+    api_endpoint: POST /api/v1/run-demo
+    file_path: scripts/setup_cost_monitoring.py
+    function_name: run_demo
+    test_path: tests/api/test_run_demo.py
+    priority_score: 78
+  - name: show_integration_examples
+    interface: both
+    cli_command: show integration examples
+    api_endpoint: POST /api/v1/show-integration-examples
+    file_path: scripts/setup_cost_monitoring.py
+    function_name: show_integration_examples
+    test_path: tests/api/test_show_integration_examples.py
+    priority_score: 78
+  - name: main
+    interface: both
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/setup_cost_monitoring.py
+    function_name: main
+    test_path: tests/api/test_main.py
+    priority_score: 78
+  - name: show_optimization_opportunities
+    interface: both
+    cli_command: show optimization opportunities
+    api_endpoint: POST /api/v1/show-optimization-opportunities
+    file_path: scripts/cost_monitoring_first_apps.py
+    function_name: show_optimization_opportunities
+    test_path: tests/api/test_show_optimization_opportunities.py
+    priority_score: 78
+  - name: check_budget_status
+    interface: both
+    cli_command: check budstatus
+    api_endpoint: POST /api/v1/check-budget-status
+    file_path: scripts/cost_monitoring_first_apps.py
+    function_name: check_budget_status
+    test_path: tests/api/test_check_budget_status.py
+    priority_score: 78
+  - name: AdaptiveWatcher
+    interface: both
+    cli_command: AdaptiveWatcher
+    api_endpoint: POST /api/v1/AdaptiveWatcher
+    file_path: scripts/watch-agents-adaptive.py
+    function_name: null
+    test_path: tests/api/test_AdaptiveWatcher.py
+    priority_score: 78
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/watch-agents-adaptive.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 78
+  - name: track_openai_streaming_call
+    interface: both
+    cli_command: track openai streaming call
+    api_endpoint: POST /api/v1/track-openai-streaming-call
+    file_path: ai/monitor/openai_tracker.py
+    function_name: track_openai_streaming_call
+    test_path: tests/api/test_track_openai_streaming_call.py
+    priority_score: 76
+  - name: estimate_cost_for_messages
+    interface: both
+    cli_command: estimate cost for messages
+    api_endpoint: POST /api/v1/estimate-cost-for-messages
+    file_path: ai/monitor/openai_tracker.py
+    function_name: estimate_cost_for_messages
+    test_path: tests/api/test_estimate_cost_for_messages.py
+    priority_score: 76
+  - name: estimate_and_track_from_messages
+    interface: both
+    cli_command: estimate and track from messages
+    api_endpoint: POST /api/v1/estimate-and-track-from-messages
+    file_path: ai/monitor/openai_tracker.py
+    function_name: estimate_and_track_from_messages
+    test_path: tests/api/test_estimate_and_track_from_messages.py
+    priority_score: 76
+  - name: create_current_usage_panel
+    interface: both
+    cli_command: create current usage panel
+    api_endpoint: POST /api/v1/current-usage-panel
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_current_usage_panel
+    test_path: tests/api/test_create_current_usage_panel.py
+    priority_score: 76
+  - name: create_service_breakdown_panel
+    interface: both
+    cli_command: create service breakdown panel
+    api_endpoint: POST /api/v1/service-breakdown-panel
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_service_breakdown_panel
+    test_path: tests/api/test_create_service_breakdown_panel.py
+    priority_score: 76
+  - name: create_budget_status_panel
+    interface: both
+    cli_command: create budstatus panel
+    api_endpoint: POST /api/v1/budget-status-panel
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_budget_status_panel
+    test_path: tests/api/test_create_budget_status_panel.py
+    priority_score: 76
+  - name: create_recent_activity_panel
+    interface: both
+    cli_command: create recent activity panel
+    api_endpoint: POST /api/v1/recent-activity-panel
+    file_path: ai/monitor/cost_dashboard.py
+    function_name: create_recent_activity_panel
+    test_path: tests/api/test_create_recent_activity_panel.py
+    priority_score: 76
+  - name: create_tracked_firestore_client
+    interface: cli
+    cli_command: create tracked firestore client
+    api_endpoint: POST /api/v1/tracked-firestore-client
+    file_path: ai/monitor/firestore_tracker.py
+    function_name: create_tracked_firestore_client
+    test_path: tests/cli/test_create_tracked_firestore_client.py
+    priority_score: 76
+  - name: get_cost_breakdown_analysis
+    interface: both
+    cli_command: cost breakdown analysis
+    api_endpoint: GET /api/v1/cost-breakdown-analysis
+    file_path: ai/monitor/cost_optimizer.py
+    function_name: get_cost_breakdown_analysis
+    test_path: tests/api/test_get_cost_breakdown_analysis.py
+    priority_score: 76
+  - name: create_firestore_memory_store
+    interface: both
+    cli_command: memory create firestore  store
+    api_endpoint: POST /api/v1/firestore-memory-store
+    file_path: ai/memory/firestore_store.py
+    function_name: create_firestore_memory_store
+    test_path: tests/api/test_create_firestore_memory_store.py
+    priority_score: 76
+  - name: send_message_to_parent
+    interface: both
+    cli_command: send message to parent
+    api_endpoint: POST /api/v1/send-message-to-parent
+    file_path: ai/agents/mother.py
+    function_name: send_message_to_parent
+    test_path: tests/api/test_send_message_to_parent.py
+    priority_score: 76
+  - name: get_agent_by_id
+    interface: both
+    cli_command: agent by id
+    api_endpoint: GET /api/v1/agent-by-id
+    file_path: ai/agents/mother.py
+    function_name: get_agent_by_id
+    test_path: tests/api/test_get_agent_by_id.py
+    priority_score: 76
+  - name: get_memory_integration_manager
+    interface: both
+    cli_command: memory integration manager
+    api_endpoint: GET /api/v1/memory-integration-manager
+    file_path: ai/system/memory_integration.py
+    function_name: get_memory_integration_manager
+    test_path: tests/api/test_get_memory_integration_manager.py
+    priority_score: 76
+  - name: initialize_agent_memory_system
+    interface: both
+    cli_command: memory initialize agent  system
+    api_endpoint: POST /api/v1/initialize-agent-memory-system
+    file_path: ai/system/memory_integration.py
+    function_name: initialize_agent_memory_system
+    test_path: tests/api/test_initialize_agent_memory_system.py
+    priority_score: 76
+  - name: get_memory_system_status
+    interface: both
+    cli_command: memory system status
+    api_endpoint: GET /api/v1/memory-system-status
+    file_path: ai/system/memory_integration.py
+    function_name: get_memory_system_status
+    test_path: tests/api/test_get_memory_system_status.py
+    priority_score: 76
+  - name: ensure_memory_system_ready
+    interface: both
+    cli_command: memory ensure  system ready
+    api_endpoint: POST /api/v1/ensure-memory-system-ready
+    file_path: ai/system/memory_integration.py
+    function_name: ensure_memory_system_ready
+    test_path: tests/api/test_ensure_memory_system_ready.py
+    priority_score: 76
+  - name: initialize_memory_system
+    interface: both
+    cli_command: memory initialize  system
+    api_endpoint: POST /api/v1/initialize-memory-system
+    file_path: ai/system/memory_integration.py
+    function_name: initialize_memory_system
+    test_path: tests/api/test_initialize_memory_system.py
+    priority_score: 74
+  - name: setup_cost_monitoring
+    interface: both
+    cli_command: monitor setup cost ing
+    api_endpoint: POST /api/v1/setup-cost-monitoring
+    file_path: scripts/setup_cost_monitoring.py
+    function_name: setup_cost_monitoring
+    test_path: tests/api/test_setup_cost_monitoring.py
+    priority_score: 74
+  - name: WriteMemory
+    interface: both
+    cli_command: WriteMemory
+    api_endpoint: POST /api/v1/WriteMemory
+    file_path: ai/tools/enhanced_mcp.py
+    function_name: null
+    test_path: tests/api/test_WriteMemory.py
+    priority_score: 69
+  - name: ReadMemoryContext
+    interface: both
+    cli_command: ReadMemoryContext
+    api_endpoint: POST /api/v1/ReadMemoryContext
+    file_path: ai/tools/enhanced_mcp.py
+    function_name: null
+    test_path: tests/api/test_ReadMemoryContext.py
+    priority_score: 69
+  estimated_time_hours: 12.5
+- batch_id: 6
+  features:
+  - name: load_env_file
+    interface: cli
+    cli_command: load env file
+    api_endpoint: POST /api/v1/load-env-file
+    file_path: ai/interface/telegram_bot.py
+    function_name: load_env_file
+    test_path: tests/cli/test_load_env_file.py
+    priority_score: 60
+  - name: EnhancedDashboardController
+    interface: cli
+    cli_command: EnhancedDashboardController
+    api_endpoint: POST /api/v1/EnhancedDashboardController
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: null
+    test_path: tests/cli/test_EnhancedDashboardController.py
+    priority_score: 60
+  - name: EnhancedDashboardHandler
+    interface: api
+    cli_command: EnhancedDashboardHandler
+    api_endpoint: POST /api/v1/EnhancedDashboardHandler
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: null
+    test_path: tests/api/test_EnhancedDashboardHandler.py
+    priority_score: 60
+  - name: handle_orchestrate_post
+    interface: cli
+    cli_command: handle orchestrate post
+    api_endpoint: POST /api/v1/handle-orchestrate-post
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_orchestrate_post
+    test_path: tests/cli/test_handle_orchestrate_post.py
+    priority_score: 60
+  - name: SpawnedAgent
+    interface: cli
+    cli_command: SpawnedAgent
+    api_endpoint: POST /api/v1/SpawnedAgent
+    file_path: ai/interface/agent_spawner.py
+    function_name: null
+    test_path: tests/cli/test_SpawnedAgent.py
+    priority_score: 60
+  - name: AgentSpawner
+    interface: cli
+    cli_command: AgentSpawner
+    api_endpoint: POST /api/v1/AgentSpawner
+    file_path: ai/interface/agent_spawner.py
+    function_name: null
+    test_path: tests/cli/test_AgentSpawner.py
+    priority_score: 60
+  - name: get_agent_spawner
+    interface: cli
+    cli_command: agent spawner
+    api_endpoint: GET /api/v1/agent-spawner
+    file_path: ai/interface/agent_spawner.py
+    function_name: get_agent_spawner
+    test_path: tests/cli/test_get_agent_spawner.py
+    priority_score: 60
+  - name: get_spawn_status
+    interface: cli
+    cli_command: spawn status
+    api_endpoint: GET /api/v1/spawn-status
+    file_path: ai/interface/agent_spawner.py
+    function_name: get_spawn_status
+    test_path: tests/cli/test_get_spawn_status.py
+    priority_score: 60
+  - name: list_active_agents
+    interface: cli
+    cli_command: agent list active s
+    api_endpoint: POST /api/v1/list-active-agents
+    file_path: ai/interface/agent_spawner.py
+    function_name: list_active_agents
+    test_path: tests/cli/test_list_active_agents.py
+    priority_score: 60
+  - name: initialize_agents
+    interface: cli
+    cli_command: agent initialize s
+    api_endpoint: POST /api/v1/initialize-agents
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: initialize_agents
+    test_path: tests/cli/test_initialize_agents.py
+    priority_score: 56
+  - name: test
+    interface: cli
+    cli_command: test
+    api_endpoint: POST /api/v1/test
+    file_path: ai/cli/magic.py
+    function_name: test
+    test_path: tests/cli/test_test.py
+    priority_score: 54
+  - name: cmd_assist_report
+    interface: cli
+    cli_command: cmd assist report
+    api_endpoint: POST /api/v1/cmd-assist-report
+    file_path: ai/cli/fresh.py
+    function_name: cmd_assist_report
+    test_path: tests/cli/test_cmd_assist_report.py
+    priority_score: 54
+  - name: cmd_feature_validate
+    interface: cli
+    cli_command: cmd feature validate
+    api_endpoint: POST /api/v1/cmd-feature-validate
+    file_path: ai/cli/fresh.py
+    function_name: cmd_feature_validate
+    test_path: tests/cli/test_cmd_feature_validate.py
+    priority_score: 54
+  - name: test
+    interface: cli
+    cli_command: test
+    api_endpoint: POST /api/v1/test
+    file_path: ai/cli/magic_cli.py
+    function_name: test
+    test_path: tests/cli/test_test.py
+    priority_score: 54
+  - name: DocsAlignmentCheck
+    interface: cli
+    cli_command: DocsAlignmentCheck
+    api_endpoint: POST /api/v1/DocsAlignmentCheck
+    file_path: ai/tools/docs_tools.py
+    function_name: null
+    test_path: tests/cli/test_DocsAlignmentCheck.py
+    priority_score: 48
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: ai/tools/release_notes_cli.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 46
+  - name: CallMCPTool
+    interface: cli
+    cli_command: CallMCPTool
+    api_endpoint: POST /api/v1/CallMCPTool
+    file_path: ai/tools/mcp_client.py
+    function_name: null
+    test_path: tests/cli/test_CallMCPTool.py
+    priority_score: 46
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/mcp_client.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 46
+  - name: MagicCommand
+    interface: cli
+    cli_command: MagicCommand
+    api_endpoint: POST /api/v1/MagicCommand
+    file_path: ai/cli/magic.py
+    function_name: null
+    test_path: tests/cli/test_MagicCommand.py
+    priority_score: 46
+  - name: fix
+    interface: cli
+    cli_command: fix
+    api_endpoint: POST /api/v1/fix
+    file_path: ai/cli/magic.py
+    function_name: fix
+    test_path: tests/cli/test_fix.py
+    priority_score: 46
+  - name: add
+    interface: cli
+    cli_command: add
+    api_endpoint: POST /api/v1/add
+    file_path: ai/cli/magic.py
+    function_name: add
+    test_path: tests/cli/test_add.py
+    priority_score: 46
+  - name: refactor
+    interface: cli
+    cli_command: refactor
+    api_endpoint: POST /api/v1/refactor
+    file_path: ai/cli/magic.py
+    function_name: refactor
+    test_path: tests/cli/test_refactor.py
+    priority_score: 46
+  - name: cmd_scan
+    interface: cli
+    cli_command: cmd scan
+    api_endpoint: POST /api/v1/cmd-scan
+    file_path: ai/cli/fresh.py
+    function_name: cmd_scan
+    test_path: tests/cli/test_cmd_scan.py
+    priority_score: 46
+  - name: cmd_run
+    interface: cli
+    cli_command: cmd run
+    api_endpoint: POST /api/v1/cmd-run
+    file_path: ai/cli/fresh.py
+    function_name: cmd_run
+    test_path: tests/cli/test_cmd_run.py
+    priority_score: 46
+  - name: cmd_health
+    interface: cli
+    cli_command: cmd health
+    api_endpoint: POST /api/v1/cmd-health
+    file_path: ai/cli/fresh.py
+    function_name: cmd_health
+    test_path: tests/cli/test_cmd_health.py
+    priority_score: 46
+  - name: cmd_version
+    interface: cli
+    cli_command: cmd version
+    api_endpoint: POST /api/v1/cmd-version
+    file_path: ai/cli/fresh.py
+    function_name: cmd_version
+    test_path: tests/cli/test_cmd_version.py
+    priority_score: 46
+  - name: cmd_scaffold_new
+    interface: cli
+    cli_command: cmd scaffold new
+    api_endpoint: POST /api/v1/cmd-scaffold-new
+    file_path: ai/cli/fresh.py
+    function_name: cmd_scaffold_new
+    test_path: tests/cli/test_cmd_scaffold_new.py
+    priority_score: 46
+  - name: cmd_autonomous_status
+    interface: cli
+    cli_command: cmd autonomous status
+    api_endpoint: POST /api/v1/cmd-autonomous-status
+    file_path: ai/cli/fresh.py
+    function_name: cmd_autonomous_status
+    test_path: tests/cli/test_cmd_autonomous_status.py
+    priority_score: 46
+  - name: cmd_autonomous_cycle
+    interface: cli
+    cli_command: cmd autonomous cycle
+    api_endpoint: POST /api/v1/cmd-autonomous-cycle
+    file_path: ai/cli/fresh.py
+    function_name: cmd_autonomous_cycle
+    test_path: tests/cli/test_cmd_autonomous_cycle.py
+    priority_score: 46
+  - name: cmd_autonomous_start
+    interface: cli
+    cli_command: cmd autonomous start
+    api_endpoint: POST /api/v1/cmd-autonomous-start
+    file_path: ai/cli/fresh.py
+    function_name: cmd_autonomous_start
+    test_path: tests/cli/test_cmd_autonomous_start.py
+    priority_score: 46
+  - name: cmd_autonomous_stop
+    interface: cli
+    cli_command: cmd autonomous stop
+    api_endpoint: POST /api/v1/cmd-autonomous-stop
+    file_path: ai/cli/fresh.py
+    function_name: cmd_autonomous_stop
+    test_path: tests/cli/test_cmd_autonomous_stop.py
+    priority_score: 46
+  - name: cmd_feature_inventory
+    interface: cli
+    cli_command: cmd feature inventory
+    api_endpoint: POST /api/v1/cmd-feature-inventory
+    file_path: ai/cli/fresh.py
+    function_name: cmd_feature_inventory
+    test_path: tests/cli/test_cmd_feature_inventory.py
+    priority_score: 46
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: ai/cli/fresh.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 46
+  - name: allowed_task
+    interface: cli
+    cli_command: allowed task
+    api_endpoint: POST /api/v1/allowed-task
+    file_path: ai/cli/fresh.py
+    function_name: allowed_task
+    test_path: tests/cli/test_allowed_task.py
+    priority_score: 46
+  - name: cmd_assist_scan
+    interface: cli
+    cli_command: cmd assist scan
+    api_endpoint: POST /api/v1/cmd-assist-scan
+    file_path: ai/cli/fresh.py
+    function_name: cmd_assist_scan
+    test_path: tests/cli/test_cmd_assist_scan.py
+    priority_score: 46
+  - name: show_progress
+    interface: cli
+    cli_command: show progress
+    api_endpoint: POST /api/v1/show-progress
+    file_path: ai/cli/magic_cli.py
+    function_name: show_progress
+    test_path: tests/cli/test_show_progress.py
+    priority_score: 46
+  - name: cli
+    interface: cli
+    cli_command: cli
+    api_endpoint: POST /api/v1/cli
+    file_path: ai/cli/magic_cli.py
+    function_name: cli
+    test_path: tests/cli/test_cli.py
+    priority_score: 46
+  - name: fix
+    interface: cli
+    cli_command: fix
+    api_endpoint: POST /api/v1/fix
+    file_path: ai/cli/magic_cli.py
+    function_name: fix
+    test_path: tests/cli/test_fix.py
+    priority_score: 46
+  - name: add
+    interface: cli
+    cli_command: add
+    api_endpoint: POST /api/v1/add
+    file_path: ai/cli/magic_cli.py
+    function_name: add
+    test_path: tests/cli/test_add.py
+    priority_score: 46
+  - name: refactor
+    interface: cli
+    cli_command: refactor
+    api_endpoint: POST /api/v1/refactor
+    file_path: ai/cli/magic_cli.py
+    function_name: refactor
+    test_path: tests/cli/test_refactor.py
+    priority_score: 46
+  - name: status
+    interface: cli
+    cli_command: status
+    api_endpoint: POST /api/v1/status
+    file_path: ai/cli/magic_cli.py
+    function_name: status
+    test_path: tests/cli/test_status.py
+    priority_score: 46
+  - name: cmd_assist_plan_pr
+    interface: cli
+    cli_command: cmd assist plan pr
+    api_endpoint: POST /api/v1/cmd-assist-plan-pr
+    file_path: ai/cli/fresh.py
+    function_name: cmd_assist_plan_pr
+    test_path: tests/cli/test_cmd_assist_plan_pr.py
+    priority_score: 44
+  - name: cmd_autonomous_emergency_stop
+    interface: cli
+    cli_command: cmd autonomous emergency stop
+    api_endpoint: POST /api/v1/cmd-autonomous-emergency-stop
+    file_path: ai/cli/fresh.py
+    function_name: cmd_autonomous_emergency_stop
+    test_path: tests/cli/test_cmd_autonomous_emergency_stop.py
+    priority_score: 44
+  - name: cmd_autonomous_clear_emergency
+    interface: cli
+    cli_command: cmd autonomous clear emergency
+    api_endpoint: POST /api/v1/cmd-autonomous-clear-emergency
+    file_path: ai/cli/fresh.py
+    function_name: cmd_autonomous_clear_emergency
+    test_path: tests/cli/test_cmd_autonomous_clear_emergency.py
+    priority_score: 44
+  - name: cmd_feature_hook_missing
+    interface: cli
+    cli_command: cmd feature hook missing
+    api_endpoint: POST /api/v1/cmd-feature-hook-missing
+    file_path: ai/cli/fresh.py
+    function_name: cmd_feature_hook_missing
+    test_path: tests/cli/test_cmd_feature_hook_missing.py
+    priority_score: 44
+  - name: build_enhanced_agency
+    interface: cli
+    cli_command: build enhanced agency
+    api_endpoint: POST /api/v1/build-enhanced-agency
+    file_path: ai/enhanced_agency.py
+    function_name: build_enhanced_agency
+    test_path: tests/cli/test_build_enhanced_agency.py
+    priority_score: 42
+  - name: StatusCoordinator
+    interface: cli
+    cli_command: StatusCoordinator
+    api_endpoint: POST /api/v1/StatusCoordinator
+    file_path: ai/coordination/status.py
+    function_name: null
+    test_path: tests/cli/test_StatusCoordinator.py
+    priority_score: 42
+  - name: GitHubPRIntegration
+    interface: cli
+    cli_command: GitHubPRIntegration
+    api_endpoint: POST /api/v1/GitHubPRIntegration
+    file_path: ai/integration/github_pr.py
+    function_name: null
+    test_path: tests/cli/test_GitHubPRIntegration.py
+    priority_score: 42
+  - name: create_feature_branch
+    interface: cli
+    cli_command: create feature branch
+    api_endpoint: POST /api/v1/feature-branch
+    file_path: ai/integration/github_pr.py
+    function_name: create_feature_branch
+    test_path: tests/cli/test_create_feature_branch.py
+    priority_score: 42
+  - name: create_pull_request
+    interface: cli
+    cli_command: create pull request
+    api_endpoint: POST /api/v1/pull-request
+    file_path: ai/integration/github_pr.py
+    function_name: create_pull_request
+    test_path: tests/cli/test_create_pull_request.py
+    priority_score: 42
+  estimated_time_hours: 12.5
+- batch_id: 7
+  features:
+  - name: add_pr_comment
+    interface: cli
+    cli_command: add pr comment
+    api_endpoint: POST /api/v1/pr-comment
+    file_path: ai/integration/github_pr.py
+    function_name: add_pr_comment
+    test_path: tests/cli/test_add_pr_comment.py
+    priority_score: 42
+  - name: GitHubIntegration
+    interface: cli
+    cli_command: GitHubIntegration
+    api_endpoint: POST /api/v1/GitHubIntegration
+    file_path: ai/integration/github.py
+    function_name: null
+    test_path: tests/cli/test_GitHubIntegration.py
+    priority_score: 42
+  - name: get_github_integration
+    interface: cli
+    cli_command: github integration
+    api_endpoint: GET /api/v1/github-integration
+    file_path: ai/integration/github.py
+    function_name: get_github_integration
+    test_path: tests/cli/test_get_github_integration.py
+    priority_score: 42
+  - name: WorkflowOrchestrator
+    interface: cli
+    cli_command: WorkflowOrchestrator
+    api_endpoint: POST /api/v1/WorkflowOrchestrator
+    file_path: ai/workflows/__init__.py
+    function_name: null
+    test_path: tests/cli/test_WorkflowOrchestrator.py
+    priority_score: 42
+  - name: AgentSpawnNode
+    interface: cli
+    cli_command: AgentSpawnNode
+    api_endpoint: POST /api/v1/AgentSpawnNode
+    file_path: ai/workflows/types.py
+    function_name: null
+    test_path: tests/cli/test_AgentSpawnNode.py
+    priority_score: 42
+  - name: AgentExecuteNode
+    interface: cli
+    cli_command: AgentExecuteNode
+    api_endpoint: POST /api/v1/AgentExecuteNode
+    file_path: ai/workflows/types.py
+    function_name: null
+    test_path: tests/cli/test_AgentExecuteNode.py
+    priority_score: 42
+  - name: WorkflowExecutionEngine
+    interface: cli
+    cli_command: WorkflowExecutionEngine
+    api_endpoint: POST /api/v1/WorkflowExecutionEngine
+    file_path: ai/workflows/engine.py
+    function_name: null
+    test_path: tests/cli/test_WorkflowExecutionEngine.py
+    priority_score: 42
+  - name: spawn_agent
+    interface: cli
+    cli_command: agent spawn
+    api_endpoint: POST /api/v1/spawn-agent
+    file_path: ai/workflows/language.py
+    function_name: spawn_agent
+    test_path: tests/cli/test_spawn_agent.py
+    priority_score: 42
+  - name: execute_agent
+    interface: cli
+    cli_command: agent execute
+    api_endpoint: POST /api/v1/execute-agent
+    file_path: ai/workflows/language.py
+    function_name: execute_agent
+    test_path: tests/cli/test_execute_agent.py
+    priority_score: 42
+  - name: FreshAgentSystem
+    interface: cli
+    cli_command: FreshAgentSystem
+    api_endpoint: POST /api/v1/FreshAgentSystem
+    file_path: ai/system/coordinator.py
+    function_name: null
+    test_path: tests/cli/test_FreshAgentSystem.py
+    priority_score: 42
+  - name: get_system
+    interface: cli
+    cli_command: system
+    api_endpoint: GET /api/v1/system
+    file_path: ai/system/coordinator.py
+    function_name: get_system
+    test_path: tests/cli/test_get_system.py
+    priority_score: 42
+  - name: FreshAgentSystem
+    interface: cli
+    cli_command: FreshAgentSystem
+    api_endpoint: POST /api/v1/FreshAgentSystem
+    file_path: ai/system/init.py
+    function_name: null
+    test_path: tests/cli/test_FreshAgentSystem.py
+    priority_score: 42
+  - name: get_system
+    interface: cli
+    cli_command: system
+    api_endpoint: GET /api/v1/system
+    file_path: ai/system/init.py
+    function_name: get_system
+    test_path: tests/cli/test_get_system.py
+    priority_score: 42
+  - name: monitor_health
+    interface: cli
+    cli_command: monitor health
+    api_endpoint: POST /api/v1/monitor-health
+    file_path: ai/autonomous/safety.py
+    function_name: monitor_health
+    test_path: tests/cli/test_monitor_health.py
+    priority_score: 42
+  - name: SelfDocumentingLoopService
+    interface: cli
+    cli_command: SelfDocumentingLoopService
+    api_endpoint: POST /api/v1/SelfDocumentingLoopService
+    file_path: ai/services/self_documenting_loop.py
+    function_name: null
+    test_path: tests/cli/test_SelfDocumentingLoopService.py
+    priority_score: 42
+  - name: stop_monitoring
+    interface: cli
+    cli_command: monitor stop ing
+    api_endpoint: POST /api/v1/stop-monitoring
+    file_path: ai/services/self_documenting_loop.py
+    function_name: stop_monitoring
+    test_path: tests/cli/test_stop_monitoring.py
+    priority_score: 42
+  - name: process_task
+    interface: cli
+    cli_command: process task
+    api_endpoint: POST /api/v1/process-task
+    file_path: ai/loop/dev_loop.py
+    function_name: process_task
+    test_path: tests/cli/test_process_task.py
+    priority_score: 42
+  - name: RepoScanner
+    interface: cli
+    cli_command: RepoScanner
+    api_endpoint: POST /api/v1/RepoScanner
+    file_path: ai/loop/repo_scanner.py
+    function_name: null
+    test_path: tests/cli/test_RepoScanner.py
+    priority_score: 42
+  - name: AgentTypeAnalysis
+    interface: cli
+    cli_command: AgentTypeAnalysis
+    api_endpoint: POST /api/v1/AgentTypeAnalysis
+    file_path: ai/analytics/performance.py
+    function_name: null
+    test_path: tests/cli/test_AgentTypeAnalysis.py
+    priority_score: 42
+  - name: PerformanceAnalytics
+    interface: cli
+    cli_command: PerformanceAnalytics
+    api_endpoint: POST /api/v1/PerformanceAnalytics
+    file_path: ai/analytics/performance.py
+    function_name: null
+    test_path: tests/cli/test_PerformanceAnalytics.py
+    priority_score: 42
+  - name: record_spawn_metrics
+    interface: cli
+    cli_command: record spawn metrics
+    api_endpoint: POST /api/v1/record-spawn-metrics
+    file_path: ai/analytics/performance.py
+    function_name: record_spawn_metrics
+    test_path: tests/cli/test_record_spawn_metrics.py
+    priority_score: 42
+  - name: record_execution_metrics
+    interface: cli
+    cli_command: record execution metrics
+    api_endpoint: POST /api/v1/record-execution-metrics
+    file_path: ai/analytics/performance.py
+    function_name: record_execution_metrics
+    test_path: tests/cli/test_record_execution_metrics.py
+    priority_score: 42
+  - name: record_completion_metrics
+    interface: cli
+    cli_command: record completion metrics
+    api_endpoint: POST /api/v1/record-completion-metrics
+    file_path: ai/analytics/performance.py
+    function_name: record_completion_metrics
+    test_path: tests/cli/test_record_completion_metrics.py
+    priority_score: 42
+  - name: AgentActivitySimulator
+    interface: cli
+    cli_command: AgentActivitySimulator
+    api_endpoint: POST /api/v1/AgentActivitySimulator
+    file_path: scripts/demo-agent-activity.py
+    function_name: null
+    test_path: tests/cli/test_AgentActivitySimulator.py
+    priority_score: 42
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/demo-agent-activity.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 42
+  - name: simulate_agent_thinking
+    interface: cli
+    cli_command: agent simulate  thinking
+    api_endpoint: POST /api/v1/simulate-agent-thinking
+    file_path: scripts/demo-agent-activity.py
+    function_name: simulate_agent_thinking
+    test_path: tests/cli/test_simulate_agent_thinking.py
+    priority_score: 42
+  - name: simulate_memory_operations
+    interface: cli
+    cli_command: memory simulate  operations
+    api_endpoint: POST /api/v1/simulate-memory-operations
+    file_path: scripts/demo-agent-activity.py
+    function_name: simulate_memory_operations
+    test_path: tests/cli/test_simulate_memory_operations.py
+    priority_score: 42
+  - name: simulate_agent_flow
+    interface: cli
+    cli_command: agent simulate  flow
+    api_endpoint: POST /api/v1/simulate-agent-flow
+    file_path: scripts/demo-agent-activity.py
+    function_name: simulate_agent_flow
+    test_path: tests/cli/test_simulate_agent_flow.py
+    priority_score: 42
+  - name: show_activity_summary
+    interface: cli
+    cli_command: show activity summary
+    api_endpoint: POST /api/v1/show-activity-summary
+    file_path: scripts/demo-agent-activity.py
+    function_name: show_activity_summary
+    test_path: tests/cli/test_show_activity_summary.py
+    priority_score: 42
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/agent_heartbeat.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 42
+  - name: patch_firestore_memory
+    interface: cli
+    cli_command: memory patch firestore
+    api_endpoint: POST /api/v1/patch-firestore-memory
+    file_path: scripts/apply_firestore_cost_tracking.py
+    function_name: patch_firestore_memory
+    test_path: tests/cli/test_patch_firestore_memory.py
+    priority_score: 42
+  - name: patch_enhanced_firestore
+    interface: cli
+    cli_command: patch enhanced firestore
+    api_endpoint: POST /api/v1/patch-enhanced-firestore
+    file_path: scripts/apply_firestore_cost_tracking.py
+    function_name: patch_enhanced_firestore
+    test_path: tests/cli/test_patch_enhanced_firestore.py
+    priority_score: 42
+  - name: patch_firestore_store
+    interface: cli
+    cli_command: patch firestore store
+    api_endpoint: POST /api/v1/patch-firestore-store
+    file_path: scripts/apply_firestore_cost_tracking.py
+    function_name: patch_firestore_store
+    test_path: tests/cli/test_patch_firestore_store.py
+    priority_score: 42
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/apply_firestore_cost_tracking.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 42
+  - name: get_github_workflows
+    interface: cli
+    cli_command: github workflows
+    api_endpoint: GET /api/v1/github-workflows
+    file_path: scripts/inventory_codebase.py
+    function_name: get_github_workflows
+    test_path: tests/cli/test_get_github_workflows.py
+    priority_score: 42
+  - name: get_agent_classes
+    interface: cli
+    cli_command: agent classes
+    api_endpoint: GET /api/v1/agent-classes
+    file_path: scripts/inventory_codebase.py
+    function_name: get_agent_classes
+    test_path: tests/cli/test_get_agent_classes.py
+    priority_score: 42
+  - name: get_memory_implementations
+    interface: cli
+    cli_command: memory implementations
+    api_endpoint: GET /api/v1/memory-implementations
+    file_path: scripts/inventory_codebase.py
+    function_name: get_memory_implementations
+    test_path: tests/cli/test_get_memory_implementations.py
+    priority_score: 42
+  - name: normalize_tag
+    interface: cli
+    cli_command: normalize tag
+    api_endpoint: POST /api/v1/normalize-tag
+    file_path: ai/tools/intent.py
+    function_name: normalize_tag
+    test_path: tests/cli/test_normalize_tag.py
+    priority_score: 41
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/intent.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 41
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/dod_checker.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 41
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/release_notes.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 41
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/adr_logger.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 41
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/docs_tools.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 41
+  - name: BaseTool
+    interface: cli
+    cli_command: BaseTool
+    api_endpoint: POST /api/v1/BaseTool
+    file_path: ai/tools/next_steps.py
+    function_name: null
+    test_path: tests/cli/test_BaseTool.py
+    priority_score: 41
+  - name: run_development_cycle_demo
+    interface: cli
+    cli_command: run development cycle demo
+    api_endpoint: POST /api/v1/run-development-cycle-demo
+    file_path: scripts/demo-agent-activity.py
+    function_name: run_development_cycle_demo
+    test_path: tests/cli/test_run_development_cycle_demo.py
+    priority_score: 40
+  - name: initialize_intelligent_memory
+    interface: cli
+    cli_command: memory initialize intelligent
+    api_endpoint: POST /api/v1/initialize-intelligent-memory
+    file_path: ai/enhanced_agency.py
+    function_name: initialize_intelligent_memory
+    test_path: tests/cli/test_initialize_intelligent_memory.py
+    priority_score: 38
+  - name: cancel_task
+    interface: cli
+    cli_command: cancel task
+    api_endpoint: POST /api/v1/cancel-task
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: cancel_task
+    test_path: tests/cli/test_cancel_task.py
+    priority_score: 36
+  - name: do_GET
+    interface: cli
+    cli_command: do GET
+    api_endpoint: POST /api/v1/do-GET
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: do_GET
+    test_path: tests/cli/test_do_GET.py
+    priority_score: 36
+  - name: do_POST
+    interface: cli
+    cli_command: do POST
+    api_endpoint: POST /api/v1/do-POST
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: do_POST
+    test_path: tests/cli/test_do_POST.py
+    priority_score: 36
+  - name: handle_start_conversation
+    interface: cli
+    cli_command: handle start conversation
+    api_endpoint: POST /api/v1/handle-start-conversation
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_start_conversation
+    test_path: tests/cli/test_handle_start_conversation.py
+    priority_score: 36
+  estimated_time_hours: 12.5
+- batch_id: 8
+  features:
+  - name: handle_conversation_api
+    interface: cli
+    cli_command: handle conversation api
+    api_endpoint: POST /api/v1/handle-conversation-api
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_conversation_api
+    test_path: tests/cli/test_handle_conversation_api.py
+    priority_score: 36
+  - name: handle_conversation_post
+    interface: cli
+    cli_command: handle conversation post
+    api_endpoint: POST /api/v1/handle-conversation-post
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_conversation_post
+    test_path: tests/cli/test_handle_conversation_post.py
+    priority_score: 36
+  - name: handle_tasks_api
+    interface: cli
+    cli_command: handle tasks api
+    api_endpoint: POST /api/v1/handle-tasks-api
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_tasks_api
+    test_path: tests/cli/test_handle_tasks_api.py
+    priority_score: 36
+  - name: handle_tasks_post
+    interface: cli
+    cli_command: handle tasks post
+    api_endpoint: POST /api/v1/handle-tasks-post
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_tasks_post
+    test_path: tests/cli/test_handle_tasks_post.py
+    priority_score: 36
+  - name: serve_status_api
+    interface: cli
+    cli_command: serve status api
+    api_endpoint: POST /api/v1/serve-status-api
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: serve_status_api
+    test_path: tests/cli/test_serve_status_api.py
+    priority_score: 36
+  - name: handle_export_api
+    interface: cli
+    cli_command: handle export api
+    api_endpoint: POST /api/v1/handle-export-api
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: handle_export_api
+    test_path: tests/cli/test_handle_export_api.py
+    priority_score: 36
+  - name: export_json
+    interface: cli
+    cli_command: export json
+    api_endpoint: POST /api/v1/export-json
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: export_json
+    test_path: tests/cli/test_export_json.py
+    priority_score: 36
+  - name: export_markdown
+    interface: cli
+    cli_command: export markdown
+    api_endpoint: POST /api/v1/export-markdown
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: export_markdown
+    test_path: tests/cli/test_export_markdown.py
+    priority_score: 36
+  - name: export_pdf
+    interface: cli
+    cli_command: export pdf
+    api_endpoint: POST /api/v1/export-pdf
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: export_pdf
+    test_path: tests/cli/test_export_pdf.py
+    priority_score: 36
+  - name: send_json_response
+    interface: cli
+    cli_command: send json response
+    api_endpoint: POST /api/v1/send-json-response
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: send_json_response
+    test_path: tests/cli/test_send_json_response.py
+    priority_score: 36
+  - name: serve_enhanced_dashboard
+    interface: cli
+    cli_command: serve enhanced dashboard
+    api_endpoint: POST /api/v1/serve-enhanced-dashboard
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: serve_enhanced_dashboard
+    test_path: tests/cli/test_serve_enhanced_dashboard.py
+    priority_score: 36
+  - name: signal_handler
+    interface: cli
+    cli_command: signal handler
+    api_endpoint: POST /api/v1/signal-handler
+    file_path: ai/interface/enhanced_dashboard.py
+    function_name: signal_handler
+    test_path: tests/cli/test_signal_handler.py
+    priority_score: 36
+  - name: validate
+    interface: cli
+    cli_command: validate
+    api_endpoint: POST /api/v1/validate
+    file_path: ai/workflows/types.py
+    function_name: validate
+    test_path: tests/cli/test_validate.py
+    priority_score: 30
+  - name: build
+    interface: cli
+    cli_command: build
+    api_endpoint: POST /api/v1/build
+    file_path: ai/workflows/language.py
+    function_name: build
+    test_path: tests/cli/test_build.py
+    priority_score: 30
+  - name: MockClock
+    interface: cli
+    cli_command: MockClock
+    api_endpoint: POST /api/v1/MockClock
+    file_path: ai/utils/clock.py
+    function_name: null
+    test_path: tests/cli/test_MockClock.py
+    priority_score: 30
+  - name: set_clock
+    interface: cli
+    cli_command: clock
+    api_endpoint: POST /api/v1/set-clock
+    file_path: ai/utils/clock.py
+    function_name: set_clock
+    test_path: tests/cli/test_set_clock.py
+    priority_score: 30
+  - name: validate_changes
+    interface: cli
+    cli_command: validate changes
+    api_endpoint: POST /api/v1/validate-changes
+    file_path: ai/autonomous/engine.py
+    function_name: validate_changes
+    test_path: tests/cli/test_validate_changes.py
+    priority_score: 30
+  - name: validate_safety
+    interface: cli
+    cli_command: validate safety
+    api_endpoint: POST /api/v1/validate-safety
+    file_path: ai/autonomous/safety.py
+    function_name: validate_safety
+    test_path: tests/cli/test_validate_safety.py
+    priority_score: 30
+  - name: find_failing_tests
+    interface: cli
+    cli_command: find failing tests
+    api_endpoint: POST /api/v1/find-failing-tests
+    file_path: ai/loop/repo_scanner.py
+    function_name: find_failing_tests
+    test_path: tests/cli/test_find_failing_tests.py
+    priority_score: 30
+  - name: find_failing_tests
+    interface: cli
+    cli_command: find failing tests
+    api_endpoint: POST /api/v1/find-failing-tests
+    file_path: ai/loop/repo_scanner.py
+    function_name: find_failing_tests
+    test_path: tests/cli/test_find_failing_tests.py
+    priority_score: 30
+  - name: load_inventory
+    interface: cli
+    cli_command: load inventory
+    api_endpoint: POST /api/v1/load-inventory
+    file_path: scripts/analyze_feature_status.py
+    function_name: load_inventory
+    test_path: tests/cli/test_load_inventory.py
+    priority_score: 30
+  - name: check_feature
+    interface: cli
+    cli_command: check feature
+    api_endpoint: POST /api/v1/check-feature
+    file_path: scripts/analyze_feature_status.py
+    function_name: check_feature
+    test_path: tests/cli/test_check_feature.py
+    priority_score: 30
+  - name: generate_feature_matrix
+    interface: cli
+    cli_command: generate feature matrix
+    api_endpoint: POST /api/v1/generate-feature-matrix
+    file_path: scripts/analyze_feature_status.py
+    function_name: generate_feature_matrix
+    test_path: tests/cli/test_generate_feature_matrix.py
+    priority_score: 30
+  - name: write_feature_status
+    interface: cli
+    cli_command: write feature status
+    api_endpoint: POST /api/v1/write-feature-status
+    file_path: scripts/analyze_feature_status.py
+    function_name: write_feature_status
+    test_path: tests/cli/test_write_feature_status.py
+    priority_score: 30
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/analyze_feature_status.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 30
+  - name: validate_consolidation
+    interface: cli
+    cli_command: validate consolidation
+    api_endpoint: POST /api/v1/validate-consolidation
+    file_path: scripts/validate_rule_consolidation.py
+    function_name: validate_consolidation
+    test_path: tests/cli/test_validate_consolidation.py
+    priority_score: 30
+  - name: FeatureScanner
+    interface: cli
+    cli_command: FeatureScanner
+    api_endpoint: POST /api/v1/FeatureScanner
+    file_path: scripts/feature_inventory.py
+    function_name: null
+    test_path: tests/cli/test_FeatureScanner.py
+    priority_score: 30
+  - name: CodebaseDiagnostic
+    interface: cli
+    cli_command: CodebaseDiagnostic
+    api_endpoint: POST /api/v1/CodebaseDiagnostic
+    file_path: scripts/diagnostic_scan.py
+    function_name: null
+    test_path: tests/cli/test_CodebaseDiagnostic.py
+    priority_score: 30
+  - name: analyze_all_files
+    interface: cli
+    cli_command: analyze all files
+    api_endpoint: POST /api/v1/analyze-all-files
+    file_path: scripts/diagnostic_scan.py
+    function_name: analyze_all_files
+    test_path: tests/cli/test_analyze_all_files.py
+    priority_score: 30
+  - name: analyze_file_sizes
+    interface: cli
+    cli_command: analyze file sizes
+    api_endpoint: POST /api/v1/analyze-file-sizes
+    file_path: scripts/diagnostic_scan.py
+    function_name: analyze_file_sizes
+    test_path: tests/cli/test_analyze_file_sizes.py
+    priority_score: 30
+  - name: analyze_dependencies
+    interface: cli
+    cli_command: analyze dependencies
+    api_endpoint: POST /api/v1/analyze-dependencies
+    file_path: scripts/diagnostic_scan.py
+    function_name: analyze_dependencies
+    test_path: tests/cli/test_analyze_dependencies.py
+    priority_score: 30
+  - name: generate_report
+    interface: cli
+    cli_command: generate report
+    api_endpoint: POST /api/v1/generate-report
+    file_path: scripts/diagnostic_scan.py
+    function_name: generate_report
+    test_path: tests/cli/test_generate_report.py
+    priority_score: 30
+  - name: DocumentationAnalyzer
+    interface: cli
+    cli_command: DocumentationAnalyzer
+    api_endpoint: POST /api/v1/DocumentationAnalyzer
+    file_path: scripts/analyze_documentation_gaps.py
+    function_name: null
+    test_path: tests/cli/test_DocumentationAnalyzer.py
+    priority_score: 30
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/analyze_documentation_gaps.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 30
+  - name: analyze
+    interface: cli
+    cli_command: analyze
+    api_endpoint: POST /api/v1/analyze
+    file_path: scripts/analyze_documentation_gaps.py
+    function_name: analyze
+    test_path: tests/cli/test_analyze.py
+    priority_score: 30
+  - name: DocumentationValidator
+    interface: cli
+    cli_command: DocumentationValidator
+    api_endpoint: POST /api/v1/DocumentationValidator
+    file_path: scripts/validate_documentation.py
+    function_name: null
+    test_path: tests/cli/test_DocumentationValidator.py
+    priority_score: 30
+  - name: main
+    interface: cli
+    cli_command: main
+    api_endpoint: POST /api/v1/main
+    file_path: scripts/validate_documentation.py
+    function_name: main
+    test_path: tests/cli/test_main.py
+    priority_score: 30
+  - name: validate_all
+    interface: cli
+    cli_command: validate all
+    api_endpoint: POST /api/v1/validate-all
+    file_path: scripts/validate_documentation.py
+    function_name: validate_all
+    test_path: tests/cli/test_validate_all.py
+    priority_score: 30
+  - name: print_results
+    interface: cli
+    cli_command: print results
+    api_endpoint: POST /api/v1/print-results
+    file_path: scripts/validate_documentation.py
+    function_name: print_results
+    test_path: tests/cli/test_print_results.py
+    priority_score: 30
+  - name: get_tests
+    interface: cli
+    cli_command: tests
+    api_endpoint: GET /api/v1/tests
+    file_path: scripts/inventory_codebase.py
+    function_name: get_tests
+    test_path: tests/cli/test_get_tests.py
+    priority_score: 30
+  - name: reset_to_system_clock
+    interface: cli
+    cli_command: reto system clock
+    api_endpoint: POST /api/v1/reset-to-system-clock
+    file_path: ai/utils/clock.py
+    function_name: reset_to_system_clock
+    test_path: tests/cli/test_reset_to_system_clock.py
+    priority_score: 28
+  - name: patch_openai
+    interface: cli
+    cli_command: patch openai
+    api_endpoint: POST /api/v1/patch-openai
+    file_path: ai/agency_openai_patch.py
+    function_name: patch_openai
+    test_path: tests/cli/test_patch_openai.py
+    priority_score: 26
+  - name: unpatch_openai
+    interface: cli
+    cli_command: unpatch openai
+    api_endpoint: POST /api/v1/unpatch-openai
+    file_path: ai/agency_openai_patch.py
+    function_name: unpatch_openai
+    test_path: tests/cli/test_unpatch_openai.py
+    priority_score: 26
+  - name: build_agency
+    interface: cli
+    cli_command: build agency
+    api_endpoint: POST /api/v1/build-agency
+    file_path: ai/agency.py
+    function_name: build_agency
+    test_path: tests/cli/test_build_agency.py
+    priority_score: 26
+  - name: get_status_coordinator
+    interface: cli
+    cli_command: status coordinator
+    api_endpoint: GET /api/v1/status-coordinator
+    file_path: ai/coordination/status.py
+    function_name: get_status_coordinator
+    test_path: tests/cli/test_get_status_coordinator.py
+    priority_score: 26
+  - name: register_context
+    interface: cli
+    cli_command: register context
+    api_endpoint: POST /api/v1/register-context
+    file_path: ai/coordination/status.py
+    function_name: register_context
+    test_path: tests/cli/test_register_context.py
+    priority_score: 26
+  - name: MCPDiscoverySystem
+    interface: api
+    cli_command: MCPDiscoverySystem
+    api_endpoint: POST /api/v1/MCPDiscoverySystem
+    file_path: ai/integration/mcp_discovery.py
+    function_name: null
+    test_path: tests/api/test_MCPDiscoverySystem.py
+    priority_score: 26
+  - name: get_mcp_discovery
+    interface: cli
+    cli_command: mcp discovery
+    api_endpoint: GET /api/v1/mcp-discovery
+    file_path: ai/integration/mcp_discovery.py
+    function_name: get_mcp_discovery
+    test_path: tests/cli/test_get_mcp_discovery.py
+    priority_score: 26
+  - name: get_discovery_summary
+    interface: api
+    cli_command: discovery summary
+    api_endpoint: GET /api/v1/discovery-summary
+    file_path: ai/integration/mcp_discovery.py
+    function_name: get_discovery_summary
+    test_path: tests/api/test_get_discovery_summary.py
+    priority_score: 26
+  - name: run_mvp
+    interface: cli
+    cli_command: run mvp
+    api_endpoint: POST /api/v1/run-mvp
+    file_path: ai/runner/mvp.py
+    function_name: run_mvp
+    test_path: tests/cli/test_run_mvp.py
+    priority_score: 26
+  estimated_time_hours: 12.5
+- batch_id: 9
+  features:
+  - name: get_system_metrics
+    interface: cli
+    cli_command: system metrics
+    api_endpoint: GET /api/v1/system-metrics
+    file_path: ai/workflows/__init__.py
+    function_name: get_system_metrics
+    test_path: tests/cli/test_get_system_metrics.py
+    priority_score: 26
+  - name: ConditionNode
+    interface: cli
+    cli_command: ConditionNode
+    api_endpoint: POST /api/v1/ConditionNode
+    file_path: ai/workflows/types.py
+    function_name: null
+    test_path: tests/cli/test_ConditionNode.py
+    priority_score: 26
+  - name: LoopNode
+    interface: cli
+    cli_command: LoopNode
+    api_endpoint: POST /api/v1/LoopNode
+    file_path: ai/workflows/types.py
+    function_name: null
+    test_path: tests/cli/test_LoopNode.py
+    priority_score: 26
+  - name: WorkflowDefinition
+    interface: cli
+    cli_command: WorkflowDefinition
+    api_endpoint: POST /api/v1/WorkflowDefinition
+    file_path: ai/workflows/types.py
+    function_name: null
+    test_path: tests/cli/test_WorkflowDefinition.py
+    priority_score: 26
+  - name: WorkflowExecution
+    interface: cli
+    cli_command: WorkflowExecution
+    api_endpoint: POST /api/v1/WorkflowExecution
+    file_path: ai/workflows/types.py
+    function_name: null
+    test_path: tests/cli/test_WorkflowExecution.py
+    priority_score: 26
+  - name: evaluate
+    interface: cli
+    cli_command: evaluate
+    api_endpoint: POST /api/v1/evaluate
+    file_path: ai/workflows/types.py
+    function_name: evaluate
+    test_path: tests/cli/test_evaluate.py
+    priority_score: 26
+  - name: evaluate_conditions
+    interface: cli
+    cli_command: evaluate conditions
+    api_endpoint: POST /api/v1/evaluate-conditions
+    file_path: ai/workflows/types.py
+    function_name: evaluate_conditions
+    test_path: tests/cli/test_evaluate_conditions.py
+    priority_score: 26
+  - name: add_node
+    interface: cli
+    cli_command: add node
+    api_endpoint: POST /api/v1/node
+    file_path: ai/workflows/types.py
+    function_name: add_node
+    test_path: tests/cli/test_add_node.py
+    priority_score: 26
+  - name: add_edge
+    interface: cli
+    cli_command: add edge
+    api_endpoint: POST /api/v1/edge
+    file_path: ai/workflows/types.py
+    function_name: add_edge
+    test_path: tests/cli/test_add_edge.py
+    priority_score: 26
+  - name: connect
+    interface: cli
+    cli_command: connect
+    api_endpoint: POST /api/v1/connect
+    file_path: ai/workflows/types.py
+    function_name: connect
+    test_path: tests/cli/test_connect.py
+    priority_score: 26
+  - name: add_log
+    interface: cli
+    cli_command: add log
+    api_endpoint: POST /api/v1/log
+    file_path: ai/workflows/types.py
+    function_name: add_log
+    test_path: tests/cli/test_add_log.py
+    priority_score: 26
+  - name: set_variable
+    interface: cli
+    cli_command: variable
+    api_endpoint: POST /api/v1/set-variable
+    file_path: ai/workflows/types.py
+    function_name: set_variable
+    test_path: tests/cli/test_set_variable.py
+    priority_score: 26
+  - name: mark_node_completed
+    interface: cli
+    cli_command: mark node completed
+    api_endpoint: POST /api/v1/mark-node-completed
+    file_path: ai/workflows/types.py
+    function_name: mark_node_completed
+    test_path: tests/cli/test_mark_node_completed.py
+    priority_score: 26
+  - name: mark_node_failed
+    interface: cli
+    cli_command: mark node failed
+    api_endpoint: POST /api/v1/mark-node-failed
+    file_path: ai/workflows/types.py
+    function_name: mark_node_failed
+    test_path: tests/cli/test_mark_node_failed.py
+    priority_score: 26
+  - name: calculate_progress
+    interface: cli
+    cli_command: calculate progress
+    api_endpoint: POST /api/v1/calculate-progress
+    file_path: ai/workflows/types.py
+    function_name: calculate_progress
+    test_path: tests/cli/test_calculate_progress.py
+    priority_score: 26
+  - name: is_completed
+    interface: cli
+    cli_command: is completed
+    api_endpoint: POST /api/v1/is-completed
+    file_path: ai/workflows/types.py
+    function_name: is_completed
+    test_path: tests/cli/test_is_completed.py
+    priority_score: 26
+  - name: get_workflow_engine
+    interface: cli
+    cli_command: workflow engine
+    api_endpoint: GET /api/v1/workflow-engine
+    file_path: ai/workflows/engine.py
+    function_name: get_workflow_engine
+    test_path: tests/cli/test_get_workflow_engine.py
+    priority_score: 26
+  - name: get_execution_status
+    interface: cli
+    cli_command: execution status
+    api_endpoint: GET /api/v1/execution-status
+    file_path: ai/workflows/engine.py
+    function_name: get_execution_status
+    test_path: tests/cli/test_get_execution_status.py
+    priority_score: 26
+  - name: get_execution_log
+    interface: cli
+    cli_command: execution log
+    api_endpoint: GET /api/v1/execution-log
+    file_path: ai/workflows/engine.py
+    function_name: get_execution_log
+    test_path: tests/cli/test_get_execution_log.py
+    priority_score: 26
+  - name: get_engine_metrics
+    interface: cli
+    cli_command: engine metrics
+    api_endpoint: GET /api/v1/engine-metrics
+    file_path: ai/workflows/engine.py
+    function_name: get_engine_metrics
+    test_path: tests/cli/test_get_engine_metrics.py
+    priority_score: 26
+  - name: WorkflowSyntaxError
+    interface: cli
+    cli_command: WorkflowSyntaxError
+    api_endpoint: POST /api/v1/WorkflowSyntaxError
+    file_path: ai/workflows/language.py
+    function_name: null
+    test_path: tests/cli/test_WorkflowSyntaxError.py
+    priority_score: 26
+  - name: WorkflowBuilder
+    interface: cli
+    cli_command: WorkflowBuilder
+    api_endpoint: POST /api/v1/WorkflowBuilder
+    file_path: ai/workflows/language.py
+    function_name: null
+    test_path: tests/cli/test_WorkflowBuilder.py
+    priority_score: 26
+  - name: WDLParser
+    interface: cli
+    cli_command: WDLParser
+    api_endpoint: POST /api/v1/WDLParser
+    file_path: ai/workflows/language.py
+    function_name: null
+    test_path: tests/cli/test_WDLParser.py
+    priority_score: 26
+  - name: WDLExporter
+    interface: cli
+    cli_command: WDLExporter
+    api_endpoint: POST /api/v1/WDLExporter
+    file_path: ai/workflows/language.py
+    function_name: null
+    test_path: tests/cli/test_WDLExporter.py
+    priority_score: 26
+  - name: parse_workflow
+    interface: cli
+    cli_command: parse workflow
+    api_endpoint: POST /api/v1/parse-workflow
+    file_path: ai/workflows/language.py
+    function_name: parse_workflow
+    test_path: tests/cli/test_parse_workflow.py
+    priority_score: 26
+  - name: load_workflow
+    interface: cli
+    cli_command: load workflow
+    api_endpoint: POST /api/v1/load-workflow
+    file_path: ai/workflows/language.py
+    function_name: load_workflow
+    test_path: tests/cli/test_load_workflow.py
+    priority_score: 26
+  - name: save_workflow
+    interface: cli
+    cli_command: save workflow
+    api_endpoint: POST /api/v1/save-workflow
+    file_path: ai/workflows/language.py
+    function_name: save_workflow
+    test_path: tests/cli/test_save_workflow.py
+    priority_score: 26
+  - name: add_start
+    interface: cli
+    cli_command: add start
+    api_endpoint: POST /api/v1/start
+    file_path: ai/workflows/language.py
+    function_name: add_start
+    test_path: tests/cli/test_add_start.py
+    priority_score: 26
+  - name: add_end
+    interface: cli
+    cli_command: add end
+    api_endpoint: POST /api/v1/end
+    file_path: ai/workflows/language.py
+    function_name: add_end
+    test_path: tests/cli/test_add_end.py
+    priority_score: 26
+  - name: add_condition
+    interface: cli
+    cli_command: add condition
+    api_endpoint: POST /api/v1/condition
+    file_path: ai/workflows/language.py
+    function_name: add_condition
+    test_path: tests/cli/test_add_condition.py
+    priority_score: 26
+  - name: add_parallel
+    interface: cli
+    cli_command: add parallel
+    api_endpoint: POST /api/v1/parallel
+    file_path: ai/workflows/language.py
+    function_name: add_parallel
+    test_path: tests/cli/test_add_parallel.py
+    priority_score: 26
+  - name: add_loop
+    interface: cli
+    cli_command: add loop
+    api_endpoint: POST /api/v1/loop
+    file_path: ai/workflows/language.py
+    function_name: add_loop
+    test_path: tests/cli/test_add_loop.py
+    priority_score: 26
+  - name: call_mcp
+    interface: cli
+    cli_command: call mcp
+    api_endpoint: POST /api/v1/call-mcp
+    file_path: ai/workflows/language.py
+    function_name: call_mcp
+    test_path: tests/cli/test_call_mcp.py
+    priority_score: 26
+  - name: add_human_approval
+    interface: cli
+    cli_command: add human approval
+    api_endpoint: POST /api/v1/human-approval
+    file_path: ai/workflows/language.py
+    function_name: add_human_approval
+    test_path: tests/cli/test_add_human_approval.py
+    priority_score: 26
+  - name: connect
+    interface: cli
+    cli_command: connect
+    api_endpoint: POST /api/v1/connect
+    file_path: ai/workflows/language.py
+    function_name: connect
+    test_path: tests/cli/test_connect.py
+    priority_score: 26
+  - name: set_variable
+    interface: cli
+    cli_command: variable
+    api_endpoint: POST /api/v1/set-variable
+    file_path: ai/workflows/language.py
+    function_name: set_variable
+    test_path: tests/cli/test_set_variable.py
+    priority_score: 26
+  - name: parse_file
+    interface: cli
+    cli_command: parse file
+    api_endpoint: POST /api/v1/parse-file
+    file_path: ai/workflows/language.py
+    function_name: parse_file
+    test_path: tests/cli/test_parse_file.py
+    priority_score: 26
+  - name: export_to_yaml
+    interface: cli
+    cli_command: export to yaml
+    api_endpoint: POST /api/v1/export-to-yaml
+    file_path: ai/workflows/language.py
+    function_name: export_to_yaml
+    test_path: tests/cli/test_export_to_yaml.py
+    priority_score: 26
+  - name: export_to_json
+    interface: cli
+    cli_command: export to json
+    api_endpoint: POST /api/v1/export-to-json
+    file_path: ai/workflows/language.py
+    function_name: export_to_json
+    test_path: tests/cli/test_export_to_json.py
+    priority_score: 26
+  - name: save_to_file
+    interface: cli
+    cli_command: save to file
+    api_endpoint: POST /api/v1/save-to-file
+    file_path: ai/workflows/language.py
+    function_name: save_to_file
+    test_path: tests/cli/test_save_to_file.py
+    priority_score: 26
+  estimated_time_hours: 10.0

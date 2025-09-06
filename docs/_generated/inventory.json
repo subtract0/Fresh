@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-09-05 01:38:26 UTC",
+  "timestamp": "2025-09-05 16:31:48 UTC",
   "python_version": "Python 3.12.11",
   "cwd": "/Users/am/Code/Fresh",
   "shell_scripts": [
@@ -79,6 +79,11 @@
       "docstring": "Spawn an agent for a specific task.\n    \n    Args:\n        args: Parsed command-line arguments"
     },
     {
+      "command": "hook-features",
+      "function": "cmd_hook_features",
+      "docstring": "Autonomously hook up unconnected features to CLI and API interfaces.\n    \n    Args:\n        args: Parsed command-line arguments"
+    },
+    {
       "command": "orchestrate",
       "function": "cmd_orchestrate",
       "docstring": "Orchestrate complex multi-agent research and analysis.\n    \n    Args:\n        args: Parsed command-line arguments"
@@ -137,6 +142,96 @@
       "command": "feature-hook-missing",
       "function": "cmd_feature_hook_missing",
       "docstring": "Hook up features that are implemented but not accessible."
+    },
+    {
+      "command": "memory",
+      "function": "cmd_memory",
+      "docstring": "Memory command dispatcher."
+    },
+    {
+      "command": "dashboard",
+      "function": "cmd_dashboard",
+      "docstring": "Launch the enhanced conversational dashboard."
+    },
+    {
+      "command": "ask",
+      "function": "cmd_ask",
+      "docstring": "Execute ask-and-implement workflow."
+    },
+    {
+      "command": "deploy",
+      "function": "cmd_deploy",
+      "docstring": "Execute deploy commands."
+    },
+    {
+      "command": "telegram",
+      "function": "cmd_telegram",
+      "docstring": "Launch the Telegram bot interface."
+    },
+    {
+      "command": "coordination",
+      "function": "cmd_coordination",
+      "docstring": "Coordination command dispatcher."
+    },
+    {
+      "command": "memory-write",
+      "function": "cmd_memory_write",
+      "docstring": "Write content to memory store."
+    },
+    {
+      "command": "memory-search",
+      "function": "cmd_memory_search",
+      "docstring": "Search memories by query."
+    },
+    {
+      "command": "memory-analytics",
+      "function": "cmd_memory_analytics",
+      "docstring": "Get memory analytics."
+    },
+    {
+      "command": "memory-optimize",
+      "function": "cmd_memory_optimize",
+      "docstring": "Optimize memory by removing low-importance items."
+    },
+    {
+      "command": "memory-backup",
+      "function": "cmd_memory_backup",
+      "docstring": "Backup memories to JSON file."
+    },
+    {
+      "command": "memory-smart-write",
+      "function": "cmd_memory_smart_write",
+      "docstring": "Smart write using enhanced memory tools."
+    },
+    {
+      "command": "memory-semantic-search",
+      "function": "cmd_memory_semantic_search",
+      "docstring": "Semantic search using enhanced memory tools."
+    },
+    {
+      "command": "coordination-record-agent-activity",
+      "function": "cmd_coordination_record_agent_activity",
+      "docstring": "Record agent lifecycle activity."
+    },
+    {
+      "command": "coordination-record-flow-activity",
+      "function": "cmd_coordination_record_flow_activity",
+      "docstring": "Record agent flow coordination activity."
+    },
+    {
+      "command": "coordination-recent-events",
+      "function": "cmd_coordination_recent_events",
+      "docstring": "Get recent coordination and activity events."
+    },
+    {
+      "command": "coordination-activity-level",
+      "function": "cmd_coordination_activity_level",
+      "docstring": "Get current system activity level."
+    },
+    {
+      "command": "coordination-refresh-interval",
+      "function": "cmd_coordination_refresh_interval",
+      "docstring": "Get recommended refresh interval based on activity."
     }
   ],
   "tests": {
@@ -212,6 +307,23 @@
     ],
     "tests/test_agency_persistence.py": [
       "test_context_function_available"
+    ],
+    "tests/test_enhanced_orchestration.py": [
+      "test_initialization",
+      "test_business_opportunity_decomposition",
+      "test_clarification_system",
+      "test_orchestration_statistics",
+      "test_initialization",
+      "test_market_trends_research",
+      "test_competitor_analysis",
+      "test_initialization",
+      "test_codebase_capabilities_assessment",
+      "test_initialization",
+      "test_opportunity_scoring",
+      "test_scoring_criteria",
+      "test_mcp_fallback_mechanism",
+      "test_company_research_fallback",
+      "test_parallel_execution_logic"
     ],
     "tests/test_next_steps.py": [
       "test_next_steps_for_bug_focuses_on_tests_and_fix",
@@ -498,6 +610,11 @@
       "file": "ai/agents/DocumentationAgent.py"
     },
     {
+      "name": "class:Agent",
+      "docstring": "Agent class for the Fresh AI system.",
+      "file": "ai/agents/base_agent.py"
+    },
+    {
       "name": "class:class",
       "docstring": "Child agent spawned by Mother Agent.",
       "file": "ai/agents/mother.py"
@@ -630,19 +747,24 @@
       "file": "ai/memory/firestore_store.py"
     },
     {
+      "name": "class:InMemoryMemoryStore",
+      "docstring": "In-memory store for AI data.",
+      "file": "ai/memory/in_memory_store.py"
+    },
+    {
       "name": "class:FirestoreMemoryStore",
       "docstring": "Firestore-backed memory store (staging-only as per ADR-002/003).\n\n    Requires google-cloud-firestore and FIREBASE_* env vars. If prerequisites are\n    not met, raises RuntimeError at init.",
       "file": "ai/memory/firestore.py"
     }
   ],
   "dependencies": {
-    "agency_swarm": true,
-    "google_cloud_firestore": true,
+    "agency_swarm": false,
+    "google_cloud_firestore": false,
     "openai": true
   },
   "stats": {
-    "total_python_files": 4033,
-    "total_test_files": 30,
-    "total_docs": 120
+    "total_python_files": 5019,
+    "total_test_files": 31,
+    "total_docs": 139
   }
 }

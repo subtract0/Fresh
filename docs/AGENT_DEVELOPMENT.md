@@ -107,7 +107,7 @@ EnhancedQA (Testing + Failure Patterns)
 ### 1. Enhanced Agent Class Structure
 
 ```python path=null start=null
-from ai.agents.enhanced_agents import Agent  # Enhanced base with fallback
+from ai.agents.agents import Agent  # Enhanced base with fallback
 from ai.tools.enhanced_memory_tools import SmartWriteMemory, SemanticSearchMemory
 from ai.tools.persistent_memory_tools import PersistentMemorySearch, CrossSessionAnalytics
 

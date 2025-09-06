@@ -1,16 +1,16 @@
 """
-Enhanced Agency with Intelligent Memory-Powered Agents
+Agency with Unified Intelligent Memory-Powered Agents
 
-This module provides an enhanced version of the agency that uses agents equipped
+This module provides the unified agency that uses all agents equipped
 with intelligent memory capabilities including semantic search, auto-classification,
 and memory analytics.
 
-The enhanced agency provides:
+The agency provides:
 - Context-aware decision making through semantic search
 - Automated memory classification and tagging
 - Learning from past interactions and patterns
 - Memory analytics for performance optimization
-- Backward compatibility with basic memory operations
+- All agents now use enhanced memory by default (unified architecture)
 """
 from __future__ import annotations
 from pathlib import Path
@@ -18,9 +18,9 @@ import os
 from typing import Optional
 
 from agency_swarm import Agency
-from ai.agents.EnhancedArchitect import EnhancedArchitect
-from ai.agents.EnhancedDeveloper import EnhancedDeveloper
-from ai.agents.EnhancedFather import EnhancedFather
+from ai.agents.Architect import Architect
+from ai.agents.Developer import Developer
+from ai.agents.Father import Father
 from ai.agents.QA import QA
 from ai.agents.Reviewer import Reviewer
 from ai.agents.DocumentationAgent import DocumentationAgent
@@ -101,31 +101,32 @@ def build_enhanced_agency(
     repo_root = Path(__file__).resolve().parents[1]
     manifesto = repo_root / "agency_manifesto.md"
     
-    # Build agency chart with enhanced agents
+    # Build agency chart with unified agents (all now have enhanced memory)
     agency_chart = [
-        EnhancedFather,
-        [EnhancedFather, EnhancedArchitect],
-        [EnhancedArchitect, EnhancedDeveloper],
+        Father,
+        [Father, Architect],
+        [Architect, Developer],
     ]
 
     # Optionally add Documentation agent as a parallel branch from Father
     if include_docs_agent:
-        agency_chart.append([EnhancedFather, DocumentationAgent])
+        agency_chart.append([Father, DocumentationAgent])
     
     # Add QA and Reviewer if enabled
     if enable_qa:
-        agency_chart.append([EnhancedDeveloper, QA])
+        agency_chart.append([Developer, QA])
         if enable_reviewer:
             agency_chart.extend([
                 [QA, Reviewer],
-                [Reviewer, EnhancedFather],  # Close the loop back to Father
+                [Reviewer, Father],  # Close the loop back to Father
             ])
         else:
-            agency_chart.append([QA, EnhancedFather])  # Direct back to Father
+            agency_chart.append([QA, Father])  # Direct back to Father
     else:
-        agency_chart.append([EnhancedDeveloper, EnhancedFather])  # Direct back to Father
+        agency_chart.append([Developer, Father])  # Direct back to Father
     
-    kwargs = {"temperature": 0.2}
+    # Using default temperature=1.0 for OpenAI API compatibility
+    kwargs = {}
     
     # Use custom instructions if provided, otherwise check for manifesto
     if shared_instructions_path:

@@ -315,9 +315,9 @@ def divide(a, b):
     @pytest.fixture
     def mock_child_agent(self):
         """Create mock child agent for testing."""
-        from ai.agents.enhanced_agents import EnhancedDeveloper
+        from ai.agents.agents import get_agent
         
-        agent = EnhancedDeveloper()
+        agent = get_agent('Developer')
         agent.id = "test-child-001"
         agent.name = "test_developer"
         agent.parent_id = "mother-001"

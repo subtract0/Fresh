@@ -30,6 +30,7 @@ from ai.loop.repo_scanner import scan_repository, Task, TaskType
 from ai.agents.mother import MotherAgent
 from ai.loop.dev_loop import DevLoop, run_development_cycle
 from ai.autonomous import AutonomousLoop
+from ai.autonomous.feature_hookup import AutonomousFeatureHookup
 import asyncio
 import yaml
 from datetime import datetime
@@ -122,6 +123,74 @@ def cmd_spawn(args):
         return 1
     
     return 0
+
+
+def cmd_hook_features(args):
+    """Autonomously hook up unconnected features to CLI and API interfaces.
+    
+    Args:
+        args: Parsed command-line arguments
+    """
+    print("🔗 Starting autonomous feature hookup process...")
+    
+    try:
+        hookup_system = AutonomousFeatureHookup()
+        
+        # Generate hookup plan
+        print("📊 Analyzing feature inventory...")
+        plan = hookup_system.generate_hookup_plan(max_features=args.max_features)
+        
+        print(f"✅ Analysis complete!")
+        print(f"   Total Features: {plan.total_features}")
+        print(f"   Unhooked Features: {plan.unhooked_features}")
+        print(f"   Target Hookup: {plan.target_hookup_count}")
+        print(f"   Batches: {len(plan.integration_batches)}")
+        print(f"   Estimated Time: {plan.estimated_completion_time}")
+        
+        if not args.analyze_only:
+            # Export results
+            output_dir = Path("docs/hookup_analysis")
+            output_dir.mkdir(exist_ok=True)
+            
+            # Export prioritized features
+            csv_path = output_dir / "unconnected_prioritized.csv"
+            hookup_system.export_prioritized_features(plan.prioritized_features, csv_path)
+            print(f"📄 Exported prioritized features to {csv_path}")
+            
+            # Generate integration spec
+            spec_path = output_dir / "integration_plan.yaml"
+            spec = hookup_system.generate_integration_spec(plan, spec_path)
+            print(f"📋 Generated integration plan at {spec_path}")
+            
+            # Validate plan
+            validation = hookup_system.validate_plan(plan)
+            print(f"\n🔍 Plan Validation: {'✅ VALID' if validation['valid'] else '❌ INVALID'}")
+            
+            if validation["warnings"]:
+                print("⚠️ Warnings:")
+                for warning in validation["warnings"]:
+                    print(f"   • {warning}")
+            
+            print("\n📈 Statistics:")
+            stats = validation["statistics"]
+            print(f"   CLI Features: {stats['cli_features']}")
+            print(f"   API Features: {stats['api_features']}")
+            print(f"   High Priority: {stats['high_priority_features']}")
+            print(f"   Complex Features: {stats['complex_features']}")
+            
+            print(f"\n🎯 Next Steps:")
+            print(f"   1. Review {csv_path} for feature priorities")
+            print(f"   2. Implement features in batches using {spec_path}")
+            print(f"   3. Run TDD cycle for each batch")
+            print(f"   4. Update feature inventory after each batch")
+        
+        return 0
+        
+    except Exception as e:
+        print(f"❌ Error: {e}")
+        import traceback
+        traceback.print_exc() 
+        return 1
 
 
 def cmd_orchestrate(args):
@@ -913,8 +982,12 @@ def cmd_feature_hook_missing(args):
         return 1
 
 
-def main():
-    """Main CLI entry point."""
+def main(argv=None):
+    """Main CLI entry point.
+    
+    Args:
+        argv: Optional list of command-line arguments. If None, uses sys.argv.
+    """
     parser = argparse.ArgumentParser(
         prog='fresh',
         description='Fresh - Autonomous Development System'
@@ -1095,6 +1168,12 @@ def main():
     feature_hook = feature_sub.add_parser('hook-missing', help='Identify and suggest hookups for unconnected features')
     feature_hook.set_defaults(func=cmd_feature_hook_missing)
     
+    # Autonomous feature hookup
+    feature_hookup = feature_sub.add_parser('hookup', help='Autonomously hook up unconnected features to CLI/API interfaces')
+    feature_hookup.add_argument('--max-features', type=int, default=440, help='Max features to hook up (default: 440 for 80%% target)')
+    feature_hookup.add_argument('--analyze-only', action='store_true', help='Only analyze and plan, do not implement')
+    feature_hookup.set_defaults(func=cmd_hook_features)
+    
     # Run command
     run_parser = subparsers.add_parser('run', help='Run autonomous development loop')
     run_parser.add_argument('--once', action='store_true', help='Run single cycle')
@@ -1118,6 +1197,73 @@ def main():
     monitor_parser.add_argument('--no-browser', action='store_true', help='Don\'t open browser automatically for web dashboard')
     monitor_parser.set_defaults(func=cmd_monitor)
 
+    # Memory management command group
+    memory_parser = subparsers.add_parser('memory', help='Memory management and analytics')
+    memory_sub = memory_parser.add_subparsers(dest='memory_cmd', help='Memory management commands')
+    
+    # Memory write command
+    memory_write = memory_sub.add_parser('write', help='Store content in memory with tags')
+    memory_write.add_argument('content', help='Content to store in memory')
+    memory_write.add_argument('--tags', help='Comma-separated tags for classification')
+    memory_write.add_argument('--importance', type=float, default=0.5, help='Importance score (0.0-1.0)')
+    memory_write.add_argument('--json', action='store_true', help='Output result as JSON')
+    
+    # Memory search command
+    memory_search = memory_sub.add_parser('search', help='Search memories by query or keywords')
+    memory_search.add_argument('query', help='Search query or keywords')
+    memory_search.add_argument('--limit', type=int, default=10, help='Max results to return')
+    memory_search.add_argument('--json', action='store_true', help='Output results as JSON')
+    memory_search.add_argument('--type', help='Filter by memory type (KNOWLEDGE, TASK, GOAL, etc.)')
+    
+    # Memory analytics command
+    memory_analytics = memory_sub.add_parser('analytics', help='Get memory usage analytics')
+    memory_analytics.add_argument('--json', action='store_true', help='Output analytics as JSON')
+    
+    # Memory optimize command
+    memory_optimize = memory_sub.add_parser('optimize', help='Optimize memory by removing low-importance items')
+    memory_optimize.add_argument('--dry-run', action='store_true', help='Show what would be removed without actually removing')
+    memory_optimize.add_argument('--threshold', type=float, default=0.3, help='Importance threshold for removal (0.0-1.0)')
+    memory_optimize.add_argument('--json', action='store_true', help='Output results as JSON')
+    
+    # Memory backup command
+    memory_backup = memory_sub.add_parser('backup', help='Backup all memories to JSON file')
+    memory_backup.add_argument('output_path', help='Output path for backup file')
+    memory_backup.add_argument('--compress', action='store_true', help='Compress backup file')
+    
+    # Memory smart-write command (enhanced tool)
+    memory_smart_write = memory_sub.add_parser('smart-write', help='Store content with automatic classification')
+    memory_smart_write.add_argument('content', help='Content to store')
+    memory_smart_write.add_argument('--auto-classify', action='store_true', help='Automatically classify content type')
+    memory_smart_write.add_argument('--json', action='store_true', help='Output result as JSON')
+    
+    # Memory semantic-search command (enhanced tool)
+    memory_semantic_search = memory_sub.add_parser('semantic-search', help='Search memories with semantic similarity')
+    memory_semantic_search.add_argument('query', help='Semantic search query')
+    memory_semantic_search.add_argument('--limit', type=int, default=5, help='Max results to return')
+    memory_semantic_search.add_argument('--json', action='store_true', help='Output results as JSON')
+    
+    def cmd_memory(args):
+        """Memory command dispatcher."""
+        if args.memory_cmd == 'write':
+            return cmd_memory_write(args)
+        elif args.memory_cmd == 'search':
+            return cmd_memory_search(args)
+        elif args.memory_cmd == 'analytics':
+            return cmd_memory_analytics(args)
+        elif args.memory_cmd == 'optimize':
+            return cmd_memory_optimize(args)
+        elif args.memory_cmd == 'backup':
+            return cmd_memory_backup(args)
+        elif args.memory_cmd == 'smart-write':
+            return cmd_memory_smart_write(args)
+        elif args.memory_cmd == 'semantic-search':
+            return cmd_memory_semantic_search(args)
+        else:
+            print("Usage: fresh memory {write|search|analytics|optimize|backup|smart-write|semantic-search}")
+            return 1
+    
+    memory_parser.set_defaults(func=cmd_memory)
+    
     # Enhanced Dashboard command
     dashboard_parser = subparsers.add_parser('dashboard', help='Launch enhanced conversational Mother Agent dashboard')
     dashboard_parser.add_argument('--port', type=int, default=8080, help='Port to run dashboard on (default: 8080)')
@@ -1281,6 +1427,53 @@ def main():
             return 1
     
     telegram_parser.set_defaults(func=cmd_telegram)
+    
+    # Coordination command group (Activity monitoring and agent tracking)
+    coordination_parser = subparsers.add_parser('coordination', help='Agent coordination and activity monitoring')
+    coordination_sub = coordination_parser.add_subparsers(dest='coordination_cmd', help='Coordination commands')
+    
+    # Record agent activity
+    coord_record_activity = coordination_sub.add_parser('record-agent-activity', help='Record agent lifecycle activity')
+    coord_record_activity.add_argument('activity_type', choices=['start', 'complete', 'error', 'pause'], help='Type of agent activity')
+    coord_record_activity.add_argument('agent_name', help='Name of the agent')
+    coord_record_activity.add_argument('--details', help='Additional activity details')
+    
+    # Record flow activity
+    coord_record_flow = coordination_sub.add_parser('record-flow-activity', help='Record agent flow coordination activity')
+    coord_record_flow.add_argument('flow_type', choices=['start', 'end', 'handoff'], help='Type of flow activity')
+    coord_record_flow.add_argument('from_agent', help='Source agent name')
+    coord_record_flow.add_argument('to_agent', help='Target agent name')
+    
+    # Get recent events
+    coord_recent_events = coordination_sub.add_parser('recent-events', help='Get recent coordination and activity events')
+    coord_recent_events.add_argument('--limit', type=int, default=10, help='Maximum number of events to return')
+    coord_recent_events.add_argument('--json', action='store_true', help='Output events as JSON')
+    
+    # Activity level
+    coord_activity_level = coordination_sub.add_parser('activity-level', help='Get current system activity level')
+    coord_activity_level.add_argument('--json', action='store_true', help='Output activity level as JSON')
+    
+    # Refresh interval based on activity
+    coord_refresh_interval = coordination_sub.add_parser('refresh-interval', help='Get recommended refresh interval based on activity')
+    coord_refresh_interval.add_argument('--json', action='store_true', help='Output interval as JSON')
+    
+    def cmd_coordination(args):
+        """Coordination command dispatcher."""
+        if args.coordination_cmd == 'record-agent-activity':
+            return cmd_coordination_record_agent_activity(args)
+        elif args.coordination_cmd == 'record-flow-activity':
+            return cmd_coordination_record_flow_activity(args)
+        elif args.coordination_cmd == 'recent-events':
+            return cmd_coordination_recent_events(args)
+        elif args.coordination_cmd == 'activity-level':
+            return cmd_coordination_activity_level(args)
+        elif args.coordination_cmd == 'refresh-interval':
+            return cmd_coordination_refresh_interval(args)
+        else:
+            print("Usage: fresh coordination {record-agent-activity|record-flow-activity|recent-events|activity-level|refresh-interval}")
+            return 1
+    
+    coordination_parser.set_defaults(func=cmd_coordination)
 
     # MCP command group
     mcp_parser = subparsers.add_parser('mcp', help='MCP discovery and status')
@@ -1315,7 +1508,7 @@ def main():
     mcp_refresh.set_defaults(func=cmd_mcp_refresh)
     
     # Parse arguments
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     # Initialize memory system if requested or if env hints at Firestore usage
     try:
@@ -1329,11 +1522,470 @@ def main():
     
     # Execute command
     if hasattr(args, 'func'):
-        sys.exit(args.func(args))
+        exit_code = args.func(args)
+        # Only sys.exit when not being called by tests (detected by argv being None or from sys.argv)
+        if argv is None:
+            sys.exit(exit_code)
+        else:
+            # Return exit code for testing
+            return exit_code
     else:
         parser.print_help()
-        sys.exit(1)
+        if argv is None:
+            sys.exit(1)
+        else:
+            return 1
 
 
-if __name__ == '__main__':
-    main()
+def cmd_memory_write(args):
+    """Write content to memory store."""
+    try:
+        from ai.memory.store import get_store
+        
+        store = get_store()
+        tags = args.tags.split(',') if args.tags else []
+        
+        # Store the memory (basic store doesn't support importance)
+        item = store.write(
+            content=args.content,
+            tags=tags
+        )
+        
+        if args.json:
+            result = {
+                "success": True,
+                "memory_id": item.id,
+                "content": args.content,
+                "tags": tags,
+                "importance": args.importance
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            print(f"✅ Memory stored with ID: {item.id}")
+            print(f"   Content: {args.content[:50]}{'...' if len(args.content) > 50 else ''}")
+            print(f"   Tags: {tags}")
+            print(f"   Importance: {args.importance}")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error storing memory: {e}")
+        return 1
+
+
+def cmd_memory_search(args):
+    """Search memories by query."""
+    try:
+        from ai.memory.store import get_store
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        store = get_store()
+        
+        # Use intelligent search if available
+        if isinstance(store, IntelligentMemoryStore):
+            if hasattr(store, 'search_by_keywords'):
+                memories = store.search_by_keywords(args.query, limit=args.limit)
+            else:
+                memories = store.query(tags=args.query.split(), limit=args.limit)
+        else:
+            memories = store.query(tags=args.query.split(), limit=args.limit)
+        
+        if args.json:
+            result = {
+                "query": args.query,
+                "total_results": len(memories),
+                "memories": []
+            }
+            for mem in memories:
+                if hasattr(mem, 'to_dict'):
+                    result["memories"].append(mem.to_dict())
+                else:
+                    result["memories"].append({
+                        "id": mem.id,
+                        "content": mem.content,
+                        "tags": getattr(mem, 'tags', []),
+                        "timestamp": getattr(mem, 'timestamp', None)
+                    })
+            print(json.dumps(result, indent=2, default=str))
+        else:
+            print(f"🔍 Found {len(memories)} memories for query: '{args.query}'")
+            print()
+            for i, mem in enumerate(memories, 1):
+                print(f"{i}. [{mem.id}] {mem.content[:80]}{'...' if len(mem.content) > 80 else ''}")
+                if hasattr(mem, 'tags') and mem.tags:
+                    # Safely format tags to handle Mock objects
+                    try:
+                        tags_str = str(mem.tags) if mem.tags else "None"
+                    except Exception:
+                        tags_str = "[Unable to display tags]"
+                    print(f"   Tags: {tags_str}")
+                if hasattr(mem, 'importance_score'):
+                    # Safely format importance score to handle Mock objects
+                    try:
+                        score = float(mem.importance_score)
+                        print(f"   Importance: {score:.2f}")
+                    except (ValueError, TypeError):
+                        print(f"   Importance: {mem.importance_score}")
+                print()
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error searching memories: {e}")
+        return 1
+
+
+def cmd_memory_analytics(args):
+    """Get memory analytics."""
+    try:
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        # Try to get intelligent store for analytics
+        try:
+            store = IntelligentMemoryStore()
+        except:
+            from ai.memory.store import get_store
+            store = get_store()
+        
+        if hasattr(store, 'get_memory_analytics'):
+            analytics = store.get_memory_analytics()
+        else:
+            # Basic analytics for regular store
+            memories = store.query(limit=1000)  # Get a sample
+            analytics = {
+                "total_memories": len(memories),
+                "memory_types": {"GENERAL": len(memories)},
+                "average_importance": 0.5
+            }
+        
+        if args.json:
+            print(json.dumps(analytics, indent=2))
+        else:
+            print("📊 Memory Analytics")
+            print("=" * 20)
+            print(f"Total Memories: {analytics.get('total_memories', 0)}")
+            print(f"Average Importance: {analytics.get('average_importance', 0):.2f}")
+            
+            memory_types = analytics.get('memory_types', {})
+            if memory_types:
+                print("\nMemory Types:")
+                for mem_type, count in memory_types.items():
+                    print(f"  {mem_type}: {count}")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error getting analytics: {e}")
+        return 1
+
+
+def cmd_memory_optimize(args):
+    """Optimize memory by removing low-importance items."""
+    try:
+        from ai.memory.intelligent_store import IntelligentMemoryStore
+        
+        # Try to get intelligent store for optimization
+        try:
+            store = IntelligentMemoryStore()
+        except:
+            print("⚠️  Optimization requires IntelligentMemoryStore")
+            return 1
+        
+        if hasattr(store, 'optimize_memory'):
+            # Use built-in optimization
+            result = store.optimize_memory(dry_run=args.dry_run, threshold=args.threshold)
+        else:
+            print("⚠️  Memory optimization not available for this store type")
+            return 1
+        
+        if args.json:
+            print(json.dumps(result, indent=2))
+        else:
+            action = "Would remove" if args.dry_run else "Removed"
+            print(f"🧹 Memory Optimization {'(Dry Run)' if args.dry_run else ''}")
+            print("=" * 30)
+            print(f"{action}: {result.get('removed_count', 0)} memories")
+            print(f"Remaining: {result.get('remaining_count', 0)} memories")
+            if 'space_saved_mb' in result:
+                print(f"Space saved: {result['space_saved_mb']:.1f} MB")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error optimizing memory: {e}")
+        return 1
+
+
+def cmd_memory_backup(args):
+    """Backup memories to JSON file."""
+    try:
+        from ai.memory.store import get_store
+        import gzip
+        
+        store = get_store()
+        memories = store.query(limit=10000)  # Get all memories
+        
+        # Prepare backup data
+        backup_data = {
+            "backup_timestamp": datetime.now().isoformat(),
+            "total_memories": len(memories),
+            "memories": []
+        }
+        
+        for mem in memories:
+            if hasattr(mem, 'to_dict'):
+                backup_data["memories"].append(mem.to_dict())
+            else:
+                backup_data["memories"].append({
+                    "id": mem.id,
+                    "content": mem.content,
+                    "tags": getattr(mem, 'tags', []),
+                    "timestamp": getattr(mem, 'timestamp', None),
+                    "importance": getattr(mem, 'importance', 0.5)
+                })
+        
+        # Write backup file
+        backup_json = json.dumps(backup_data, indent=2, default=str)
+        
+        if args.compress:
+            with gzip.open(args.output_path + '.gz', 'wt', encoding='utf-8') as f:
+                f.write(backup_json)
+            output_file = args.output_path + '.gz'
+        else:
+            with open(args.output_path, 'w', encoding='utf-8') as f:
+                f.write(backup_json)
+            output_file = args.output_path
+        
+        print(f"✅ Memory backup completed")
+        print(f"   File: {output_file}")
+        print(f"   Memories: {len(memories)}")
+        print(f"   Size: {len(backup_json) / 1024:.1f} KB")
+        
+        return 0
+    except Exception as e:
+        print(f"❌ Error creating backup: {e}")
+        return 1
+
+
+def cmd_memory_smart_write(args):
+    """Smart write using enhanced memory tools."""
+    try:
+        from ai.tools.enhanced_memory_tools import SmartWriteMemory
+        
+        tool = SmartWriteMemory()
+        result = tool.run(
+            content=args.content,
+            auto_classify=args.auto_classify
+        )
+        
+        if args.json:
+            print(json.dumps({"result": result}, indent=2))
+        else:
+            print(f"🧠 {result}")
+        
+        return 0
+    except ImportError:
+        print("❌ SmartWriteMemory tool not available")
+        return 1
+    except Exception as e:
+        print(f"❌ Error with smart write: {e}")
+        return 1
+
+
+def cmd_memory_semantic_search(args):
+    """Semantic search using enhanced memory tools."""
+    try:
+        from ai.tools.enhanced_memory_tools import SemanticSearchMemory
+        
+        tool = SemanticSearchMemory()
+        results = tool.run(
+            query=args.query,
+            limit=args.limit
+        )
+        
+        if args.json:
+            print(json.dumps({"results": results}, indent=2))
+        else:
+            print(f"🔍 Semantic search results for: '{args.query}'")
+            print()
+            for i, result in enumerate(results[:args.limit], 1):
+                if isinstance(result, dict):
+                    content = result.get('content', str(result))
+                    score = result.get('relevance_score', 0)
+                    print(f"{i}. [Score: {score:.2f}] {content[:80]}{'...' if len(content) > 80 else ''}")
+                else:
+                    print(f"{i}. {str(result)[:80]}{'...' if len(str(result)) > 80 else ''}")
+                print()
+        
+        return 0
+    except ImportError:
+        print("❌ SemanticSearchMemory tool not available")
+        return 1
+    except Exception as e:
+        print(f"❌ Error with semantic search: {e}")
+        return 1
+
+
+def cmd_coordination_record_agent_activity(args):
+    """Record agent lifecycle activity."""
+    try:
+        from ai.monitor.activity import record_agent_activity
+        
+        # Record the agent activity
+        record_agent_activity(args.activity_type, args.agent_name)
+        
+        print(f"✅ Recorded agent activity: {args.agent_name} -> {args.activity_type}")
+        if args.details:
+            print(f"   Details: {args.details}")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error recording agent activity: {e}")
+        return 1
+
+
+def cmd_coordination_record_flow_activity(args):
+    """Record agent flow coordination activity."""
+    try:
+        from ai.monitor.activity import record_flow_activity
+        
+        # Record the flow activity
+        record_flow_activity(args.flow_type, args.from_agent, args.to_agent)
+        
+        print(f"✅ Recorded flow activity: {args.from_agent} -> {args.to_agent} ({args.flow_type})")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error recording flow activity: {e}")
+        return 1
+
+
+def cmd_coordination_recent_events(args):
+    """Get recent coordination and activity events."""
+    try:
+        from ai.monitor.activity import get_activity_detector
+        
+        detector = get_activity_detector()
+        events = detector.get_recent_events(limit=args.limit)
+        
+        if args.json:
+            result = {
+                "total_events": len(events),
+                "events": []
+            }
+            for event in events:
+                result["events"].append({
+                    "timestamp": event.timestamp,
+                    "event_type": event.event_type,
+                    "agent_name": event.agent_name,
+                    "details": event.details
+                })
+            print(json.dumps(result, indent=2, default=str))
+        else:
+            print(f"📅 Recent activity events (last {args.limit}):")
+            print()
+            
+            if not events:
+                print("   No recent events found")
+                return 0
+            
+            for i, event in enumerate(events, 1):
+                timestamp_str = datetime.fromtimestamp(event.timestamp).strftime("%H:%M:%S")
+                print(f"{i:2d}. [{timestamp_str}] {event.event_type}")
+                if event.agent_name:
+                    print(f"     Agent: {event.agent_name}")
+                if event.details:
+                    print(f"     Details: {event.details}")
+                print()
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error getting recent events: {e}")
+        return 1
+
+
+def cmd_coordination_activity_level(args):
+    """Get current system activity level."""
+    try:
+        from ai.monitor.activity import get_activity_detector
+        
+        detector = get_activity_detector()
+        level = detector.compute_activity_level()
+        
+        if args.json:
+            result = {
+                "activity_level": level.value,
+                "description": {
+                    "idle": "No flows, no memory writes: 10s intervals",
+                    "low": "Occasional memory reads, single agent: 5s intervals",
+                    "medium": "Multiple agents active, memory writes: 2s intervals",
+                    "high": "Active flows, rapid operations: 1s intervals"
+                }.get(level.value, "Unknown activity level")
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            emoji_map = {
+                "idle": "😴",
+                "low": "🚶",
+                "medium": "🏃",
+                "high": "🚀"
+            }
+            emoji = emoji_map.get(level.value, "❓")
+            
+            print(f"📊 Current activity level: {emoji} {level.value.upper()}")
+            
+            descriptions = {
+                "idle": "No active flows or memory operations detected",
+                "low": "Occasional activity from single agent",
+                "medium": "Multiple agents active with memory operations",
+                "high": "High activity with active flows and rapid operations"
+            }
+            
+            print(f"   {descriptions.get(level.value, 'Unknown activity level')}")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error getting activity level: {e}")
+        return 1
+
+
+def cmd_coordination_refresh_interval(args):
+    """Get recommended refresh interval based on activity."""
+    try:
+        from ai.monitor.activity import get_activity_detector
+        
+        detector = get_activity_detector()
+        interval = detector.get_refresh_interval()
+        level = detector.compute_activity_level()
+        
+        if args.json:
+            result = {
+                "refresh_interval_seconds": interval,
+                "activity_level": level.value,
+                "recommended_usage": "Use this interval for optimal monitoring performance"
+            }
+            print(json.dumps(result, indent=2))
+        else:
+            print(f"⏱️ Recommended refresh interval: {interval}s")
+            print(f"   Based on current activity level: {level.value}")
+            print(f"   This optimizes monitoring performance based on system activity")
+        
+        return 0
+    except ImportError as e:
+        print(f"❌ Activity monitoring not available: {e}")
+        return 1
+    except Exception as e:
+        print(f"❌ Error getting refresh interval: {e}")
+        return 1
+
+
+if __name__ == "__main__":
+    exit(main())
