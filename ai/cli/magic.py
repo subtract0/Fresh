@@ -54,8 +54,11 @@ class MagicCommand:
                 ["git", "rev-parse", "--git-dir"],
                 cwd=self.working_directory,
                 check=True,
-                capture_output=True
+                capture_output=True,
+                timeout=5  # Add timeout to prevent hanging
             )
+        except subprocess.TimeoutExpired:
+            raise ValueError(f"Timeout checking if {self.working_directory} is a git repository")
         except subprocess.CalledProcessError:
             raise ValueError(f"Directory {self.working_directory} is not a git repository")
     
