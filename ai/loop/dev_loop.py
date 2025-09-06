@@ -63,7 +63,7 @@ class DevLoop:
         
         # Initialize Firestore state manager
         self.state_manager = get_state_manager()
-        self.session_id = f"dev_loop_{datetime.utcnow().isoformat()}"
+        self.session_id = f"dev_loop_{datetime.now(timezone.utc).isoformat()}"
     
     async def run_cycle(self) -> List[AgentResult]:
         """Run a single development cycle with Firestore state persistence.
@@ -171,9 +171,9 @@ class DevLoop:
             status=AgentStatus.ACTIVE,
             current_task=task.description,
             task_status=TaskStatus.IN_PROGRESS,
-            created_at=datetime.utcnow(),
-            last_updated=datetime.utcnow(),
-            last_active=datetime.utcnow(),
+            created_at=datetime.now(timezone.utc),
+            last_updated=datetime.now(timezone.utc),
+            last_active=datetime.now(timezone.utc),
             memory_context={"task_type": task.type.value, "file": task.file_path},
             task_history=[],
             performance_metrics={},
@@ -202,11 +202,11 @@ class DevLoop:
         # Update agent state with result
         agent_state.status = AgentStatus.IDLE if result.success else AgentStatus.ERROR
         agent_state.task_status = TaskStatus.COMPLETED if result.success else TaskStatus.FAILED
-        agent_state.last_updated = datetime.utcnow()
+        agent_state.last_updated = datetime.now(timezone.utc)
         agent_state.task_history.append({
             "task": task.description,
             "result": "success" if result.success else "failed",
-            "timestamp": datetime.utcnow().isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat()
         })
         
         await self.state_manager.save_agent_state(agent_state)
@@ -235,7 +235,7 @@ class DevLoop:
             if not system_state:
                 system_state = SystemState(
                     system_version="2.2.0",
-                    last_updated=datetime.utcnow(),
+                    last_updated=datetime.now(timezone.utc),
                     active_sessions=[self.session_id],
                     total_agents_spawned=0,
                     current_agent_count=0,
@@ -255,7 +255,7 @@ class DevLoop:
                 }
                 for task in self.processed_tasks
             ]
-            system_state.last_updated = datetime.utcnow()
+            system_state.last_updated = datetime.now(timezone.utc)
             
             # Add session if not present
             if self.session_id not in system_state.active_sessions:
