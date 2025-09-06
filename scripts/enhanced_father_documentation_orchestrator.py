@@ -69,7 +69,7 @@ def analyze_system_efficiency():
         pass
     
     # 3. Check for memory and learning integration gaps
-    memory_files = ['ai/memory/intelligent_store.py', 'ai/agents/EnhancedFather.py', 'logs/']
+    memory_files = ['ai/memory/intelligent_store.py', 'ai/agents/enhanced_agents.py', 'logs/']
     for mem_file in memory_files:
         if not os.path.exists(mem_file):
             system_analysis["memory_learning_gaps"].append(f"Missing: {mem_file}")
@@ -88,12 +88,12 @@ def analyze_system_efficiency():
     
     return system_analysis
 
-def create_enhanced_father_prompt(system_analysis):
-    """Create lean system optimization prompt for Enhanced Father - SpaceX approach"""
+def create_strategic_planning_prompt(system_analysis):
+    """Create lean system optimization prompt for strategic planning - SpaceX approach"""
     return f"""
 LEAN AUTONOMOUS SYSTEM OPTIMIZATION SESSION
 
-You are Enhanced Father - autonomous system optimizer with persistent memory learning.
+You are a strategic planning agent - autonomous system optimizer with persistent memory learning.
 Mission: Make this codebase a LEAN SPACEX ROCKET for autonomous agents - no bloat, maximum efficiency.
 
 Philosophy: We don't need user manuals. We need a codebase optimized for autonomous agents to develop autonomously.
@@ -136,9 +136,9 @@ Respond ONLY with valid JSON:
 Criteria: Each task must make autonomous agents more effective, not create user documentation.
 """
 
-async def consult_enhanced_father(system_analysis):
-    """Consult Enhanced Father for lean system optimization planning"""
-    print("🧠 Consulting Enhanced Father for lean system optimization...")
+async def consult_strategic_planner(system_analysis):
+    """Consult strategic planning agent for lean system optimization planning"""
+    print("🧠 Consulting strategic planner for lean system optimization...")
     
     # Setup OpenAI client for Enhanced Father consultation
     try:
@@ -158,11 +158,11 @@ async def consult_enhanced_father(system_analysis):
                 messages=[
                     {
                         "role": "system", 
-                        "content": "You are Enhanced Father - strategic planner for autonomous documentation swarms. You create prioritized backlogs for autonomous agents to execute."
+                        "content": "You are a strategic planning agent for autonomous documentation swarms. You create prioritized backlogs for autonomous agents to execute."
                     },
                     {
                         "role": "user", 
-                        "content": create_enhanced_father_prompt(system_analysis)
+                        "content": create_strategic_planning_prompt(system_analysis)
                     }
                 ],
                 reasoning_effort="high",  # High reasoning for strategic planning
@@ -232,7 +232,7 @@ async def consult_enhanced_father(system_analysis):
         return create_fallback_optimization_strategy(system_analysis)
         
     except Exception as e:
-        print(f"⚠️ Enhanced Father consultation failed: {e}")
+        print(f"⚠️ Strategic planning consultation failed: {e}")
         # Fallback strategy
         return create_fallback_optimization_strategy(system_analysis)
 
@@ -245,17 +245,17 @@ def create_fallback_optimization_strategy(system_analysis):
                 "type": "integration",
                 "priority": "critical", 
                 "file_path": "ai/memory/memory_integration.py",
-                "title": "Hook up Enhanced Father persistent memory learning",
-                "description": "Connect Enhanced Father to memory system to learn from MotherAgent outcomes and optimize continuously",
-                "agent_benefit": "Enhanced Father learns and improves strategic planning from real execution data",
-                "success_criteria": "Enhanced Father stores and retrieves learning from past orchestrations"
+                "title": "Hook up strategic planner persistent memory learning",
+                "description": "Connect strategic planning agent to memory system to learn from MotherAgent outcomes and optimize continuously",
+                "agent_benefit": "Strategic planner learns and improves planning from real execution data",
+                "success_criteria": "Strategic planner stores and retrieves learning from past orchestrations"
             },
             {
                 "type": "agent_optimization",
                 "priority": "critical",
                 "file_path": "scripts/mother_agent_feedback_loop.py",
                 "title": "Create MotherAgent performance feedback loop",
-                "description": "Track MotherAgent execution metrics, success rates, cost efficiency to feed back to Enhanced Father for learning",
+                "description": "Track MotherAgent execution metrics, success rates, cost efficiency to feed back to strategic planner for learning",
                 "agent_benefit": "System self-optimizes based on real performance data",
                 "success_criteria": "Autonomous agents improve success rates over time through learning"
             },
@@ -271,11 +271,11 @@ def create_fallback_optimization_strategy(system_analysis):
             {
                 "type": "memory_hookup",
                 "priority": "critical",
-                "file_path": "ai/memory/enhanced_father_learning.py", 
-                "title": "Enhanced Father persistent learning system",
-                "description": "Create memory system for Enhanced Father to store and learn from orchestration outcomes, MotherAgent performance patterns",
-                "agent_benefit": "Enhanced Father gets smarter with each orchestration, improving strategic planning",
-                "success_criteria": "Enhanced Father success rates improve over time through learning"
+                "file_path": "ai/memory/strategic_planner_learning.py", 
+                "title": "Strategic planner persistent learning system",
+                "description": "Create memory system for strategic planning agent to store and learn from orchestration outcomes, MotherAgent performance patterns",
+                "agent_benefit": "Strategic planner gets smarter with each orchestration, improving planning",
+                "success_criteria": "Strategic planner success rates improve over time through learning"
             },
             {
                 "type": "inline_docs",
@@ -328,7 +328,7 @@ def create_fallback_optimization_strategy(system_analysis):
 
 async def main():
     """Main orchestration with Enhanced Father lean system optimization"""
-    print("🧠 Enhanced Father - Lean Autonomous System Optimizer")
+    print("🧠 Strategic Planner - Lean Autonomous System Optimizer")
     print("🔍 System Analysis → Lean Optimization → Autonomous Enhancement")
     print("🚀 SpaceX Rocket Approach: No bloat, maximum autonomous agent efficiency")
     print("=" * 80)
@@ -337,10 +337,10 @@ async def main():
     system_analysis = analyze_system_efficiency()
     print(f"🔍 Analysis complete: Found system inefficiencies in {len(system_analysis)} categories")
     
-    # 2. Consult Enhanced Father for lean system optimization
-    strategy = await consult_enhanced_father(system_analysis)
+    # 2. Consult strategic planner for lean system optimization
+    strategy = await consult_strategic_planner(system_analysis)
     
-    print(f"\n🧠 ENHANCED FATHER OPTIMIZATION ASSESSMENT:")
+    print(f"\n🧠 STRATEGIC PLANNER OPTIMIZATION ASSESSMENT:")
     print(f"🚀 {strategy['optimization_assessment']}")
     
     print(f"\n🔧 SYSTEM OPTIMIZATION BACKLOG: {len(strategy['system_optimization_backlog'])} tasks")
