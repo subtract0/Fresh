@@ -110,11 +110,15 @@ The implementation should be professional, robust, and ready for production use.
                     {"role": "user", "content": prompt}
                 ]
             elif model.startswith("gpt-5"):
-                # GPT-5 models - use for coding
+                # GPT-5 models - use for coding with intelligent reasoning
                 api_params["max_completion_tokens"] = max_tokens
-                # GPT-5 uses reasoning_effort and verbosity for control
-                api_params["reasoning_effort"] = "medium"  # production level reasoning
-                api_params["verbosity"] = "low"  # concise final answer
+                # Intelligent reasoning based on feature complexity
+                if any(keyword in prompt.lower() for keyword in ["debug", "fix", "optimize", "architecture", "workflow", "multi-step"]):
+                    api_params["reasoning_effort"] = "high"
+                    api_params["verbosity"] = "medium"
+                else:
+                    api_params["reasoning_effort"] = "medium"
+                    api_params["verbosity"] = "low"
             else:
                 api_params["max_tokens"] = max_tokens
                 api_params["temperature"] = 0.1
@@ -159,7 +163,7 @@ The implementation should be professional, robust, and ready for production use.
             if model.startswith("o3") or model.startswith("o1"):
                 print(f"   🔍 o3 reasoning model debug: {error_msg}")
             elif model.startswith("gpt-5"):
-                print(f"   🔍 GPT-5 coding model debug: {error_msg}")
+                print(f"   🔍 GPT-5 high reasoning model debug: {error_msg}")
             
             if hasattr(e, 'response'):
                 print(f"   🔍 Response status: {getattr(e.response, 'status_code', 'N/A')}")
@@ -191,9 +195,9 @@ The implementation should be professional, robust, and ready for production use.
         # Try models: o3 for planning, gpt-5 for coding, fallbacks
         models_to_try = [
             "o3",           # Planning and high-level reasoning
-            "gpt-5",        # Code generation (flagship)
-            "gpt-5-mini",   # Code generation (cost-efficient) 
-            "gpt-4o",       # Fallback
+            "gpt-5",        # Code generation with high reasoning (flagship)
+            "gpt-4o",       # Code generation fallback
+            "gpt-4o-mini",  # Cost-efficient fallback
             "gpt-4-turbo"   # Last resort
         ]
         

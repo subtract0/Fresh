@@ -8,6 +8,6 @@ Reviewer = Agent(
         "Ensure PR links ADR-XXX; check security implications; request tests for any behavior changes."
     ),
     tools=[WriteMemory, ReadMemoryContext],
-    temperature=0.2,
+    # Using default temperature=1.0 for OpenAI API compatibility
 )
 

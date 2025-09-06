@@ -9,6 +9,6 @@ Developer = Agent(
         "Follow RED→GREEN→REFACTOR. Keep diffs small. Prefer clarity over cleverness."
     ),
     tools=[WriteMemory, ReadMemoryContext, DiscoverMCPServers, CallMCPTool],
-    temperature=0.2,
+    # Using default temperature=1.0 for OpenAI API compatibility
 )
 

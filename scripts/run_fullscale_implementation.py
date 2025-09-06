@@ -143,17 +143,18 @@ Generate ONLY the implementation code - no markdown formatting or explanations.
 The code should be complete, syntactically correct, and ready to save directly to a file.
 """
 
-            # Call GPT-5 (with intelligent fallback)
+            # Call GPT-5 with intelligent reasoning (with fallback)
             model_to_use = self.model
             try:
                 response = self.client.chat.completions.create(
                     model=model_to_use,
                     messages=[
-                        {"role": "system", "content": "You are an expert Python developer using GPT-5 to create production-quality implementations. Generate clean, well-documented, and tested code."},
+                        {"role": "system", "content": "You are an expert Python developer using GPT-5 with high reasoning to create production-quality implementations. Generate clean, well-documented, and tested code."},
                         {"role": "user", "content": prompt}
                     ],
-                    max_tokens=2500,
-                    temperature=0.1
+                    max_completion_tokens=2500,
+                    reasoning_effort="high",  # High reasoning for complex implementations
+                    verbosity="low"  # Concise output for cost control
                 )
             except Exception as model_error:
                 if "does not exist" in str(model_error).lower() or "not found" in str(model_error).lower():
@@ -233,7 +234,7 @@ MEMORY SYSTEM INTEGRATION:
     def _estimate_cost(self, prompt_tokens: int, completion_tokens: int, model: str) -> float:
         """Estimate API cost based on model and tokens."""
         if "gpt-5" in model.lower():
-            # Estimated GPT-5 pricing (hypothetical)
+            # Estimated GPT-5 pricing (premium for high reasoning)
             input_cost = (prompt_tokens / 1000) * 0.05
             output_cost = (completion_tokens / 1000) * 0.10
         elif "gpt-4" in model.lower():
@@ -297,7 +298,7 @@ class FullScaleImplementationOrchestrator:
 🎯 Target: {len(features)} features
 💰 Budget: ${self.max_cost}
 🤖 Parallel Agents: {self.max_parallel_agents}  
-🔧 Model: GPT-5 (with fallback)
+🔧 Model: GPT-5 (high reasoning)
 ============================================================
 """)
         

@@ -151,36 +151,85 @@ async def consult_enhanced_father(system_analysis):
         client = OpenAI(api_key=api_key)
         
         # Enhanced Father uses GPT-5 with high reasoning for strategic planning
-        response = client.chat.completions.create(
-            model="gpt-5",
-            messages=[
-                {
-                    "role": "system", 
-                    "content": "You are Enhanced Father - strategic planner for autonomous documentation swarms. You create prioritized backlogs for autonomous agents to execute."
-                },
-                {
-                    "role": "user", 
-                    "content": create_enhanced_father_prompt(system_analysis)
-                }
-            ],
-            reasoning_effort="high",  # High reasoning for strategic planning
-            verbosity="low",
-            max_completion_tokens=2000,
-            temperature=0.2
-        )
+        # Try GPT-5 first, fallback to GPT-4o if needed
+        try:
+            response = client.chat.completions.create(
+                model="gpt-5",
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "You are Enhanced Father - strategic planner for autonomous documentation swarms. You create prioritized backlogs for autonomous agents to execute."
+                    },
+                    {
+                        "role": "user", 
+                        "content": create_enhanced_father_prompt(system_analysis)
+                    }
+                ],
+                reasoning_effort="high",  # High reasoning for strategic planning
+                verbosity="low",  # Concise output
+                max_completion_tokens=2000
+            )
+        except Exception as gpt5_error:
+            print(f"⚠️ GPT-5 unavailable ({gpt5_error}), falling back to GPT-4o")
+            response = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "You are Enhanced Father - strategic planner for autonomous documentation swarms. You create prioritized backlogs for autonomous agents to execute."
+                    },
+                    {
+                        "role": "user", 
+                        "content": create_enhanced_father_prompt(system_analysis)
+                    }
+                ],
+                max_tokens=2000,
+                temperature=0.1
+            )
         
         father_response = response.choices[0].message.content
+        print(f"🧠 Enhanced Father response received ({len(father_response)} chars)")
         
-        # Extract JSON from response
+        # Robust JSON extraction with multiple fallbacks
         import re
-        json_match = re.search(r'```json\n(.*?)\n```', father_response, re.DOTALL)
-        if json_match:
-            strategy_data = json.loads(json_match.group(1))
-        else:
-            # Fallback: try to parse the entire response as JSON
-            strategy_data = json.loads(father_response)
         
-        return strategy_data
+        # Method 1: Try direct JSON parsing
+        try:
+            strategy_data = json.loads(father_response.strip())
+            return strategy_data
+        except json.JSONDecodeError:
+            pass
+        
+        # Method 2: Extract from JSON code blocks
+        json_match = re.search(r'```json\s*\n(.*?)\n```', father_response, re.DOTALL)
+        if json_match:
+            try:
+                strategy_data = json.loads(json_match.group(1).strip())
+                return strategy_data
+            except json.JSONDecodeError:
+                pass
+        
+        # Method 3: Find JSON object between braces
+        json_match = re.search(r'\{.*?\}(?=\s*$)', father_response, re.DOTALL)
+        if json_match:
+            try:
+                strategy_data = json.loads(json_match.group(0))
+                return strategy_data
+            except json.JSONDecodeError:
+                pass
+        
+        # Method 4: Find any JSON-like structure
+        json_match = re.search(r'\{.*\}', father_response, re.DOTALL)
+        if json_match:
+            try:
+                strategy_data = json.loads(json_match.group(0))
+                return strategy_data
+            except json.JSONDecodeError:
+                pass
+        
+        # All parsing failed - log and use fallback
+        print(f"⚠️ JSON parsing failed. Raw response: {father_response[:500]}...")
+        return create_fallback_optimization_strategy(system_analysis)
         
     except Exception as e:
         print(f"⚠️ Enhanced Father consultation failed: {e}")

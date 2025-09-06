@@ -46,5 +46,5 @@ EnhancedFather = Agent(
         GenerateNextSteps, 
         IntentNormalizer
     ],
-    temperature=0.2,
+    # Using default temperature=1.0 for OpenAI API compatibility
 )

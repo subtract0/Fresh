@@ -109,10 +109,10 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
             # Create prompt
             prompt = self.get_implementation_prompt(job.file_path, current_code, job.description)
             
-            # Production configuration: GPT-4o-mini → GPT-5 (high reasoning) fallback only
-            # GPT-4o-mini: ultra-cheap, fast, proven 100% success rate
-            # GPT-5: high reasoning fallback for any edge cases
-            models_to_try = ["gpt-4o-mini", "gpt-5"]  # Trusted production models only
+            # Production configuration: GPT-5 (high reasoning) → GPT-4o-mini fallback only
+            # GPT-5: high reasoning for complex autonomous coding tasks
+            # GPT-4o-mini: fast fallback for simpler tasks
+            models_to_try = ["gpt-5", "gpt-4o-mini"]  # GPT-5 first for quality
             
             implementation = None
             successful_model = None
@@ -131,11 +131,23 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
                         ]
                     }
                     
-                    # Smart MotherAgent model parameters
+                    # Smart MotherAgent model parameters with pattern-based reasoning
                     if model.startswith("gpt-5"):
-                        api_params["max_completion_tokens"] = 2500  # Cost-controlled limit
-                        api_params["reasoning_effort"] = "high"  # High reasoning for all GPT-5 calls
-                        api_params["verbosity"] = "low"  # Low verbosity for cost control
+                        # Intelligent reasoning effort based on task complexity
+                        task_description = job.description.lower()
+                        complex_patterns = ["debug", "fix", "optimize", "architecture", "workflow", "pipeline", "multi-step", "agent"]
+                        
+                        if any(pattern in task_description for pattern in complex_patterns):
+                            reasoning_effort = "high"
+                            verbosity = "medium"
+                        else:
+                            reasoning_effort = "medium" 
+                            verbosity = "low"
+                        
+                        api_params["max_completion_tokens"] = 2500
+                        api_params["reasoning_effort"] = reasoning_effort
+                        api_params["verbosity"] = verbosity
+                        print(f"🧠 GPT-5 reasoning: {reasoning_effort}, verbosity: {verbosity}")
                     else:
                         api_params["max_tokens"] = 2500
                         api_params["temperature"] = 0.1
@@ -216,7 +228,7 @@ IMPORTANT: Return ONLY the complete Python code, no explanations or markdown."""
         print(f"\n🚀 MotherAgent: Spawning {len(features)} autonomous workers in PARALLEL")
         print(f"💰 Budget limit: ${self.budget_limit}")
         print(f"👥 Max concurrent workers: {self.max_workers}")
-        print(f"🤖 Production models: GPT-4o-mini (proven 100% success) → GPT-5 (high reasoning fallback)")
+        print(f"🤖 Production models: GPT-5 (high reasoning primary) → GPT-4o-mini (fast fallback)")
         print(f"⚡ TRUE PARALLEL EXECUTION - All {len(features)} workers will run simultaneously!")
         print("=" * 80)
         

@@ -327,7 +327,7 @@ async def main():
     parser = argparse.ArgumentParser(description="Phase 2: LLM-driven feature implementation")
     parser.add_argument('--max-parallel-features', type=int, default=5, help='Max parallel feature implementations')
     parser.add_argument('--max-cost', type=float, default=100.0, help='Maximum budget in USD')
-    parser.add_argument('--model', default='gpt-5', help='OpenAI model to use')
+    parser.add_argument('--model', default='gpt-4o', help='OpenAI model to use')
     parser.add_argument('--verbose', action='store_true', help='Enable verbose logging')
     
     args = parser.parse_args()

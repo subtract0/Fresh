@@ -125,7 +125,8 @@ def build_enhanced_agency(
     else:
         agency_chart.append([EnhancedDeveloper, EnhancedFather])  # Direct back to Father
     
-    kwargs = {"temperature": 0.2}
+    # Using default temperature=1.0 for OpenAI API compatibility
+    kwargs = {}
     
     # Use custom instructions if provided, otherwise check for manifesto
     if shared_instructions_path:

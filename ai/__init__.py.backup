@@ -1,0 +1,50 @@
+import click
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+# Sample data storage for demonstration purposes
+data_store = {}
+
+@app.route('/data', methods=['GET'])
+def get_data():
+    """Retrieve all stored data."""
+    return jsonify(data_store), 200
+
+@app.route('/data/<key>', methods=['GET'])
+def get_single_data(key):
+    """Retrieve a single data entry by key."""
+    if key in data_store:
+        return jsonify({key: data_store[key]}), 200
+    return jsonify({"error": "Key not found"}), 404
+
+@app.route('/data', methods=['POST'])
+def post_data():
+    """Store a new data entry."""
+    if not request.json or 'key' not in request.json or 'value' not in request.json:
+        return jsonify({"error": "Invalid input"}), 400
+    key = request.json['key']
+    value = request.json['value']
+    if key in data_store:
+        return jsonify({"error": "Key already exists"}), 409
+    data_store[key] = value
+    return jsonify({"message": "Data stored successfully"}), 201
+
+@app.route('/data/<key>', methods=['DELETE'])
+def delete_data(key):
+    """Delete a data entry by key."""
+    if key in data_store:
+        del data_store[key]
+        return jsonify({"message": "Data deleted successfully"}), 200
+    return jsonify({"error": "Key not found"}), 404
+
+@click.command()
+@click.option('--host', default='127.0.0.1', help='Host to run the server on.')
+@click.option('--port', default=5000, help='Port to run the server on.')
+@click.option('--debug', is_flag=True, help='Run the server in debug mode.')
+def run_server(host, port, debug):
+    """Run the Flask server."""
+    app.run(host=host, port=port, debug=debug)
+
+if __name__ == '__main__':
+    run_server()

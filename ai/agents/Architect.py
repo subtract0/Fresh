@@ -9,6 +9,6 @@ Architect = Agent(
         "3) After both exist, allow minimal implementation."
     ),
     tools=[WriteMemory, ReadMemoryContext],
-    temperature=0.2,
+    # Using default temperature=1.0 for OpenAI API compatibility
 )
 

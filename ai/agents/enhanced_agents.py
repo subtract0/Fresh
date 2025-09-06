@@ -120,7 +120,7 @@ class EnhancedFather(Agent):
                 GenerateNextSteps,
                 IntentNormalizer
             ],
-            temperature=0.2,
+            # Using default temperature=1.0 for OpenAI API compatibility
         )
 
 
@@ -176,7 +176,7 @@ class EnhancedDeveloper(Agent):
                 DiscoverMCPServers,
                 CallMCPTool
             ],
-            temperature=0.2,
+            # Using default temperature=1.0 for OpenAI API compatibility
         )
 
 
@@ -231,7 +231,7 @@ class EnhancedArchitect(Agent):
                 PersistentMemorySearch,
                 GetRelatedMemories
             ],
-            temperature=0.2,
+            # Using default temperature=1.0 for OpenAI API compatibility
         )
 
 
@@ -288,7 +288,7 @@ class EnhancedQA(Agent):
                 DiscoverMCPServers,
                 CallMCPTool
             ],
-            temperature=0.2,
+            # Using default temperature=1.0 for OpenAI API compatibility
         )
 
 

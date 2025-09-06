@@ -87,12 +87,13 @@ The code should be production-ready and complete.
                         {"role": "system", "content": "You are a senior Python developer using the latest AI capabilities. Generate clean, production-ready code for the Fresh AI system."},
                         {"role": "user", "content": prompt}
                     ],
-                    max_tokens=1500,
-                    temperature=0.1
+                    max_completion_tokens=1500,
+                    reasoning_effort="high",  # High reasoning for feature implementation
+                    verbosity="low"  # Concise output
                 )
             except Exception as model_error:
                 if "does not exist" in str(model_error).lower() or "not found" in str(model_error).lower():
-                    print(f"⚠️ Model {model_to_use} not available, falling back to gpt-4-turbo")
+                    print(f"⚠️ GPT-5 not available, falling back to gpt-4-turbo")
                     model_to_use = "gpt-4-turbo"
                     response = self.client.chat.completions.create(
                         model=model_to_use,
@@ -164,7 +165,7 @@ The code should be production-ready and complete.
 ============================================================
 📅 Start time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 💰 Budget: ${self.max_cost}
-🔧 Model: {self.model}
+🔧 Model: GPT-5 (high reasoning)
 🎯 Strategy: Implement critical features first
 ============================================================
 """)
