@@ -1,9 +1,11 @@
+# Makes ai a Python package
+
 import click
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# Sample data storage for demonstration purposes
+# Sample data storage
 data_store = {}
 
 @app.route('/data', methods=['GET'])
@@ -19,16 +21,14 @@ def get_single_data(key):
     return jsonify({"error": "Key not found"}), 404
 
 @app.route('/data', methods=['POST'])
-def post_data():
-    """Store a new data entry."""
+def add_data():
+    """Add a new data entry."""
     if not request.json or 'key' not in request.json or 'value' not in request.json:
         return jsonify({"error": "Invalid input"}), 400
     key = request.json['key']
     value = request.json['value']
-    if key in data_store:
-        return jsonify({"error": "Key already exists"}), 409
     data_store[key] = value
-    return jsonify({"message": "Data stored successfully"}), 201
+    return jsonify({"message": "Data added successfully"}), 201
 
 @app.route('/data/<key>', methods=['DELETE'])
 def delete_data(key):
@@ -39,12 +39,30 @@ def delete_data(key):
     return jsonify({"error": "Key not found"}), 404
 
 @click.command()
-@click.option('--host', default='127.0.0.1', help='Host to run the server on.')
-@click.option('--port', default=5000, help='Port to run the server on.')
-@click.option('--debug', is_flag=True, help='Run the server in debug mode.')
-def run_server(host, port, debug):
-    """Run the Flask server."""
-    app.run(host=host, port=port, debug=debug)
+@click.option('--key', prompt='Key', help='The key for the data entry.')
+@click.option('--value', prompt='Value', help='The value for the data entry.')
+def cli_add_data(key, value):
+    """CLI command to add data."""
+    data_store[key] = value
+    click.echo(f'Data added: {key} -> {value}')
+
+@click.command()
+@click.option('--key', prompt='Key', help='The key for the data entry to delete.')
+def cli_delete_data(key):
+    """CLI command to delete data."""
+    if key in data_store:
+        del data_store[key]
+        click.echo(f'Data deleted: {key}')
+    else:
+        click.echo('Key not found.')
+
+@click.command()
+def cli_get_data():
+    """CLI command to get all data."""
+    click.echo(data_store)
 
 if __name__ == '__main__':
-    run_server()
+    app.run(debug=True)  # Run the Flask app
+    cli_add_data()  # CLI command to add data
+    cli_delete_data()  # CLI command to delete data
+    cli_get_data()  # CLI command to get all data
