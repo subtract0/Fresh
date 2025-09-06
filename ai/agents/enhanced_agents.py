@@ -246,7 +246,10 @@ class EnhancedArchitect(Agent):
 
 class EnhancedQA(Agent):
     """
-    Enhanced QA agent with intelligent persistent memory.
+    DEPRECATED: Enhanced QA agent with intelligent persistent memory.
+    
+    WARNING: This class is deprecated as part of the unified architecture migration.
+    Use ai.agents.QA.QA instead.
     
     The QA agent uses memory to:
     - Learn from past bugs and edge cases
