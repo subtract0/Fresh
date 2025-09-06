@@ -44,10 +44,10 @@ class TestEnhancedFatherOrchestrator:
             assert "agent_blockers" in result
             assert "missing_integrations" in result
     
-    def test_create_enhanced_father_prompt(self):
-        """Test prompt creation for Enhanced Father"""
+    def test_create_strategic_planning_prompt(self):
+        """Test prompt creation for strategic planning"""
         system_analysis = {"test": "data"}
-        prompt = orchestrator_module.create_enhanced_father_prompt(system_analysis)
+        prompt = orchestrator_module.create_strategic_planning_prompt(system_analysis)
         
         assert "LEAN AUTONOMOUS SYSTEM OPTIMIZATION" in prompt
         assert "SPACEX" in prompt.upper()
@@ -75,7 +75,7 @@ class TestEnhancedFatherOrchestrator:
             mock_client.chat.completions.create.return_value = mock_response
             
             system_analysis = {"test": "data"}
-            result = await orchestrator_module.consult_enhanced_father(system_analysis)
+            result = await orchestrator_module.consult_strategic_planner(system_analysis)
             
             assert result == valid_json_response
             # Verify GPT-5 parameters
@@ -100,7 +100,7 @@ class TestEnhancedFatherOrchestrator:
             ]
             
             system_analysis = {"test": "data"}
-            result = await orchestrator_module.consult_enhanced_father(system_analysis)
+            result = await orchestrator_module.consult_strategic_planner(system_analysis)
             
             assert result == valid_json_response
             assert mock_client.chat.completions.create.call_count == 2
@@ -126,7 +126,7 @@ class TestEnhancedFatherOrchestrator:
                 mock_client.chat.completions.create.return_value = mock_response
                 
                 system_analysis = {"test": "data"}
-                result = await orchestrator_module.consult_enhanced_father(system_analysis)
+                result = await orchestrator_module.consult_strategic_planner(system_analysis)
                 
                 assert "optimization_assessment" in result
                 assert "system_optimization_backlog" in result

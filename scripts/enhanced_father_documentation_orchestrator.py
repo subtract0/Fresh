@@ -180,7 +180,7 @@ async def consult_strategic_planner(system_analysis):
                     },
                     {
                         "role": "user", 
-                        "content": create_enhanced_father_prompt(system_analysis)
+                        "content": create_strategic_planning_prompt(system_analysis)
                     }
                 ],
                 max_tokens=2000,
