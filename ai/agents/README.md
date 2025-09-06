@@ -1,41 +1,39 @@
 # Feature: AI Agents
 
 ## Purpose
-Enhanced AI agents with persistent memory integration that learn from experience, maintain context across sessions, and continuously improve through intelligent memory-driven decision making.
+Unified AI agents with persistent memory integration that learn from experience, maintain context across sessions, and continuously improve through intelligent memory-driven decision making.
 
 ## Components
 
-### Core Agents
-- `enhanced_agents.py` - Memory-driven enhanced agent implementations  
+### Unified Agents
+- `Father.py` - Strategic planning agent with memory persistence
+- `Architect.py` - System architecture agent with design pattern learning
+- `Developer.py` - Implementation agent with solution pattern memory
+- `QA.py` - Quality assurance agent with bug pattern recognition
+- `Reviewer.py` - Code review agent with historical context
 - `mother.py` - Agent spawning and orchestration system
 - `app_genesis.py` - Application genesis and initial setup agent
 
-### Legacy Agents (Compatibility)
-- `Father.py` - Strategic planning agent (legacy)
-- `Architect.py` - System architecture agent (legacy) 
-- `Developer.py` - Implementation agent (legacy)
-- `QA.py` - Quality assurance agent (legacy)
-- `Reviewer.py` - Code review agent (legacy)
-
-### Enhanced Implementations
-- `EnhancedFather.py` - Strategic planning with memory persistence
-- `EnhancedArchitect.py` - Architecture with design pattern learning
-- `EnhancedDeveloper.py` - Implementation with solution pattern memory
-- `senior_reviewer.py` - Advanced code review with historical context
+### Legacy Support
+- `enhanced_agents.py` - Deprecated enhanced agent implementations (use direct imports)
+- `senior_reviewer.py` - Advanced code review agent
 
 ## Usage
 
-### Enhanced Agents (Recommended)
+### Unified Agents (Recommended)
 ```python
-# Create memory-driven agents
+# Import agents directly
+from ai.agents.Father import Father
+from ai.agents.Developer import Developer
+
+# Or create all agents
 from ai.agents.enhanced_agents import create_enhanced_agents
-
 agents = create_enhanced_agents()
-# Returns: {'Father': EnhancedFather(), 'Architect': EnhancedArchitect(), ...}
+# Returns: {'Father': Father(), 'Architect': Architect(), ...}
 
-# Use specific enhanced agent
-enhanced_father = agents['Father']
-result = enhanced_father.execute_task("Plan new authentication system")
+# Use specific agent
+father = Father()
+result = father.execute_task("Plan new authentication system")
 ```
 
 ### Mother Agent (Orchestration)
@@ -93,25 +91,25 @@ for name, agent in agents.items():
 
 ### Enhanced Agent Capabilities
 
-#### 🎯 EnhancedFather - Strategic Intelligence
+#### 🎯 Father - Strategic Intelligence
 - **Goal Evolution**: Tracks strategic objectives across sessions
 - **Decision Learning**: Learns from past planning outcomes  
 - **Pattern Recognition**: Identifies successful strategic patterns
 - **Context Continuity**: Maintains strategic context between sessions
 
-#### 🏗️ EnhancedArchitect - Design Intelligence
+#### 🏗️ Architect - Design Intelligence
 - **Design Patterns**: Builds repository of successful architectural decisions
 - **ADR Outcomes**: Tracks long-term results of architectural choices
 - **TDD Learning**: Remembers effective testing strategies
 - **Complexity Analysis**: Learns from trade-offs and their impacts
 
-#### 💻 EnhancedDeveloper - Implementation Learning  
+#### 💻 Developer - Implementation Learning  
 - **Solution Patterns**: Remembers successful implementation approaches
 - **Bug Learning**: Learns from past bugs and their solutions
 - **Refactoring Wisdom**: Tracks effective refactoring techniques
 - **Code Quality**: Remembers what leads to maintainable code
 
-#### 🔍 EnhancedQA - Quality Intelligence
+#### 🔍 QA - Quality Intelligence
 - **Test Patterns**: Remembers effective testing strategies
 - **Bug Pattern Recognition**: Learns common failure modes
 - **Quality Metrics**: Tracks which quality measures work
@@ -170,11 +168,11 @@ agent_memory:
 
 ### Memory-Driven Development Workflow
 ```python
-from ai.agents.enhanced_agents import EnhancedDeveloper
+from ai.agents.Developer import Developer
 from ai.tools.enhanced_memory_tools import SemanticSearchMemory
 
-# 1. Create enhanced developer
-developer = EnhancedDeveloper()
+# 1. Create developer agent
+developer = Developer()
 
 # 2. Check for similar past work
 search = SemanticSearchMemory(keywords=["authentication", "jwt", "security"])

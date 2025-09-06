@@ -120,25 +120,25 @@ poetry run python -m ai.cli.fresh run --once     # Dev cycle
 
 ### Agent Capabilities
 
-#### 🎯 EnhancedFather - Strategic Intelligence
+#### 🎯 Father - Strategic Intelligence
 - **Goal Evolution**: Tracks strategic objectives across sessions
 - **Decision Learning**: Learns from past planning outcomes
 - **Pattern Recognition**: Identifies successful strategic patterns
 - **Context Continuity**: Maintains strategic context between sessions
 
-#### 🏗️ EnhancedArchitect - Design Intelligence  
+#### 🏗️ Architect - Design Intelligence  
 - **Design Patterns**: Builds repository of successful architectural decisions
 - **ADR Outcomes**: Tracks long-term results of architectural choices
 - **TDD Learning**: Remembers effective testing strategies
 - **Complexity Analysis**: Learns from trade-offs and their impacts
 
-#### 💻 EnhancedDeveloper - Implementation Learning
+#### 💻 Developer - Implementation Learning
 - **Solution Patterns**: Remembers successful implementation approaches
 - **Bug Learning**: Learns from past bugs and their solutions
 - **Refactoring Wisdom**: Tracks effective refactoring techniques
 - **Code Quality**: Remembers what leads to maintainable code
 
-#### 🔍 EnhancedQA - Quality Intelligence
+#### 🔍 QA - Quality Intelligence
 - **Test Patterns**: Remembers effective testing strategies
 - **Bug Pattern Recognition**: Learns common failure modes
 - **Quality Metrics**: Tracks which quality measures work
@@ -146,11 +146,11 @@ poetry run python -m ai.cli.fresh run --once     # Dev cycle
 
 ### Memory-Driven Development
 ```python
-# Example: Enhanced agent workflow
-from ai.agents.enhanced_agents import EnhancedDeveloper
+# Example: Unified agent workflow
+from ai.agents.Developer import Developer
 from ai.tools.enhanced_memory_tools import PersistentMemorySearch, SmartWriteMemory
 
-developer = EnhancedDeveloper()
+developer = Developer()
 
 # 1. Consult memory before starting
 similar_work = PersistentMemorySearch(
@@ -204,12 +204,12 @@ results = search.run()  # Returns ranked, relevant memories
 # Create memory-driven agents
 from ai.agents.enhanced_agents import create_enhanced_agents
 agents = create_enhanced_agents()
-# Returns: {'Father': EnhancedFather(), 'Architect': EnhancedArchitect(), ...}
+# Returns: {'Father': Father(), 'Architect': Architect(), ...}
 
-# Gradual migration support
+# Direct agent import
+from ai.agents.Father import Father
 from ai.agents.enhanced_agents import get_agent
-enhanced_father = get_agent('Father', enhanced=True)
-standard_father = get_agent('Father', enhanced=False)
+father = get_agent('Father')  # Returns unified agent with enhanced memory
 ```
 
 **📖 Deep Dive**: [API Reference Documentation](docs/API_REFERENCE.md)

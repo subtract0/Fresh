@@ -1,6 +1,6 @@
-# Enhanced Agent Architecture
+# Unified Agent Architecture
 
-Enhanced agents are AI agents with persistent memory capabilities that enable continuous learning, cross-session knowledge retention, and adaptive decision-making. This architecture represents the next evolution of autonomous agents, moving from stateless execution to memory-driven intelligence.
+The Fresh AI system uses unified agents with persistent memory capabilities that enable continuous learning, cross-session knowledge retention, and adaptive decision-making. This unified architecture represents the evolution from separate enhanced/legacy agents to a single coherent system with memory-driven intelligence.
 
 ## Table of Contents
 - [Architecture Overview](#architecture-overview)
@@ -16,11 +16,11 @@ Enhanced agents are AI agents with persistent memory capabilities that enable co
 
 ## Architecture Overview
 
-Enhanced agents extend the base agent framework with intelligent memory capabilities:
+Unified agents extend the base agent framework with intelligent memory capabilities:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                     Enhanced Agent                              │
+│                     Unified Agent                               │
 │  ┌─────────────────────────────────────────────────────────────┐│
 │  │                Agent Core (agency_swarm)                    ││
 │  │  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐││
@@ -56,11 +56,11 @@ Enhanced agents extend the base agent framework with intelligent memory capabili
 
 ## Agent Specifications
 
-### EnhancedFather - Strategic Planner
+### Father - Strategic Planner
 *The strategic orchestrator with cross-session goal tracking and decision learning*
 
 ```python
-class EnhancedFather(Agent):
+class Father(Agent):
     name = "Father"
     description = "Strategic planner and delegator with persistent memory for learning and continuous improvement"
     temperature = 0.2  # Consistent, thoughtful planning
@@ -107,11 +107,11 @@ patterns = MemoryLearningPatterns(focus_areas=["architecture", "implementation"]
 
 ---
 
-### EnhancedArchitect - Design Intelligence
+### Architect - Design Intelligence
 *The architectural specialist with design pattern memory and ADR outcome tracking*
 
 ```python
-class EnhancedArchitect(Agent):
+class Architect(Agent):
     name = "Architect"  
     description = "Design and architecture specialist with persistent memory for learning design patterns, ADR outcomes, and TDD effectiveness"
     temperature = 0.2  # Precise, consistent architectural thinking
@@ -158,11 +158,11 @@ SmartWriteMemory(
 
 ---
 
-### EnhancedDeveloper - Implementation Learning
+### Developer - Implementation Learning
 *The implementation specialist with solution pattern memory and bug learning capabilities*
 
 ```python
-class EnhancedDeveloper(Agent):
+class Developer(Agent):
     name = "Developer"
     description = "Implementation specialist with persistent memory for learning patterns, solutions, and techniques across sessions"
     temperature = 0.2  # Consistent, reliable implementation
