@@ -13,7 +13,7 @@ import asyncio
 import logging
 from pathlib import Path
 from typing import List, Optional, Dict, Any
-from datetime import datetime
+from datetime import datetime, timezone
 
 from ai.loop.repo_scanner import RepoScanner, Task, TaskType
 from ai.agents.mother import MotherAgent, AgentResult
