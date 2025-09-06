@@ -292,48 +292,55 @@ class EnhancedQA(Agent):
         )
 
 
-# Convenience function to create all enhanced agents
+# Convenience function to create all agents (now unified)
 def create_enhanced_agents():
     """
-    Create all enhanced agents with intelligent memory capabilities.
+    Create all agents with intelligent memory capabilities.
     
     Returns:
-        dict: Dictionary mapping agent names to enhanced agent instances
+        dict: Dictionary mapping agent names to agent instances
+        
+    Note: This function is deprecated. Use get_agent() or import agents directly.
+    All agents now have enhanced memory by default.
     """
+    # Use the unified agents
+    from ai.agents.Father import Father
+    from ai.agents.Architect import Architect
+    from ai.agents.Developer import Developer
+    from ai.agents.QA import QA
+    
     return {
-        'Father': EnhancedFather(),
-        'Architect': EnhancedArchitect(), 
-        'Developer': EnhancedDeveloper(),
-        'QA': EnhancedQA()
+        'Father': Father(),
+        'Architect': Architect(), 
+        'Developer': Developer(),
+        'QA': QA()
     }
 
 
-# Convenience function for gradual migration
-def get_agent(name: str, enhanced: bool = True):
+# Convenience function for unified agent creation
+def get_agent(name: str):
     """
-    Get an agent instance, optionally using enhanced memory capabilities.
+    Get an agent instance with unified enhanced memory capabilities.
     
     Args:
         name: Agent name ('Father', 'Architect', 'Developer', 'QA')
-        enhanced: Whether to use enhanced memory capabilities
         
     Returns:
-        Agent instance with appropriate memory capabilities
+        Agent instance with enhanced memory capabilities
+    
+    Note: All agents now use enhanced memory by default.
+    The 'enhanced' parameter has been removed as part of the unified architecture.
     """
-    if enhanced:
-        agents = create_enhanced_agents()
-        return agents.get(name)
-    else:
-        # Import original agents for backward compatibility
-        from ai.agents.Father import Father
-        from ai.agents.Architect import Architect
-        from ai.agents.Developer import Developer
-        from ai.agents.QA import QA
-        
-        agent_map = {
-            'Father': Father,
-            'Architect': Architect,
-            'Developer': Developer, 
-            'QA': QA
-        }
-        return agent_map.get(name)
+    # Import unified agents with enhanced memory
+    from ai.agents.Father import Father
+    from ai.agents.Architect import Architect
+    from ai.agents.Developer import Developer
+    from ai.agents.QA import QA
+    
+    agent_map = {
+        'Father': Father(),
+        'Architect': Architect(),
+        'Developer': Developer(), 
+        'QA': QA()
+    }
+    return agent_map.get(name)
