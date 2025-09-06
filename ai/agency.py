@@ -2,11 +2,8 @@ from __future__ import annotations
 from pathlib import Path
 
 from agency_swarm import Agency
-from ai.agents.Architect import Architect
-from ai.agents.Developer import Developer
-from ai.agents.QA import QA
+from ai.agents import Father, Architect, Developer, QA
 from ai.agents.Reviewer import Reviewer
-from ai.agents.Father import Father
 
 # Initialize memory store: prefer Intelligent > Firestore > InMemory
 import os  # noqa: E402

@@ -70,4 +70,4 @@ def pytest_configure(config):
 
 
 # Configure asyncio mode for pytest-asyncio
-pytest_plugins = ['pytest_asyncio']
+# Note: pytest_plugins moved to root-level conftest to avoid deprecation warning
