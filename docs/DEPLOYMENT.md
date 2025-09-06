@@ -41,7 +41,7 @@ export FIREBASE_CLIENT_EMAIL="your-client-email"
 
 # 2. Deploy with persistent memory
 PYTHONPATH=/path/to/Fresh poetry run python -c "
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 print(f'Deployed {len(agents)} enhanced agents with persistent memory')
 "
@@ -273,7 +273,7 @@ consolidation_config = {
 #### Production Agent Deployment
 ```python
 # Deploy enhanced agents with full memory capabilities
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 
 # Create all enhanced agents
 agents = create_enhanced_agents()
@@ -287,7 +287,7 @@ for name, agent in agents.items():
 #### Gradual Migration Strategy
 ```python
 # Gradual migration from standard to enhanced agents
-from ai.agents.enhanced_agents import get_agent
+from ai.agents.agents import get_agent
 
 deployment_config = {
     'Father': {'enhanced': True, 'ready': True},
@@ -310,7 +310,7 @@ for name, config in deployment_config.items():
 #### Environment-Based Configuration
 ```python
 import os
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 
 # Environment-specific agent configuration
 env = os.getenv('ENVIRONMENT', 'development')
@@ -333,7 +333,7 @@ elif env == 'staging':
     }
 else:
     # Development with basic memory
-    from ai.agents.enhanced_agents import get_agent
+    from ai.agents.agents import get_agent
     agents = {
         name: get_agent(name, enhanced=False)
         for name in ['Father', 'Architect', 'Developer', 'QA']
@@ -539,7 +539,7 @@ class AgentPerformanceMonitor:
 ```python
 # Comprehensive health check endpoint
 from ai.memory.store import get_store
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 
 def health_check():
     try:
@@ -779,7 +779,7 @@ pip install agency-swarm
 
 2. **Verify fallback behavior**:
 ```python
-from ai.agents.enhanced_agents import create_enhanced_agents, MEMORY_TOOLS_AVAILABLE
+from ai.agents.agents import create_enhanced_agents, MEMORY_TOOLS_AVAILABLE
 
 print(f"Memory tools available: {MEMORY_TOOLS_AVAILABLE}")
 agents = create_enhanced_agents()
@@ -789,7 +789,7 @@ print(f"Created {len(agents)} agents")
 3. **Use graceful degradation**:
 ```python
 try:
-    from ai.agents.enhanced_agents import create_enhanced_agents
+    from ai.agents.agents import create_enhanced_agents
     agents = create_enhanced_agents()
 except ImportError:
     print("Using dummy agents for testing")
@@ -894,7 +894,7 @@ def diagnose_memory_system():
 ```python
 # Agent system diagnostics
 def diagnose_agent_system():
-    from ai.agents.enhanced_agents import create_enhanced_agents, MEMORY_TOOLS_AVAILABLE
+    from ai.agents.agents import create_enhanced_agents, MEMORY_TOOLS_AVAILABLE
     
     print("=== Agent System Diagnostics ===")
     print(f"Memory tools available: {MEMORY_TOOLS_AVAILABLE}")

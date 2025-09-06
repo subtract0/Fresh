@@ -405,7 +405,7 @@ print('✅ MotherAgent available')
 
 # Check enhanced agents
 poetry run python -c "
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 print(f'✅ {len(agents)} enhanced agents available')
 "

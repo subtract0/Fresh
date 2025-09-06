@@ -1,19 +1,21 @@
 """
-Enhanced Agent Configurations
+Unified Agent Configurations
 
-Upgraded agent configurations that use the intelligent memory system for
-persistent learning and cross-session knowledge retention.
+Agent configurations with intelligent memory system for persistent learning
+and cross-session knowledge retention.
 
-These agents integrate:
+All agents now integrate:
 - Intelligent memory classification and storage
 - Persistent memory across sessions
 - Learning pattern analysis  
 - Cross-session context retrieval
+- Firestore-based state management
 
 Cross-references:
+    - ADR-003: Unified Enhanced Architecture Migration
     - ADR-004: Persistent Agent Memory
-    - ai/memory/firestore_store.py: Persistent storage
-    - ai/tools/enhanced_memory_tools.py: Intelligent memory tools
+    - ai/state/: Firestore state management
+    - ai/memory/: Intelligent memory system
 """
 try:
     from agency_swarm import Agent
@@ -67,7 +69,7 @@ except ImportError:
     CallMCPTool = DummyTool
 
 
-class EnhancedFather(Agent):
+class Father(Agent):
     """
     DEPRECATED: Enhanced Father agent with intelligent persistent memory.
     
@@ -127,7 +129,7 @@ class EnhancedFather(Agent):
         )
 
 
-class EnhancedDeveloper(Agent):
+class Developer(Agent):
     """
     DEPRECATED: Enhanced Developer agent with intelligent persistent memory.
     
@@ -186,7 +188,7 @@ class EnhancedDeveloper(Agent):
         )
 
 
-class EnhancedArchitect(Agent):
+class Architect(Agent):
     """
     DEPRECATED: Enhanced Architect agent with intelligent persistent memory.
     
@@ -244,7 +246,7 @@ class EnhancedArchitect(Agent):
         )
 
 
-class EnhancedQA(Agent):
+class QA(Agent):
     """
     DEPRECATED: Enhanced QA agent with intelligent persistent memory.
     
@@ -315,12 +317,7 @@ def create_enhanced_agents():
     Note: This function is deprecated. Use get_agent() or import agents directly.
     All agents now have enhanced memory by default.
     """
-    # Use the unified agents
-    from ai.agents.Father import Father
-    from ai.agents.Architect import Architect
-    from ai.agents.Developer import Developer
-    from ai.agents.QA import QA
-    
+    # Use the unified agents from this module
     return {
         'Father': Father(),
         'Architect': Architect(), 
@@ -343,12 +340,7 @@ def get_agent(name: str):
     Note: All agents now use enhanced memory by default.
     The 'enhanced' parameter has been removed as part of the unified architecture.
     """
-    # Import unified agents with enhanced memory
-    from ai.agents.Father import Father
-    from ai.agents.Architect import Architect
-    from ai.agents.Developer import Developer
-    from ai.agents.QA import QA
-    
+    # Use unified agents from this module
     agent_map = {
         'Father': Father(),
         'Architect': Architect(),

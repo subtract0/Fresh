@@ -60,7 +60,7 @@ from ai.system.memory_integration import (
     get_memory_system_status,
     ensure_memory_system_ready
 )
-from ai.agents.enhanced_agents import create_enhanced_agents, get_agent
+from ai.agents.agents import create_enhanced_agents, get_agent
 
 logger = logging.getLogger(__name__)
 

@@ -202,13 +202,13 @@ results = search.run()  # Returns ranked, relevant memories
 ### Enhanced Agents
 ```python
 # Create memory-driven agents
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 # Returns: {'Father': Father(), 'Architect': Architect(), ...}
 
 # Direct agent import
 from ai.agents.Father import Father
-from ai.agents.enhanced_agents import get_agent
+from ai.agents.agents import get_agent
 father = get_agent('Father')  # Returns unified agent with enhanced memory
 ```
 
@@ -249,7 +249,7 @@ poetry run python -m ai.cli.fresh --use-firestore spawn "your task" --output cod
 
 # Deploy enhanced agents with persistence
 PYTHONPATH=$(pwd) poetry run python -c "
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 print(f'Deployed {len(agents)} enhanced agents with persistent memory')
 "
@@ -281,7 +281,7 @@ poetry run python -m pytest tests/ --tb=short
 
 # Test enhanced agents
 PYTHONPATH=$(pwd) poetry run python -c "
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 print('✅ Enhanced agents working')
 "

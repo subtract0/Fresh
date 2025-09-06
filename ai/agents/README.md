@@ -27,7 +27,7 @@ from ai.agents.Father import Father
 from ai.agents.Developer import Developer
 
 # Or create all agents
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 # Returns: {'Father': Father(), 'Architect': Architect(), ...}
 
@@ -52,7 +52,7 @@ new_agent = mother.spawn_agent(
 ### Legacy Compatibility
 ```python
 # Gradual migration support
-from ai.agents.enhanced_agents import get_agent
+from ai.agents.agents import get_agent
 
 # Get enhanced version
 enhanced_agent = get_agent('Father', enhanced=True)
@@ -79,7 +79,7 @@ poetry run pytest tests/test_telegram_integration.py -v
 
 # Validate agent creation
 poetry run python -c "
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 print(f'✅ Created {len(agents)} enhanced agents')
 for name, agent in agents.items():
@@ -237,7 +237,7 @@ from ai.agents.Father import Father
 father = Father()
 
 # New way (enhanced with memory)
-from ai.agents.enhanced_agents import get_agent
+from ai.agents.agents import get_agent
 enhanced_father = get_agent('Father', enhanced=True)
 
 # Migration strategy: Run both in parallel initially
@@ -260,7 +260,7 @@ print(f'Memory store: {type(store).__name__}')
 
 # Verify enhanced agent tools
 poetry run python -c "
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 agents = create_enhanced_agents()
 for name, agent in agents.items():
     print(f'{name} tools: {len(agent.tools)}')

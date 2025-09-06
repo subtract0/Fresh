@@ -686,7 +686,7 @@ from ai.agents.QA import QA
 agents = [Father(), Architect(), Developer(), QA()]
 
 # After: Enhanced agents
-from ai.agents.enhanced_agents import create_enhanced_agents
+from ai.agents.agents import create_enhanced_agents
 
 enhanced_agents = create_enhanced_agents()
 # Returns: {'Father': EnhancedFather(), 'Architect': EnhancedArchitect(), ...}
@@ -694,7 +694,7 @@ enhanced_agents = create_enhanced_agents()
 
 #### 3. Gradual Migration Support
 ```python
-from ai.agents.enhanced_agents import get_agent
+from ai.agents.agents import get_agent
 
 # Use enhanced agents selectively
 father = get_agent('Father', enhanced=True)    # Enhanced version

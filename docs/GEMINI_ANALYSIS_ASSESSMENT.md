@@ -20,10 +20,10 @@ Gemini 2.5 Pro provided an insightful analysis identifying critical architectura
 ```python
 # OLD: Two separate systems
 from ai.agents.Father import Father
-from ai.agents.enhanced_agents import EnhancedFather
+from ai.agents.agents import EnhancedFather
 
 # NEW: Unified approach (mostly implemented)
-from ai.agents.enhanced_agents import get_agent
+from ai.agents.agents import get_agent
 father = get_agent("Father", enhanced=True)  # Always enhanced
 ```
 

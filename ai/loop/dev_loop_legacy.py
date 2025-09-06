@@ -1,15 +1,19 @@
-"""Autonomous development loop implementation with Firestore state management.
+"""Autonomous development loop implementation.
 
-This module implements the main development loop with robust Firestore-based
-state persistence, replacing fragile JSON file state management.
+This module implements the main development loop that:
+1. Scans the repository for issues
+2. Dispatches agents to fix them
+3. Collects results and prepares for PR creation
 
 Cross-references:
-    - ADR-003: Unified Enhanced Architecture Migration
     - ADR-008: Autonomous Development Loop Architecture
-    - ai/state/: Firestore state management
+    - Repository Scanner: ai/loop/repo_scanner.py
+    - Mother Agent: ai/agents/mother.py
+    - GitHub Integration: ai/integration/github.py
 """
 from __future__ import annotations
 import asyncio
+import json
 import logging
 from pathlib import Path
 from typing import List, Optional, Dict, Any
@@ -20,17 +24,17 @@ from ai.agents.mother import MotherAgent, AgentResult
 from ai.memory.store import get_store
 from ai.tools.memory_tools import WriteMemory
 from ai.state.firestore_manager import get_state_manager
-from ai.state.firestore_schema import SystemState, AgentState, AgentStatus, TaskStatus
+from ai.state.firestore_schema import SystemState, AgentState, AgentStatus
 
 
 logger = logging.getLogger(__name__)
 
 
 class DevLoop:
-    """Main development loop orchestrator with Firestore state management.
+    """Main development loop orchestrator.
     
     Coordinates repository scanning, agent spawning, and result collection
-    for autonomous development cycles with persistent state in Firestore.
+    for autonomous development cycles.
     """
     
     def __init__(
@@ -38,21 +42,23 @@ class DevLoop:
         repo_path: str = ".",
         max_tasks: int = 10,
         task_types: Optional[List[TaskType]] = None,
+        state_file: Optional[Path] = None,
         dry_run: bool = False,
         use_dashboard: bool = False
     ):
-        """Initialize development loop with Firestore state.
+        """Initialize development loop.
         
         Args:
             repo_path: Path to repository to scan
             max_tasks: Maximum tasks to process per cycle
             task_types: Types of tasks to process (None = all)
+            state_file: File to persist processed tasks state
             dry_run: If True, scan but don't execute agents
-            use_dashboard: Enable dashboard updates
         """
         self.repo_path = repo_path
         self.max_tasks = max_tasks
         self.task_types = task_types
+        self.state_file = state_file
         self.dry_run = dry_run
         self.use_dashboard = use_dashboard
         
@@ -63,18 +69,17 @@ class DevLoop:
         
         # Initialize Firestore state manager
         self.state_manager = get_state_manager()
-        self.session_id = f"dev_loop_{datetime.utcnow().isoformat()}"
+        
+        # Load previous state from Firestore
+        asyncio.create_task(self.load_state())
     
     async def run_cycle(self) -> List[AgentResult]:
-        """Run a single development cycle with Firestore state persistence.
+        """Run a single development cycle.
         
         Returns:
             List of agent results from processed tasks
         """
         logger.info(f"Starting development cycle for {self.repo_path}")
-        
-        # Load previous state from Firestore
-        await self.load_state()
         
         # Update dashboard if enabled
         if self.use_dashboard:
@@ -119,7 +124,7 @@ class DevLoop:
                 except ImportError:
                     pass
             
-            result = await self.process_task(task)
+            result = self.process_task(task)
             if result:
                 results.append(result)
                 
@@ -138,15 +143,16 @@ class DevLoop:
                 else:
                     logger.warning(f"❌ Task failed: {result.error}")
         
-        # Save state to Firestore
-        await self.save_state()
+        # Save state
+        if self.state_file:
+            self.save_state()
         
         # Log to memory
         self._log_cycle_to_memory(len(tasks_to_process), len(results))
         
         return results
     
-    async def process_task(self, task: Task) -> Optional[AgentResult]:
+    def process_task(self, task: Task) -> Optional[AgentResult]:
         """Process a single task with appropriate agent.
         
         Args:
@@ -161,30 +167,10 @@ class DevLoop:
             
         # Determine output type based on task
         output_type = self._determine_output_type(task)
-        agent_type = self._determine_agent_type_for_task(task)
-        
-        # Create agent state in Firestore
-        agent_state = AgentState(
-            agent_id=f"auto_{task.type.value.lower()}_{task.file_path.replace('/', '_')}",
-            agent_type=agent_type,
-            session_id=self.session_id,
-            status=AgentStatus.ACTIVE,
-            current_task=task.description,
-            task_status=TaskStatus.IN_PROGRESS,
-            created_at=datetime.utcnow(),
-            last_updated=datetime.utcnow(),
-            last_active=datetime.utcnow(),
-            memory_context={"task_type": task.type.value, "file": task.file_path},
-            task_history=[],
-            performance_metrics={},
-            agent_config={"output_type": output_type},
-            tools_enabled=[]
-        )
-        
-        await self.state_manager.save_agent_state(agent_state)
         
         # Update dashboard with agent type
         if self.use_dashboard:
+            agent_type = self._determine_agent_type_for_task(task)
             try:
                 from ai.interface.console_dashboard import update_task_progress
                 update_task_progress(task, agent_type)
@@ -193,23 +179,11 @@ class DevLoop:
         
         # Spawn agent via Mother
         result = self.mother_agent.run(
-            name=agent_state.agent_id,
+            name=f"auto_{task.type.value.lower()}_{task.file_path.replace('/', '_')}",
             instructions=f"Fix the following issue:\n{task.description}\n\nFile: {task.file_path}:{task.line_number}",
             model="gpt-4",
             output_type=output_type
         )
-        
-        # Update agent state with result
-        agent_state.status = AgentStatus.IDLE if result.success else AgentStatus.ERROR
-        agent_state.task_status = TaskStatus.COMPLETED if result.success else TaskStatus.FAILED
-        agent_state.last_updated = datetime.utcnow()
-        agent_state.task_history.append({
-            "task": task.description,
-            "result": "success" if result.success else "failed",
-            "timestamp": datetime.utcnow().isoformat()
-        })
-        
-        await self.state_manager.save_agent_state(agent_state)
         
         return result
     
@@ -227,69 +201,50 @@ class DevLoop:
             
         return [t for t in tasks if t.type in self.task_types]
     
-    async def save_state(self) -> None:
-        """Save processed tasks state to Firestore."""
-        try:
-            # Get or create system state
-            system_state = await self.state_manager.get_system_state()
-            if not system_state:
-                system_state = SystemState(
-                    system_version="2.2.0",
-                    last_updated=datetime.utcnow(),
-                    active_sessions=[self.session_id],
-                    total_agents_spawned=0,
-                    current_agent_count=0,
-                    system_metrics={},
-                    error_counts={},
-                    global_config={},
-                    feature_flags={"unified_agents": True, "firestore_state": True}
-                )
+    def save_state(self) -> None:
+        """Save processed tasks to state file."""
+        if not self.state_file:
+            return
             
-            # Update processed tasks in system state
-            system_state.global_config['dev_loop_processed_tasks'] = [
+        state = {
+            "processed_tasks": [
                 {
-                    'type': task.type.value,
-                    'description': task.description,
-                    'file_path': task.file_path,
-                    'line_number': task.line_number
+                    "type": t.type.value,
+                    "description": t.description,
+                    "file_path": t.file_path,
+                    "line_number": t.line_number
                 }
-                for task in self.processed_tasks
-            ]
-            system_state.last_updated = datetime.utcnow()
-            
-            # Add session if not present
-            if self.session_id not in system_state.active_sessions:
-                system_state.active_sessions.append(self.session_id)
-            
-            await self.state_manager.update_system_state(system_state)
-            logger.info(f"Saved state to Firestore with {len(self.processed_tasks)} processed tasks")
-            
-        except Exception as e:
-            logger.warning(f"Failed to save state to Firestore: {e}")
+                for t in self.processed_tasks
+            ],
+            "last_run": datetime.now().isoformat()
+        }
+        
+        self.state_file.parent.mkdir(parents=True, exist_ok=True)
+        with open(self.state_file, 'w') as f:
+            json.dump(state, f, indent=2)
     
-    async def load_state(self) -> None:
-        """Load previously processed tasks state from Firestore."""
+    def load_state(self) -> None:
+        """Load processed tasks from state file."""
+        if not self.state_file or not self.state_file.exists():
+            return
+            
         try:
-            system_state = await self.state_manager.get_system_state()
-            if not system_state:
-                logger.info("No previous state found in Firestore")
-                return
-            
-            # Reconstruct tasks from system state
-            processed_tasks_data = system_state.global_config.get('dev_loop_processed_tasks', [])
-            for task_data in processed_tasks_data:
-                task = Task(
-                    type=TaskType[task_data['type']],
-                    description=task_data['description'],
-                    file_path=task_data['file_path'],
-                    line_number=task_data['line_number']
+            with open(self.state_file, 'r') as f:
+                state = json.load(f)
+                
+            self.processed_tasks = [
+                Task(
+                    type=TaskType(t["type"]),
+                    description=t["description"],
+                    file_path=t["file_path"],
+                    line_number=t["line_number"]
                 )
-                self.processed_tasks.append(task)
+                for t in state.get("processed_tasks", [])
+            ]
             
-            logger.info(f"Loaded {len(self.processed_tasks)} processed tasks from Firestore")
-            
+            logger.info(f"Loaded {len(self.processed_tasks)} previously processed tasks")
         except Exception as e:
-            logger.warning(f"Failed to load state from Firestore: {e}")
+            logger.warning(f"Failed to load state: {e}")
     
     def _determine_output_type(self, task: Task) -> str:
         """Determine expected output type for task.
@@ -351,7 +306,7 @@ async def run_development_cycle(
     max_tasks: int = 10,
     task_types: Optional[List[TaskType]] = None
 ) -> List[AgentResult]:
-    """Run a single development cycle with Firestore state.
+    """Run a single development cycle.
     
     Args:
         repo_path: Repository path to scan
@@ -371,7 +326,7 @@ async def run_continuous_loop(
     max_tasks: int = 10,
     stop_after: Optional[int] = None
 ) -> None:
-    """Run continuous development loop with Firestore state.
+    """Run continuous development loop.
     
     Args:
         interval: Seconds between cycles
@@ -381,7 +336,8 @@ async def run_continuous_loop(
     """
     loop = DevLoop(
         repo_path=repo_path,
-        max_tasks=max_tasks
+        max_tasks=max_tasks,
+        state_file=Path(".fresh/dev_loop_state.json")
     )
     
     cycles = 0
@@ -402,3 +358,20 @@ async def run_continuous_loop(
             
         logger.info(f"Waiting {interval} seconds until next cycle...")
         await asyncio.sleep(interval)
+
+
+def process_task(
+    task: Task,
+    repo_path: str = "."
+) -> Optional[AgentResult]:
+    """Process a single task.
+    
+    Args:
+        task: Task to process
+        repo_path: Repository path
+        
+    Returns:
+        Agent result or None
+    """
+    loop = DevLoop(repo_path)
+    return loop.process_task(task)

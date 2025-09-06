@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import Mock, patch
 
 # Import the feature being tested
-# from ai.agents.enhanced_agents import DummyTool
+# from ai.agents.agents import DummyTool
 
 
 class TestDummytool:

@@ -249,7 +249,7 @@ Enhanced agents leverage persistent memory for continuous learning and improveme
 - **Context Continuity**: Maintains strategic context between sessions
 
 ```python
-from ai.agents.enhanced_agents import EnhancedFather
+from ai.agents.agents import EnhancedFather
 
 father = EnhancedFather()
 # Agent has access to:

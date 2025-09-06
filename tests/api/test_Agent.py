@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import Mock, patch
 
 # Import the feature being tested
-# from ai.agents.enhanced_agents import Agent
+# from ai.agents.agents import Agent
 
 
 class TestAgent:
