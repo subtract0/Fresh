@@ -69,9 +69,12 @@ except ImportError:
 
 class EnhancedFather(Agent):
     """
-    Enhanced Father agent with intelligent persistent memory.
+    DEPRECATED: Enhanced Father agent with intelligent persistent memory.
     
-    The Father agent is the strategic planner and uses memory to:
+    WARNING: This class is deprecated as part of the unified architecture migration.
+    Use ai.agents.Father.Father instead.
+    
+    The Father agent is the strategic planner that uses memory to:
     - Track long-term goals across sessions
     - Learn from past decisions and outcomes
     - Analyze development patterns and focus areas
@@ -126,7 +129,10 @@ class EnhancedFather(Agent):
 
 class EnhancedDeveloper(Agent):
     """
-    Enhanced Developer agent with intelligent persistent memory.
+    DEPRECATED: Enhanced Developer agent with intelligent persistent memory.
+    
+    WARNING: This class is deprecated as part of the unified architecture migration.
+    Use ai.agents.Developer.Developer instead.
     
     The Developer agent uses memory to:
     - Remember successful implementation patterns
@@ -182,7 +188,10 @@ class EnhancedDeveloper(Agent):
 
 class EnhancedArchitect(Agent):
     """
-    Enhanced Architect agent with intelligent persistent memory.
+    DEPRECATED: Enhanced Architect agent with intelligent persistent memory.
+    
+    WARNING: This class is deprecated as part of the unified architecture migration.
+    Use ai.agents.Architect.Architect instead.
     
     The Architect agent uses memory to:
     - Learn from past architectural decisions
